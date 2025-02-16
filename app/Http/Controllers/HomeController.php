@@ -10,6 +10,7 @@ use App\Models\Post;
 use App\Models\Redirect;
 use App\Repositories\Eloquent\BannerRepository;
 use App\Repositories\Eloquent\CategoryRepository;
+use App\Repositories\Eloquent\CommentRepository;
 use App\Repositories\Eloquent\PageRepository;
 use App\Repositories\Eloquent\PostRepository;
 use Illuminate\Http\Request;
@@ -23,6 +24,7 @@ class HomeController extends Controller
     public function __construct(
         public CategoryRepository $categoryRepository,
         public PostRepository     $postRepository,
+        public CommentRepository  $commentRepository,
         public BannerRepository   $bannerRepository,
         public PageRepository     $pageRepository
     ) {}
@@ -35,13 +37,22 @@ class HomeController extends Controller
         $data['posts']  = $this->postRepository->getAll([
             'is_status' => 1,
         ], [
-            'order_by' => ['publish_at', 'desc'],
+            // 'order_by' => ['publish_at', 'desc'],
             'limit' => 18,
             'pagination' => $page,
             'select' => ['id', 'title', 'slug', 'thumbnail', 'address', 'description', 'created_at'],
         ]);
 
-        $data['banners'] = Banner::getType('home');
+        $data['comments']  = $this->commentRepository->getAll([
+            'is_status' => 1,
+            'show_home' => 1,
+        ], [
+            'order_by' => ['updated_at', 'desc'],
+            'limit' => 10,
+            'select' => ['id', 'fullname', 'type', 'data_id', 'thumbnail', 'content', 'like', 'created_at'],
+        ]);
+
+        $data['banners'] = collect(Banner::getTypeArr(['home', 'home_brand', 'home_brand_1']))->groupBy('type');
         return view('front_end.home', $data);
     }
 
@@ -185,11 +196,11 @@ class HomeController extends Controller
     }
 
     public function redirect301(Request $request, $slug)
-    { 
+    {
         $url = $request->url();
         $url = str_replace('http://', 'https://', $url);
         $link = Redirect::where('url_old', $url)->where('is_status', 1)->first();
-        if(!empty($link)){
+        if (!empty($link)) {
             return redirect($link->url_new, 301);
         }
         return abort(404);;

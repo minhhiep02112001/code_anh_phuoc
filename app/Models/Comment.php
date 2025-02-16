@@ -25,7 +25,8 @@ class Comment extends AbstractModel
         'is_status',
         'total_reply',
         'user_id',
-        'is_content'
+        'is_content',
+        'show_home'
     ];
 
     public function user()

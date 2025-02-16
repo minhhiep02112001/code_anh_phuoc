@@ -499,7 +499,7 @@ var AJAX_CRUD_MODAL = {
                 console.log(jqXHR);
                 console.log(textStatus);
                 console.log(errorThrown);
-                let body = jqXHR.responseJSON.message; 
+                let body = jqXHR.responseJSON.message;
                 Notification_Static.errors(jqXHR.status + ": " + body);
                 modal_form.find(".btnSave").attr("disabled", false);
             },
@@ -742,27 +742,27 @@ var FUNC = {
     },
 
     itemGallery: function (name, urlImageResponse, index = 0) {
-        return (html =
-            '<div class="upload-box" index="' +
-            index +
-            '">' +
-            "<span>+</span>" +
-            '<img class="preview-image" src=' +
-            FUNC.getImageThumb(urlImageResponse) +
-            ' height="100px" alt="Preview">' +
-            "<input type='hidden' name='" +
-            name +
-            "' value='" +
-            urlImageResponse +
-            "'>" +
-            "<span class='fa fa-times removeInput' onclick='this.parentNode.remove()'></span>" +
-            " </div>");
+        return `<div class="upload_box_item mr-2 mb-1" data-name="${name}" >
+                    <div class=" upload-container d-block m-0" data-field-name="${name}[${index}][thumb]">
+                    <div class="upload-box">
+                        <img class="preview-image show" alt="Preview"
+                                                src="${FUNC.getImageThumb(
+                                                    urlImageResponse
+                                                )}">
+                        <input type="hidden" name="${name}[${index}][thumb]" value="${urlImageResponse}">
+                    </div>
+                    </div>
+                    <input type="number" name="${name}[${index}][position]" value="${
+            index}" class="w-100">
+                    <span class='fa fa-times removeInputImages'></span>
+                </div>`;
     },
 
     showGallery: function (element, name, data) {
         if (data !== null && data.length > 0) {
+            let length = $(element).find(".upload_box_item").length;
             $.each(data, function (i, v) {
-                $(element).append(FUNC.itemGallery(name, v, i + 1));
+                $(element).append(FUNC.itemGallery(name, v, length + i));
             });
         }
     },
@@ -1488,33 +1488,23 @@ const formatCurrency = (value) => {
 };
 
 $(document).ready(function () {
-    // $(document).find('.upload-container').each(function(){
-    //     let _this= $(this);
-
-    //     $(parentDom).find(".btn-upload-image").click(function(e) {
-    //         var input = $(this).closest(".box-single-upload").find("input[type='text']");
-    //         var viewImage = $(this).closest(".box-single-upload").find(".view-image");
-
-    //         window.open(
-    //             `${route_prefix}?type=image`,
-    //             "FileManager",
-    //             "width=900,height=600"
-    //         );
-    //         let height = input.
-    //         closest('.input_upload_file ').height();
-    //         console.log(height);
-
-    //         window.SetUrl = function(items) {
-    //             // Only pick the first selected file
-    //             var file_path = new URL(items[0].url).pathname;
-    //             // Update input value and preview
-    //             input.val(file_path);
-    //             viewImage.css({
-    //                 "background-image": `url(${SITE_URL + file_path})`,
-    //             });
-    //         };
-    //     });
-    // });
+    $(document)
+        .off("click", ".removeInputImages")
+        .on("click", ".removeInputImages", function () {
+            let _parent = $(this).closest(".gallery-list");
+            $(this).closest(".upload_box_item").remove();
+            _parent.find(".upload_box_item").each(function (index, element) {
+                let _name = $(element).attr("data-name");
+                $(element).attr("data-field-name", `${_name}[${index}][thumb]`);
+                $(element)
+                    .find('input[type="hidden"]')
+                    .attr("name", `${_name}[${index}][thumb]`);
+                $(element)
+                    .find('input[type="number"]')
+                    .attr("name", `${_name}[${index}][position]`)
+                    .val(index);
+            });
+        });
 
     $(document)
         .off("click", ".upload-box")
@@ -1538,8 +1528,15 @@ $(document).ready(function () {
 
                 // Update input value and preview
                 if (is_mutil == "true") {
+                    let _parent_dom = $(_this).closest(".gallery-upload");
+                    if (_parent_dom.find(".gallery-list").length == 0) {
+                        $(_parent_dom).append(
+                            '<div class="gallery-list p-1"></div>'
+                        );
+                    }
+
                     FUNC.showGallery(
-                        _parent_dom.find(".gallery-images"),
+                        _parent_dom.find(".gallery-list"),
                         _name,
                         file_paths
                     );

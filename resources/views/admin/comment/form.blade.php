@@ -14,7 +14,7 @@
                 </div>
                 <div class="form-group">
                     <label>Nội dung</label>
-                    <textarea name="content" id="Nội dung" placeholder="Tóm tắt" class="form-control" rows="5"></textarea>
+                    <textarea name="content" id="Nội dung" placeholder="Tóm tắt" class="form-control tinymce" rows="5"></textarea>
                 </div>
             </div>
             <div class="col-lg-6 col-12">
@@ -38,6 +38,23 @@
                 <div class="form-group">
                     <label for="thumbnail">ID liên quan</label>
                     <input name="data_id" placeholder="Id ..." class="form-control" type="text" />
+                </div>
+                <div class="form-group">
+                    <label>Trạng thái:</label>
+                    <select class="form-control m-input m-input--square" name="is_status">
+                        @foreach (config('data.status') as $key => $item)
+                            <option value="{{ $key }}">{{ $item['title'] }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Hiển thị trang chủ:</label>
+                    <select class="form-control m-input m-input--square" name="show_home">
+
+                        <option value="0">Không</option>
+                        <option value="1">Có</option>
+
+                    </select>
                 </div>
             </div>
 

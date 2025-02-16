@@ -12,6 +12,10 @@
                         <i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a>
 
                 </li>
+                <li class="{{ \Request::route()->getName() == 'admin.drag.index' ? 'active' : '' }}">
+                    <a href="{{ route('admin.drag.index') }}" title="Quản lý danh mục"> <i
+                            class="fas fa-table"></i><span>Quản lý Trending</span></a>
+
                 <li class="{{ \Request::route()->getName() == 'admin.banner.index' ? 'active' : '' }}">
                     <a href="{{ route('admin.banner.index') }}" title="Quản lý banner"> <i
                             class="fas fa-table"></i><span>Quản lý

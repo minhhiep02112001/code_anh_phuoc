@@ -34,8 +34,7 @@ abstract class Repository extends BaseRepository
      * Build query with search parameters.
      */
     protected function buildSearchQuery($query, array $params)
-    {
-
+    { 
         foreach ($params as $k => $v) {
             if ($v === '' || $v == null) continue;
 
@@ -62,7 +61,7 @@ abstract class Repository extends BaseRepository
     public function count_customer(array $where = [], $columns = '*')
     {
         $params = \Arr::only($where, $this->fillSearch ?? []);
-
+        
         return $this->buildSearchQuery($this->model->newQuery(), $params)->count($columns);
     }
     public function getCustomFillable()

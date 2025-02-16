@@ -5,8 +5,8 @@
 <footer id="footer">
     <div class="wdt-elementor-container-fluid">
         <div id="footer-1265" class="wdt-footer-tpl footer-1265">
-            <div data-elementor-type="wp-post" data-elementor-id="1265"
-                class="elementor elementor-1265" data-elementor-post-type="wdt_footers">
+            <div data-elementor-type="wp-post" data-elementor-id="1265" class="elementor elementor-1265"
+                data-elementor-post-type="wdt_footers">
                 <section
                     class="elementor-section elementor-top-section elementor-element elementor-element-e8f5686 elementor-section-boxed elementor-section-height-default elementor-section-height-default"
                     data-id="e8f5686" data-element_type="section"
@@ -23,21 +23,19 @@
                                     <div class="elementor-container elementor-column-gap-no">
                                         <div class="elementor-column elementor-col-33 elementor-inner-column elementor-element elementor-element-99c540d"
                                             data-id="99c540d" data-element_type="column">
-                                            <div
-                                                class="elementor-widget-wrap elementor-element-populated">
+                                            <div class="elementor-widget-wrap elementor-element-populated">
                                                 <div class="elementor-element elementor-element-0bb0a07 elementor-align-center elementor-widget elementor-widget-wdt-logo"
                                                     data-id="0bb0a07" data-element_type="widget"
                                                     data-widget_type="wdt-logo.default">
                                                     <div class="elementor-widget-container">
-                                                        <div id="lilacbeauty-0bb0a07"
-                                                            class="wdt-logo-container"> <a
-                                                                href="index.html" rel="home"><img
-                                                                    loading="lazy" width="407"
-                                                                    height="184"
-                                                                    src="/wp-content/uploads/2023/06/Isha_Beauty__1_-removebg-preview11-1.png"
-                                                                    class="attachment-full size-full"
-                                                                    alt="" decoding="async"
-                                                                    srcset="https://ishabeauty.com//wp-content/uploads/2023/06/Isha_Beauty__1_-removebg-preview11-1.png 407w, https://ishabeauty.com//wp-content/uploads/2023/06/Isha_Beauty__1_-removebg-preview11-1-300x136.png 300w"
+                                                        <div id="lilacbeauty-0bb0a07" class="wdt-logo-container"> <a
+                                                                href="/" rel="home"><img loading="lazy"
+                                                                    width="407" height="184"
+                                                                    src="{{ convertPathImage($config_website->logo ?? '') }}"
+                                                                    class="attachment-full size-full" alt=""
+                                                                    decoding="async"
+                                                                    srcset="{{ convertPathImage($config_website->logo ?? '') }} 407w, 
+                                                                    {{ getImageThumb($config_website->logo ?? '', 300, 136) }} 300w"
                                                                     sizes="(max-width: 407px) 100vw, 407px" /></a>
                                                         </div>
                                                     </div>
@@ -49,10 +47,8 @@
                                                         <div class="elementor-button-wrapper">
                                                             <a class="elementor-button elementor-button-link elementor-size-sm"
                                                                 href="#">
-                                                                <span
-                                                                    class="elementor-button-content-wrapper">
-                                                                    <span
-                                                                        class="elementor-button-text">Book
+                                                                <span class="elementor-button-content-wrapper">
+                                                                    <span class="elementor-button-text">Book
                                                                         appointment</span>
                                                                 </span>
                                                             </a>
@@ -66,10 +62,8 @@
                                                         <div class="elementor-button-wrapper">
                                                             <a class="elementor-button elementor-button-link elementor-size-sm"
                                                                 href="#">
-                                                                <span
-                                                                    class="elementor-button-content-wrapper">
-                                                                    <span
-                                                                        class="elementor-button-text">Visit
+                                                                <span class="elementor-button-content-wrapper">
+                                                                    <span class="elementor-button-text">Visit
                                                                         our shop</span>
                                                                 </span>
                                                             </a>
@@ -80,16 +74,14 @@
                                         </div>
                                         <div class="elementor-column elementor-col-33 elementor-inner-column elementor-element elementor-element-d6b5a38"
                                             data-id="d6b5a38" data-element_type="column">
-                                            <div
-                                                class="elementor-widget-wrap elementor-element-populated">
+                                            <div class="elementor-widget-wrap elementor-element-populated">
                                                 <div class="elementor-element elementor-element-50c5603 elementor-widget elementor-widget-text-editor"
                                                     data-id="50c5603" data-element_type="widget"
                                                     data-widget_type="text-editor.default">
                                                     <div class="elementor-widget-container">
                                                         <div class="flex max-w-full flex-col flex-grow">
                                                             <div class="min-h-8 text-message flex w-full flex-col items-end gap-2 whitespace-normal break-words [.text-message+&amp;]:mt-5"
-                                                                dir="auto"
-                                                                data-message-author-role="assistant"
+                                                                dir="auto" data-message-author-role="assistant"
                                                                 data-message-id="ec3c0653-3a99-4f89-a247-8bad019a0e76"
                                                                 data-message-model-slug="gpt-4o">
                                                                 <div
@@ -111,8 +103,7 @@
                                                                         </div>
                                                                         <div
                                                                             class="group/conversation-turn relative flex w-full min-w-0 flex-col agent-turn">
-                                                                            <div
-                                                                                class="flex-col gap-1 md:gap-3">
+                                                                            <div class="flex-col gap-1 md:gap-3">
                                                                                 <div
                                                                                     class="flex max-w-full flex-col flex-grow">
                                                                                     <div class="min-h-8 text-message flex w-full flex-col items-end gap-2 whitespace-normal break-words [.text-message+&amp;]:mt-5"
@@ -124,30 +115,7 @@
                                                                                             class="flex w-full flex-col gap-1 empty:hidden first:pt-[3px]">
                                                                                             <div
                                                                                                 class="markdown prose w-full break-words dark:prose-invert dark">
-                                                                                                <p>Discover
-                                                                                                    your
-                                                                                                    best
-                                                                                                    self at
-                                                                                                    Isha
-                                                                                                    Beauty
-                                                                                                    in the
-                                                                                                    heart of
-                                                                                                    London.
-                                                                                                    Enjoy
-                                                                                                    luxurious
-                                                                                                    treatments
-                                                                                                    that
-                                                                                                    enhance
-                                                                                                    your
-                                                                                                    natural
-                                                                                                    glow.
-                                                                                                    Book
-                                                                                                    today
-                                                                                                    for an
-                                                                                                    unforgettable
-                                                                                                    beauty
-                                                                                                    experience!
-                                                                                                </p>
+                                                                                                {!! $config_website->content_footer ?? '' !!}
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
@@ -159,8 +127,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="mb-2 flex gap-3 empty:hidden -ml-2">
-                                                            <div
-                                                                class="items-center justify-start rounded-xl p-1 flex">
+                                                            <div class="items-center justify-start rounded-xl p-1 flex">
                                                                 <div class="flex items-center"> </div>
                                                             </div>
                                                         </div>
@@ -170,41 +137,19 @@
                                                     data-id="2c3c60b" data-element_type="widget"
                                                     data-widget_type="icon-list.default">
                                                     <div class="elementor-widget-container">
-                                                        <ul
-                                                            class="elementor-icon-list-items elementor-inline-items">
-                                                            <li
-                                                                class="elementor-icon-list-item elementor-inline-item">
-                                                                <a href="index.html">
+                                                        <ul class="elementor-icon-list-items elementor-inline-items">
+                                                            @if (!empty($menus_footer))
+                                                                @foreach ($menus_footer as $item)
+                                                                    <li
+                                                                        class="elementor-icon-list-item elementor-inline-item">
+                                                                        <a href="{{ $item->link ?? '/' }}">
 
-                                                                    <span
-                                                                        class="elementor-icon-list-text">Home</span>
-                                                                </a>
-                                                            </li>
-                                                            <li
-                                                                class="elementor-icon-list-item elementor-inline-item">
-                                                                <a href="blog/index.html">
-
-                                                                    <span
-                                                                        class="elementor-icon-list-text">Services</span>
-                                                                </a>
-                                                            </li>
-                                                            <li
-                                                                class="elementor-icon-list-item elementor-inline-item">
-                                                                <a href="contact-us/index.html">
-
-                                                                    <span
-                                                                        class="elementor-icon-list-text">Contact
-                                                                        Us</span>
-                                                                </a>
-                                                            </li>
-                                                            <li
-                                                                class="elementor-icon-list-item elementor-inline-item">
-                                                                <a href="about/index.html">
-
-                                                                    <span
-                                                                        class="elementor-icon-list-text">About</span>
-                                                                </a>
-                                                            </li>
+                                                                            <span
+                                                                                class="elementor-icon-list-text">{{ $item->title }}</span>
+                                                                        </a>
+                                                                    </li>
+                                                                @endforeach
+                                                            @endif
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -212,8 +157,7 @@
                                         </div>
                                         <div class="elementor-column elementor-col-33 elementor-inner-column elementor-element elementor-element-a7d4774"
                                             data-id="a7d4774" data-element_type="column">
-                                            <div
-                                                class="elementor-widget-wrap elementor-element-populated">
+                                            <div class="elementor-widget-wrap elementor-element-populated">
                                                 <div class="elementor-element elementor-element-55b31d1 elementor-widget__width-initial elementor-widget elementor-widget-text-editor"
                                                     data-id="55b31d1" data-element_type="widget"
                                                     data-widget_type="text-editor.default">
@@ -236,19 +180,9 @@
                                                     data-widget_type="text-editor.default">
                                                     <div class="elementor-widget-container">
                                                         <ul>
-                                                            <li><span
-                                                                    class="Text-module_body__2lxF8"><span
-                                                                        class="Text-module_smHeader__3mR_U style-module--addressPart--484b23">144
-                                                                        Bethnal Green
-                                                                        Road,</span> </span><span
-                                                                    class="Text-module_body__2lxF8"><span
-                                                                        class="Text-module_smHeader__3mR_U style-module--addressPart--484b23">Shoreditch,</span> </span><span
-                                                                    class="Text-module_body__2lxF8"><span
-                                                                        class="Text-module_smHeader__3mR_U style-module--addressPart--484b23">London,</span> </span><span
-                                                                    class="Text-module_body__2lxF8"><span
-                                                                        class="Text-module_smHeader__3mR_U style-module--addressPart--484b23">E2
-                                                                        6DG</span></span></li>
-                                                            <li>378 Mare St. London Hackney, E8 1HR</li>
+                                                            {!! !empty($config_website->address) ? "<li>$config_website->address</li>" : '' !!}
+                                                            {!! !empty($config_website->email) ? "<li>$config_website->email</li>" : '' !!}
+                                                            {!! !empty($config_website->phone) ? "<li>$config_website->phone</li>" : '' !!} 
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -256,62 +190,61 @@
                                                     data-id="1b4a9c4" data-element_type="widget"
                                                     data-widget_type="social-icons.default">
                                                     <div class="elementor-widget-container">
-                                                        <div
-                                                            class="elementor-social-icons-wrapper elementor-grid">
-                                                            <span class="elementor-grid-item">
-                                                                <a class="elementor-icon elementor-social-icon elementor-social-icon- elementor-repeater-item-c6c061c"
-                                                                    href="#" target="_blank">
-                                                                    <span
-                                                                        class="elementor-screen-only"></span>
-                                                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                                                        xmlns:xlink="http://www.w3.org/1999/xlink"
-                                                                        x="0px" y="0px"
-                                                                        viewBox="0 0 100 100"
-                                                                        style="enable-background:new 0 0 100 100;"
-                                                                        xml:space="preserve">
-                                                                        <g>
-                                                                            <path
-                                                                                d="M70,97.5H30C14.8,97.5,2.5,85.2,2.5,70V30C2.5,14.8,14.8,2.5,30,2.5h40c15.2,0,27.4,12.3,27.5,27.5v40  C97.5,85.2,85.2,97.5,70,97.5 M30,12.1c-9.9,0-17.9,8-17.9,17.9v40c0,9.9,8,17.9,17.9,17.9h40c9.9,0,17.9-8,17.9-17.9V30  c0-9.9-8-17.9-17.9-17.9H30z">
-                                                                            </path>
-                                                                            <path
-                                                                                d="M50,74c-13.3,0-24-10.8-24-24s10.8-24,24-24s24,10.8,24,24l0,0C74,63.3,63.3,74,50,74 M50,33.9  c-8.9,0-16.1,7.2-16.1,16.1S41.1,66.1,50,66.1S66.1,58.9,66.1,50l0,0C66,41.1,58.9,34,50,33.9">
-                                                                            </path>
-                                                                            <path
-                                                                                d="M80.1,24.8c0,3.1-2.5,5.6-5.6,5.6s-5.6-2.5-5.6-5.6s2.5-5.6,5.6-5.6l0,0C77.6,19.2,80.1,21.7,80.1,24.8">
-                                                                            </path>
-                                                                        </g>
-                                                                    </svg> </a>
-                                                            </span>
-                                                            <span class="elementor-grid-item">
-                                                                <a class="elementor-icon elementor-social-icon elementor-social-icon- elementor-repeater-item-0abbfb2"
-                                                                    href="#" target="_blank">
-                                                                    <span
-                                                                        class="elementor-screen-only"></span>
-                                                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                                                        xmlns:xlink="http://www.w3.org/1999/xlink"
-                                                                        x="0px" y="0px"
-                                                                        viewBox="0 0 100 100"
-                                                                        style="enable-background:new 0 0 100 100;"
-                                                                        xml:space="preserve">
-                                                                        <path
-                                                                            d="M67.3,19.2l9.3,0.2V2.5L62.8,2c-13,0-23.5,10.5-23.5,23.5l0,0v15h-16v18.1h16V98h20.1V58.6h14.3l2.9-18.1H59.4 V27C59.4,22.7,63,19.2,67.3,19.2L67.3,19.2">
-                                                                        </path>
-                                                                    </svg> </a>
-                                                            </span>
-                                                            <span class="elementor-grid-item">
-                                                                <a class="elementor-icon elementor-social-icon elementor-social-icon-whatsapp elementor-repeater-item-56c79bf"
-                                                                    href="https://wa.me/447466483789"
-                                                                    target="_blank">
-                                                                    <span
-                                                                        class="elementor-screen-only">Whatsapp</span>
-                                                                    <svg class="e-font-icon-svg e-fab-whatsapp"
-                                                                        viewBox="0 0 448 512"
-                                                                        xmlns="http://www.w3.org/2000/svg">
-                                                                        <path
-                                                                            d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z">
-                                                                        </path>
-                                                                    </svg> </a>
-                                                            </span>
+                                                        <div class="elementor-social-icons-wrapper elementor-grid">
+                                                            @if (!empty($config_social))
+                                                                <div
+                                                                    class="elementor-social-icons-wrapper elementor-grid">
+                                                                    @if (!empty($config_social->facebook))
+                                                                        <span class="elementor-grid-item">
+                                                                            <a class="elementor-icon elementor-social-icon elementor-social-icon-facebook elementor-repeater-item-5dd8ff2"
+                                                                                href="{{ $config_social->facebook }}"
+                                                                                target="_blank">
+                                                                                <span
+                                                                                    class="elementor-screen-only">Facebook</span>
+                                                                                <svg class="e-font-icon-svg e-fab-facebook"
+                                                                                    viewBox="0 0 512 512"
+                                                                                    xmlns="http://www.w3.org/2000/svg">
+                                                                                    <path
+                                                                                        d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.28c-30.8 0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z">
+                                                                                    </path>
+                                                                                </svg> </a>
+                                                                        </span>
+                                                                    @endif
+                                                                    @if (!empty($config_social->instagram))
+                                                                        <span class="elementor-grid-item">
+                                                                            <a class="elementor-icon elementor-social-icon elementor-social-icon-instagram elementor-repeater-item-5f446a5"
+                                                                                href="{{ $config_social->instagram }}"
+                                                                                target="_blank">
+                                                                                <span
+                                                                                    class="elementor-screen-only">Instagram</span>
+                                                                                <svg class="e-font-icon-svg e-fab-instagram"
+                                                                                    viewBox="0 0 448 512"
+                                                                                    xmlns="http://www.w3.org/2000/svg">
+                                                                                    <path
+                                                                                        d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z">
+                                                                                    </path>
+                                                                                </svg> </a>
+                                                                        </span>
+                                                                    @endif
+                                                                    @if (!empty($config_social->whatsapp))
+                                                                        <span class="elementor-grid-item">
+                                                                            <a class="elementor-icon elementor-social-icon elementor-social-icon-whatsapp elementor-repeater-item-4847f11"
+                                                                                href="{{ $config_social->whatsapp }}"
+                                                                                target="_blank">
+                                                                                <span
+                                                                                    class="elementor-screen-only">Whatsapp</span>
+                                                                                <svg class="e-font-icon-svg e-fab-whatsapp"
+                                                                                    viewBox="0 0 448 512"
+                                                                                    xmlns="http://www.w3.org/2000/svg">
+                                                                                    <path
+                                                                                        d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z">
+                                                                                    </path>
+                                                                                </svg> </a>
+                                                                        </span>
+                                                                    @endif
+
+                                                                </div>
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 </div>
@@ -325,13 +258,13 @@
                                     <div class="elementor-container elementor-column-gap-default">
                                         <div class="elementor-column elementor-col-100 elementor-inner-column elementor-element elementor-element-0335d44"
                                             data-id="0335d44" data-element_type="column">
-                                            <div
-                                                class="elementor-widget-wrap elementor-element-populated">
+                                            <div class="elementor-widget-wrap elementor-element-populated">
                                                 <div class="elementor-element elementor-element-88848df elementor-widget elementor-widget-text-editor"
                                                     data-id="88848df" data-element_type="widget"
                                                     data-widget_type="text-editor.default">
                                                     <div class="elementor-widget-container">
-                                                        <p>©Isha Beauty. All Rights Reserved.</p>
+                                                        <p>©{{ $config_website->website ?? '' }}. All Rights Reserved.
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -345,4 +278,4 @@
             </div>
         </div>
     </div>
-</footer> 
+</footer>

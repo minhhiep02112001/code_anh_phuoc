@@ -25,7 +25,9 @@ return [
 
     ],
     'banner_type' => [
-        'home' => 'Trang chủ'
+        'home' => 'Trang chủ',
+        'home_brand_1' => 'Banner icon bài viết trang chủ',
+        'home_brand' => 'Banner thương hiệu trang chủ',
     ],
     'setting_menu' => [
         0 => 'Menu Header',

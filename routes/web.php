@@ -105,34 +105,23 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => [
     Route::get('logout', [App\Http\Controllers\Admin\AuthController::class, 'logout'])->name('logout');
 });
 
-
-// Route::get('/sitemap_news.xml', function () {
-//     $posts =  \App\Models\Post::where([
-//         'is_status' => 1,
-//     ])->orderBy('updated_at', 'desc')->limit(100)->offset(0)->get();
-//     return response()->view('front_end.sitemap.sitemap_new', ['data' => $posts])->header('Content-Type', 'text/xml');
-// });
+ 
 
 Route::get('/rss', [App\Http\Controllers\FeedController::class, 'feed_rss'])->name('google-news');
 Route::get('/feeds/pinterestxxx.xml', [App\Http\Controllers\FeedController::class, 'pinterestxxx'])->name('pinterestxxx');
 Route::get('/feeds/rssxxx.xml', [App\Http\Controllers\FeedController::class, 'rssxxx'])->name('rssxxx');
 
-
-Route::domain('{slug}.' . env('DOMAIN'))->group(function () {
-    Route::get('/', [\App\Http\Controllers\HomeController::class, 'post'])->name('post');
-    Route::get('/menu.html', [\App\Http\Controllers\HomeController::class, 'menu'])->name('menu');
-    Route::get('/site_map.xml', [\App\Http\Controllers\HomeController::class, 'sitemapBrand']);
-});
+ 
 
 
 Route::group([
     'middleware' => ['redirect_301']
 ], function () {
     Route::get('/', action: [App\Http\Controllers\HomeController::class, 'dashboard'])->name('dashboard')->middleware('cacheResponse:300');
-    Route::get('/search', [App\Http\Controllers\HomeController::class, 'search'])->name('search');
-    //  Route::get('/{slug}-post.html', [App\Http\Controllers\HomeController::class, 'post'])->name('post')->where(['slug' => '[a-z0-9-_]+', 'id' => '[0-9]+']);
-    //  Route::get('/{slug}-menu.html', [App\Http\Controllers\HomeController::class, 'menu'])->name('menu')->where(['slug' => '[a-z0-9-_]+', 'id' => '[0-9]+']);
-    Route::get('/{slug}.html', [App\Http\Controllers\HomeController::class, 'page'])->name('page')->where(['slug' => '[a-z0-9-_]+'])->middleware('cacheResponse:2592000');
-    Route::get('/{slug}.php', [App\Http\Controllers\HomeController::class, 'redirect301'])->name('redirect301')->where(['slug' => '[a-z0-9-_]+']);
+    // Route::get('/search', [App\Http\Controllers\HomeController::class, 'search'])->name('search');
+    // //  Route::get('/{slug}-post.html', [App\Http\Controllers\HomeController::class, 'post'])->name('post')->where(['slug' => '[a-z0-9-_]+', 'id' => '[0-9]+']);
+    // //  Route::get('/{slug}-menu.html', [App\Http\Controllers\HomeController::class, 'menu'])->name('menu')->where(['slug' => '[a-z0-9-_]+', 'id' => '[0-9]+']);
+    // Route::get('/{slug}.html', [App\Http\Controllers\HomeController::class, 'page'])->name('page')->where(['slug' => '[a-z0-9-_]+'])->middleware('cacheResponse:2592000');
+    // Route::get('/{slug}.php', [App\Http\Controllers\HomeController::class, 'redirect301'])->name('redirect301')->where(['slug' => '[a-z0-9-_]+']);
     Route::get('{slug}', [App\Http\Controllers\HomeController::class, 'redirect301'])->name('redirect_301')->where(['slug' => '[a-z0-9-_]+']);
 });

@@ -46,7 +46,32 @@ body>.ui-pnotify {
     margin-right: 5px;
 }
 
-.upload-box {
+.upload_box_item {
+    padding: 5px;
+    width: 110px;
+    border: 1px solid;
+    border-radius: 5px;
+    position: relative;
+}
+
+.gallery-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+span.fa.fa-times.removeInputImages {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.upload_box_item input[type="number"] {
+    border: 0.5px solid !important;
+    margin-top: 2px;
+}
+
+.upload-box,
+.upload-box-gallery {
     width: 100px;
     height: 100px;
     border: 2px dashed #ccc;
@@ -132,9 +157,10 @@ legend {
     color: black;
     /* Màu chữ */
     padding: 0 10px;
-    /* Khoảng cách giữa chữ và viền */ 
+    /* Khoảng cách giữa chữ và viền */
     /* Chữ đậm */
 }
+
 .multi-upload-item .remove-icon {
     position: absolute;
     top: 5px;
@@ -6239,24 +6265,27 @@ html>body>.ui-pnotify {
 .select2-container {
     width: 100% !important;
 }
-span.badge{
+
+span.badge {
     margin: 0 3px;
 }
+
 /*endSelect2*/
 
-.nav-tabs .nav-item{
+.nav-tabs .nav-item {
     font-weight: 600;
     color: #555;
 }
- .nav-tabs .nav-link.active{
-color:#007bff!important;
+
+.nav-tabs .nav-link.active {
+    color: #007bff !important;
 }
 
 .dd {
     position: relative;
     display: block;
     margin: 0;
-    padding: 0; 
+    padding: 0;
     list-style: none;
     font-size: 13px;
     line-height: 20px;

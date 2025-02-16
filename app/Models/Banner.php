@@ -26,4 +26,17 @@ class Banner extends Model
         if (!empty(env('RESPONSE_CACHE_ENABLED'))) Cache::put($key_cache, $data, 24 * 60 * 60);
         return $data;
     }
+    public static function getTypeArr($arr)
+    {
+        $query = self::query();
+        $key_cache = "banner_".json_encode($arr);
+        if (Cache::has($key_cache) && !empty(env('RESPONSE_CACHE_ENABLED'))) return Cache::get($key_cache);
+
+        $query->whereIn('st_banner.type', $arr)
+            ->where('st_banner.is_status', 1)
+            ->orderBy('st_banner.position', 'asc');
+        $data = $query->get();
+        if (!empty(env('RESPONSE_CACHE_ENABLED'))) Cache::put($key_cache, $data, 24 * 60 * 60);
+        return $data;
+    }
 }

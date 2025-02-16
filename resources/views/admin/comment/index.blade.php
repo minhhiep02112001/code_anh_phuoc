@@ -6,7 +6,7 @@
                 <div class="card-header">
                     <div class="table-data__tool mb-0">
                         <div class="table-data__tool-left">
-                            <h3 class="card-title">Category</h3>
+                            <h3 class="card-title">Comment</h3>
                         </div>
                         <div class="table-data__tool-right">
                             <button type="button" data-action="{{ route('admin.comment.store') }}" data-method="POST"
@@ -52,6 +52,14 @@
                                             @foreach (config('data.status') as $k => $item)
                                                 <option value="{{ $k }}">{{ $item['title'] }}</option>
                                             @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Hiển thị trang chủ:</label>
+                                        <select class="form-control m-input m-input--square" name="params[show_home]">
+                                            <option value=""></option>
+                                            <option value="0">Không</option>
+                                            <option value="1">Có</option> 
                                         </select>
                                     </div>
                                     <div class="form-group col-12">
@@ -114,7 +122,7 @@
                     align: "center",
                     orderable: false,
                     width: 100,
-                },   {
+                }, {
                     data: "type",
                     title: "Thuộc",
                     className: "text-center",
@@ -181,8 +189,8 @@
                                 }
                             });
                             let element = modal_form.find('[name="content"]');
- 
-                            element.val(response.data_info.content); 
+
+                            element.val(response.data_info.content);
 
                             if (response.data_info.thumbnail) {
                                 let parent_thumb = modal_form.find(
