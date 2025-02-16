@@ -1,0 +1,981 @@
+[
+     {
+          "key": "Aðalbakarí",
+          "crawler": "https://restaurantguru.com/Adalbakari-Siglufjordur",
+          "crawler_images": "",
+          "": ""
+     },
+     {
+          "key": "Akureyri Backpackers",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/xQsfzFVKu6z3NFfg9",
+          "": ""
+     },
+     {
+          "key": "Aleppo cafe",
+          "crawler": "https://restaurantguru.com/Aleppo-cafe-Reykjavik",
+          "crawler_images": "",
+          "": ""
+     },
+     {
+          "key": "Álfurinn",
+          "crawler": "https://restaurantguru.com/Bualfurinn-Reykjavik",
+          "crawler_images": "https://maps.app.goo.gl/HvjyPoxUE9AvB7WA9",
+          "": ""
+     },
+     {
+          "key": "ARA Restaurant",
+          "crawler": "https://restaurantguru.com/ARA-Restaurant-Kopavogur",
+          "crawler_images": "https://maps.app.goo.gl/sWSny9ktCdk46eDs9",
+          "": ""
+     },
+     {
+          "key": "Axelsbakarí",
+          "crawler": "https://restaurantguru.com/Axelsbakari-Cafe-and-Bakery-Akureyri",
+          "crawler_images": "https://maps.app.goo.gl/71s4KpXsqEBreE2K6",
+          "": ""
+     },
+     {
+          "key": "Bangkok Take Away",
+          "crawler": "https://restaurantguru.com/Bangkok-Take-Away-Kopavogur",
+          "crawler_images": "https://maps.app.goo.gl/j8o4HkFHk9bUAEWaA",
+          "": ""
+     },
+     {
+          "key": "Bitahöllin",
+          "crawler": "https://restaurantguru.com/Bitahollin-Reykjavik",
+          "crawler_images": "https://maps.app.goo.gl/wBx4u7WWa69JJ4AQ8",
+          "": ""
+     },
+     {
+          "key": "Bitinn",
+          "crawler": "https://restaurantguru.com/Bitinn-Reykjanesbaer",
+          "crawler_images": "https://maps.app.goo.gl/qeYBP5LtCWV9XfcQ9",
+          "": ""
+     },
+     {
+          "key": "Víkurskáli",
+          "crawler": "https://restaurantguru.com/Vikurskali-Vik-2",
+          "crawler_images": "https://maps.app.goo.gl/otR7ybm83QgPzECu8",
+          "": ""
+     },
+     {
+          "key": "Bjargarsteinn Mathús",
+          "crawler": "https://restaurantguru.com/Bjargar-stein-Grundarfjordur",
+          "crawler_images": "https://maps.app.goo.gl/D2YkbVUtje19y6jy8",
+          "": ""
+     },
+     {
+          "key": "Bláa Sjoppan",
+          "crawler": "https://restaurantguru.com/Blaa-sjoppan-Reykjavik",
+          "crawler_images": "https://maps.app.goo.gl/7xXWUX5CL37QEm5o9",
+          "": ""
+     },
+     {
+          "key": "Food Station",
+          "crawler": "https://restaurantguru.com/Food-Station-Borgarnes",
+          "crawler_images": "",
+          "": ""
+     },
+     {
+          "key": "Kúlan",
+          "crawler": "https://restaurantguru.com/Kulan-Reykjavik",
+          "crawler_images": "",
+          "": ""
+     },
+     {
+          "key": "Viðeyjarstofa",
+          "crawler": "https://restaurantguru.com/Videyjarstofa-Reykjavik",
+          "crawler_images": "https://maps.app.goo.gl/sdcc6RiXLUDiWwBd7",
+          "": ""
+     },
+     {
+          "key": "black beach restaurant",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/mWxv1deWYftkZtEP9",
+          "": ""
+     },
+     {
+          "key": "BLIK Bistro & Grill",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/xjSGon9WCTqee6HG8",
+          "": ""
+     },
+     {
+          "key": "Blómasetrið Kaffi Kyrrð",
+          "crawler": "https://restaurantguru.com/Blomasetrid-Kaffi-Kyrrd-Borgarnes",
+          "crawler_images": "https://maps.app.goo.gl/VhELph9WTTCLnVnb6",
+          "": ""
+     },
+     {
+          "key": "Kaktus Espressobar",
+          "crawler": "https://restaurantguru.com/Kaktus-Espressobar-Reykjavik",
+          "crawler_images": "https://maps.app.goo.gl/WutKQFbX5jgVWNs46",
+          "": ""
+     },
+     {
+          "key": "Restaurant Edda Egilsstaðir",
+          "crawler": "https://restaurantguru.com/Restaurant-Edda-Egilsstadir-Egilsstadir",
+          "crawler_images": "https://maps.app.goo.gl/WutKQFbX5jgVWNs46",
+          "": ""
+     },
+     {
+          "key": "Sjallinn",
+          "crawler": "https://restaurantguru.com/Sjallinn-Akureyri",
+          "crawler_images": "https://maps.app.goo.gl/XV86wyPyFopSwvx69",
+          "": ""
+     },
+     {
+          "key": "Snæland video",
+          "crawler": "https://restaurantguru.com/Snaeland-video-Hafnarfjordur",
+          "crawler_images": "https://maps.app.goo.gl/ELG4ULMxy3PegYzJ9",
+          "": ""
+     },
+     {
+          "key": "The English Pub",
+          "crawler": "https://restaurantguru.com/The-English-Pub-Reykjavik",
+          "crawler_images": "https://maps.app.goo.gl/JmPLfXhZgkx9uHXM6",
+          "": ""
+     },
+     {
+          "key": "Bodega",
+          "crawler": "https://restaurantguru.com/Bodega-Reykjavik",
+          "crawler_images": "https://maps.app.goo.gl/qejAYgLcdahdnYmA9",
+          "": ""
+     },
+     {
+          "key": "Berlín Akureyri",
+          "crawler": "https://restaurantguru.com/Berlin-Akureyri",
+          "crawler_images": "https://maps.app.goo.gl/oYcRhF5qw1E6wJv79",
+          "": ""
+     },
+     {
+          "key": "Café Milanó",
+          "crawler": "https://restaurantguru.com/Cafe-Milano-Reykjavik",
+          "crawler_images": "https://maps.app.goo.gl/P1wHVEbVa69iEGQi9",
+          "": ""
+     },
+     {
+          "key": "Cafe Petite",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/usd4XNFzLSEHurAj9",
+          "": ""
+     },
+     {
+          "key": "Chickpea",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/i2NDF9HCTZrqaLwG8",
+          "": ""
+     },
+     {
+          "key": "CUBANOS Reykjavík",
+          "crawler": "https://restaurantguru.com/CUBANOS-Reykjavik-Reykjavik",
+          "crawler_images": "",
+          "": ""
+     },
+     {
+          "key": "edinborg bistro",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/Fm2zrvUgUvQEj8Ed6",
+          "": ""
+     },
+     {
+          "key": "Einarshusid",
+          "crawler": "https://restaurantguru.com/Einarshusid-Bolungarvik",
+          "crawler_images": "https://maps.app.goo.gl/vJtG3N8d5y1rQmgh8",
+          "": ""
+     },
+     {
+          "key": "Fish House Bar & Grill",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/n2AnC1hAEVWAvqSTA",
+          "": ""
+     },
+     {
+          "key": "Ísgerðin",
+          "crawler": "https://restaurantguru.com/Isgerdin-Akureyri",
+          "crawler_images": "https://maps.app.goo.gl/5Uq729kwnRFq57YXA",
+          "": ""
+     },
+     {
+          "key": "Spennustöðin",
+          "crawler": "",
+          "crawler_images": "",
+          "": ""
+     },
+     {
+          "key": "Fiskikóngurinn",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/C3JRPAx7zxppa8RG9",
+          "": ""
+     },
+     {
+          "key": "Food Cellar",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/LzAUGcefEkiRHFGN7",
+          "": ""
+     },
+     {
+          "key": "Skaftárskáli",
+          "crawler": "https://restaurantguru.com/Skaftarskali-Kirkjubaejarklaustur",
+          "crawler_images": "https://maps.app.goo.gl/avsmYgS93N9eZnAj8",
+          "": ""
+     },
+     {
+          "key": "frederiksen ale house",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/kJJVcpp55h4jj1h4A",
+          "": ""
+     },
+     {
+          "key": "Gamli Enski",
+          "crawler": "https://restaurantguru.com/Gamli-Enski-Hafnarfjordur",
+          "crawler_images": "",
+          "": ""
+     },
+     {
+          "key": "Geitin Garðabæ",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/T7L8zKKoEs15nWUd9",
+          "": ""
+     },
+     {
+          "key": "GK Bakarí",
+          "crawler": "https://restaurantguru.com/GK-Bakari-Selfoss",
+          "crawler_images": "https://maps.app.goo.gl/avqQALYddmQiBHAG7",
+          "": ""
+     },
+     {
+          "key": "Gríska Húsið",
+          "crawler": "https://restaurantguru.com/Griska-Husid-Reykjavik",
+          "crawler_images": "",
+          "": ""
+     },
+     {
+          "key": "Gullnesti",
+          "crawler": "https://restaurantguru.com/Gullnesti-Reykjavik",
+          "crawler_images": "https://maps.app.goo.gl/MKv1Y34hRjnVCifXA",
+          "": ""
+     },
+     {
+          "key": "Harbour Cafe",
+          "crawler": "https://restaurantguru.com/Harbour-cafe-Stykkisholmur",
+          "crawler_images": "https://maps.app.goo.gl/bRBJddTgZSoSGYaPA",
+          "": ""
+     },
+     {
+          "key": "Hard Wok Cafe",
+          "crawler": "https://restaurantguru.com/Hard-Wok-Cafe-Saudarkrokur",
+          "crawler_images": "https://maps.app.goo.gl/n6Qjd6vHTYwrN6Jz6",
+          "": ""
+     },
+     {
+          "key": "Heimamenn",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/SnfkF1J7CfJDKSUg7",
+          "": ""
+     },
+     {
+          "key": "Hópið",
+          "crawler": "https://restaurantguru.com/Hopid-Restaurant-Talknafjordur",
+          "crawler_images": "https://maps.app.goo.gl/iYEFbEYmLPFV6xWH7",
+          "": ""
+     },
+     {
+          "key": "Malai Thai",
+          "crawler": "https://restaurantguru.com/Malai-Thai-Reykjanesbaer",
+          "crawler_images": "https://maps.app.goo.gl/rWN1NNPWBTaCpQdA7",
+          "": ""
+     },
+     {
+          "key": "Reykjavík Fish Restaurant",
+          "crawler": "https://restaurantguru.com/Fish-Company-Reykjavik",
+          "crawler_images": "https://maps.app.goo.gl/PpQdVFcGZdNMXnwd6",
+          "": ""
+     },
+     {
+          "key": "torgið siglufirði",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/NEaGS3WXAGtkh1P38",
+          "": ""
+     },
+     {
+          "key": "Hekla street food",
+          "crawler": "https://restaurantguru.com/Hekla-Street-Food-Hella-Southern-Region",
+          "crawler_images": "https://maps.app.goo.gl/sEen1LmpHPF5vTXt6",
+          "": ""
+     },
+     {
+          "key": "Hereford Steakhouse",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/Zar1xAXVPspSw7Nx9",
+          "": ""
+     },
+     {
+          "key": "Holtanesti",
+          "crawler": "https://restaurantguru.com/Holtanesti-Reykjavik",
+          "crawler_images": "https://maps.app.goo.gl/LVayXkrJSN7Tcepd6",
+          "": ""
+     },
+     {
+          "key": "Hosiló",
+          "crawler": "https://restaurantguru.com/Hosilo-Reykjavik",
+          "crawler_images": "https://maps.app.goo.gl/Zy2ir93cSYKHPawh8",
+          "": ""
+     },
+     {
+          "key": "Hotel Geysir Restaurant",
+          "crawler": "https://restaurantguru.com/Hotel-Geysir-Restaurant-Selfoss",
+          "crawler_images": "https://maps.app.goo.gl/eT861P4xt5HhNYPg7",
+          "": ""
+     },
+     {
+          "key": "Ice Cave Bistro",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/E56iQV1bdwAmrU1t7",
+          "": ""
+     },
+     {
+          "key": "Icelandic Craft Bar",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/8Z3w6BZb67tfdnV96",
+          "": ""
+     },
+     {
+          "key": "Ísbúðin Laugalæk",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/UsfpoQCjh1urWnJJ7",
+          "": ""
+     },
+     {
+          "key": "Ísbúðin Okkar",
+          "crawler": "https://restaurantguru.com/Isbudin-okkar-Hveragerdi",
+          "crawler_images": "https://maps.app.goo.gl/j2apfyHmwGVKwJo19",
+          "": ""
+     },
+     {
+          "key": "Jungle Cocktail Bar",
+          "crawler": "https://restaurantguru.com/Jungle-Cocktail-Bar-Reykjavik",
+          "crawler_images": "https://maps.app.goo.gl/gyWRSinwN5hXhovJ6",
+          "": ""
+     },
+     {
+          "key": "Kaffi 59",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/aTWt3jGqKjvUKqpZ8",
+          "": ""
+     },
+     {
+          "key": "kaffi hornid",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/Mcf5wAgD455iAM9e9",
+          "": ""
+     },
+     {
+          "key": "Litla Kaffistofan",
+          "crawler": "https://restaurantguru.com/Litla-kaffistofan-Akureyri",
+          "crawler_images": "https://maps.app.goo.gl/7Wyuh5SNevXQqBNT7",
+          "": ""
+     },
+     {
+          "key": "Tian Chinese Restaurant",
+          "crawler": "https://restaurantguru.com/Tian-Reykjavik",
+          "crawler_images": "https://maps.app.goo.gl/n3wZ8ovT8sizhNGq5",
+          "": ""
+     },
+     {
+          "key": "Kaffi Krókur",
+          "crawler": "https://restaurantguru.com/KK-Restaurant-Saudarkrokur",
+          "crawler_images": "https://maps.app.goo.gl/gVkGsy3S4ydeVjeh8",
+          "": ""
+     },
+     {
+          "key": "Kef Restaurant",
+          "crawler": "https://restaurantguru.com/KEF-Restaurant-Reykjanesbaer",
+          "crawler_images": "https://maps.app.goo.gl/6U4LaFCa22cXnCUb9",
+          "": ""
+     },
+     {
+          "key": "klaustur restaurant",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/EW9tU4LWKW9V7SW68",
+          "": ""
+     },
+     {
+          "key": "Kökuhúsið",
+          "crawler": "https://restaurantguru.com/Kokuhusid-Kopavogur",
+          "crawler_images": "https://maps.app.goo.gl/YKxztXKLDNG45zKA8",
+          "": ""
+     },
+     {
+          "key": "La Poblana",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/w8syQZ35HtNyRvMX7",
+          "": ""
+     },
+     {
+          "key": "Lava Restaurant",
+          "crawler": "https://restaurantguru.com/Lava-Restaurant-Iceland",
+          "crawler_images": "https://maps.app.goo.gl/EuF3NFqUxnb2iFMv9",
+          "": ""
+     },
+     {
+          "key": "Pablo Discobar",
+          "crawler": "https://restaurantguru.com/Pablodiscobar-Reykjavik",
+          "crawler_images": "https://maps.app.goo.gl/hdqaxuzeKR3dFNfr7",
+          "": ""
+     },
+     {
+          "key": "Teni",
+          "crawler": "https://restaurantguru.com/Teni-Blonduos",
+          "crawler_images": "https://maps.app.goo.gl/2bepo7LWd3sk8CNFA",
+          "": ""
+     },
+     {
+          "key": "Le Kock",
+          "crawler": "https://restaurantguru.com/Le-Kock-Reykjavik-2",
+          "crawler_images": "https://maps.app.goo.gl/pAqM2NKo2CnUd24x5",
+          "": ""
+     },
+     {
+          "key": "Lighthouse Restaurant",
+          "crawler": "https://restaurantguru.com/Grjotid-Bistro-Bar-Akranes",
+          "crawler_images": "https://maps.app.goo.gl/oQF5w8hHXhL8DHAFA",
+          "": ""
+     },
+     {
+          "key": "Matarbarinn",
+          "crawler": "",
+          "crawler_images": "",
+          "": ""
+     },
+     {
+          "key": "Matarlist",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/EMkWB78DHSt3WGLe7",
+          "": ""
+     },
+     {
+          "key": "Matkráin",
+          "crawler": "https://restaurantguru.com/Matkrain-Hveragerdi",
+          "crawler_images": "https://maps.app.goo.gl/rtfPrnzqu3C6aJ2QA",
+          "": ""
+     },
+     {
+          "key": "Ölstofa",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/b8sKdW3c45zVSz6y5",
+          "": ""
+     },
+     {
+          "key": "Restaurant BAKKI",
+          "crawler": "https://restaurantguru.com/Bakki-Restaurant-Hotel-Laugarbakki-Hvammstangi",
+          "crawler_images": "https://maps.app.goo.gl/aYSb2nMuZ1kcHn8P9",
+          "": ""
+     },
+     {
+          "key": "Reykjavík Sausage Company",
+          "crawler": "https://restaurantguru.com/Reykjavik-Sausage-Company-Reykjavik",
+          "crawler_images": "https://maps.app.goo.gl/a8i5ozKdtW3DEdj46",
+          "": ""
+     },
+     {
+          "key": "Mathöll Höfða",
+          "crawler": "https://restaurantguru.com/Matholl-Hofda-Reykjavik",
+          "crawler_images": "https://maps.app.goo.gl/1bx1uhPuMtKb8Cjv6",
+          "": ""
+     },
+     {
+          "key": "Max's Restaurant",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/MRDYfUQXWuP2zJ3c7",
+          "": ""
+     },
+     {
+          "key": "meistarinn",
+          "crawler": "https://restaurantguru.com/meistarinn-Stykkisholmur",
+          "crawler_images": "https://maps.app.goo.gl/Pjn3F2KbUMQAEAk88",
+          "": ""
+     },
+     {
+          "key": "Messinn",
+          "crawler": "https://restaurantguru.com/Messinn-Reykjavik-2",
+          "crawler_images": "https://maps.app.goo.gl/qmnDtmQj9KqnFMnS9",
+          "": ""
+     },
+     {
+          "key": "Meze",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/ZnbgvMpmJMEBtExq7",
+          "": ""
+     },
+     {
+          "key": "MicroBar",
+          "crawler": "https://restaurantguru.com/Microbar-Reykjavik-2",
+          "crawler_images": "https://maps.app.goo.gl/5KD4QrfzCG6xVYgW9",
+          "": ""
+     },
+     {
+          "key": "Microbar Kópavogur",
+          "crawler": "https://restaurantguru.com/MicroBar-and-Brew-Kopavogur",
+          "crawler_images": "https://maps.app.goo.gl/1mhyk9Vm76pB3K4f7",
+          "": ""
+     },
+     {
+          "key": "Microbar Reykjavík",
+          "crawler": "https://restaurantguru.com/Microbar-Reykjavik-Reykjavik",
+          "crawler_images": "https://maps.app.goo.gl/niScawGVgcQgkYZd7",
+          "": ""
+     },
+     {
+          "key": "Mosó Grill",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/BEhdKdyMY13Pia9J9",
+          "": ""
+     },
+     {
+          "key": "Moss Restaurant",
+          "crawler": "https://restaurantguru.com/Moss-Restaurant-Blue-Lagoon-Iceland-Grindavik",
+          "crawler_images": "https://maps.app.goo.gl/EYE4w6T75PFk2PJq5",
+          "": ""
+     },
+     {
+          "key": "Ölhúsið",
+          "crawler": "https://restaurantguru.com/Gulloldin-Reykjavik",
+          "crawler_images": "",
+          "": ""
+     },
+     {
+          "key": "Otto Matur & Drykkur",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/VvbDJDzahPCEpgpM9",
+          "": ""
+     },
+     {
+          "key": "ÓX Restaurant",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/nD4r6LDtkHoV3Bxf9",
+          "": ""
+     },
+     {
+          "key": "Pad Thai Noodles",
+          "crawler": "https://restaurantguru.com/Pad-Thai-Noodles-Reykjavik",
+          "crawler_images": "https://maps.app.goo.gl/9GrhRqULemYFeBmn8",
+          "": ""
+     },
+     {
+          "key": "Passion Reykjavík",
+          "crawler": "https://restaurantguru.com/Passion-Reykjavik",
+          "crawler_images": "https://maps.app.goo.gl/xK32GEydj1CuNAqh7",
+          "": ""
+     },
+     {
+          "key": "Tryggvaskáli",
+          "crawler": "https://restaurantguru.com/Tryggvaskali-Selfoss",
+          "crawler_images": "https://maps.app.goo.gl/J1xPq3VnMnkBa2h66",
+          "": ""
+     },
+     {
+          "key": "Pétursbúð",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/PHsgFy5ZNBSXfJYo8",
+          "": ""
+     },
+     {
+          "key": "Pho Vietnam Restaurant",
+          "crawler": "https://restaurantguru.com/Pho-Vietnamese-Reykjavik-4",
+          "crawler_images": "https://maps.app.goo.gl/yAS8GVT1xX7Uww879",
+          "": ""
+     },
+     {
+          "key": "Pizza 67",
+          "crawler": "https://restaurantguru.com/Pizza-67-Vestmannaeyjabaer",
+          "crawler_images": "https://maps.app.goo.gl/zNYYikmL5RFuzzxX6",
+          "": ""
+     },
+     {
+          "key": "Pizzafjörður",
+          "crawler": "https://restaurantguru.com/Pizzafjordur-Eskifjordur",
+          "crawler_images": "https://maps.app.goo.gl/CGDSfhNtSktZK8CX6",
+          "": ""
+     },
+     {
+          "key": "Thai Tawee",
+          "crawler": "https://restaurantguru.com/Thai-Tawee-Isafjordur",
+          "crawler_images": "https://maps.app.goo.gl/uQvTw3uc9H8uo5fu7",
+          "": ""
+     },
+     {
+          "key": "Hressingarskálinn",
+          "crawler": "https://restaurantguru.com/Hressingarskalinn-Reykjavik-5",
+          "crawler_images": "https://maps.app.goo.gl/aBXTKDttJfWNzbwNA",
+          "": ""
+     },
+     {
+          "key": "Prikið ehf",
+          "crawler": "https://restaurantguru.com/Prikid-Reykjavik",
+          "crawler_images": "https://maps.app.goo.gl/RUUgWGfzk6P2iBcj9",
+          "": ""
+     },
+     {
+          "key": "Pylsuvagninn Laugardal",
+          "crawler": "https://restaurantguru.com/Pylsuvagninn-Laugardal-Reykjavik",
+          "crawler_images": "https://maps.app.goo.gl/YRryPefBM2PzyCGN8",
+          "": ""
+     },
+     {
+          "key": "Restaurant Kanslarinn",
+          "crawler": "https://restaurantguru.com/Kanslarinn-Hella-Southern-Region",
+          "crawler_images": "https://maps.app.goo.gl/yhHFKeyBYpHisnzq7",
+          "": ""
+     },
+     {
+          "key": "Bitakot",
+          "crawler": "https://restaurantguru.com/Bitakot-Reykjavik",
+          "crawler_images": "https://maps.app.goo.gl/mXG1kEgxf5N7Ehoz7",
+          "": ""
+     },
+     {
+          "key": "Restaurant Minilik",
+          "crawler": "https://restaurantguru.com/Minilik-Fludir",
+          "crawler_images": "https://maps.app.goo.gl/wTEiyqsUxmNBige6A",
+          "": ""
+     },
+     {
+          "key": "Restaurant Varma",
+          "crawler": "https://restaurantguru.com/Restaurant-Varma-Hveragerdi",
+          "crawler_images": "https://maps.app.goo.gl/yYntxRVWurMkFUh79",
+          "": ""
+     },
+     {
+          "key": "Rúblan bókakaffi",
+          "crawler": "https://restaurantguru.com/Rublan-bokakaffi-Reykjavik",
+          "crawler_images": "https://maps.app.goo.gl/i5TNPPwkkLAFEej28",
+          "": ""
+     },
+     {
+          "key": "Reykjavik Kitchen",
+          "crawler": "https://restaurantguru.com/Kitchen-Reykjavik",
+          "crawler_images": "https://maps.app.goo.gl/R91dbsv4bmmZFBrt9",
+          "": ""
+     },
+     {
+          "key": "Reykjavík Röst",
+          "crawler": "https://restaurantguru.com/Reykjavik-Rost-Reykjavik",
+          "crawler_images": "https://maps.app.goo.gl/jdwvHYsERAMhTGJm7",
+          "": ""
+     },
+     {
+          "key": "Rósakaffi",
+          "crawler": "https://restaurantguru.com/Rosakaffi-Hveragerdi",
+          "crawler_images": "https://maps.app.goo.gl/sViRp7micL4ipft78",
+          "": ""
+     },
+     {
+          "key": "saegreifinn",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/sViRp7micL4ipft78",
+          "": ""
+     },
+     {
+          "key": "Sali Thai Restaurant",
+          "crawler": "https://restaurantguru.com/Sali-Thai-Restaurant-Kopavogur",
+          "crawler_images": "https://maps.app.goo.gl/gfi7Wzsk6Srx3psWA",
+          "": ""
+     },
+     {
+          "key": "Satt Restaurant",
+          "crawler": "https://restaurantguru.com/Satt-Reykjavik",
+          "crawler_images": "https://maps.app.goo.gl/Lbui4ZRLfxFasimL8",
+          "": ""
+     },
+     {
+          "key": "Heimabyggð",
+          "crawler": "https://restaurantguru.com/Heimabyggd-Isafjordur",
+          "crawler_images": "https://maps.app.goo.gl/s3RBARMDcERkPJE17",
+          "": ""
+     },
+     {
+          "key": "Sauðá",
+          "crawler": "https://restaurantguru.com/Sauda-Saudarkrokur",
+          "crawler_images": "https://maps.app.goo.gl/gcydrpmgAfHfsUaM6",
+          "": ""
+     },
+     {
+          "key": "Sauðárkróksbakarí",
+          "crawler": "https://restaurantguru.com/Saudarkroksbakari-Saudarkrokur",
+          "crawler_images": "https://maps.app.goo.gl/1zwWTntYw6xVVmv49",
+          "": ""
+     },
+     {
+          "key": "DEIG workshop",
+          "crawler": "https://restaurantguru.com/DEIG-Workshop-Reykjavik",
+          "crawler_images": "https://maps.app.goo.gl/3GHZwWpn48EeH8gw6",
+          "": ""
+     },
+     {
+          "key": "Shanghai Restaurant",
+          "crawler": "https://restaurantguru.com/Sjanghae-Akureyri",
+          "crawler_images": "https://maps.app.goo.gl/o6qX1WAxg3z2pUow9",
+          "": ""
+     },
+     {
+          "key": "Siglunes Restaurant",
+          "crawler": "https://restaurantguru.com/Siglunes-Restaurant-Siglufjordur",
+          "crawler_images": "https://maps.app.goo.gl/81i62eDPFRePKyE9A",
+          "": ""
+     },
+     {
+          "key": "Gaukurinn",
+          "crawler": "https://restaurantguru.com/Gaukurinn-Reykjavik",
+          "crawler_images": "https://maps.app.goo.gl/tS1Wws6r7V4d9YPE9",
+          "": ""
+     },
+     {
+          "key": "Sigurjónsbakarí",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/29zf1YWeqdz2FS2m7",
+          "": ""
+     },
+     {
+          "key": "Paloma Club",
+          "crawler": "https://restaurantguru.com/Paloma-Reykjavik",
+          "crawler_images": "https://maps.app.goo.gl/Dzft6s6Enopaouij8",
+          "": ""
+     },
+     {
+          "key": "Sjómannastofan Vör",
+          "crawler": "https://restaurantguru.com/Sjomannastofan-Vor-Grindavik",
+          "crawler_images": "https://maps.app.goo.gl/Dqzpozg4XeuoJJMJ6",
+          "": ""
+     },
+     {
+          "key": "Skaftfell Bistro",
+          "crawler": "https://restaurantguru.com/Bistro-Skaftfell-Seydisfjordur",
+          "crawler_images": "https://maps.app.goo.gl/A9DNeCdPXmy7GSKy8",
+          "": ""
+     },
+     {
+          "key": "Skuggi Bar",
+          "crawler": "https://restaurantguru.com/Skuggi-bar-Reykjavik",
+          "crawler_images": "https://maps.app.goo.gl/VN1n6eZDzFXzbAJu9",
+          "": ""
+     },
+     {
+          "key": "Samkomuhúsið Arnarstapa",
+          "crawler": "https://restaurantguru.com/Samkomuhusid-in-Arnarstapi-Arnarstapi",
+          "crawler_images": "https://maps.app.goo.gl/9eH7cLD77eNJZNeY6",
+          "": ""
+     },
+     {
+          "key": "Skúli Craft bar",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/URKPn7WSao4X2qBM7",
+          "": ""
+     },
+     {
+          "key": "Fisherman",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/2zMTe5K4k9Pt9wTP8",
+          "": ""
+     },
+     {
+          "key": "Skurinn",
+          "crawler": "https://restaurantguru.com/Skurinn-Stykkisholmur",
+          "crawler_images": "https://maps.app.goo.gl/se75T9MTbySV7onJ9",
+          "": ""
+     },
+     {
+          "key": "Skyrgerðin Restaurant",
+          "crawler": "https://restaurantguru.com/Skyrgerdin-Hveragerdi",
+          "crawler_images": "https://maps.app.goo.gl/u4at2L7zbntEL65v9",
+          "": ""
+     },
+     {
+          "key": "SuðurVík",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/PWmLbPGjTRQfTkdk6",
+          "": ""
+     },
+     {
+          "key": "Beituskúrinn",
+          "crawler": "https://restaurantguru.com/Beituskurinn-The-Bait-Shack-Neskaupstadur",
+          "crawler_images": "https://maps.app.goo.gl/3BKBknFJsP9ZcDNH9",
+          "": ""
+     },
+     {
+          "key": "BrewDog Reykjavik",
+          "crawler": "https://restaurantguru.com/BrewDog-Reykjavik",
+          "crawler_images": "https://maps.app.goo.gl/ttfNUpnDKRyzsTAS6",
+          "": ""
+     },
+     {
+          "key": "Durum Restaurant",
+          "crawler": "https://restaurantguru.com/Durum-Reykjavik",
+          "crawler_images": "https://maps.app.goo.gl/91ae7KJFmfFbEt9TA",
+          "": ""
+     },
+     {
+          "key": "Svarta Kaffið",
+          "crawler": "https://restaurantguru.com/Svarta-Kaffid-Reykjavik",
+          "crawler_images": "https://maps.app.goo.gl/cvbeCZVqAuqYqQZw9",
+          "": ""
+     },
+     {
+          "key": "Sveinsbakarí",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/7dw2gDEPKWX5sCZH9",
+          "": ""
+     },
+     {
+          "key": "Thai Keflavik",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/rWN1NNPWBTaCpQdA7",
+          "": ""
+     },
+     {
+          "key": "Tvisturinn",
+          "crawler": "https://restaurantguru.com/Tvisturinn-Vestmannaeyjabaer",
+          "crawler_images": "https://maps.app.goo.gl/bQLGXyHMdmuBrSW16",
+          "": ""
+     },
+     {
+          "key": "Smekkleysa Record Shop",
+          "crawler": "https://restaurantguru.com/Smekkleysa-Record-Shop-Reykjavik",
+          "crawler_images": "https://maps.app.goo.gl/pon7Ehjp2JMHhXJq9",
+          "": ""
+     },
+     {
+          "key": "thai matstofan",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/DcyG2R3WzWswk4iP8",
+          "": ""
+     },
+     {
+          "key": "Ak-inn",
+          "crawler": "https://restaurantguru.com/Ak-inn-Akureyri",
+          "crawler_images": "https://maps.app.goo.gl/axxHc5LEQKWZKJUV6",
+          "": ""
+     },
+     {
+          "key": "Ban Kúnn",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/1QjMz6JRnSuuPZhW6",
+          "": ""
+     },
+     {
+          "key": "Foodcellar",
+          "crawler": "https://restaurantguru.com/Matarkjallarinn-Foodcellar-Reykjavik-2",
+          "crawler_images": "https://maps.app.goo.gl/LzAUGcefEkiRHFGN7",
+          "": ""
+     },
+     {
+          "key": "hereford steikhús",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/Zar1xAXVPspSw7Nx9",
+          "": ""
+     },
+     {
+          "key": "Hverfisgata 12",
+          "crawler": "https://restaurantguru.com/Hverfisgata-12-Reykjavik",
+          "crawler_images": "",
+          "": ""
+     },
+     {
+          "key": "Kjúklingastaðurinn Suðurveri",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/pQKESi9Y1fRxfdXa9",
+          "": ""
+     },
+     {
+          "key": "north west hotel restaurant",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/pQKESi9Y1fRxfdXa9",
+          "": ""
+     },
+     {
+          "key": "Seabaron",
+          "crawler": "https://restaurantguru.com/Seabaron-Reykjavik",
+          "crawler_images": "https://maps.app.goo.gl/sViRp7micL4ipft78",
+          "": ""
+     },
+     {
+          "key": "Spíran",
+          "crawler": "https://restaurantguru.com/Spiran-Reykjavik",
+          "crawler_images": "https://maps.app.goo.gl/uj5fKohkJks94G3AA",
+          "": ""
+     },
+     {
+          "key": "The Dubliner",
+          "crawler": "https://restaurantguru.com/The-Dubliner-Reykjavik",
+          "crawler_images": "https://maps.app.goo.gl/FBCJG7G8GkL1DbrWA",
+          "": ""
+     },
+     {
+          "key": "TORGIÐ restaurant",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/NEaGS3WXAGtkh1P38",
+          "": ""
+     },
+     {
+          "key": "Tótu Flatkökur",
+          "crawler": "https://restaurantguru.com/Totu-Flatkokur-Vogar",
+          "crawler_images": "",
+          "": ""
+     },
+     {
+          "key": "Uppsalir Bar & Café",
+          "crawler": "https://restaurantguru.com/Uppsalir-Reykjavik",
+          "crawler_images": "https://maps.app.goo.gl/dwak7MEbHEf5wGmU6",
+          "": ""
+     },
+     {
+          "key": "Valhalla Restaurant",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/nFNEUWUwHo5apFK1A",
+          "": ""
+     },
+     {
+          "key": "Vigtin Bakhús",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/EtyEf5nZRiVBXwNA9",
+          "": ""
+     },
+     {
+          "key": "Viking Kebab",
+          "crawler": "https://restaurantguru.com/Viking-Kebab-Reykjavik",
+          "crawler_images": "https://maps.app.goo.gl/29Hcq4XqLgzTnmUz9",
+          "": ""
+     },
+     {
+          "key": "Vöffluvagninn",
+          "crawler": "https://restaurantguru.com/Voffluvagninn-Reykjavik",
+          "crawler_images": "https://maps.app.goo.gl/ucb14SKXfiYdBdAz8",
+          "": ""
+     },
+     {
+          "key": "Stapinn",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/jwmPpkaSCLt1M8BZ6",
+          "": ""
+     },
+     {
+          "key": "Hvanneyri Pub",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/tFPGjEtccrZ2mzJk7",
+          "": ""
+     },
+     {
+          "key": "gilbakki",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/4NUW29SMDw3UVnVi8",
+          "": ""
+     },
+     {
+          "key": "Kallabakarí",
+          "crawler": "",
+          "crawler_images": "https://maps.app.goo.gl/R5panxZ4nFFtgpHYA",
+          "": ""
+     },
+    
+]

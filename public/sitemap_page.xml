@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+    <url>
+        <loc>http://localhost:8000</loc>
+        <lastmod>2025-01-18T00:00:00+00:00</lastmod>
+        <changefreq>always</changefreq>
+        <priority>1.0</priority>
+            </url>
+    <url>
+        <loc>http://localhost:8000/politique-de-confidentialite.html</loc>
+        <lastmod>2024-10-26T11:16:06+00:00</lastmod>
+        <changefreq>always</changefreq>
+        <priority>0.8</priority>
+            </url>
+    <url>
+        <loc>http://localhost:8000/conditions-dutilisation.html</loc>
+        <lastmod>2024-10-29T02:26:23+00:00</lastmod>
+        <changefreq>always</changefreq>
+        <priority>0.8</priority>
+            </url>
+    <url>
+        <loc>http://localhost:8000/contactez-nous.html</loc>
+        <lastmod>2024-10-26T10:57:17+00:00</lastmod>
+        <changefreq>always</changefreq>
+        <priority>0.8</priority>
+            </url>
+    <url>
+        <loc>http://localhost:8000/a-propos-de-nous.html</loc>
+        <lastmod>2024-10-29T02:24:02+00:00</lastmod>
+        <changefreq>always</changefreq>
+        <priority>0.8</priority>
+            </url>
+</urlset>

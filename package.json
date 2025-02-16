@@ -1,0 +1,29 @@
+{
+    "name": "medoithuong",
+    "version": "1.0.0",
+    "description": "",
+    "main": "gruntfile.js",
+    "private": true,
+    "scripts": {
+        "dev": "npm run development",
+        "development": "mix",
+        "watch": "mix watch",
+        "watch-poll": "mix watch -- --watch-options-poll=1000",
+        "hot": "mix watch --hot",
+        "prod": "npm run production",
+        "production": "mix --production"
+    },
+    "devDependencies": {
+        "axios": "^0.25",
+        "grunt": "^1.6.1",
+        "grunt-contrib-concat": "^1.0.1",
+        "grunt-contrib-cssmin": "^3.0.0",
+        "grunt-contrib-jshint": "^3.2.0",
+        "grunt-contrib-uglify": "^4.0.1",
+        "grunt-contrib-watch": "^1.1.0",
+        "laravel-mix": "^6.0.6",
+        "load-grunt-tasks": "^5.1.0",
+        "lodash": "^4.17.19",
+        "postcss": "^8.1.14"
+    }
+}
