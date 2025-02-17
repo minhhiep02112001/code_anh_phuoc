@@ -62,7 +62,9 @@ if (!function_exists('getThumbnail')) {
      function getThumbnail($data, $width = '', $height = '', $class = '', $alt = '')
      {
           if (empty($alt) && !empty($data->title)) $alt = $data->title;
-          return '<img loading="lazy" alt ="' . $alt  . '" class="' . $class . '" data-src="' . convertPathImage($data->thumbnail) . '" src="' .getImageThumb($data->thumbnail, $width, $height) . '" width="' . $width . '" height="' . $height . '"/>';
+          $str_w = !empty($width) ? " width='$width'" : '';
+          $str_w .= !empty($height) ? " height='$height'" : '';
+          return '<img loading="lazy" alt ="' . $alt  . '" class="' . $class . '" data-src="' . convertPathImage($data->thumbnail) . '" src="' . getImageThumb($data->thumbnail, $width, $height) . '"' . $str_w . ' />';
      }
 }
 

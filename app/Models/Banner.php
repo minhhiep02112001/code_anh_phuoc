@@ -11,7 +11,16 @@ class Banner extends Model
     use HasFactory;
     protected $table = 'st_banner';
     protected $fillable = [
-        'title', 'thumbnail', 'thumbnail_mobile', 'type', 'target', 'position',  'is_status', 'description',   'link_redirect'
+        'title',
+        'thumbnail',
+        'thumbnail_mobile',
+        'youtobe',
+        'type',
+        'target',
+        'position',
+        'is_status',
+        'description',
+        'link_redirect'
     ];
     public static function getType($type)
     {
@@ -29,7 +38,7 @@ class Banner extends Model
     public static function getTypeArr($arr)
     {
         $query = self::query();
-        $key_cache = "banner_".json_encode($arr);
+        $key_cache = "banner_" . json_encode($arr);
         if (Cache::has($key_cache) && !empty(env('RESPONSE_CACHE_ENABLED'))) return Cache::get($key_cache);
 
         $query->whereIn('st_banner.type', $arr)

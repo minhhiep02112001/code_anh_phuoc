@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Banner;
 use App\Models\Comment;
+use App\Models\Drag;
 use App\Models\Page;
 use App\Models\PageDetail;
 use App\Models\Post;
@@ -43,6 +44,8 @@ class HomeController extends Controller
             'select' => ['id', 'title', 'slug', 'thumbnail', 'address', 'description', 'created_at'],
         ]);
 
+        $data['pages'] = Drag::getAllDataId('config_page_home', 'page', 10);
+      
         $data['comments']  = $this->commentRepository->getAll([
             'is_status' => 1,
             'show_home' => 1,

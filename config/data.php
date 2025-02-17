@@ -12,17 +12,8 @@ return [
         'logo' => ''
     ],
     'config_trending' => [
-        ['key' => 'config_category_home_hot', 'module' => 'category', 'text' => 'Quản lý danh mục sản phẩm nổi bật trang chủ', 'query' => ['type' => 'product']],
-        ['key' => 'config_category_home', 'module' => 'category', 'text' => 'Quản lý danh mục sản phẩm hiển thị trang chủ', 'query' => ['type' => 'product']],
-        ['key' => 'config_category_post_home', 'module' => 'category', 'text' => 'Quản lý danh mục bài viết hiển thị trang chủ', 'query' => ['type' => 'post']],
-        ['key' => 'config_category_trending', 'module' => 'category', 'text' => 'Quản lý danh mục sản phẩm ưa chuộng', 'query' => ['type' => 'product']],
-
-        ['key' => 'product_sale_home', 'module' => 'product', 'text' => 'Quản lý product home sale'],
-        ['key' => 'product_trending_home', 'module' => 'product', 'text' => 'Quản lý product home'],
-
-        ['key' => 'post_trending_home', 'module' => 'post', 'text' => 'Quản lý bài viết trang chủ', 'query' => []],
-        ['key' => 'post_trending', 'module' => 'post', 'text' => 'Quản lý bài viết nổi bật', 'query' => []],
-
+        ['key' => 'config_page_home', 'module' => 'page', 'text' => 'Quản lý bài viết Page trang chủ', 'query' => []],
+        
     ],
     'banner_type' => [
         'home' => 'Trang chủ',

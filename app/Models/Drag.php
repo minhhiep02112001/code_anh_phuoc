@@ -47,11 +47,15 @@ class Drag extends Model
                 break;
             case 'product':
                 $query = $query->join('st_products as p', 'p.id', '=', 'st_drag.data_id');
-                $select = ['p.id', 'p.title', 'p.slug', 'p.price',  'p.price_out',  'p.viewed', 'p.quantity','p.sell_number', 'p.total_vote', 'p.avg_vote', 'p.description'];
+                $select = ['p.id', 'p.title', 'p.slug', 'p.price',  'p.price_out',  'p.viewed', 'p.quantity', 'p.sell_number', 'p.total_vote', 'p.avg_vote', 'p.description'];
                 break;
             case 'post':
                 $query = $query->join('st_post as n', 'n.id', '=', 'st_drag.data_id');
                 $select = ['n.id', 'n.title', 'n.slug', 'n.description', 'n.thumbnail'];
+                break;
+            case 'page':
+                $query = $query->join('st_page as n', 'n.id', '=', 'st_drag.data_id');
+                $select = ['n.id', 'n.title', 'n.slug', 'n.content','n.description', 'n.thumbnail'];
                 break;
             case 'banner':
                 $query = $query->join('st_banners as bn', 'bn.id', '=', 'st_drag.data_id');

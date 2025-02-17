@@ -47,7 +47,8 @@ class BannerController extends Controller
             $row['thumbnail'] = getThumbnail($item, 100);
             $row['thumbnail_mobile'] = getThumbnail($item, 100);
             $row['is_status']    = $item->is_status;
-            $row['type']     = $item->type;
+            $row['type']     = !empty(config('data.banner_type')[$item->type]) ? config('data.banner_type')[$item->type] :  $item->type;
+          
             $row['key']     = $item->key;
             $row['description']     = $item->description;
             $row['position']     = $item->position ?? 0;

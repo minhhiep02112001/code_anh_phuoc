@@ -47,10 +47,10 @@
                                 <legend class="w-auto ">Trending:</legend>
                                 <div style="position: absolute; top:-24px; right: 0;">
                                     <button type="button"
-                                        class="btn-save-menu-position btn btn-sm btn-success">Save</button>
+                                        class="btnSaveMenu btn btn-sm btn-success">Save</button>
                                 </div>
- 
-                                <div class="dd nestable" id="nestable">
+
+                                <div class="dd nestable" id="nestableDrag">
                                     <ol class="dd-list">
                                     </ol>
                                 </div>
@@ -84,12 +84,19 @@
             padding: 0 5px;
             right: 0px;
         }
+
+        .action-item {
+            position: absolute;
+            right: 8px;
+            top: 6px;
+        }
     </style>
 
     <script>
         let url_ajax_load = "/admin/ajax/drag";
         let url_load_select_product = window.APP_URL + "/admin/ajax/product";
         let url_load_select_post = window.APP_URL + "/admin/ajax/post";
+        let url_load_select_page = window.APP_URL + "/admin/ajax/page";
         let url_load_select_category = window.APP_URL + "/admin/ajax/category";
         document.addEventListener("DOMContentLoaded", function() {
             $(".select2").select2({
@@ -129,6 +136,7 @@
                 $("input[name='type']").val(_module);
                 loadDataSelected(_module, $("select.selecter_data"), [], attributes);
                 showmenus(_key, _module);
+
                 this_.find(".fa-spinner").hide();
                 return false;
             });
@@ -169,15 +177,10 @@
             $(document).on("click", ".btnSaveMenu", function() {
                 let select = $("#nestableDrag");
 
-                let dragType = $("#menu_drag").val();
-                let domain = $("#menu_domains").val();
-
                 let type = $("input[name='type']").val();
                 let key = $("select[name='key']").val();
-
-
                 let structure = select.nestable("serialize");
-                console.log(structure);
+               
                 let check = [];
                 let save = 1;
                 structure.forEach(function(item, key) {
@@ -263,6 +266,10 @@
                 case 'category':
                     $(".title_active").text('Danh mục');
                     url_load_select = url_load_select_category;
+                    break;
+                case 'page':
+                    $(".title_active").text('Page');
+                    url_load_select = url_load_select_page;
                     break;
 
             }

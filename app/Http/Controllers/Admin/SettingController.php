@@ -13,6 +13,7 @@ class SettingController extends Controller
     public $config = [
         'config_website',
         'config_seo',
+        'config_home',
         'config_social'
     ];
 

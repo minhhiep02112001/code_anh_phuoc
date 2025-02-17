@@ -16,137 +16,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <link rel="profile" href="https://gmpg.org/xfn/11">
-
-
     <script>
         document.documentElement.className = document.documentElement.className + ' yes-js js_active js'
     </script>
-    <title>Isha Beauty</title>
-    <meta name='robots' content='max-image-preview:large' />
-    <style>img:is([sizes="auto" i], [sizes^="auto," i]) { contain-intrinsic-size: 3000px 1500px }</style>
-    <link rel='dns-prefetch' href='http://fonts.googleapis.com/' />
-    <link rel="alternate" type="application/rss+xml" title="Isha Beauty &raquo; Feed" href="feed/index.html" />
-    <link rel="alternate" type="application/rss+xml" title="Isha Beauty &raquo; Comments Feed"
-        href="comments/feed/index.html" />
-    <script type="text/javascript">
-        /* <![CDATA[ */
-        window._wpemojiSettings = {
-            "baseUrl": "https:\/\/s.w.org\/images\/core\/emoji\/15.0.3\/72x72\/",
-            "ext": ".png",
-            "svgUrl": "https:\/\/s.w.org\/images\/core\/emoji\/15.0.3\/svg\/",
-            "svgExt": ".svg",
-            "source": {
-                "concatemoji": "https:\/\/ishabeauty.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=6.7.2"
-            }
-        };
-        /*! This file is auto-generated */
-        ! function(i, n) {
-            var o, s, e;
 
-            function c(e) {
-                try {
-                    var t = {
-                        supportTests: e,
-                        timestamp: (new Date).valueOf()
-                    };
-                    sessionStorage.setItem(o, JSON.stringify(t))
-                } catch (e) {}
-            }
+    @include('front_end.block.config_seo_header')
 
-            function p(e, t, n) {
-                e.clearRect(0, 0, e.canvas.width, e.canvas.height), e.fillText(t, 0, 0);
-                var t = new Uint32Array(e.getImageData(0, 0, e.canvas.width, e.canvas.height).data),
-                    r = (e.clearRect(0, 0, e.canvas.width, e.canvas.height), e.fillText(n, 0, 0), new Uint32Array(e
-                        .getImageData(0, 0, e.canvas.width, e.canvas.height).data));
-                return t.every(function(e, t) {
-                    return e === r[t]
-                })
-            }
+    <!-- #region -->
 
-            function u(e, t, n) {
-                switch (t) {
-                    case "flag":
-                        return n(e, "\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f", "\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f") ? !1 : !
-                            n(e, "\ud83c\uddfa\ud83c\uddf3", "\ud83c\uddfa\u200b\ud83c\uddf3") && !n(e,
-                                "\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f",
-                                "\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f"
-                            );
-                    case "emoji":
-                        return !n(e, "\ud83d\udc26\u200d\u2b1b", "\ud83d\udc26\u200b\u2b1b")
-                }
-                return !1
-            }
-
-            function f(e, t, n) {
-                var r = "undefined" != typeof WorkerGlobalScope && self instanceof WorkerGlobalScope ? new OffscreenCanvas(
-                        300, 150) : i.createElement("canvas"),
-                    a = r.getContext("2d", {
-                        willReadFrequently: !0
-                    }),
-                    o = (a.textBaseline = "top", a.font = "600 32px Arial", {});
-                return e.forEach(function(e) {
-                    o[e] = t(a, e, n)
-                }), o
-            }
-
-            function t(e) {
-                var t = i.createElement("script");
-                t.src = e, t.defer = !0, i.head.appendChild(t)
-            }
-            "undefined" != typeof Promise && (o = "wpEmojiSettingsSupports", s = ["flag", "emoji"], n.supports = {
-                everything: !0,
-                everythingExceptFlag: !0
-            }, e = new Promise(function(e) {
-                i.addEventListener("DOMContentLoaded", e, {
-                    once: !0
-                })
-            }), new Promise(function(t) {
-                var n = function() {
-                    try {
-                        var e = JSON.parse(sessionStorage.getItem(o));
-                        if ("object" == typeof e && "number" == typeof e.timestamp && (new Date).valueOf() <
-                            e.timestamp + 604800 && "object" == typeof e.supportTests) return e.supportTests
-                    } catch (e) {}
-                    return null
-                }();
-                if (!n) {
-                    if ("undefined" != typeof Worker && "undefined" != typeof OffscreenCanvas && "undefined" !=
-                        typeof URL && URL.createObjectURL && "undefined" != typeof Blob) try {
-                        var e = "postMessage(" + f.toString() + "(" + [JSON.stringify(s), u.toString(), p
-                                .toString()
-                            ].join(",") + "));",
-                            r = new Blob([e], {
-                                type: "text/javascript"
-                            }),
-                            a = new Worker(URL.createObjectURL(r), {
-                                name: "wpTestEmojiSupports"
-                            });
-                        return void(a.onmessage = function(e) {
-                            c(n = e.data), a.terminate(), t(n)
-                        })
-                    } catch (e) {}
-                    c(n = f(s, u, p))
-                }
-                t(n)
-            }).then(function(e) {
-                for (var t in e) n.supports[t] = e[t], n.supports.everything = n.supports.everything && n
-                    .supports[t], "flag" !== t && (n.supports.everythingExceptFlag = n.supports
-                        .everythingExceptFlag && n.supports[t]);
-                n.supports.everythingExceptFlag = n.supports.everythingExceptFlag && !n.supports.flag, n
-                    .DOMReady = !1, n.readyCallback = function() {
-                        n.DOMReady = !0
-                    }
-            }).then(function() {
-                return e
-            }).then(function() {
-                var e;
-                n.supports.everything || (n.readyCallback(), (e = n.source || {}).concatemoji ? t(e
-                    .concatemoji) : e.wpemoji && e.twemoji && (t(e.twemoji), t(e.wpemoji)))
-            }))
-        }((window, document), window._wpemojiSettings);
-        /* ]]> */
-    </script>
     <style id='wp-emoji-styles-inline-css' type='text/css'>
         img.wp-smiley,
         img.emoji {
@@ -562,8 +439,7 @@
     <link rel='stylesheet' id='lilacbeauty-pro-widget-css'
         href='/wp-content/plugins/lilac-beauty-pro/assets/css/widget8a54.css?ver=1.0.0' type='text/css'
         media='all' />
-    <link rel='stylesheet' id='sr7css-css' href='/wp-content/plugins/revslider/public/css/sr7e9af.css?ver=6.7.15'
-        type='text/css' media='all' />
+
     <link rel='stylesheet' id='woocommerce-layout-css'
         href='/wp-content/plugins/woocommerce/assets/css/woocommerce-layoutc2dd.css?ver=9.6.2' type='text/css'
         media='all' />
@@ -581,9 +457,7 @@
     <link rel='stylesheet' id='jquery-colorbox-css'
         href='/wp-content/plugins/yith-woocommerce-compare/assets/css/colorbox13ac.css?ver=1.4.21' type='text/css'
         media='all' />
-    <link rel='stylesheet' id='yith-quick-view-css'
-        href='/wp-content/plugins/yith-woocommerce-quick-view/assets/css/yith-quick-view3601.css?ver=2.2.0'
-        type='text/css' media='all' />
+
     <style id='yith-quick-view-inline-css' type='text/css'>
         #yith-quick-view-modal .yith-quick-view-overlay {
             background: rgba(0, 0, 0, 0.8)
@@ -772,516 +646,7 @@
     <link rel='stylesheet' id='lilacbeauty-woo-css'
         href='/wp-content/themes/lilac-beauty/modules/woocommerce/assets/css/defaultce14.css?ver=1.0.8'
         type='text/css' media='all' />
-    <style id='lilacbeauty-woo-cart-notification-inline-css' type='text/css'>
-        /*--------------------------------------------------------------*/
-        /* #region - Add-to-Cart Notification Widget */
-        /*--------------------------------------------------------------*/
 
-        .wdt-shop-cart-widget.cart-notification-widget,
-        .wdt-shop-cart-widget.cart-notification-widget .wdt-shop-cart-widget-inner,
-        .wdt-shop-cart-widget.cart-notification-widget .wdt-shop-cart-widget-content {
-            float: left;
-            width: 100%;
-        }
-
-        .wdt-shop-cart-widget.cart-notification-widget .wdt-shop-cart-widget-close-button {
-            font-size: 0;
-            height: 25px;
-            line-height: 0;
-            position: absolute;
-            right: 3px;
-            top: 3px;
-            text-align: center;
-            width: 25px;
-            -webkit-border-radius: 50%;
-            border-radius: 50%;
-        }
-
-        .wdt-shop-cart-widget.cart-notification-widget .wdt-shop-cart-widget-close-button:before {
-            content: "\2716";
-            display: block;
-            font-size: 14px;
-            font-weight: normal;
-            line-height: 25px;
-        }
-
-        .wdt-shop-cart-widget.cart-notification-widget {
-            max-width: 500px;
-            position: fixed;
-            bottom: 32px;
-            left: 18px;
-            width: auto;
-            z-index: 999;
-            -webkit-transition: var(--wdtBaseTransition);
-            transition: var(--wdtBaseTransition);
-        }
-
-        .wdt-shop-cart-widget.cart-notification-widget .wdt-shop-cart-widget-inner {
-            padding: 20px;
-        }
-
-        .wdt-shop-cart-widget.cart-notification-widget .wdt-shop-cart-widget-content>* {
-            display: table-cell;
-            vertical-align: middle;
-        }
-
-        .wdt-shop-cart-widget.cart-notification-widget .wdt-shop-cart-widget-content-thumb {
-            line-height: 0;
-            padding: 0 10px;
-            width: 120px;
-        }
-
-        .wdt-shop-cart-widget.cart-notification-widget .wdt-shop-cart-widget-content-info {
-            padding: 5px 10px;
-            text-align: left;
-        }
-
-        .wdt-shop-cart-widget.cart-notification-widget .wdt-shop-cart-widget-content-thumb a,
-        .wdt-shop-cart-widget.cart-notification-widget .wdt-shop-cart-widget-content-thumb a img {
-            display: block;
-            width: 100%;
-        }
-
-        .wdt-shop-cart-widget.cart-notification-widget .wdt-shop-cart-widget-content-info a {
-            display: block;
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        .wdt-shop-cart-widget.cart-notification-widget {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .wdt-shop-cart-widget.cart-notification-widget.wdt-shop-cart-widget-active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-
-        .wdt-shop-cart-widget.cart-notification-widget {
-            background-color: var(--wdtBodyBGColor);
-        }
-
-        .wdt-shop-cart-widget.cart-notification-widget .wdt-shop-cart-widget-close-button:before {
-            color: var(--wdtAccentTxtColor);
-        }
-
-        .wdt-shop-cart-widget.cart-notification-widget {
-            -webkit-box-shadow: 0 1px 3px 1px rgba(var(--wdtHeadAltColorRgb), 0.25);
-            box-shadow: 0 1px 3px 1px rgba(var(--wdtHeadAltColorRgb), 0.25);
-        }
-
-        /* #endregion - Add-to-Cart Notification Widget */
-
-
-
-        /*--------------------------------------------------------------*/
-        /* #region - Add-to-Cart Sidebar Widget */
-        /*--------------------------------------------------------------*/
-
-        .wdt-shop-cart-widget.activate-sidebar-widget {
-            height: 100%;
-            position: fixed;
-            right: 0;
-            top: 0;
-            width: 350px;
-            z-index: 999992;
-            -webkit-transform: translateX(100%);
-            transform: translateX(100%);
-            -webkit-transition: var(--wdtBaseTransition);
-            transition: var(--wdtBaseTransition);
-        }
-
-        .wdt-shop-cart-widget.activate-sidebar-widget:before {
-            content: "";
-        }
-
-        .wdt-shop-cart-widget.activate-sidebar-widget.wdt-shop-cart-widget-active {
-            -webkit-transform: translateX(0);
-            transform: translateX(0);
-        }
-
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-inner {
-            height: 100%;
-            padding: 45px 0 120px;
-            position: relative;
-        }
-
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-header {
-            border-width: 0 0 1px;
-            padding-left: 15px;
-            padding-right: 45px;
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-        }
-
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-header h3 {
-            font-size: 15px;
-            font-weight: bold;
-            line-height: 45px;
-            margin: 0;
-            text-transform: uppercase;
-        }
-
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-header h3 span,
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-header a {
-            height: 45px;
-            position: absolute;
-            top: 0;
-            text-align: center;
-            width: 45px;
-        }
-
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-header h3 span {
-            font-size: 18px;
-            right: 0;
-        }
-
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-header h3 a {
-            font-size: 0;
-            line-height: 0;
-            margin-right: 1px;
-            overflow: hidden;
-            right: 100%;
-            text-indent: -9999px;
-            -webkit-transform: translateX(100%);
-            transform: translateX(100%);
-        }
-
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-header h3 a:before {
-            content: "\2716";
-            display: block;
-            font-size: 15px;
-            font-weight: normal;
-            line-height: 45px;
-            text-indent: 0;
-        }
-
-        .wdt-shop-cart-widget[class*="sidebar"].activate-sidebar-widget:hover .wdt-shop-cart-widget-header h3 a {
-            -webkit-transform: translateX(0);
-            transform: translateX(0);
-        }
-
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-content {
-            float: left;
-            width: 100%;
-        }
-
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-inner,
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-content .product_list_widget,
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-content .product_list_widget li {
-            float: left;
-            width: 100%;
-        }
-
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-content .product_list_widget,
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-content .total {
-            padding: 0 15px;
-        }
-
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-content .product_list_widget li {
-            border-width: 1px 0;
-            display: inline;
-            margin: -1px 0 0 !important;
-            padding: 15px 25px 15px 50px;
-            position: relative;
-        }
-
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-content .product_list_widget li:first-child {
-            border-top-width: 0;
-        }
-
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-content .product_list_widget li:last-child {
-            border-bottom-width: 0;
-        }
-
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-content .product_list_widget li a:not(.remove) {
-            font-weight: 600;
-        }
-
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-content .product_list_widget li a img {
-            margin: auto;
-            position: absolute;
-            left: 0;
-            top: 16px;
-            width: 40px;
-        }
-
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-content .product_list_widget li a.remove {
-            font-size: 16px;
-            height: 20px;
-            line-height: 20px;
-            margin: auto;
-            position: absolute;
-            bottom: 0;
-            left: auto;
-            right: 0;
-            top: 0 !important;
-            text-align: center;
-            width: 20px;
-        }
-
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-content .product_list_widget li a.remove:not(:focus) {
-            text-decoration: none;
-        }
-
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-content .product_list_widget li:before {
-            content: none !important;
-        }
-
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-content .product_list_widget li .quantity {
-            display: table;
-            margin: 0;
-            font-size: 14px;
-        }
-
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-content .woocommerce-mini-cart-footer {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-        }
-
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-content .woocommerce-mini-cart-footer::before {
-            content: "";
-            height: 1px;
-            position: absolute;
-            left: 0;
-            right: 0;
-            top: 0;
-            width: auto;
-            z-index: -1;
-        }
-
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-content .woocommerce-mini-cart-footer p {
-            height: 50px;
-            line-height: 50px;
-            margin: 0;
-        }
-
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-content .woocommerce-mini-cart-footer p.total {
-            padding: 0 15px;
-        }
-
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-content .woocommerce-mini-cart-footer p.total strong {
-            float: left;
-        }
-
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-content .woocommerce-mini-cart-footer p.total .amount {
-            float: right;
-        }
-
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-content .woocommerce-mini-cart-footer p.buttons {
-            display: flex;
-            grid-gap: 1px;
-        }
-
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-content .woocommerce-mini-cart-footer p.buttons a {
-            height: 100%;
-            line-height: inherit;
-            margin: 0;
-            padding-top: 0;
-            padding-bottom: 0;
-            text-align: center;
-            width: 50%;
-            -webkit-border-radius: 0;
-            border-radius: 0;
-        }
-
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-content .woocommerce-mini-cart__empty-message {
-            margin: 0;
-            padding: 15px;
-        }
-
-        .wdt-shop-cart-widget-overlay {
-            background-color: rgba(var(--wdtHeadAltColorRgb), 0.7);
-            height: 100%;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 999991;
-            -webkit-transition: opacity .25s ease, visibility 0s ease .25s;
-            transition: opacity .25s ease, visibility 0s ease .25s;
-        }
-
-
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-header,
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-header a,
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-content .product_list_widget li {
-            border-style: solid;
-        }
-
-
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-header h3 a,
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-content .product_list_widget li a.remove,
-        .wdt-shop-cart-widget-overlay {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .wdt-shop-cart-widget[class*="sidebar"].activate-sidebar-widget:hover .wdt-shop-cart-widget-header h3 a,
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-content .product_list_widget li:hover a.remove,
-        .wdt-shop-cart-widget.activate-sidebar-widget.wdt-shop-cart-widget-active+.wdt-shop-cart-widget-overlay {
-            opacity: 1;
-            visibility: visible;
-        }
-
-
-        /* Default Color - Colors */
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-content .product_list_widget li a:not(.remove):not(:hover),
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-content .woocommerce-mini-cart-footer p.total .amount {
-            color: var(--wdtHeadAltColor);
-        }
-
-
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-header h3,
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-header h3 a,
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-header h3 a:hover {
-            color: var(--wdtAccentTxtColor);
-        }
-
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-content .product_list_widget li a.remove {
-            color: var(--wdtAccentTxtColor) !important;
-        }
-
-
-        /* Default Color - Borders */
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-content .woocommerce-mini-cart-footer::before {
-            -webkit-box-shadow: 0 2px 6px 0 rgba(var(--wdtHeadAltColorRgb), 0.5);
-            box-shadow: 0 2px 6px 0 rgba(var(--wdtHeadAltColorRgb), 0.5);
-        }
-
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-header,
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-header a,
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-content .product_list_widget li {
-            border-color: rgba(var(--wdtHeadAltColorRgb), 0.075);
-        }
-
-
-        /* Default Color - BG */
-        .wdt-shop-cart-widget.activate-sidebar-widget {
-            background-color: #f7f7f7;
-        }
-
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-content .woocommerce-mini-cart-footer {
-            background-color: var(--wdtBodyBGColor);
-        }
-
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-header,
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-content .woocommerce-mini-cart-footer p.buttons a.checkout,
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-content .product_list_widget li a.remove,
-
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-content .woocommerce-mini-cart-footer p.buttons a:not(.checkout),
-
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-header h3 a,
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-content .woocommerce-mini-cart-footer p.buttons a:hover,
-        .wdt-shop-cart-widget.cart-notification-widget .wdt-shop-cart-widget-close-button {
-            background-color: var(--wdtHeadAltColor);
-        }
-
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-header h3 span {
-            background-color: rgba(var(--wdtBodyBGColorRgb), 0.15);
-        }
-
-        .wdt-shop-cart-widget.cart-notification-widget .wdt-shop-cart-widget-close-button:hover,
-        .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-content .product_list_widget li a.remove:hover {
-            background-color: #9f2124;
-        }
-
-
-        /* #endregion - Add-to-Cart Sidebar Widget */
-
-
-        /*--------------------------------------------------------------*/
-        /* #region - Responsive */
-        /*--------------------------------------------------------------*/
-
-        /*----*****---- << Mobile (Landscape) >> ----*****----*/
-
-        /* Common Styles for the devices below 767px width */
-        @media only screen and (max-width: 767px) {
-
-            .wdt-shop-cart-widget.cart-notification-widget {
-                margin: auto;
-                bottom: 5px;
-                left: 0;
-                right: 0;
-            }
-
-        }
-
-
-        /* Note: Design for a width of 480px */
-        @media only screen and (min-width: 480px) and (max-width: 767px) {
-
-            .wdt-shop-cart-widget.cart-notification-widget {
-                max-width: 420px;
-            }
-
-        }
-
-        /* Common Styles for the devices below 479px width */
-        @media only screen and (max-width: 479px) {
-
-            .wdt-shop-cart-widget.cart-notification-widget .wdt-shop-cart-widget-content>* {
-                display: table;
-                margin: auto;
-                text-align: center !important;
-            }
-
-            .wdt-shop-cart-widget.cart-notification-widget .wdt-shop-cart-widget-content-info {
-                font-size: 11px;
-            }
-
-            .wdt-shop-cart-widget.cart-notification-widget .wdt-shop-cart-widget-content-info a {
-                font-size: 13px;
-            }
-
-
-            .wdt-shop-cart-widget[class*="sidebar"] .wdt-shop-cart-widget-header h3 a {
-                right: 0;
-                -webkit-border-radius: 50%;
-                border-radius: 50%;
-                -webkit-transform: scale(0);
-                transform: scale(0);
-            }
-
-            .wdt-shop-cart-widget[class*="sidebar"].activate-sidebar-widget:hover .wdt-shop-cart-widget-header h3 a {
-                -webkit-border-radius: 0;
-                border-radius: 0;
-                -webkit-transform: scale(1);
-                transform: scale(1);
-            }
-
-        }
-
-        /*----*****---- << Mobile >> ----*****----*/
-
-        /* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
-        @media only screen and (min-width: 320px) and (max-width: 479px) {
-
-            .wdt-shop-cart-widget.cart-notification-widget {
-                max-width: 290px;
-            }
-
-
-            .wdt-shop-cart-widget.activate-sidebar-widget {
-                max-width: 290px;
-            }
-
-            .wdt-shop-cart-widget.activate-sidebar-widget {
-                width: 290px;
-            }
-
-        }
-
-
-        /* #endregion - Responsive */
-    </style>
     <link rel='stylesheet' id='lilacbeauty-plus-blog-css'
         href='/wp-content/plugins/lilac-beauty-plus/modules/blog/assets/css/blog20b9.css?ver=1.0.2' type='text/css'
         media='all' />
@@ -1321,103 +686,15 @@
     </script>
     <script type="text/javascript" src="/wp-content/plugins/revslider/public/js/libs/tptoolse9af.js?ver=6.7.15" id="_tpt-js"
         async="async" data-wp-strategy="async"></script>
-    <script type="text/javascript" src="/wp-content/plugins/revslider/public/js/sr7e9af.js?ver=6.7.15" id="sr7-js"
-        async="async" data-wp-strategy="async"></script>
+
     <script type="text/javascript"
         src="/wp-content/plugins/woocommerce/assets/js/jquery-blockui/jquery.blockUI.min9e57.js?ver=2.7.0-wc.9.6.2"
         id="jquery-blockui-js" defer="defer" data-wp-strategy="defer"></script>
-    <script type="text/javascript" id="wc-add-to-cart-js-extra">
-        /* <![CDATA[ */
-        var wc_add_to_cart_params = {
-            "ajax_url": "\/wp-admin\/admin-ajax.php",
-            "wc_ajax_url": "\/?wc-ajax=%%endpoint%%",
-            "i18n_view_cart": "View cart",
-            "cart_url": "https:\/\/ishabeauty.com\/cart\/",
-            "is_cart": "",
-            "cart_redirect_after_add": "no"
-        };
-        /* ]]> */
-    </script>
-    <script type="text/javascript" src="/wp-content/plugins/woocommerce/assets/js/frontend/add-to-cart.minc2dd.js?ver=9.6.2"
-        id="wc-add-to-cart-js" defer="defer" data-wp-strategy="defer"></script>
-    <script type="text/javascript"
-        src="/wp-content/plugins/woocommerce/assets/js/js-cookie/js.cookie.minaef8.js?ver=2.1.4-wc.9.6.2" id="js-cookie-js"
-        defer="defer" data-wp-strategy="defer"></script>
-    <script type="text/javascript" id="woocommerce-js-extra">
-        /* <![CDATA[ */
-        var woocommerce_params = {
-            "ajax_url": "\/wp-admin\/admin-ajax.php",
-            "wc_ajax_url": "\/?wc-ajax=%%endpoint%%"
-        };
-        /* ]]> */
-    </script>
-    <script type="text/javascript" src="/wp-content/plugins/woocommerce/assets/js/frontend/woocommerce.minc2dd.js?ver=9.6.2"
-        id="woocommerce-js" defer="defer" data-wp-strategy="defer"></script>
-    <script type="text/javascript" id="WCPAY_ASSETS-js-extra">
-        /* <![CDATA[ */
-        var wcpayAssets = {
-            "url": "https:\/\/ishabeauty.com\//wp-content\/plugins\/woocommerce-payments\/dist\/"
-        };
-        /* ]]> */
-    </script>
-    <script type="text/javascript" id="wc-cart-fragments-js-extra">
-        /* <![CDATA[ */
-        var wc_cart_fragments_params = {
-            "ajax_url": "\/wp-admin\/admin-ajax.php",
-            "wc_ajax_url": "\/?wc-ajax=%%endpoint%%",
-            "cart_hash_key": "wc_cart_hash_0d7bd5d72e46c89cf39694516a10b736",
-            "fragment_name": "wc_fragments_0d7bd5d72e46c89cf39694516a10b736",
-            "request_timeout": "5000"
-        };
-        /* ]]> */
-    </script>
-    <script type="text/javascript"
-        src="/wp-content/plugins/woocommerce/assets/js/frontend/cart-fragments.minc2dd.js?ver=9.6.2"
-        id="wc-cart-fragments-js" defer="defer" data-wp-strategy="defer"></script>
+
+
     <script type="text/javascript"
         src="/wp-content/plugins/bdthemes-prime-slider-lite/assets/js/bdt-uikit.min4ecf.js?ver=3.21.7" id="bdt-uikit-js">
     </script>
-
-    <style>
-        .main-title-section-bg {
-            background-image: url('../teal-chough-660151.hostingersite.com//wp-content/uploads/2024/11/image-1846x508-1.png') !important;
-        }
-
-        .woocommerce-product-gallery {
-            opacity: 1 !important;
-        }
-
-        .recentcomments a {
-            display: inline !important;
-            padding: 0 !important;
-            margin: 0 !important;
-        }
-
-        .e-con.e-parent:nth-of-type(n+4):not(.e-lazyloaded):not(.e-no-lazyload),
-        .e-con.e-parent:nth-of-type(n+4):not(.e-lazyloaded):not(.e-no-lazyload) * {
-            background-image: none !important;
-        }
-
-        @media screen and (max-height: 1024px) {
-
-            .e-con.e-parent:nth-of-type(n+3):not(.e-lazyloaded):not(.e-no-lazyload),
-            .e-con.e-parent:nth-of-type(n+3):not(.e-lazyloaded):not(.e-no-lazyload) * {
-                background-image: none !important;
-            }
-        }
-
-        @media screen and (max-height: 640px) {
-
-            .e-con.e-parent:nth-of-type(n+2):not(.e-lazyloaded):not(.e-no-lazyload),
-            .e-con.e-parent:nth-of-type(n+2):not(.e-lazyloaded):not(.e-no-lazyload) * {
-                background-image: none !important;
-            }
-        }
-    </style>
-    <link rel="preconnect" href="https://fonts.googleapis.com/">
-    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
-    <meta name="generator"
-        content="Powered by Slider Revolution 6.7.15 - responsive, Mobile-Friendly Slider Plugin for WordPress with comfortable drag and drop interface." />
     <style class='wp-fonts-local' type='text/css'>
         @font-face {
             font-family: Inter;
@@ -1437,361 +714,7 @@
         }
     </style>
 
-    <script>
-        window._tpt ??= {};
-        window.SR7 ??= {};
-        _tpt.R ??= {};
-        _tpt.R.fonts ??= {};
-        _tpt.R.fonts.customFonts ??= {};
-        SR7.devMode = false;
-        SR7.F ??= {};
-        SR7.G ??= {};
-        SR7.LIB ??= {};
-        SR7.E ??= {};
-        SR7.E.gAddons ??= {};
-        SR7.E.php ??= {};
-        SR7.E.nonce = '82c162a2a7';
-        SR7.E.ajaxurl = 'wp-admin/admin-ajax.html';
-        SR7.E.resturl = 'wp-json/index.html';
-        SR7.E.slug_path = 'revslider/revslider.html';
-        SR7.E.slug = 'revslider';
-        SR7.E.plugin_url = '/wp-content/plugins/revslider/index.html';
-        SR7.E.wp_plugin_url = '/wp-content/plugins/index.html';
-        SR7.E.revision = '6.7.15';
-        SR7.E.fontBaseUrl = 'http://fonts.googleapis.com/css2?family=';
-        SR7.G.breakPoints = [1240, 1024, 778, 480];
-        SR7.E.modules = ['module', 'page', 'slide', 'layer', 'draw', 'animate', 'srtools', 'canvas', 'defaults', 'carousel',
-            'navigation', 'media', 'modifiers', 'migration'
-        ];
-        SR7.E.libs = ['WEBGL'];
-        SR7.E.css = ['csslp', 'cssbtns', 'cssfilters', 'cssnav', 'cssmedia'];
-        SR7.E.resources = {};
-        SR7.JSON ??= {};
-        /*! Slider Revolution 7.0 - Page Processor */
-        ! function() {
-            "use strict";
-            window.SR7 ??= {}, window._tpt ??= {}, SR7.version = "Slider Revolution 6.7.15", _tpt.getWinDim = function(t) {
-                _tpt.screenHeightWithUrlBar ??= window.innerHeight;
-                let e = SR7.F?.modal?.visible && SR7.M[SR7.F.module.getIdByAlias(SR7.F.modal.requested)];
-                _tpt.scrollBar = window.innerWidth !== document.documentElement.clientWidth || e && window
-                    .innerWidth !== e.c.module.clientWidth, _tpt.winW = window.innerWidth - (_tpt.scrollBar ||
-                        "prepare" == t ? _tpt.scrollBarW ?? _tpt.mesureScrollBar() : 0), _tpt.winH = window.innerHeight,
-                    _tpt.winWAll = document.documentElement.clientWidth
-            }, _tpt.getResponsiveLevel = function(t, e) {
-                SR7.M[e];
-                return _tpt.closestGE(t, _tpt.winWAll)
-            }, _tpt.mesureScrollBar = function() {
-                let t = document.createElement("div");
-                return t.className = "RSscrollbar-measure", t.style.width = "100px", t.style.height = "100px", t.style
-                    .overflow = "scroll", t.style.position = "absolute", t.style.top = "-9999px", document.body
-                    .appendChild(t), _tpt.scrollBarW = t.offsetWidth - t.clientWidth, document.body.removeChild(t), _tpt
-                    .scrollBarW
-            }, _tpt.loadCSS = async function(t, e, s) {
-                return s ? _tpt.R.fonts.required[e].status = 1 : (_tpt.R[e] ??= {}, _tpt.R[e].status = 1),
-                    new Promise(((n, i) => {
-                        if (_tpt.isStylesheetLoaded(t)) s ? _tpt.R.fonts.required[e].status = 2 : _tpt.R[e]
-                            .status = 2, n();
-                        else {
-                            const l = document.createElement("link");
-                            l.rel = "stylesheet";
-                            let o = "text",
-                                r = "css";
-                            l["type"] = o + "/" + r, l.href = t, l.onload = () => {
-                                s ? _tpt.R.fonts.required[e].status = 2 : _tpt.R[e].status = 2, n()
-                            }, l.onerror = () => {
-                                s ? _tpt.R.fonts.required[e].status = 3 : _tpt.R[e].status = 3, i(
-                                    new Error(`Failed to load CSS: ${t}`))
-                            }, document.head.appendChild(l)
-                        }
-                    }))
-            }, _tpt.addContainer = function(t) {
-                const {
-                    tag: e = "div",
-                    id: s,
-                    class: n,
-                    datas: i,
-                    textContent: l,
-                    iHTML: o
-                } = t, r = document.createElement(e);
-                if (s && "" !== s && (r.id = s), n && "" !== n && (r.className = n), i)
-                    for (const [t, e] of Object.entries(i)) "style" == t ? r.style.cssText = e : r.setAttribute(
-                        `data-${t}`, e);
-                return l && (r.textContent = l), o && (r.innerHTML = o), r
-            }, _tpt.collector = function() {
-                return {
-                    fragment: new DocumentFragment,
-                    add(t) {
-                        var e = _tpt.addContainer(t);
-                        return this.fragment.appendChild(e), e
-                    },
-                    append(t) {
-                        t.appendChild(this.fragment)
-                    }
-                }
-            }, _tpt.isStylesheetLoaded = function(t) {
-                let e = t.split("?")[0];
-                return Array.from(document.querySelectorAll('link[rel="stylesheet"], link[rel="preload"]')).some((
-                    t => t.href.split("?")[0] === e))
-            }, _tpt.preloader = {
-                requests: new Map,
-                preloaderTemplates: new Map,
-                show: function(t, e) {
-                    if (!e || !t) return;
-                    const {
-                        type: s,
-                        color: n
-                    } = e;
-                    if (s < 0 || "off" == s) return;
-                    const i = `preloader_${s}`;
-                    let l = this.preloaderTemplates.get(i);
-                    l || (l = this.build(s, n), this.preloaderTemplates.set(i, l)), this.requests.has(t) || this
-                        .requests.set(t, {
-                            count: 0
-                        });
-                    const o = this.requests.get(t);
-                    clearTimeout(o.timer), o.count++, 1 === o.count && (o.timer = setTimeout((() => {
-                        o.preloaderClone = l.cloneNode(!0), o.anim && o.anim.kill(), void 0 !==
-                            _tpt.gsap ? o.anim = _tpt.gsap.fromTo(o.preloaderClone, 1, {
-                                opacity: 0
-                            }, {
-                                opacity: 1
-                            }) : o.preloaderClone.classList.add("sr7-fade-in"), t.appendChild(o
-                                .preloaderClone)
-                    }), 150))
-                },
-                hide: function(t) {
-                    if (!this.requests.has(t)) return;
-                    const e = this.requests.get(t);
-                    e.count--, e.count < 0 && (e.count = 0), e.anim && e.anim.kill(), 0 === e.count && (
-                        clearTimeout(e.timer), e.preloaderClone && (e.preloaderClone.classList.remove(
-                            "sr7-fade-in"), e.anim = _tpt.gsap.to(e.preloaderClone, .3, {
-                            opacity: 0,
-                            onComplete: function() {
-                                e.preloaderClone.remove()
-                            }
-                        })))
-                },
-                state: function(t) {
-                    if (!this.requests.has(t)) return !1;
-                    return this.requests.get(t).count > 0
-                },
-                build: (t, e = "#ffffff", s = "") => {
-                    if (t < 0 || "off" === t) return null;
-                    const n = parseInt(t);
-                    if (t = "prlt" + n, isNaN(n)) return null;
-                    if (_tpt.loadCSS(SR7.E.plugin_url + "public/css/preloaders/t" + n + ".css", "preloader_" +
-                            t), isNaN(n) || n < 6) {
-                        const i = `background-color:${e}`,
-                            l = 1 === n || 2 == n ? i : "",
-                            o = 3 === n || 4 == n ? i : "",
-                            r = _tpt.collector();
-                        ["dot1", "dot2", "bounce1", "bounce2", "bounce3"].forEach((t => r.add({
-                            tag: "div",
-                            class: t,
-                            datas: {
-                                style: o
-                            }
-                        })));
-                        const d = _tpt.addContainer({
-                            tag: "sr7-prl",
-                            class: `${t} ${s}`,
-                            datas: {
-                                style: l
-                            }
-                        });
-                        return r.append(d), d
-                    } {
-                        let i = {};
-                        if (7 === n) {
-                            let t;
-                            e.startsWith("#") ? (t = e.replace("#", ""), t =
-                                `rgba(${parseInt(t.substring(0,2),16)}, ${parseInt(t.substring(2,4),16)}, ${parseInt(t.substring(4,6),16)}, `
-                            ) : e.startsWith("rgb") && (t = e.slice(e.indexOf("(") + 1, e.lastIndexOf(
-                                    ")")).split(",").map((t => t.trim())), t =
-                                `rgba(${t[0]}, ${t[1]}, ${t[2]}, `), t && (i.style =
-                                `border-top-color: ${t}0.65); border-bottom-color: ${t}0.15); border-left-color: ${t}0.65); border-right-color: ${t}0.15)`
-                            )
-                        } else 12 === n && (i.style = `background:${e}`);
-                        const l = [10, 0, 4, 2, 5, 9, 0, 4, 4, 2][n - 6],
-                            o = _tpt.collector(),
-                            r = o.add({
-                                tag: "div",
-                                class: "sr7-prl-inner",
-                                datas: i
-                            });
-                        Array.from({
-                            length: l
-                        }).forEach((() => r.appendChild(o.add({
-                            tag: "span",
-                            datas: {
-                                style: `background:${e}`
-                            }
-                        }))));
-                        const d = _tpt.addContainer({
-                            tag: "sr7-prl",
-                            class: `${t} ${s}`
-                        });
-                        return o.append(d), d
-                    }
-                }
-            }, SR7.preLoader = {
-                show: (t, e) => {
-                    "off" !== (SR7.M[t]?.settings?.pLoader?.type ?? "off") && _tpt.preloader.show(e || SR7.M[t]
-                        .c.module, SR7.M[t]?.settings?.pLoader ?? {
-                            color: "#fff",
-                            type: 10
-                        })
-                },
-                hide: (t, e) => {
-                    "off" !== (SR7.M[t]?.settings?.pLoader?.type ?? "off") && _tpt.preloader.hide(e || SR7.M[t]
-                        .c.module)
-                },
-                state: (t, e) => _tpt.preloader.state(e || SR7.M[t].c.module)
-            }, _tpt.prepareModuleHeight = function(t) {
-                window.SR7.M ??= {}, window.SR7.M[t.id] ??= {}, "ignore" == t.googleFont && (SR7.E
-                    .ignoreGoogleFont = !0);
-                let e = window.SR7.M[t.id];
-                if (null == _tpt.scrollBarW && _tpt.mesureScrollBar(), e.c ??= {}, e.states ??= {}, e.settings ??=
-                    {}, e.settings.size ??= {}, t.fixed && (e.settings.fixed = !0), e.c.module = document
-                    .getElementById(t.id), e.c.adjuster = e.c.module.getElementsByTagName("sr7-adjuster")[0], e.c
-                    .content = e.c.module.getElementsByTagName("sr7-content")[0], "carousel" == t.type && (e.c
-                        .carousel = e.c.content.getElementsByTagName("sr7-carousel")[0]), null == e.c.module ||
-                    null == e.c.module) return;
-                t.plType && t.plColor && (e.settings.pLoader = {
-                        type: t.plType,
-                        color: t.plColor
-                    }), void 0 !== t.plType && "off" !== t.plType && SR7.preLoader.show(t.id, e.c.module), _tpt
-                    .winW || _tpt.getWinDim("prepare"), _tpt.getWinDim();
-                let s = "" + e.c.module.dataset?.modal;
-                "modal" == s || "true" == s || "undefined" !== s && "false" !== s || (e.settings.size.fullWidth = t
-                    .size.fullWidth, e.LEV ??= _tpt.getResponsiveLevel(window.SR7.G.breakPoints, t.id), t.vpt =
-                    _tpt.fillArray(t.vpt, 5), e.settings.vPort = t.vpt[e.LEV], void 0 !== t.el && "720" == t.el[
-                        4] && t.gh[4] !== t.el[4] && "960" == t.el[3] && t.gh[3] !== t.el[3] && "768" == t.el[
-                        2] && t.gh[2] !== t.el[2] && delete t.el, e.settings.size.height = null == t.el ||
-                    null == t
-                    .el[e.LEV] || 0 == t.el[e.LEV] || "auto" == t.el[e.LEV] ? _tpt.fillArray(t.gh, 5, -1) : _tpt
-                    .fillArray(t.el, 5, -1), e.settings.size.width = _tpt.fillArray(t.gw, 5, -1), e.settings
-                    .size.minHeight = _tpt.fillArray(t.mh ?? [0], 5, -1), e.cacheSize = {
-                        fullWidth: e.settings.size?.fullWidth,
-                        fullHeight: e.settings.size?.fullHeight
-                    }, void 0 !== t.off && (t.off?.t && (e.settings.size.m ??= {}) && (e.settings.size.m.t = t
-                            .off.t), t.off?.b && (e.settings.size.m ??= {}) && (e.settings.size.m.b = t.off.b),
-                        t.off?.l && (e.settings.size.p ??= {}) && (e.settings.size.p.l = t.off.l), t.off?.r && (
-                            e.settings.size.p ??= {}) && (e.settings.size.p.r = t.off.r)), _tpt.updatePMHeight(t
-                        .id, t, !0))
-            }, _tpt.updatePMHeight = (t, e, s) => {
-                let n = SR7.M[t];
-                var i = n.settings.size.fullWidth ? _tpt.winW : n.c.module.parentNode.offsetWidth;
-                i = 0 === i || isNaN(i) ? _tpt.winW : i;
-                let l = n.settings.size.width[n.LEV] || n.settings.size.width[n.LEV++] || n.settings.size.width[n
-                        .LEV--] || i,
-                    o = n.settings.size.height[n.LEV] || n.settings.size.height[n.LEV++] || n.settings.size.height[n
-                        .LEV--] || 0,
-                    r = n.settings.size.minHeight[n.LEV] || n.settings.size.minHeight[n.LEV++] || n.settings.size
-                    .minHeight[n.LEV--] || 0;
-                if (o = "auto" == o ? 0 : o, o = parseInt(o), "carousel" !== e.type && (i -= parseInt(e.onw ?? 0) ||
-                        0), n.MP = !n.settings.size.fullWidth && i < l || _tpt.winW < l ? Math.min(1, i / l) : 1, e
-                    .size.fullScreen || e.size.fullHeight) {
-                    let t = parseInt(e.fho) || 0,
-                        s = ("" + e.fho).indexOf("%") > -1;
-                    e.newh = _tpt.winH - (s ? _tpt.winH * t / 100 : t)
-                } else e.newh = n.MP * Math.max(o, r);
-                if (e.newh += (parseInt(e.onh ?? 0) || 0) + (parseInt(e.carousel?.pt) || 0) + (parseInt(e.carousel
-                        ?.pb) || 0), void 0 !== e.slideduration && (e.newh = Math.max(e.newh, parseInt(e
-                        .slideduration) / 3)), e.shdw && _tpt.buildShadow(e.id, e), n.c.adjuster.style.height = e
-                    .newh + "px", n.c.module.style.height = e.newh + "px", n.c.content.style.height = e.newh + "px",
-                    n.states.heightPrepared = !0, n.dims ??= {}, n.dims.moduleRect = n.c.module
-                    .getBoundingClientRect(), n.c.content.style.left = "-" + n.dims.moduleRect.left + "px", !n
-                    .settings.size.fullWidth) return s && requestAnimationFrame((() => {
-                    i !== n.c.module.parentNode.offsetWidth && _tpt.updatePMHeight(e.id, e)
-                })), void _tpt.bgStyle(e.id, e, window.innerWidth == _tpt.winW, !0);
-                _tpt.bgStyle(e.id, e, window.innerWidth == _tpt.winW, !0), requestAnimationFrame((function() {
-                    s && requestAnimationFrame((() => {
-                        i !== n.c.module.parentNode.offsetWidth && _tpt.updatePMHeight(e.id,
-                            e)
-                    }))
-                })), n.earlyResizerFunction || (n.earlyResizerFunction = function() {
-                    requestAnimationFrame((function() {
-                        _tpt.getWinDim(), _tpt.moduleDefaults(e.id, e), _tpt.updateSlideBg(t, !
-                            0)
-                    }))
-                }, window.addEventListener("resize", n.earlyResizerFunction))
-            }, _tpt.buildShadow = function(t, e) {
-                let s = SR7.M[t];
-                null == s.c.shadow && (s.c.shadow = document.createElement("sr7-module-shadow"), s.c.shadow
-                    .classList.add("sr7-shdw-" + e.shdw), s.c.content.appendChild(s.c.shadow))
-            }, _tpt.bgStyle = async (t, e, s, n, i) => {
-                const l = SR7.M[t];
-                if ((e = e ?? l.settings).fixed && !l.c.module.classList.contains("sr7-top-fixed") && (l.c
-                        .module.classList.add("sr7-top-fixed"), l.c.module.style.position = "fixed", l.c.module
-                        .style.width = "100%", l.c.module.style.top = "0px", l.c.module.style.left = "0px", l.c
-                        .module.style.pointerEvents = "none", l.c.module.style.zIndex = 5e3, l.c.content.style
-                        .pointerEvents = "none"), null == l.c.bgcanvas) {
-                    let t = document.createElement("sr7-module-bg"),
-                        o = !1;
-                    if ("string" == typeof e?.bg?.color && e?.bg?.color.includes("{"))
-                        if (_tpt.gradient && _tpt.gsap) e.bg.color = _tpt.gradient.convert(e.bg.color);
-                        else try {
-                            let t = JSON.parse(e.bg.color);
-                            (t?.orig || t?.string) && (e.bg.color = JSON.parse(e.bg.color))
-                        } catch (t) {
-                            return
-                        }
-                    let r = "string" == typeof e?.bg?.color ? e?.bg?.color || "transparent" : e?.bg?.color
-                        ?.string ?? e?.bg?.color?.orig ?? e?.bg?.color?.color ?? "transparent";
-                    if (t.style["background" + (String(r).includes("grad") ? "" : "Color")] = r, (
-                            "transparent" !== r || i) && (o = !0), e?.bg?.image?.src && (t.style
-                            .backgroundImage = `url(%24%7be1d2c.html?.bg?.image.src})`, t.style.backgroundSize =
-                            "" == (e.bg.image?.size ?? "") ? "cover" : e.bg.image.size, t.style
-                            .backgroundPosition = e.bg.image.position, t.style.backgroundRepeat = "" == e.bg
-                            .image.repeat || null == e.bg.image.repeat ? "no-repeat" : e.bg.image.repeat, o = !0
-                        ), !o) return;
-                    l.c.bgcanvas = t, e.size.fullWidth ? t.style.width = _tpt.winW - (s && _tpt.winH < document
-                            .body.offsetHeight ? _tpt.scrollBarW : 0) + "px" : n && (t.style.width = l.c.module
-                            .offsetWidth + "px"), e.sbt?.use ? l.c.content.appendChild(l.c.bgcanvas) : l.c
-                        .module.appendChild(l.c.bgcanvas)
-                }
-                l.c.bgcanvas.style.height = void 0 !== e.newh ? e.newh + "px" : ("carousel" == e.type ? l.dims
-                        .module.h : l.dims.content.h) + "px", l.c.bgcanvas.style.left = !s && e.sbt?.use || l.c
-                    .bgcanvas.closest("SR7-CONTENT") ? "0px" : "-" + (l?.dims?.moduleRect?.left ?? 0) + "px"
-            }, _tpt.updateSlideBg = function(t, e) {
-                const s = SR7.M[t];
-                let n = s.settings;
-                s?.c?.bgcanvas && (n.size.fullWidth ? s.c.bgcanvas.style.width = _tpt.winW - (e && _tpt.winH <
-                    document.body.offsetHeight ? _tpt.scrollBarW : 0) + "px" : preparing && (s.c
-                    .bgcanvas.style.width = s.c.module.offsetWidth + "px"))
-            }, _tpt.moduleDefaults = (t, e) => {
-                let s = SR7.M[t];
-                null != s && null != s.c && null != s.c.module && (s.dims ??= {}, s.dims.moduleRect = s.c.module
-                    .getBoundingClientRect(), s.c.content.style.left = "-" + s.dims.moduleRect.left + "px",
-                    s.c.content.style.width = _tpt.winW - _tpt.scrollBarW + "px", "carousel" == e.type && (s
-                        .c.module.style.overflow = "visible"), _tpt.bgStyle(t, e, window.innerWidth == _tpt
-                        .winW))
-            }, _tpt.getOffset = t => {
-                var e = t.getBoundingClientRect(),
-                    s = window.pageXOffset || document.documentElement.scrollLeft,
-                    n = window.pageYOffset || document.documentElement.scrollTop;
-                return {
-                    top: e.top + n,
-                    left: e.left + s
-                }
-            }, _tpt.fillArray = function(t, e) {
-                let s, n;
-                t = Array.isArray(t) ? t : [t];
-                let i = Array(e),
-                    l = t.length;
-                for (n = 0; n < t.length; n++) i[n + (e - l)] = t[n], null == s && "#" !== t[n] && (s = t[n]);
-                for (let t = 0; t < e; t++) void 0 !== i[t] && "#" != i[t] || (i[t] = s), s = i[t];
-                return i
-            }, _tpt.closestGE = function(t, e) {
-                let s = Number.MAX_VALUE,
-                    n = -1;
-                for (let i = 0; i < t.length; i++) t[i] - 1 >= e && t[i] - 1 - e < s && (s = t[i] - 1 - e, n =
-                    i);
-                return ++n
-            }
-        }();
-    </script>
+
     <style type="text/css" id="wp-custom-css">
         .product-thumb-overlay {
             width: 300px;
@@ -1813,13 +736,6 @@
 
 <body
     class="home page-template page-template-elementor_header_footer page page-id-2632 wp-custom-logo theme-lilac-beauty has-go-to-top lilacbeauty-plus-1.0.2 lilacbeauty-pro-1.0.0 woocommerce-no-js elementor-default elementor-template-full-width elementor-kit-11 elementor-page elementor-page-2632">
-    <div class="pre-loader custom_loader">
-        <div class="loader-inner">
-            <img class="pre_loader_image" alt="Isha Beauty"
-                src="/wp-content/uploads/2023/06/lilac-Gif-Animation.gif" />
-        </div>
-    </div>
-    <a class="skip-link screen-reader-text" href="#main">Skip to content</a>
 
     <!-- **Wrapper** -->
     <div class="wrapper">
@@ -1847,208 +763,8 @@
 
     </div><!-- **Wrapper - End** -->
 
-    <ul class="suggested-product-list">
-        <li class="suggested-product-data">
-            <div class="suggested-product-image"><a href="product/swedish-massage/index.html"><img
-                        src="/wp-content/uploads/2025/01/pexels-myatezhny39-5221037-scaled-e1737755330959.jpg"
-                        alt="Suggest Product Thumbnail"></a></div>
-            <div class="suggested-product-content"><span>Someone purchased a </span><a
-                    href="product/swedish-massage/index.html">Swedish Massage</a>
-                <p class="suggested-product-time"> Minutes ago from </p>
-            </div><a href="javascript:void(0)" onclick="event.preventDefault()" title="Close" class="wdt_close"><i
-                    class="fa fa-window-close" aria-hidden="true"></i></a>
-        </li>
-        <li class="suggested-product-data">
-            <div class="suggested-product-image"><a href="product/relaxing-massage/index.html"><img
-                        src="/wp-content/uploads/2025/01/pexels-cottonbro-3997993-scaled-e1737755423474.jpg"
-                        alt="Suggest Product Thumbnail"></a></div>
-            <div class="suggested-product-content"><span>Someone purchased a </span><a
-                    href="product/relaxing-massage/index.html">Relaxing Massage</a>
-                <p class="suggested-product-time"> Minutes ago from </p>
-            </div><a href="javascript:void(0)" onclick="event.preventDefault()" title="Close" class="wdt_close"><i
-                    class="fa fa-window-close" aria-hidden="true"></i></a>
-        </li>
-        <li class="suggested-product-data">
-            <div class="suggested-product-image"><a href="product/lash-lift-brow-lamination/index.html"><img
-                        src="/wp-content/uploads/2025/01/pexels-fatih-berat-orer-328307310-15048318-scaled-e1737753532241.jpg"
-                        alt="Suggest Product Thumbnail"></a></div>
-            <div class="suggested-product-content"><span>Someone purchased a </span><a
-                    href="product/lash-lift-brow-lamination/index.html">Lash Lift &#038; Brow Lamination</a>
-                <p class="suggested-product-time"> Minutes ago from </p>
-            </div><a href="javascript:void(0)" onclick="event.preventDefault()" title="Close" class="wdt_close"><i
-                    class="fa fa-window-close" aria-hidden="true"></i></a>
-        </li>
-        <li class="suggested-product-data">
-            <div class="suggested-product-image"><a href="product/bridal-hair-up/index.html"><img
-                        src="/wp-content/uploads/2025/01/pexels-joymarino-3031795-scaled-e1737743997869.jpg"
-                        alt="Suggest Product Thumbnail"></a></div>
-            <div class="suggested-product-content"><span>Someone purchased a </span><a
-                    href="product/bridal-hair-up/index.html">Bridal Hair Up</a>
-                <p class="suggested-product-time"> Minutes ago from </p>
-            </div><a href="javascript:void(0)" onclick="event.preventDefault()" title="Close" class="wdt_close"><i
-                    class="fa fa-window-close" aria-hidden="true"></i></a>
-        </li>
-        <li class="suggested-product-data">
-            <div class="suggested-product-image"><a href="product/evening-make-up/index.html"><img
-                        src="/wp-content/uploads/2025/01/pexels-cottonbro-6473740-scaled-e1737743686818.jpg"
-                        alt="Suggest Product Thumbnail"></a></div>
-            <div class="suggested-product-content"><span>Someone purchased a </span><a
-                    href="product/evening-make-up/index.html">Evening Make Up</a>
-                <p class="suggested-product-time"> Minutes ago from </p>
-            </div><a href="javascript:void(0)" onclick="event.preventDefault()" title="Close" class="wdt_close"><i
-                    class="fa fa-window-close" aria-hidden="true"></i></a>
-        </li>
-        <li class="suggested-product-data">
-            <div class="suggested-product-image"><a href="product/day-make-up/index.html"><img
-                        src="/wp-content/uploads/2025/01/pexels-cottonbro-6648488-scaled-e1737743076148.jpg"
-                        alt="Suggest Product Thumbnail"></a></div>
-            <div class="suggested-product-content"><span>Someone purchased a </span><a
-                    href="product/day-make-up/index.html">Day Make Up</a>
-                <p class="suggested-product-time"> Minutes ago from </p>
-            </div><a href="javascript:void(0)" onclick="event.preventDefault()" title="Close" class="wdt_close"><i
-                    class="fa fa-window-close" aria-hidden="true"></i></a>
-        </li>
-        <li class="suggested-product-data">
-            <div class="suggested-product-image"><a href="product/bb-glow-facial/index.html"><img
-                        src="/wp-content/uploads/2025/01/pexels-cottonbro-4612159-1-scaled-e1737742752607.jpg"
-                        alt="Suggest Product Thumbnail"></a></div>
-            <div class="suggested-product-content"><span>Someone purchased a </span><a
-                    href="product/bb-glow-facial/index.html">BB Glow Facial</a>
-                <p class="suggested-product-time"> Minutes ago from </p>
-            </div><a href="javascript:void(0)" onclick="event.preventDefault()" title="Close" class="wdt_close"><i
-                    class="fa fa-window-close" aria-hidden="true"></i></a>
-        </li>
-        <li class="suggested-product-data">
-            <div class="suggested-product-image"><a href="product/back-facial-with-massage/index.html"><img
-                        src="/wp-content/uploads/2025/01/pexels-cottonbro-3997993-scaled-e1737755423474.jpg"
-                        alt="Suggest Product Thumbnail"></a></div>
-            <div class="suggested-product-content"><span>Someone purchased a </span><a
-                    href="product/back-facial-with-massage/index.html">Back Facial With Massage</a>
-                <p class="suggested-product-time"> Minutes ago from </p>
-            </div><a href="javascript:void(0)" onclick="event.preventDefault()" title="Close" class="wdt_close"><i
-                    class="fa fa-window-close" aria-hidden="true"></i></a>
-        </li>
-        <li class="suggested-product-data">
-            <div class="suggested-product-image"><a
-                    href="product/hydrating-facial-with-shoulder-massage/index.html"><img
-                        src="/wp-content/uploads/2025/01/pexels-arina-krasnikova-6663575-scaled-e1737741810180.jpg"
-                        alt="Suggest Product Thumbnail"></a></div>
-            <div class="suggested-product-content"><span>Someone purchased a </span><a
-                    href="product/hydrating-facial-with-shoulder-massage/index.html">Hydrating Facial With Shoulder
-                    Massage</a>
-                <p class="suggested-product-time"> Minutes ago from </p>
-            </div><a href="javascript:void(0)" onclick="event.preventDefault()" title="Close" class="wdt_close"><i
-                    class="fa fa-window-close" aria-hidden="true"></i></a>
-        </li>
-        <li class="suggested-product-data">
-            <div class="suggested-product-image"><a href="product/bridal-makeup-2-hour/index.html"><img
-                        src="/wp-content/uploads/2025/01/Bridal-Getting-Ready-Gallery-78-min-scaled-1.jpg"
-                        alt="Suggest Product Thumbnail"></a></div>
-            <div class="suggested-product-content"><span>Someone purchased a </span><a
-                    href="product/bridal-makeup-2-hour/index.html">Bridal Makeup (2 Hour)</a>
-                <p class="suggested-product-time"> Minutes ago from </p>
-            </div><a href="javascript:void(0)" onclick="event.preventDefault()" title="Close" class="wdt_close"><i
-                    class="fa fa-window-close" aria-hidden="true"></i></a>
-        </li>
-    </ul>
-    <div id="yith-quick-view-modal" class="yith-quick-view yith-modal">
-        <div class="yith-quick-view-overlay"></div>
-        <div id=""class="yith-wcqv-wrapper">
-            <div class="yith-wcqv-main">
-                <div class="yith-wcqv-head">
-                    <a href="#" class="yith-quick-view-close">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                            stroke-width="1.5" stroke="currentColor" class="size-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-                        </svg>
-                    </a>
-                </div>
-                <div id="yith-quick-view-content" class="yith-quick-view-content woocommerce single-product"></div>
-            </div>
-        </div>
-    </div>
-    <script>
-        const lazyloadRunObserver = () => {
-            const lazyloadBackgrounds = document.querySelectorAll(`.e-con.e-parent:not(.e-lazyloaded)`);
-            const lazyloadBackgroundObserver = new IntersectionObserver((entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        let lazyloadBackground = entry.target;
-                        if (lazyloadBackground) {
-                            lazyloadBackground.classList.add('e-lazyloaded');
-                        }
-                        lazyloadBackgroundObserver.unobserve(entry.target);
-                    }
-                });
-            }, {
-                rootMargin: '200px 0px 200px 0px'
-            });
-            lazyloadBackgrounds.forEach((lazyloadBackground) => {
-                lazyloadBackgroundObserver.observe(lazyloadBackground);
-            });
-        };
-        const events = [
-            'DOMContentLoaded',
-            'elementor/lazyload/observe',
-        ];
-        events.forEach((event) => {
-            document.addEventListener(event, lazyloadRunObserver);
-        });
-    </script>
-    <script>
-        SR7.E.php.warnings = {
-            "getArrSliders": "get_sliders",
-            "getAlias": "get_alias",
-            "getTitle": "get_title"
-        };
-    </script>
-    <script type='text/javascript'>
-        (function() {
-            var c = document.body.className;
-            c = c.replace(/woocommerce-no-js/, 'woocommerce-js');
-            document.body.className = c;
-        })();
-    </script>
 
-    <div class="pswp" tabindex="-1" role="dialog" aria-modal="true" aria-hidden="true">
-        <div class="pswp__bg"></div>
-        <div class="pswp__scroll-wrap">
-            <div class="pswp__container">
-                <div class="pswp__item"></div>
-                <div class="pswp__item"></div>
-                <div class="pswp__item"></div>
-            </div>
-            <div class="pswp__ui pswp__ui--hidden">
-                <div class="pswp__top-bar">
-                    <div class="pswp__counter"></div>
-                    <button class="pswp__button pswp__button--zoom" aria-label="Zoom in/out"></button>
-                    <button class="pswp__button pswp__button--fs" aria-label="Toggle fullscreen"></button>
-                    <button class="pswp__button pswp__button--share" aria-label="Share"></button>
-                    <button class="pswp__button pswp__button--close" aria-label="Close (Esc)"></button>
-                    <div class="pswp__preloader">
-                        <div class="pswp__preloader__icn">
-                            <div class="pswp__preloader__cut">
-                                <div class="pswp__preloader__donut"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                    <div class="pswp__share-tooltip"></div>
-                </div>
-                <button class="pswp__button pswp__button--arrow--left" aria-label="Previous (arrow left)"></button>
-                <button class="pswp__button pswp__button--arrow--right" aria-label="Next (arrow right)"></button>
-                <div class="pswp__caption">
-                    <div class="pswp__caption__center"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script type="text/template" id="tmpl-variation-template"> 
-</script>
-    <script type="text/template" id="tmpl-unavailable-variation-template">
-	<p role="alert">Sorry, this product is unavailable. Please choose a different combination.</p>
-</script>
+
     <link rel='stylesheet' id='wc-ppcp-blocks-styles-css'
         href='/wp-content/plugins/pymntpl-paypal-woocommerce/packages/blocks/build/stylesfe23.css?ver=1.0.55'
         type='text/css' media='all' />
@@ -2103,45 +819,7 @@
     <script type="text/javascript" id="jquery-yith-wcwl-js-extra">
         /* <![CDATA[ */
         var yith_wcwl_l10n = {
-            "ajax_url": "\/wp-admin\/admin-ajax.php",
-            "redirect_to_cart": "no",
-            "yith_wcwl_button_position": "after_add_to_cart",
-            "multi_wishlist": "",
-            "hide_add_button": "1",
-            "enable_ajax_loading": "1",
-            "ajax_loader_url": "https:\/\/ishabeauty.com\//wp-content\/plugins\/yith-woocommerce-wishlist\/assets\/images\/ajax-loader-alt.svg",
-            "remove_from_wishlist_after_add_to_cart": "1",
-            "is_wishlist_responsive": "1",
-            "time_to_close_prettyphoto": "3000",
-            "fragments_index_glue": ".",
-            "reload_on_found_variation": "1",
-            "mobile_media_query": "768",
-            "labels": {
-                "cookie_disabled": "We are sorry, but this feature is available only if cookies on your browser are enabled.",
-                "added_to_cart_message": "<div class=\"woocommerce-notices-wrapper\"><div class=\"woocommerce-message\" role=\"alert\">Product added to cart successfully<\/div><\/div>"
-            },
-            "actions": {
-                "add_to_wishlist_action": "add_to_wishlist",
-                "remove_from_wishlist_action": "remove_from_wishlist",
-                "reload_wishlist_and_adding_elem_action": "reload_wishlist_and_adding_elem",
-                "load_mobile_action": "load_mobile",
-                "delete_item_action": "delete_item",
-                "save_title_action": "save_title",
-                "save_privacy_action": "save_privacy",
-                "load_fragments": "load_fragments"
-            },
-            "nonce": {
-                "add_to_wishlist_nonce": "313bf722a0",
-                "remove_from_wishlist_nonce": "78a3763070",
-                "reload_wishlist_and_adding_elem_nonce": "6e0067658b",
-                "load_mobile_nonce": "1ce466b946",
-                "delete_item_nonce": "b120d739f2",
-                "save_title_nonce": "173115e985",
-                "save_privacy_nonce": "77af5d0de4",
-                "load_fragments_nonce": "fabebfc9cc"
-            },
-            "redirect_after_ask_estimate": "",
-            "ask_estimate_redirect_url": "https:\/\/ishabeauty.com"
+
         };
         /* ]]> */
     </script>
@@ -2152,295 +830,28 @@
     </script>
     <script type="text/javascript" src="wp-includes/js/dist/i18n.minc33c.js?ver=5e580eb46a90c2b997e6" id="wp-i18n-js">
     </script>
-    <script type="text/javascript" id="wp-i18n-js-after">
-        /* <![CDATA[ */
-        wp.i18n.setLocaleData({
-            'text direction\u0004ltr': ['ltr']
-        });
-        /* ]]> */
-    </script>
-    <script type="text/javascript" src="/wp-content/plugins/contact-form-7/includes/swv/js/index1eb7.js?ver=6.0.3"
-        id="swv-js"></script>
-    <script type="text/javascript" id="contact-form-7-js-before">
-        /* <![CDATA[ */
-        var wpcf7 = {
-            "api": {
-                "root": "https:\/\/ishabeauty.com\/wp-json\/",
-                "namespace": "contact-form-7\/v1"
-            },
-            "cached": 1
-        };
-        /* ]]> */
-    </script>
-    <script type="text/javascript" src="/wp-content/plugins/contact-form-7/includes/js/index1eb7.js?ver=6.0.3"
-        id="contact-form-7-js"></script>
-    <script type="text/javascript" id="yith-woocompare-main-js-extra">
-        /* <![CDATA[ */
-        var yith_woocompare = {
-            "ajaxurl": "\/?wc-ajax=%%endpoint%%",
-            "actionadd": "yith-woocompare-add-product",
-            "actionremove": "yith-woocompare-remove-product",
-            "actionview": "yith-woocompare-view-table",
-            "actionreload": "yith-woocompare-reload-product",
-            "add_nonce": "aa852c3692",
-            "remove_nonce": "8b15459f7b",
-            "reload_nonce": "39166e7575",
-            "added_label": "Added",
-            "table_title": "Product Comparison",
-            "auto_open": "yes",
-            "loader": "https:\/\/ishabeauty.com\//wp-content\/plugins\/yith-woocommerce-compare\/assets\/images\/loader.gif",
-            "button_text": "Compare",
-            "cookie_name": "yith_woocompare_list",
-            "close_label": "Close"
-        };
-        /* ]]> */
-    </script>
+
+
     <script type="text/javascript"
         src="/wp-content/plugins/yith-woocommerce-compare/assets/js/woocompare.min3d99.js?ver=2.47.0"
         id="yith-woocompare-main-js"></script>
     <script type="text/javascript"
         src="/wp-content/plugins/yith-woocommerce-compare/assets/js/jquery.colorbox-min13ac.js?ver=1.4.21"
         id="jquery-colorbox-js"></script>
-    <script type="text/javascript" id="yith-wcqv-frontend-js-extra">
-        /* <![CDATA[ */
-        var yith_qv = {
-            "ajaxurl": "\/wp-admin\/admin-ajax.php",
-            "loader": "https:\/\/ishabeauty.com\//wp-content\/plugins\/yith-woocommerce-quick-view\/assets\/image\/qv-loader.gif",
-            "lang": "",
-            "is_mobile": ""
-        };
-        /* ]]> */
-    </script>
-    <script type="text/javascript"
-        src="/wp-content/plugins/yith-woocommerce-quick-view/assets/js/frontend.min3601.js?ver=2.2.0"
-        id="yith-wcqv-frontend-js"></script>
-    <script type="text/javascript"
-        src="/wp-content/plugins/woocommerce/assets/js/sourcebuster/sourcebuster.minc2dd.js?ver=9.6.2"
-        id="sourcebuster-js-js"></script>
-    <script type="text/javascript" id="wc-order-attribution-js-extra">
-        /* <![CDATA[ */
-        var wc_order_attribution = {
-            "params": {
-                "lifetime": 1.0e-5,
-                "session": 30,
-                "base64": false,
-                "ajaxurl": "https:\/\/ishabeauty.com\/wp-admin\/admin-ajax.php",
-                "prefix": "wc_order_attribution_",
-                "allowTracking": true
-            },
-            "fields": {
-                "source_type": "current.typ",
-                "referrer": "current_add.rf",
-                "utm_campaign": "current.cmp",
-                "utm_source": "current.src",
-                "utm_medium": "current.mdm",
-                "utm_content": "current.cnt",
-                "utm_id": "current.id",
-                "utm_term": "current.trm",
-                "utm_source_platform": "current.plt",
-                "utm_creative_format": "current.fmt",
-                "utm_marketing_tactic": "current.tct",
-                "session_entry": "current_add.ep",
-                "session_start_time": "current_add.fd",
-                "session_pages": "session.pgs",
-                "session_count": "udata.vst",
-                "user_agent": "udata.uag"
-            }
-        };
-        /* ]]> */
-    </script>
-    <script type="text/javascript"
-        src="/wp-content/plugins/woocommerce/assets/js/frontend/order-attribution.minc2dd.js?ver=9.6.2"
-        id="wc-order-attribution-js"></script>
+
+
 
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-    <script type="text/javascript" id="post-infinite-js-extra">
-        /* <![CDATA[ */
-        var lilacbeauty_urls = {
-            "ajaxurl": "https:\/\/ishabeauty.com\/wp-admin\/admin-ajax.php"
-        };
-        /* ]]> */
-    </script>
-    <script type="text/javascript"
-        src="/wp-content/plugins/lilac-beauty-plus/modules/blog/assets/js/post-infinite20b9.js?ver=1.0.2"
-        id="post-infinite-js"></script>
-    <script type="text/javascript" id="post-loadmore-js-extra">
-        /* <![CDATA[ */
-        var lilacbeauty_urls = {
-            "ajaxurl": "https:\/\/ishabeauty.com\/wp-admin\/admin-ajax.php"
-        };
-        /* ]]> */
-    </script>
-    <script type="text/javascript"
-        src="/wp-content/plugins/lilac-beauty-plus/modules/blog/assets/js/post-loadmore20b9.js?ver=1.0.2"
-        id="post-loadmore-js"></script>
-    <script type="text/javascript"
-        src="/wp-content/plugins/lilac-beauty-plus/modules/menu/assets/js/mega-menu20b9.js?ver=1.0.2"
-        id="dtplugin-mega-menu-js"></script>
-    <script type="text/javascript"
-        src="/wp-content/plugins/lilac-beauty-pro/modules/post/assets/js/comment-form8a54.js?ver=1.0.0"
-        id="comment-form-js"></script>
-    <script type="text/javascript"
-        src="/wp-content/themes/lilac-beauty/modules/blog/assets/js/isotope.pkgdd1c0.js?ver=6.7.2" id="isotope-pkgd-js">
-    </script>
-    <script type="text/javascript" src="/wp-content/themes/lilac-beauty/modules/blog/assets/js/matchHeightd1c0.js?ver=6.7.2"
-        id="matchheight-js"></script>
-    <script type="text/javascript"
-        src="/wp-content/themes/lilac-beauty/modules/blog/assets/js/jquery.bxsliderd1c0.js?ver=6.7.2"
-        id="jquery-bxslider-js"></script>
-    <script type="text/javascript"
-        src="/wp-content/themes/lilac-beauty/modules/blog/assets/js/jquery.fitvidsd1c0.js?ver=6.7.2" id="jquery-fitvids-js">
-    </script>
-    <script type="text/javascript"
-        src="/wp-content/themes/lilac-beauty/modules/blog/assets/js/jquery.debouncedresized1c0.js?ver=6.7.2"
-        id="jquery-debouncedresize-js"></script>
-    <script type="text/javascript"
-        src="/wp-content/themes/lilac-beauty/modules/post/assets/js/jquery.magnific-popupd1c0.js?ver=6.7.2"
-        id="jquery-magnific-popup-js"></script>
-    <script type="text/javascript" src="/wp-content/themes/lilac-beauty/assets/js/customd1c0.js?ver=6.7.2"
-        id="lilacbeauty-jqcustom-js"></script>
-    <script type="text/javascript" id="sp-scripts-js-extra">
-        /* <![CDATA[ */
-        var dtspObjects = {
-            "enable_suggested_products": "1"
-        };
-        /* ]]> */
-    </script>
-    <script type="text/javascript"
-        src="/wp-content/plugins/lilac-beauty-pro/modules/woocommerce/others/suggested-products/assets/js/scriptsd1c0.js?ver=6.7.2"
-        id="sp-scripts-js"></script>
-    <script type="text/javascript" id="sp-cookies-js-extra">
-        /* <![CDATA[ */
-        var dtspObjects = {
-            "enable_suggested_products": "1"
-        };
-        /* ]]> */
-    </script>
+
     <script type="text/javascript"
         src="/wp-content/plugins/lilac-beauty-pro/modules/woocommerce/others/suggested-products/assets/js/jquery.cookie.mind1c0.js?ver=6.7.2"
         id="sp-cookies-js"></script>
     <script type="text/javascript"
         src="/wp-content/plugins/lilac-beauty-pro/modules/woocommerce/single/modules/custom-template/elementor/assets/js/jquery.nicescrolld1c0.js?ver=6.7.2"
         id="jquery-nicescroll-js"></script>
-    <script type="text/javascript" id="lilacbeauty-woo-cart-notification-js-after">
-        /* <![CDATA[ */
-        jQuery.noConflict();
 
-        jQuery(document).ready(function($) {
-            "use strict";
-
-            // After adding product to cart
-            $('body').on('added_to_cart', function(e) {
-
-                if ($('.wdt-shop-cart-widget').hasClass('activate-sidebar-widget')) {
-
-                    $('.wdt-shop-cart-widget').addClass('wdt-shop-cart-widget-active');
-                    $('.wdt-shop-cart-widget-overlay').addClass('wdt-shop-cart-widget-active');
-
-                    // Nice scroll script
-
-                    var winHeight = $(window).height();
-                    var headerHeight = $('.wdt-shop-cart-widget-header').height();
-                    var footerHeight = $('.woocommerce-mini-cart-footer').height();
-
-                    var height = parseInt((winHeight - headerHeight - footerHeight), 10);
-
-                    $('.wdt-shop-cart-widget-content').height(height).niceScroll({
-                        cursorcolor: "#000",
-                        cursorwidth: "5px",
-                        background: "rgba(20,20,20,0.3)",
-                        cursorborder: "none"
-                    });
-
-                }
-
-                if ($('.wdt-shop-cart-widget').hasClass('cart-notification-widget')) {
-
-                    $('.wdt-shop-cart-widget').addClass('wdt-shop-cart-widget-active');
-                    $('.wdt-shop-cart-widget-overlay').addClass('wdt-shop-cart-widget-active');
-                    setTimeout(function() {
-                        $('.wdt-shop-cart-widget').removeClass('wdt-shop-cart-widget-active');
-                        $('.wdt-shop-cart-widget-overlay').removeClass(
-                            'wdt-shop-cart-widget-active');
-                    }, 2400);
-
-                }
-
-                e.preventDefault();
-            });
-
-            $('body').on('click', '.wdt-shop-cart-widget-close-button, .wdt-shop-cart-widget-overlay', function(e) {
-                $('.wdt-shop-cart-widget').removeClass('wdt-shop-cart-widget-active');
-                $('.wdt-shop-cart-widget-overlay').removeClass('wdt-shop-cart-widget-active');
-                e.preventDefault();
-            });
-
-        });
-        /* ]]> */
-    </script>
-    <script type="text/javascript" id="lilacbeauty-woo-quantity-plus-minus-js-after">
-        /* <![CDATA[ */
-        jQuery.noConflict();
-
-        jQuery(document).ready(function($) {
-            "use strict";
-
-            // Quatity plus & minus button
-
-            jQuery('body').delegate('.quantity .plus, .quantity .minus', 'click', function(e) {
-
-                var $qty = $(this).closest('.quantity').find('.qty'),
-                    currentVal = parseFloat($qty.val()),
-                    max = parseFloat($qty.attr('max')),
-                    min = parseFloat($qty.attr('min')),
-                    step = $qty.attr('step');
-
-                if (!currentVal || currentVal === '' || currentVal === 'NaN') currentVal = 0;
-                if (max === '' || max === 'NaN') max = '';
-                if (min === '' || min === 'NaN') min = 0;
-                if (step === 'any' || step === '' || step === undefined || parseFloat(step) === 'NaN')
-                    step = '1';
-
-                if ($(this).is('.plus')) {
-                    if (max && (currentVal >= max)) {
-                        $qty.val(max);
-                    } else {
-                        $qty.val(currentVal + parseFloat(step));
-                    }
-                } else {
-                    if (min && (currentVal <= min)) {
-                        $qty.val(min);
-                    } else if (currentVal > 0) {
-                        $qty.val(currentVal - parseFloat(step));
-                    }
-                }
-
-                $qty.trigger('change');
-
-                e.preventDefault();
-
-            });
-
-
-        });
-        /* ]]> */
-    </script>
-    <script type="text/javascript"
-        src="/wp-content/plugins/lilac-beauty-plus/modules/site-loader/assets/js/site-loader20b9.js?ver=1.0.2"
-        id="site-loader-js"></script>
-    <script type="text/javascript"
-        src="/wp-content/plugins/lilac-beauty-plus/modules/site-to-top/assets/js/go-to-top20b9.js?ver=1.0.2"
-        id="go-to-top-js"></script>
-    <script type="text/javascript"
-        src="/wp-content/plugins/bdthemes-prime-slider-lite/assets/js/prime-slider-site.min8864.js?ver=3.17.3"
-        id="prime-slider-site-js"></script>
-    <script type="text/javascript"
-        src="/wp-content/plugins/lilac-beauty-plus/modules/menu/elementor/widgets/assets/js/header-icons20b9.js?ver=1.0.2"
-        id="wdt-header-icons-js"></script>
-    <script type="text/javascript" src="/js/loader.js" id="trustindex-loader-js-js" async="async" data-wp-strategy="async">
-    </script>
     <script type="text/javascript" src="wp-includes/js/underscore.min3ab8.js?ver=1.13.7" id="underscore-js"></script>
     <script type="text/javascript" id="wp-util-js-extra">
         /* <![CDATA[ */
@@ -2452,20 +863,8 @@
         /* ]]> */
     </script>
     <script type="text/javascript" src="wp-includes/js/wp-util.mind1c0.js?ver=6.7.2" id="wp-util-js"></script>
-    <script type="text/javascript" id="wc-add-to-cart-variation-js-extra">
-        /* <![CDATA[ */
-        var wc_add_to_cart_variation_params = {
-            "wc_ajax_url": "\/?wc-ajax=%%endpoint%%",
-            "i18n_no_matching_variations_text": "Sorry, no products matched your selection. Please choose a different combination.",
-            "i18n_make_a_selection_text": "Please select some product options before adding this product to your cart.",
-            "i18n_unavailable_text": "Sorry, this product is unavailable. Please choose a different combination.",
-            "i18n_reset_alert_text": "Your selection has been reset. Please select some product options before adding this product to your cart."
-        };
-        /* ]]> */
-    </script>
-    <script type="text/javascript"
-        src="/wp-content/plugins/woocommerce/assets/js/frontend/add-to-cart-variation.minc2dd.js?ver=9.6.2"
-        id="wc-add-to-cart-variation-js" defer="defer" data-wp-strategy="defer"></script>
+
+
     <script type="text/javascript"
         src="/wp-content/plugins/woocommerce/assets/js/photoswipe/photoswipe.min258b.js?ver=4.1.1-wc.9.6.2"
         id="photoswipe-js" defer="defer" data-wp-strategy="defer"></script>
@@ -2506,113 +905,12 @@
     <script type="text/javascript"
         src="/wp-content/plugins/woocommerce/assets/js/frontend/single-product.minc2dd.js?ver=9.6.2"
         id="wc-single-product-js" defer="defer" data-wp-strategy="defer"></script>
-    <script type="text/javascript"
-        src="/wp-content/plugins/elementor-pro/assets/js/webpack-pro.runtime.min44b4.js?ver=3.24.3"
-        id="elementor-pro-webpack-runtime-js"></script>
+
     <script type="text/javascript" src="/wp-content/plugins/elementor/assets/js/webpack.runtime.min3830.js?ver=3.27.4"
         id="elementor-webpack-runtime-js"></script>
     <script type="text/javascript" src="/wp-content/plugins/elementor/assets/js/frontend-modules.min3830.js?ver=3.27.4"
         id="elementor-frontend-modules-js"></script>
-    <script type="text/javascript" id="elementor-pro-frontend-js-before">
-        /* <![CDATA[ */
-        var ElementorProFrontendConfig = {
-            "ajaxurl": "https:\/\/ishabeauty.com\/wp-admin\/admin-ajax.php",
-            "nonce": "860ca7822e",
-            "urls": {
-                "assets": "https:\/\/ishabeauty.com\//wp-content\/plugins\/elementor-pro\/assets\/",
-                "rest": "https:\/\/ishabeauty.com\/wp-json\/"
-            },
-            "settings": {
-                "lazy_load_background_images": true
-            },
-            "shareButtonsNetworks": {
-                "facebook": {
-                    "title": "Facebook",
-                    "has_counter": true
-                },
-                "twitter": {
-                    "title": "Twitter"
-                },
-                "linkedin": {
-                    "title": "LinkedIn",
-                    "has_counter": true
-                },
-                "pinterest": {
-                    "title": "Pinterest",
-                    "has_counter": true
-                },
-                "reddit": {
-                    "title": "Reddit",
-                    "has_counter": true
-                },
-                "vk": {
-                    "title": "VK",
-                    "has_counter": true
-                },
-                "odnoklassniki": {
-                    "title": "OK",
-                    "has_counter": true
-                },
-                "tumblr": {
-                    "title": "Tumblr"
-                },
-                "digg": {
-                    "title": "Digg"
-                },
-                "skype": {
-                    "title": "Skype"
-                },
-                "stumbleupon": {
-                    "title": "StumbleUpon",
-                    "has_counter": true
-                },
-                "mix": {
-                    "title": "Mix"
-                },
-                "telegram": {
-                    "title": "Telegram"
-                },
-                "pocket": {
-                    "title": "Pocket",
-                    "has_counter": true
-                },
-                "xing": {
-                    "title": "XING",
-                    "has_counter": true
-                },
-                "whatsapp": {
-                    "title": "WhatsApp"
-                },
-                "email": {
-                    "title": "Email"
-                },
-                "print": {
-                    "title": "Print"
-                },
-                "x-twitter": {
-                    "title": "X"
-                },
-                "threads": {
-                    "title": "Threads"
-                }
-            },
-            "woocommerce": {
-                "menu_cart": {
-                    "cart_page_url": "https:\/\/ishabeauty.com\/cart\/",
-                    "checkout_page_url": "https:\/\/ishabeauty.com\/checkout\/",
-                    "fragments_nonce": "a29d00febb"
-                }
-            },
-            "facebook_sdk": {
-                "lang": "en_US",
-                "app_id": ""
-            },
-            "lottie": {
-                "defaultAnimationUrl": "https:\/\/ishabeauty.com\//wp-content\/plugins\/elementor-pro\/modules\/lottie\/assets\/animations\/default.json"
-            }
-        };
-        /* ]]> */
-    </script>
+
     <script type="text/javascript" src="/wp-content/plugins/elementor-pro/assets/js/frontend.min44b4.js?ver=3.24.3"
         id="elementor-pro-frontend-js"></script>
     <script type="text/javascript" src="wp-includes/js/jquery/ui/core.minb37e.js?ver=1.13.3" id="jquery-ui-core-js">
@@ -2721,9 +1019,7 @@
                 "mega-menu": true
             },
             "urls": {
-                "assets": "https:\/\/ishabeauty.com\//wp-content\/plugins\/elementor\/assets\/",
-                "ajaxurl": "https:\/\/ishabeauty.com\/wp-admin\/admin-ajax.php",
-                "uploadUrl": "https:\/\/ishabeauty.com\//wp-content\/uploads"
+                "assets": "/wp-content\/plugins\/elementor\/assets\/",
             },
             "nonces": {
                 "floatingButtonsClickTracking": "78ff9cb260"
@@ -2763,9 +1059,113 @@
         <span id="back-to-top-hover"></span>
         <span class="back-to-top-icon"><i class="wdticon-angle-up"></i></span>
     </a>
-</body>
 
-<!-- Mirrored from ishabeauty.com/ by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 15 Feb 2025 01:27:10 GMT -->
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <style>
+        span.ti-stars {
+            display: flex;
+            margin-bottom: 5px;
+            margin-top: 5px;
+        }
+
+        .ti-review-header {
+            display: flex;
+            align-content: center;
+            justify-content: flex-start;
+        }
+        img.ti-star{
+            width: 12px;
+            margin-right: 2px;
+        }
+        .ti-profile-details {
+            padding-left: 10px;
+        }
+
+        .ti-widget.ti-goog .ti-widget-container .ti-name {
+            font-weight: bold;
+            font-size: 14px;
+            overflow: hidden;
+            padding-right: 25px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            color: #000000;
+            margin-bottom: 2px;
+        }
+
+        .ti-widget.ti-goog .ti-review-item>.ti-inner {
+            border-style: solid !important;
+            border-color: #f4f4f4 !important;
+            background: #f4f4f4 !important;
+            border-radius: 4px !important;
+            padding: 20px !important;
+            margin: 10px !important;
+            display: block;
+            position: relative;
+        }
+    </style>
+    <script>
+        jQuery(document).ready(function() {
+            // Khởi tạo Slick Slider
+            jQuery('.sliders').slick({
+                slidesToShow: 5,
+                slidesToScroll: 1,
+                dots: false,
+                autoplay: true,
+                autoplaySpeed: 2000, // Chuyển ảnh sau mỗi 2 giây
+                arrows: true,
+                infinite: true,
+                responsive: [{
+                        breakpoint: 800, // Khi màn hình nhỏ hơn hoặc bằng 1000px
+                        settings: {
+                            slidesToShow: 4, // Hiển thị 5 ảnh
+                        },
+                    },
+                    {
+                        breakpoint: 600, // Khi màn hình nhỏ hơn hoặc bằng 600px
+                        settings: {
+                            slidesToShow: 2, // Hiển thị 4 ảnh
+                        },
+                    },
+                    {
+                        breakpoint: 400, // Khi màn hình nhỏ hơn hoặc bằng 400px
+                        settings: {
+                            slidesToShow: 1, // Hiển thị 3 ảnh
+                        },
+                    },
+                ],
+            });
+            jQuery('.sliders-brands').slick({
+                slidesToShow: 6,
+                slidesToScroll: 2,
+                dots: false,
+                autoplay: true,
+                autoplaySpeed: 2000, // Chuyển ảnh sau mỗi 2 giây
+                arrows: true,
+                infinite: true,
+                responsive: [{
+                        breakpoint: 800, // Khi màn hình nhỏ hơn hoặc bằng 1000px
+                        settings: {
+                            slidesToShow: 4, // Hiển thị 5 ảnh
+                        },
+                    },
+                    {
+                        breakpoint: 600, // Khi màn hình nhỏ hơn hoặc bằng 600px
+                        settings: {
+                            slidesToShow: 2, // Hiển thị 4 ảnh
+                        },
+                    },
+                    {
+                        breakpoint: 400, // Khi màn hình nhỏ hơn hoặc bằng 400px
+                        settings: {
+                            slidesToShow: 1, // Hiển thị 3 ảnh
+                        },
+                    },
+                ],
+            });
+        });
+    </script>
+</body>
 
 </html>
 
