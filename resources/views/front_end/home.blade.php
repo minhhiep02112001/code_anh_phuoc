@@ -50,7 +50,7 @@
                                                      <div class="elementor-widget-container">
                                                          <div class="elementor-button-wrapper">
                                                              <a class="elementor-button elementor-button-link elementor-size-sm"
-                                                                 href="http://ishanailsandbeautyshorditch.booksy.com/f/">
+                                                                 href="{{ url('/') }}">
                                                                  <span class="elementor-button-content-wrapper">
                                                                      <span class="elementor-button-text">Book
                                                                          Appointment</span>
@@ -70,7 +70,7 @@
                                                      <div class="elementor-widget-container">
                                                          <div class="elementor-button-wrapper">
                                                              <a class="elementor-button elementor-button-link elementor-size-sm"
-                                                                 href="contact-us/index.html">
+                                                                 href="{{ url('/') }}">
                                                                  <span class="elementor-button-content-wrapper">
                                                                      <span class="elementor-button-text"> Visit
                                                                          our salon </span>
@@ -235,7 +235,7 @@
                                              <div class="elementor-widget-container">
                                                  <div class="elementor-button-wrapper">
                                                      <a class="elementor-button elementor-button-link elementor-size-sm"
-                                                         href="#">
+                                                         href="{{ url('/') }}">
                                                          <span class="elementor-button-content-wrapper">
                                                              <span class="elementor-button-text">Explore Our
                                                                  Services</span>
@@ -301,10 +301,8 @@
                                              <div class="elementor-widget-container">
                                                  <img fetchpriority="high" fetchpriority="high" decoding="async"
                                                      width="1019" height="709"
-                                                     src="/wp-content/uploads/2024/11/grid-bg-Stroke-1_black_transparent.png"
-                                                     class="attachment-full size-full wp-image-2696" alt=""
-                                                     srcset="https://ishabeauty.com//wp-content/uploads/2024/11/grid-bg-Stroke-1_black_transparent.png 1019w, https://ishabeauty.com//wp-content/uploads/2024/11/grid-bg-Stroke-1_black_transparent-300x209.png 300w, https://ishabeauty.com//wp-content/uploads/2024/11/grid-bg-Stroke-1_black_transparent-768x534.png 768w, https://ishabeauty.com//wp-content/uploads/2024/11/grid-bg-Stroke-1_black_transparent-220x154.png 220w, https://ishabeauty.com//wp-content/uploads/2024/11/grid-bg-Stroke-1_black_transparent-1000x696.png 1000w"
-                                                     sizes="(max-width: 1019px) 100vw, 1019px" />
+                                                     src="{{ asset('images/grid-bg-Stroke-1_black_transparent.png') }}"
+                                                     class="attachment-full size-full wp-image-2696" alt=""  sizes="(max-width: 1019px) 100vw, 1019px" />
                                              </div>
                                          </div>
                                          <div class="elementor-element elementor-element-010b115 wdt-custom-banner-border animated-fast elementor-invisible elementor-widget elementor-widget-spacer"
@@ -373,7 +371,7 @@
                                              <div class="elementor-widget-container">
                                                  <div class="elementor-button-wrapper">
                                                      <a class="elementor-button elementor-button-link elementor-size-sm"
-                                                         href="#">
+                                                         href="{{ url('/') }}">
                                                          <span class="elementor-button-content-wrapper">
                                                              <span class="elementor-button-text">Visit Our Salon</span>
                                                          </span>
@@ -488,26 +486,27 @@
                                                                              {!! getThumbnail($item, 50, 50, 'attachment-large size-large wp-image-2835') !!}
                                                                          </div>
                                                                          <div class="ti-profile-details">
-                                                                             <div class="ti-name"> {{ $item->fullname }}
+                                                                             <div class="ti-name">{{ $item->fullname }}
                                                                              </div>
-                                                                             <div class="ti-date">17 October 2024</div>
+                                                                             <div class="ti-date">{{ format_date($item->created_at, 'd-m-Y') }}</div>
                                                                          </div>
                                                                      </div> <span class="ti-stars">
+                                                                         
                                                                          <img class="ti-star"
-                                                                             src="https://cdn.trustindex.io/assets/platform/Google/star/f.svg"
+                                                                             src="{{ asset('images/f.svg') }}"
                                                                              alt="Google" width="17" height="17"
                                                                              loading="lazy">
                                                                          <img class="ti-star"
-                                                                             src="https://cdn.trustindex.io/assets/platform/Google/star/f.svg"
+                                                                             src="{{ asset('images/f.svg') }}"
                                                                              alt="Google" width="17" height="17"
                                                                              loading="lazy"><img class="ti-star"
-                                                                             src="https://cdn.trustindex.io/assets/platform/Google/star/f.svg"
+                                                                             src="{{ asset('images/f.svg') }}"
                                                                              alt="Google" width="17" height="17"
                                                                              loading="lazy"><img class="ti-star"
-                                                                             src="https://cdn.trustindex.io/assets/platform/Google/star/f.svg"
+                                                                             src="{{ asset('images/f.svg') }}"
                                                                              alt="Google" width="17" height="17"
                                                                              loading="lazy"><img class="ti-star"
-                                                                             src="https://cdn.trustindex.io/assets/platform/Google/star/f.svg"
+                                                                             src="{{ asset('images/f.svg') }}"
                                                                              alt="Google" width="17" height="17"
                                                                              loading="lazy"></span>
                                                                      <div class="ti-review-text-container ti-review-content"
@@ -519,11 +518,7 @@
                                                                  </div>
                                                              </div>
                                                          @endforeach
-
-
-
                                                      </div>
-
                                                  </div>
                                              </div>
                                          </div>

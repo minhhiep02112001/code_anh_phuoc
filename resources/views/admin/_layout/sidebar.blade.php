@@ -21,7 +21,7 @@
                             class="fas fa-table"></i><span>Quản lý
                             banner</span></a>
                 </li>
-                <li class="{{ \Request::route()->getName() == 'admin.category.index' ? 'active' : '' }}">
+                {{-- <li class="{{ \Request::route()->getName() == 'admin.category.index' ? 'active' : '' }}">
                     <a href="{{ route('admin.category.index') }}" title="Quản lý danh mục"> <i
                             class="fas fa-table"></i><span>Quản lý danh
                             mục</span></a>
@@ -36,7 +36,7 @@
                     <a href="{{ route('admin.product.index') }}" title="Quản lý brand"> <i
                             class="fas fa-table"></i><span>Quản lý
                             sản phẩm</span></a>
-                </li>
+                </li> --}}
 
                 <li class="{{ \Request::route()->getName() == 'admin.comment.index' ? 'active' : '' }}">
                     <a href="{{ route('admin.comment.index') }}" title="Quản lý Comment"> <i
