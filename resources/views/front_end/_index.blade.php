@@ -21,7 +21,7 @@
     </script>
 
     @include('front_end.block.config_seo_header')
-
+    <link href="{{ asset('plugins/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" media="all">
     <!-- #region -->
 
     <style id='wp-emoji-styles-inline-css' type='text/css'>
@@ -1074,10 +1074,12 @@
             align-content: center;
             justify-content: flex-start;
         }
-        img.ti-star{
+
+        img.ti-star {
             width: 12px;
             margin-right: 2px;
         }
+
         .ti-profile-details {
             padding-left: 10px;
         }
@@ -1165,6 +1167,89 @@
             });
         });
     </script>
+    <style>
+        /* Thiết lập vị trí, kích thước & màu sắc của nút */
+        .slick-prev,
+        .slick-next {
+            background-color: rgba(0, 0, 0, 0.5);
+            /* Màu nền */
+            color: white;
+            /* Màu icon */
+            border-radius: 50%!important;
+            /* Bo tròn */
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
+            /* Đảm bảo nút hiển thị trên cùng */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .slick-prev,
+        .slick-next {
+            font-size: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            /* Ẩn chữ nhưng vẫn hiển thị icon */
+        }
+
+        /* Nút Previous (Trái) */
+        .slick-prev {
+            left: -10px;
+            /* Điều chỉnh vị trí */
+        }
+
+        /* Nút Next (Phải) */
+        .slick-next {
+            right: -10px;
+        }
+
+        /* Thêm icon FontAwesome 4 vào nút */
+        .slick-prev::before {
+            content: "\f104";
+            font-family: "FontAwesome";
+            font-size: 20px;
+            position: absolute;
+            top: 6px;
+            left: 14px;
+        }
+
+        .slick-next::before {
+            content: "\f105";
+            /* Icon FontAwesome (fa-chevron-right) */
+            font-family: "FontAwesome";
+            font-size: 20px;
+            position: absolute;
+            top: 6px;
+            left: 18px;
+        }
+
+        /* Hiệu ứng khi hover */
+        .slick-prev:hover,
+        .slick-next:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+
+        @media (max-width: 768px) {
+
+            .slick-prev,
+            .slick-next {
+                width: 30px;
+                height: 30px;
+            }
+
+            .slick-prev::before,
+            .slick-next::before {
+                font-size: 16px;
+            }
+        }
+    </style>
 </body>
 
 </html>
