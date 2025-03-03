@@ -109,6 +109,12 @@ class PostController extends Controller
         if (!empty($input['config_social'])) {
             $input['config_social'] = json_encode($input['config_social']);
         }
+        if (!empty($input['is_status']) && $input['is_status'] == 1) $input['publish_at'] = date('Y-m-d H:i:s');
+        if (!empty($input['is_status']) && $input['is_status'] == 1) {
+            $arr_theme = ['theme', 'theme_2'];
+            $index = array_rand($arr_theme);
+            $input['theme'] = $arr_theme[$index];
+        }
         try {
             DB::beginTransaction();
             $story = $this->_repository->create($input);
@@ -198,10 +204,15 @@ class PostController extends Controller
 
         if ($request->has('is_status')) {
             $input['is_status'] = $request->get('is_status') ?? $story->is_status;
-            if (!empty($story->publish_at) && $story->publish_at == 1) $input['publish_at'] = date('Y-m-d H:i:s');
+            if (empty($story->publish_at) && $input['is_status'] == 1) $input['publish_at'] = date('Y-m-d H:i:s');
+            if (empty($story->theme) && $input['is_status'] == 1) {
+                $arr_theme = ['theme', 'theme_2'];
+                $index = array_rand($arr_theme);
+                $input['theme'] = $arr_theme[$index];
+            }
         }
         if ($request->has('is_robot')) $input['is_robot'] = $request->get('is_robot') ?? $story->is_robot;
- 
+
         $input['config_social'] = $input['config_social'] ?? [];
         if (!empty($input['config_social'])) {
             $input['config_social'] = json_encode($input['config_social']);

@@ -33,9 +33,9 @@ class CommentController extends Controller
         $limit = $request->limit ?? $request->length ?? 10;
         $offset = $request->offset ?? $request->start ?? 0;
         $params = $request->params ?? [];
-        
+
         $total = $this->_repository->count_customer($params);
-        $list = $this->_repository->getAll($params, options: ['limit' => $limit, 'offset' => $offset]);
+        $list = $this->_repository->getAll($params, ['limit' => $limit, 'offset' => $offset]);
         $rows = [];
         if (!empty($list)) foreach ($list as $item) {
 

@@ -38,25 +38,14 @@ class HomeController extends Controller
         $data['posts']  = $this->postRepository->getAll([
             'is_status' => 1,
         ], [
-            // 'order_by' => ['publish_at', 'desc'],
+            'order_by' => ['publish_at', 'desc'],
             'limit' => 18,
             'pagination' => $page,
             'select' => ['id', 'title', 'slug', 'thumbnail', 'address', 'description', 'created_at'],
         ]);
 
-        $data['pages'] = Drag::getAllDataId('config_page_home', 'page', 10);
-      
-        $data['comments']  = $this->commentRepository->getAll([
-            'is_status' => 1,
-            'show_home' => 1,
-        ], [
-            'order_by' => ['updated_at', 'desc'],
-            'limit' => 10,
-            'select' => ['id', 'fullname', 'type', 'data_id', 'thumbnail', 'content', 'like', 'created_at'],
-        ]);
-
-        $data['banners'] = collect(Banner::getTypeArr(['home', 'home_brand', 'home_brand_1']))->groupBy('type');
-        return view('front_end.home', $data);
+        $data['banners'] = Banner::getType('home');
+        return view('theme_brand.theme_1.home', $data);
     }
 
     public function post($slug, $id = 0)
@@ -90,8 +79,7 @@ class HomeController extends Controller
             'SEO' => $SEO,
             'comments' => $comment,
         ];
-
-        return view('theme_2.brand', $data);
+        return view('theme_brand.theme_1.brand', $data); 
     }
 
     public function menu($slug, $id = 0)
@@ -212,15 +200,15 @@ class HomeController extends Controller
     {
         if (!empty($link->type)) {
             switch ($link->type) {
-                    // case 'category':
-                    //     return $this->category($request, $link->slug, $link->key_id);
-                    //     break;
-                    // case 'post':
-                    //     return $this->post($request, $link->slug);
-                    //     break;
-                    // case 'page':
-                    //     return $this->page($request, $link->slug);
-                    //     break;
+                // case 'category':
+                //     return $this->category($request, $link->slug, $link->key_id);
+                //     break;
+                // case 'post':
+                //     return $this->post($request, $link->slug);
+                //     break;
+                // case 'page':
+                //     return $this->page($request, $link->slug);
+                //     break;
                 default:
                     return abort(404);
                     break;

@@ -4,9 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
-use App\Models\Page;
 use App\Models\Post;
-use App\Models\Product;
+use App\Models\Products\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -41,9 +40,6 @@ class DragController extends Controller
                 break;
             case "category":
                 $rows = Category::whereIn('id', $arr_id ?? [-1])->select(['id', 'title'])->get()->keyBy('id')->toArray();
-                break;
-            case "page":
-                $rows = Page::whereIn('id', $arr_id ?? [-1])->select(['id', 'title'])->get()->keyBy('id')->toArray();
                 break;
             case 'post':
                 $rows = Post::whereIn('id', $arr_id ?? [-1])->select(['id', 'title'])->get()->keyBy('id')->toArray();

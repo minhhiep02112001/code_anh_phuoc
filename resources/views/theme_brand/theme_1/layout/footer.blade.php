@@ -28,11 +28,15 @@
                                                     data-id="0bb0a07" data-element_type="widget"
                                                     data-widget_type="wdt-logo.default">
                                                     <div class="elementor-widget-container">
-                                                        <div id="lilacbeauty-0bb0a07" class="wdt-logo-container"> 
-                                                            
-                                                            <a href="/" rel="home">
-                                                                {{ $post->title ?? '' }}
-                                                            </a>
+                                                        <div id="lilacbeauty-0bb0a07" class="wdt-logo-container"> <a
+                                                                href="/" rel="home"><img loading="lazy"
+                                                                    width="407" height="184"
+                                                                    src="{{ convertPathImage($config_website->logo ?? '') }}"
+                                                                    class="attachment-full size-full" alt=""
+                                                                    decoding="async"
+                                                                    srcset="{{ convertPathImage($config_website->logo ?? '') }} 407w, 
+                                                                    {{ getImageThumb($config_website->logo ?? '', 300, 136) }} 300w"
+                                                                    sizes="(max-width: 407px) 100vw, 407px" /></a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -111,7 +115,7 @@
                                                                                             class="flex w-full flex-col gap-1 empty:hidden first:pt-[3px]">
                                                                                             <div
                                                                                                 class="markdown prose w-full break-words dark:prose-invert dark">
-                                                                                                {!! $post->content_footer ?? '' !!}
+                                                                                                {!! $config_website->content_footer ?? '' !!}
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
@@ -176,9 +180,9 @@
                                                     data-widget_type="text-editor.default">
                                                     <div class="elementor-widget-container">
                                                         <ul>
-                                                            {!! !empty($post->address) ? "<li>$post->address</li>" : '' !!}
-                                                            {!! !empty($post->email) ? "<li>$post->email</li>" : '' !!}
-                                                            {!! !empty($post->phone) ? "<li>$post->phone</li>" : '' !!} 
+                                                            {!! !empty($config_website->address) ? "<li>$config_website->address</li>" : '' !!}
+                                                            {!! !empty($config_website->email) ? "<li>$config_website->email</li>" : '' !!}
+                                                            {!! !empty($config_website->phone) ? "<li>$config_website->phone</li>" : '' !!} 
                                                         </ul>
                                                     </div>
                                                 </div>

@@ -64,6 +64,16 @@
                                             <option value="1">Index</option>
                                         </select>
                                     </div>
+
+                                    <div class="form-group col-md-4">
+                                        <label>Thumbnail:</label>
+                                        <select name="params[is_thumbnail]" class="form-control select2-option input-sm">
+                                            <option value=""></option>
+                                            <option value="0">Not Exists</option>
+                                            <option value="1">Exists</option>
+                                        </select>
+                                    </div>
+
                                     <div class="form-group col-md-4">
                                         <label>OrderBy:</label>
                                         <select name="params[order_by]" class="form-control select2-option input-sm">

@@ -34,7 +34,7 @@ class BannerController extends Controller
         $limit = $request->limit ?? $request->length ?? 10;
         $offset = $request->offset ?? $request->start ?? 0;
         $params = $request->params ?? [];
-       
+
         $total = $this->_repository->count_customer($params);
         $list = $this->_repository->getAll($params, ['limit' => $limit, 'offset' => $offset]);
         $rows = [];
@@ -48,7 +48,6 @@ class BannerController extends Controller
             $row['thumbnail_mobile'] = getThumbnail($item, 100);
             $row['is_status']    = $item->is_status;
             $row['type']     = !empty(config('data.banner_type')[$item->type]) ? config('data.banner_type')[$item->type] :  $item->type;
-          
             $row['key']     = $item->key;
             $row['description']     = $item->description;
             $row['position']     = $item->position ?? 0;
@@ -143,7 +142,7 @@ class BannerController extends Controller
     {
         $banner = $this->_repository->find($id);
         $input = $request->only($this->_repository->getCustomFillable());
-     
+
         if ($request->has('is_status')) $input['is_status'] = $request->get('is_status') ?? $banner->is_status;
         try {
             DB::beginTransaction();
@@ -164,9 +163,9 @@ class BannerController extends Controller
      */
     public function destroy($id)
     {
-         try {
+        try {
             DB::beginTransaction();
-            $this->_repository->delete( $id);
+            $this->_repository->delete($id);
             DB::commit();
             return $this->responsiveSuccess('Xóa banner thành công');
         } catch (\Exception $ex) {

@@ -7,15 +7,12 @@
     <div class="menu-sidebar__content js-scrollbar1">
         <nav class="navbar-sidebar">
             <ul class="list-unstyled navbar__list">
-                <li class="{{ \Request::route()->getName() == 'admin.dashboard' ? 'active' : '' }}">
+                {{-- <li class="{{ \Request::route()->getName() == 'admin.dashboard' ? 'active' : '' }}">
                     <a class="js-arrow" href="{{ route('admin.dashboard') }}">
                         <i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a>
 
-                </li>
-                <li class="{{ \Request::route()->getName() == 'admin.drag.index' ? 'active' : '' }}">
-                    <a href="{{ route('admin.drag.index') }}" title="Quản lý danh mục"> <i
-                            class="fas fa-table"></i><span>Quản lý Trending</span></a>
-
+                </li> --}}
+                 
                 <li class="{{ \Request::route()->getName() == 'admin.banner.index' ? 'active' : '' }}">
                     <a href="{{ route('admin.banner.index') }}" title="Quản lý banner"> <i
                             class="fas fa-table"></i><span>Quản lý
@@ -25,19 +22,12 @@
                     <a href="{{ route('admin.category.index') }}" title="Quản lý danh mục"> <i
                             class="fas fa-table"></i><span>Quản lý danh
                             mục</span></a>
-                </li>
+                </li> --}}
                 <li class="{{ \Request::route()->getName() == 'admin.post.index' ? 'active' : '' }}">
                     <a href="{{ route('admin.post.index') }}" title="Quản lý brand"> <i
                             class="fas fa-table"></i><span>Quản lý
-                            bài viết</span></a>
+                            brand</span></a>
                 </li>
-
-                <li class="{{ \Request::route()->getName() == 'admin.product.index' ? 'active' : '' }}">
-                    <a href="{{ route('admin.product.index') }}" title="Quản lý brand"> <i
-                            class="fas fa-table"></i><span>Quản lý
-                            sản phẩm</span></a>
-                </li> --}}
-
                 <li class="{{ \Request::route()->getName() == 'admin.comment.index' ? 'active' : '' }}">
                     <a href="{{ route('admin.comment.index') }}" title="Quản lý Comment"> <i
                             class="fas fa-table"></i><span>Quản lý
