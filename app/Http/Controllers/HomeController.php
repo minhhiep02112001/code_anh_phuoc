@@ -51,13 +51,14 @@ class HomeController extends Controller
     public function post($slug, $id = 0)
     {
         $post = $this->postRepository->findByField('slug', $slug)->first();
-
         if (empty($post) || $post->is_status != 1) return abort(404);
+        $medias = $post->media()->select(['position', 'type', 'thumbnail'])->get()->groupBy('type') ;
         $promat = env('META_DES');
         $SEO = [
             'title' => $post->meta_title,
             'meta_title' => $post->meta_title,
-            'meta_description' => str_replace('[text]',   $post->meta_title, $promat),
+            'meta_description' => $post->meta_description,
+            // 'meta_description' => str_replace('[text]',   $post->meta_title, $promat),
             'meta_keyword' => $post->title ?? '',
             'is_robot' => $post->is_robot ?? 0,
             'image' => $post->thumbnail ?? config('data.cms_setting.logo'),
@@ -73,13 +74,16 @@ class HomeController extends Controller
 
         $breadcrumbs = [array('url' => '', 'title' => $post->title)];
 
+$pages = Page::limit(2)->get();
         $data = [
             'breadcrumbs' => $breadcrumbs,
             'post' => $post,
             'SEO' => $SEO,
+            'medias' => $medias,
+            'pages' => $pages,
             'comments' => $comment,
         ];
-        return view('theme_brand.theme_1.brand', $data); 
+        return view('theme_brand.theme_1.brand', $data);
     }
 
     public function menu($slug, $id = 0)

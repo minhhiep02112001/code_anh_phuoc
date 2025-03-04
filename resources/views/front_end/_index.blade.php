@@ -21,7 +21,7 @@
     </script>
 
     @include('front_end.block.config_seo_header')
-    <link href="{{ asset('plugins/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" media="all">
+
     <!-- #region -->
 
     <style id='wp-emoji-styles-inline-css' type='text/css'>
@@ -749,7 +749,7 @@
             <!-- ** Header Wrapper - End ** -->
 
             <!-- **Main** -->
-            <div id="main" style="float: none;">
+            <div id="main">
                 <!-- ** Container ** -->
                 @yield('content')
                 <!-- ** Container End ** -->
@@ -763,10 +763,298 @@
 
     </div><!-- **Wrapper - End** -->
 
-    <script src="{{ asset("assets/js/jquery.min.js?v={$ver}") }}"></script>
-    
 
-   
+
+    <link rel='stylesheet' id='wc-ppcp-blocks-styles-css'
+        href='/wp-content/plugins/pymntpl-paypal-woocommerce/packages/blocks/build/stylesfe23.css?ver=1.0.55'
+        type='text/css' media='all' />
+    <link rel='stylesheet' id='wc-blocks-style-css'
+        href='/wp-content/plugins/woocommerce/assets/client/blocks/wc-blocks15b4.css?ver=wc-9.6.2' type='text/css'
+        media='all' />
+    <link rel='stylesheet' id='wdt-elementor-icons-css'
+        href='/wp-content/uploads/elementor/css/custom-widget-icon-list.mind1c0.css?ver=6.7.2' type='text/css'
+        media='all' />
+    <link rel='stylesheet' id='elementor-post-1594-css'
+        href='/wp-content/uploads/elementor/css/post-15941de5.css?ver=1739556579' type='text/css' media='all' />
+    <link rel='stylesheet' id='wdt-logo-css'
+        href='/wp-content/plugins/lilac-beauty-plus/modules/menu/elementor/widgets/assets/css/logo20b9.css?ver=1.0.2'
+        type='text/css' media='all' />
+    <link rel='stylesheet' id='wdt-header-icons-css'
+        href='/wp-content/plugins/lilac-beauty-plus/modules/menu/elementor/widgets/assets/css/header-icons20b9.css?ver=1.0.2'
+        type='text/css' media='all' />
+    <link rel='stylesheet' id='wdt-header-carticons-css'
+        href='/wp-content/plugins/lilac-beauty-plus/modules/menu/elementor/widgets/assets/css/header-carticon20b9.css?ver=1.0.2'
+        type='text/css' media='all' />
+    <link rel='stylesheet' id='elementor-post-16-css'
+        href='/wp-content/uploads/elementor/css/post-16b5a8.css?ver=1739559964' type='text/css' media='all' />
+    <link rel='stylesheet' id='widget-social-icons-css'
+        href='/wp-content/plugins/elementor/assets/css/widget-social-icons.min3830.css?ver=3.27.4' type='text/css'
+        media='all' />
+    <link rel='stylesheet' id='e-apple-webkit-css'
+        href='/wp-content/uploads/elementor/css/custom-apple-webkit.min4d29.css?ver=1739556394' type='text/css'
+        media='all' />
+    <link rel='stylesheet' id='e-animation-grow-css'
+        href='/wp-content/plugins/elementor/assets/lib/animations/styles/e-animation-grow.min3830.css?ver=3.27.4'
+        type='text/css' media='all' />
+    <link rel='stylesheet' id='elementor-post-1265-css'
+        href='/wp-content/uploads/elementor/css/post-12651579.css?ver=1739559579' type='text/css' media='all' />
+    <link rel='stylesheet' id='widget-icon-list-css'
+        href='/wp-content/uploads/elementor/css/custom-widget-icon-list.min4d29.css?ver=1739556394' type='text/css'
+        media='all' />
+    <link rel='stylesheet' id='photoswipe-css'
+        href='/wp-content/plugins/woocommerce/assets/css/photoswipe/photoswipe.minc2dd.css?ver=9.6.2' type='text/css'
+        media='all' />
+    <link rel='stylesheet' id='photoswipe-default-skin-css'
+        href='/wp-content/plugins/woocommerce/assets/css/photoswipe/default-skin/default-skin.minc2dd.css?ver=9.6.2'
+        type='text/css' media='all' />
+    <link rel='stylesheet' id='google-fonts-2-css'
+        href='https://fonts.googleapis.com/css?family=Lexend+Giga%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic&amp;display=auto&amp;ver=6.7.2'
+        type='text/css' media='all' />
+    <script type="text/javascript"
+        src="/wp-content/plugins/yith-woocommerce-wishlist/assets/js/jquery.selectBox.min7359.js?ver=1.2.0"
+        id="jquery-selectBox-js"></script>
+    <script type="text/javascript"
+        src="/wp-content/plugins/woocommerce/assets/js/prettyPhoto/jquery.prettyPhoto.min005e.js?ver=3.1.6"
+        id="prettyPhoto-js" data-wp-strategy="defer"></script>
+    <script type="text/javascript" id="jquery-yith-wcwl-js-extra">
+        /* <![CDATA[ */
+        var yith_wcwl_l10n = {
+
+        };
+        /* ]]> */
+    </script>
+    <script type="text/javascript"
+        src="/wp-content/plugins/yith-woocommerce-wishlist/assets/js/jquery.yith-wcwl.minae82.js?ver=4.2.0"
+        id="jquery-yith-wcwl-js"></script>
+    <script type="text/javascript" src="wp-includes/js/dist/hooks.min4fdd.js?ver=4d63a3d491d11ffd8ac6" id="wp-hooks-js">
+    </script>
+    <script type="text/javascript" src="wp-includes/js/dist/i18n.minc33c.js?ver=5e580eb46a90c2b997e6" id="wp-i18n-js">
+    </script>
+
+
+    <script type="text/javascript"
+        src="/wp-content/plugins/yith-woocommerce-compare/assets/js/woocompare.min3d99.js?ver=2.47.0"
+        id="yith-woocompare-main-js"></script>
+    <script type="text/javascript"
+        src="/wp-content/plugins/yith-woocommerce-compare/assets/js/jquery.colorbox-min13ac.js?ver=1.4.21"
+        id="jquery-colorbox-js"></script>
+
+
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+
+    <script type="text/javascript"
+        src="/wp-content/plugins/lilac-beauty-pro/modules/woocommerce/others/suggested-products/assets/js/jquery.cookie.mind1c0.js?ver=6.7.2"
+        id="sp-cookies-js"></script>
+    <script type="text/javascript"
+        src="/wp-content/plugins/lilac-beauty-pro/modules/woocommerce/single/modules/custom-template/elementor/assets/js/jquery.nicescrolld1c0.js?ver=6.7.2"
+        id="jquery-nicescroll-js"></script>
+
+    <script type="text/javascript" src="wp-includes/js/underscore.min3ab8.js?ver=1.13.7" id="underscore-js"></script>
+    <script type="text/javascript" id="wp-util-js-extra">
+        /* <![CDATA[ */
+        var _wpUtilSettings = {
+            "ajax": {
+                "url": "\/wp-admin\/admin-ajax.php"
+            }
+        };
+        /* ]]> */
+    </script>
+    <script type="text/javascript" src="wp-includes/js/wp-util.mind1c0.js?ver=6.7.2" id="wp-util-js"></script>
+
+
+    <script type="text/javascript"
+        src="/wp-content/plugins/woocommerce/assets/js/photoswipe/photoswipe.min258b.js?ver=4.1.1-wc.9.6.2"
+        id="photoswipe-js" defer="defer" data-wp-strategy="defer"></script>
+    <script type="text/javascript"
+        src="/wp-content/plugins/woocommerce/assets/js/photoswipe/photoswipe-ui-default.min258b.js?ver=4.1.1-wc.9.6.2"
+        id="photoswipe-ui-default-js" defer="defer" data-wp-strategy="defer"></script>
+    <script type="text/javascript" id="wc-single-product-js-extra">
+        /* <![CDATA[ */
+        var wc_single_product_params = {
+            "i18n_required_rating_text": "Please select a rating",
+            "i18n_product_gallery_trigger_text": "View full-screen image gallery",
+            "review_rating_required": "yes",
+            "flexslider": {
+                "rtl": false,
+                "animation": "slide",
+                "smoothHeight": true,
+                "directionNav": false,
+                "controlNav": "thumbnails",
+                "slideshow": false,
+                "animationSpeed": 500,
+                "animationLoop": false,
+                "allowOneSlide": false
+            },
+            "zoom_enabled": "",
+            "zoom_options": [],
+            "photoswipe_enabled": "1",
+            "photoswipe_options": {
+                "shareEl": false,
+                "closeOnScroll": false,
+                "history": false,
+                "hideAnimationDuration": 0,
+                "showAnimationDuration": 0
+            },
+            "flexslider_enabled": "1"
+        };
+        /* ]]> */
+    </script>
+    <script type="text/javascript"
+        src="/wp-content/plugins/woocommerce/assets/js/frontend/single-product.minc2dd.js?ver=9.6.2"
+        id="wc-single-product-js" defer="defer" data-wp-strategy="defer"></script>
+
+    <script type="text/javascript" src="/wp-content/plugins/elementor/assets/js/webpack.runtime.min3830.js?ver=3.27.4"
+        id="elementor-webpack-runtime-js"></script>
+    <script type="text/javascript" src="/wp-content/plugins/elementor/assets/js/frontend-modules.min3830.js?ver=3.27.4"
+        id="elementor-frontend-modules-js"></script>
+
+    <script type="text/javascript" src="/wp-content/plugins/elementor-pro/assets/js/frontend.min44b4.js?ver=3.24.3"
+        id="elementor-pro-frontend-js"></script>
+    <script type="text/javascript" src="wp-includes/js/jquery/ui/core.minb37e.js?ver=1.13.3" id="jquery-ui-core-js">
+    </script>
+    <script type="text/javascript" id="elementor-frontend-js-before">
+        /* <![CDATA[ */
+        var elementorFrontendConfig = {
+            "environmentMode": {
+                "edit": false,
+                "wpPreview": false,
+                "isScriptDebug": false
+            },
+            "i18n": {
+                "shareOnFacebook": "Share on Facebook",
+                "shareOnTwitter": "Share on Twitter",
+                "pinIt": "Pin it",
+                "download": "Download",
+                "downloadImage": "Download image",
+                "fullscreen": "Fullscreen",
+                "zoom": "Zoom",
+                "share": "Share",
+                "playVideo": "Play Video",
+                "previous": "Previous",
+                "next": "Next",
+                "close": "Close",
+                "a11yCarouselPrevSlideMessage": "Previous slide",
+                "a11yCarouselNextSlideMessage": "Next slide",
+                "a11yCarouselFirstSlideMessage": "This is the first slide",
+                "a11yCarouselLastSlideMessage": "This is the last slide",
+                "a11yCarouselPaginationBulletMessage": "Go to slide"
+            },
+            "is_rtl": false,
+            "breakpoints": {
+                "xs": 0,
+                "sm": 480,
+                "md": 480,
+                "lg": 1025,
+                "xl": 1440,
+                "xxl": 1600
+            },
+            "responsive": {
+                "breakpoints": {
+                    "mobile": {
+                        "label": "Mobile Portrait",
+                        "value": 479,
+                        "default_value": 767,
+                        "direction": "max",
+                        "is_enabled": true
+                    },
+                    "mobile_extra": {
+                        "label": "Mobile Landscape",
+                        "value": 767,
+                        "default_value": 880,
+                        "direction": "max",
+                        "is_enabled": false
+                    },
+                    "tablet": {
+                        "label": "Tablet Portrait",
+                        "value": 1024,
+                        "default_value": 1024,
+                        "direction": "max",
+                        "is_enabled": true
+                    },
+                    "tablet_extra": {
+                        "label": "Tablet Landscape",
+                        "value": 1280,
+                        "default_value": 1200,
+                        "direction": "max",
+                        "is_enabled": false
+                    },
+                    "laptop": {
+                        "label": "Laptop",
+                        "value": 1540,
+                        "default_value": 1366,
+                        "direction": "max",
+                        "is_enabled": false
+                    },
+                    "widescreen": {
+                        "label": "Widescreen",
+                        "value": 2400,
+                        "default_value": 2400,
+                        "direction": "min",
+                        "is_enabled": false
+                    }
+                },
+                "hasCustomBreakpoints": true
+            },
+            "version": "3.27.4",
+            "is_static": false,
+            "experimentalFeatures": {
+                "e_font_icon_svg": true,
+                "additional_custom_breakpoints": true,
+                "container": true,
+                "e_swiper_latest": true,
+                "e_onboarding": true,
+                "theme_builder_v2": true,
+                "home_screen": true,
+                "landing-pages": true,
+                "nested-elements": true,
+                "editor_v2": true,
+                "e_element_cache": true,
+                "link-in-bio": true,
+                "floating-buttons": true,
+                "display-conditions": true,
+                "form-submissions": true,
+                "mega-menu": true
+            },
+            "urls": {
+                "assets": "/wp-content\/plugins\/elementor\/assets\/",
+            },
+            "nonces": {
+                "floatingButtonsClickTracking": "78ff9cb260"
+            },
+            "swiperClass": "swiper",
+            "settings": {
+                "page": [],
+                "editorPreferences": []
+            },
+            "kit": {
+                "viewport_mobile": 479,
+                "viewport_tablet": 1024,
+                "active_breakpoints": ["viewport_mobile", "viewport_tablet"],
+                "global_image_lightbox": "yes",
+                "lightbox_enable_counter": "yes",
+                "lightbox_enable_fullscreen": "yes",
+                "lightbox_enable_zoom": "yes",
+                "lightbox_enable_share": "yes",
+                "lightbox_title_src": "title",
+                "lightbox_description_src": "description",
+                "woocommerce_notices_elements": []
+            },
+            "post": {
+                "id": 2632,
+                "title": "Isha%20Beauty",
+                "excerpt": "",
+                "featuredImage": false
+            }
+        };
+        /* ]]> */
+    </script>
+    <script type="text/javascript" src="/wp-content/plugins/elementor/assets/js/frontend.min3830.js?ver=3.27.4"
+        id="elementor-frontend-js"></script>
+    <script type="text/javascript" src="/wp-content/plugins/elementor-pro/assets/js/elements-handlers.min44b4.js?ver=3.24.3"
+        id="pro-elements-handlers-js"></script>
     <a id="back-to-top" href="#">
         <span id="back-to-top-hover"></span>
         <span class="back-to-top-icon"><i class="wdticon-angle-up"></i></span>
@@ -791,7 +1079,6 @@
             width: 12px;
             margin-right: 2px;
         }
-
         .ti-profile-details {
             padding-left: 10px;
         }
@@ -821,8 +1108,20 @@
     <script>
         jQuery(document).ready(function() {
             // Khởi tạo Slick Slider
+            if (jQuery('.slide-banners').length > 0) {
+                jQuery('.slide-banners').slick({
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    dots: false,
+                    autoplay: true,
+                    autoplaySpeed: 5000, // Chuyển ảnh sau mỗi 2 giây
+                    arrows: true,
+                    infinite: true,
+                });
+            }
+
             jQuery('.sliders').slick({
-                slidesToShow: 5,
+                slidesToShow: 4,
                 slidesToScroll: 1,
                 dots: false,
                 autoplay: true,
@@ -850,7 +1149,7 @@
                 ],
             });
             jQuery('.sliders-brands').slick({
-                slidesToShow: 6,
+                slidesToShow: 5,
                 slidesToScroll: 2,
                 dots: false,
                 autoplay: true,

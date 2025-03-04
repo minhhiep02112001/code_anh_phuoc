@@ -142,6 +142,7 @@ var danger = "form-group has-danger";
 var text_danger = "form-control text-danger";
 var text_success = "form-control text-success";
 var text_warning = "form-control text-warning";
+
 var SEO = {
     meta_title: function () {
         let _this = $('input[name="meta_title"]');
@@ -393,7 +394,7 @@ var AJAX_CRUD_MODAL = {
                 }
             });
             setTimeout(function () {
-                AutoloadDataService.initReloadreplaceData($("#modal_form"));
+                AutoloadDataService.init($("#modal_form"));
             }, 1000);
         });
     },
@@ -419,6 +420,7 @@ var AJAX_CRUD_MODAL = {
                     $(e).find("img").attr("src", "").removeClass("show");
                     $(e).find('input[type="hidden"]').remove();
                 });
+            $(this).find(".gallery-upload .gallery-list").remove();
 
             $(this).find(".select2_suggest").empty().trigger("change");
             $(this).find("div.form-control-feedback").remove();
@@ -434,6 +436,7 @@ var AJAX_CRUD_MODAL = {
             for (var j = 0; j < tinyMCE.editors.length; j++) {
                 tinymce.get(tinyMCE.editors[j].id).setContent("");
             }
+            $(this).find(".btnSave").attr("disabled", false);
         });
     },
     disable_close: function () {
@@ -496,12 +499,12 @@ var AJAX_CRUD_MODAL = {
                 DatatablesServerSide.initReload();
             },
             error: function (jqXHR, textStatus, errorThrown) {
+                modal_form.find(".btnSave").attr("disabled", false);
                 console.log(jqXHR);
                 console.log(textStatus);
                 console.log(errorThrown);
-                let body = jqXHR.responseJSON.message; 
+                let body = jqXHR.responseJSON.message;
                 Notification_Static.errors(jqXHR.status + ": " + body);
-                modal_form.find(".btnSave").attr("disabled", false);
             },
         });
         return false;
@@ -742,27 +745,26 @@ var FUNC = {
     },
 
     itemGallery: function (name, urlImageResponse, index = 0) {
-        return (html =
-            '<div class="upload-box" index="' +
-            index +
-            '">' +
-            "<span>+</span>" +
-            '<img class="preview-image" src=' +
-            FUNC.getImageThumb(urlImageResponse) +
-            ' height="100px" alt="Preview">' +
-            "<input type='hidden' name='" +
-            name +
-            "' value='" +
-            urlImageResponse +
-            "'>" +
-            "<span class='fa fa-times removeInput' onclick='this.parentNode.remove()'></span>" +
-            " </div>");
+        return `<div class="upload_box_item mr-2 mb-1" data-name="${name}" >
+                    <div class=" upload-container d-block m-0" data-field-name="${name}[${index}][thumb]">
+                    <div class="upload-box">
+                        <img class="preview-image show" alt="Preview"
+                                                src="${FUNC.getImageThumb(
+                                                    urlImageResponse
+                                                )}">
+                        <input type="hidden" name="${name}[${index}][thumb]" value="${urlImageResponse}">
+                    </div>
+                    </div>
+                    <input type="number" name="${name}[${index}][position]" value="${index}" class="w-100">
+                    <span class='fa fa-times removeInputImages'></span>
+                </div>`;
     },
 
     showGallery: function (element, name, data) {
         if (data !== null && data.length > 0) {
+            let length = $(element).find(".upload_box_item").length;
             $.each(data, function (i, v) {
-                $(element).append(FUNC.itemGallery(name, v, i + 1));
+                $(element).append(FUNC.itemGallery(name, v, length + i));
             });
         }
     },
@@ -1002,28 +1004,69 @@ var FileUpload = (function () {
     };
 })();
 
+/* ------------------------------------------------------------------------------
+ *
+ *  # Fixed Columns extension for Datatables
+ *
+ *  Demo JS code for datatable_extension_fixed_columns.html page
+ *
+ * ---------------------------------------------------------------------------- */
+
+// Setup module
+// ------------------------------
+
 const AutoloadDataService = (function () {
     var objSelect2Suggest = {
         category: {
             url: window.APP_URL + "/admin/ajax/category",
             formated: "$(title)",
             id: "id",
-            query: ["type"],
+            // search_param : "title",
+            query: ["type", "is_status", "id"],
+            version: 2,
+        },
+
+        brand: {
+            url: window.APP_URL + "/admin/ajax/brand",
+            formated: "$(title)",
+            id: "id",
+            search_param: "title",
+            query: ["is_status"],
+        },
+        producer: {
+            url: window.APP_URL + "/admin/ajax/producer",
+            formated: "$(title)",
+            id: "id",
+            search_param: "title",
+            query: ["is_status"],
         },
         post: {
             url: window.APP_URL + "/admin/ajax/post",
             formated: "$(title)",
             id: "id",
+            search_param: "title",
+            query: ["is_status"],
+        },
+        product: {
+            url: window.APP_URL + "/admin/ajax/product",
+            formated: "$(title)",
+            id: "id",
+            search_param: "title",
+            query: ["is_status"],
         },
         page: {
             url: window.APP_URL + "/admin/ajax/page",
             formated: "$(title)",
             id: "id",
+            search_param: "title",
+            query: ["is_status"],
         },
         menu: {
             url: window.APP_URL + "/admin/ajax/menu",
             formated: "$(title)",
             id: "id",
+            search_param: "title",
+            query: ["is_status"],
         },
     };
     var arrDomAutoFill = [
@@ -1035,6 +1078,30 @@ const AutoloadDataService = (function () {
 
             fk: "id",
         },
+
+        {
+            url: window.APP_URL + "/admin/ajax/brand",
+            dom: ".em-brand",
+            attr: "data-id",
+            formated: "$(title)",
+            fk: "id",
+        },
+        {
+            url: window.APP_URL + "/admin/ajax/product",
+            dom: ".em-product",
+            attr: "data-id",
+            formated: "$(title)",
+            fk: "id",
+        },
+
+        {
+            url: window.APP_URL + "/admin/ajax/producer",
+            dom: ".em-producer",
+            attr: "data-id",
+            formated: "$(title)",
+            fk: "id",
+        },
+
         {
             url: window.APP_URL + "/admin/ajax/menu",
             dom: ".em-menu",
@@ -1058,46 +1125,45 @@ const AutoloadDataService = (function () {
         },
     ];
 
-    //
-    // Setup module components
-    //
-
-    var loadItemSelected = (domSelected) => {
-        let _id = $(domSelected).val();
-        let selector = $("select#color_id");
-        let params = {
-            params: {
-                id: dataSelected,
-            },
-        };
-        $.ajax({
-            url: _url_load_color,
-            dataType: "json",
-            data: params,
-        }).done(function (result) {
-            let data = result.data;
-            if (data.length > 0) {
-                $.each(data, function (indexInArray, valueOfElement) {
-                    let newOptionCo = new Option(
-                        valueOfElement.title,
-                        valueOfElement.id,
-                        true,
-                        true
-                    );
-                    $(selector).append(newOptionCo).trigger("change");
-                });
+    function formatReplace(tpl, data) {
+        return tpl.replace(/\$\(([^\)]+)?\)/g, function ($1, $2) {
+            if (!data[$2] || data[$2] == "null") {
+                return "";
             }
+            return data[$2];
         });
-    };
+    }
 
-    // Basic Datatable examples
+    function stringToSlug(str) {
+        // remove accents
+        var from =
+                "àáãảạăằắẳẵặâầấẩẫậèéẻẽẹêềếểễệđùúủũụưừứửữựòóỏõọôồốổỗộơờớởỡợìíỉĩịäëïîöüûñçýỳỹỵỷ",
+            to =
+                "aaaaaaaaaaaaaaaaaeeeeeeeeeeeduuuuuuuuuuuoooooooooooooooooiiiiiaeiiouuncyyyyy";
+        for (var i = 0, l = from.length; i < l; i++) {
+            str = str.replace(RegExp(from[i], "gi"), to[i]);
+        }
+
+        str = str
+            .toLowerCase()
+            .trim()
+            .replace(/[^a-z0-9\-]/g, "-")
+            .replace(/-+/g, "-");
+
+        return str;
+    }
     var replaceData = function (parentDom) {
         $.each(arrDomAutoFill, function (idx, item) {
-            var focusDom = $(parentDom).find(item.dom);
+            var focusDom = parentDom.find(item.dom);
             if (!focusDom.length) {
                 return true;
             }
 
+            /////////// FIX TAM CHO CAC DOM DANG CHAY ///////////
+
+            /////////////  END //////////////////
+
+            //if (item.pquery) {
             var arrId = [];
             focusDom.each(function () {
                 var selfDom = $(this);
@@ -1110,26 +1176,28 @@ const AutoloadDataService = (function () {
                     });
                 } else {
                     var v = selfDom.attr(item.attr);
+
                     if (v && $.inArray(v, arrId) == -1) {
                         arrId.push(v);
                     }
                 }
             });
-
             if (!arrId.length) {
                 return;
             }
-            arrId = arrId.map(($item) => parseInt($item));
-
             var count = 1;
             if (arrId.length > 200) {
+                // lay so lam tron len
                 count = Math.ceil(arrId.length / 200);
             }
             for (i = 1; i <= count; i++) {
                 var objParams = {};
-                let ob = {};
-                ob[item.fk] = arrId.slice((i - 1) * 200, 200 * i);
-                objParams["params"] = ob;
+
+                var inqId = arrId.slice((i - 1) * 200, 200 * i);
+
+                objParams[item.fk] = inqId;
+
+                //replace url arg
                 var urlQuery = item.url;
                 if (item.url_arg) {
                     $.each(item.url_arg, function (k, v) {
@@ -1140,30 +1208,39 @@ const AutoloadDataService = (function () {
                         delete objParams[v];
                     });
                 }
-
-                var dataGet = objParams;
+                var dataGet = {};
+                if (!$.isEmptyObject(objParams)) {
+                    dataGet = { params: objParams, limit: 1000 };
+                }
+                // ktra query bat buoc
 
                 $.ajax({
                     url: urlQuery,
                     type: "GET",
                     dataType: "json",
+                    // xhrFields: {
+                    //   withCredentials: true
+                    // },
                     data: dataGet,
                     contentType:
                         "application/x-www-form-urlencoded; charset=UTF-8",
+                    // beforeSend: function(xhr) {
+                    //     //console.log('test',xhr);
+                    // },
 
                     success: function (response) {
-                        if (response.data.length == 0) {
+                        if (response.error) {
+                            ////console.log(data);
                             return false;
                         }
-                        var data = response.data;
                         var new_str = item.formated;
+                        var new_link = item.link;
                         var objData = {};
-
-                        $.each(data, function (key, value) {
+                        objLink = {};
+                        $.each(response.data, function (key, value) {
                             objData[value[item.fk]] = value;
                         });
-
-                        focusDom.each(async function () {
+                        focusDom.each(function () {
                             if ($(this).prop("tagName") == "SELECT") {
                                 var selectData = $(this);
                                 var tmp = $(this).attr("data-format")
@@ -1195,9 +1272,22 @@ const AutoloadDataService = (function () {
                                     var tmp = $(this).attr("data-format")
                                         ? $(this).attr("data-format")
                                         : new_str;
-                                    $(this).text(
-                                        formatReplace(tmp, objData[v])
-                                    );
+                                    if (new_link) {
+                                        $(this).html(
+                                            '<a href="' +
+                                                formatReplace(
+                                                    new_link,
+                                                    objData[v]
+                                                ) +
+                                                '" class="load_not_ajax" target="_blank">' +
+                                                formatReplace(tmp, objData[v]) +
+                                                "</a>"
+                                        );
+                                    } else {
+                                        $(this).text(
+                                            formatReplace(tmp, objData[v])
+                                        );
+                                    }
                                 }
                             }
                         });
@@ -1208,25 +1298,196 @@ const AutoloadDataService = (function () {
         });
     };
 
+    const VERSION = 1; // Đặt phiên bản cho cơ sở dữ liệu
+    const dbName = "ERPDBV4"; // Tên cơ sở dữ liệu
+    //luc them ojectstorename cần tăng version lên
+    const objectStoreNames = [
+        "em-profile",
+        "em-class",
+        "em-branch",
+        "em-department",
+        "em-brand",
+        "em-course",
+        "em-sys-city",
+        "em-position",
+        "em-job-title",
+    ]; // Danh sách các tên ObjectStore
+    const CLEAR_DELAY = 3 * 24 * 60 * 60 * 1000; //Thời gian trì hoãn xóa dữ liệu
+
+    let db = null; // Đối tượng để lưu trữ kết nối đến cơ sở dữ liệu
+
+    // Mở cơ sở dữ liệu và lưu trữ kết nối
+    function openIndexedDB() {
+        return new Promise((resolve, reject) => {
+            if (db) {
+                resolve(db);
+                return;
+            }
+
+            const request = indexedDB.open(dbName, VERSION);
+
+            request.onupgradeneeded = function (event) {
+                const db = event.target.result;
+                objectStoreNames.forEach((storeName) => {
+                    if (!db.objectStoreNames.contains(storeName)) {
+                        db.createObjectStore(storeName, {
+                            keyPath: "_id",
+                            autoIncrement: true,
+                        });
+                    }
+                });
+            };
+
+            request.onsuccess = function (event) {
+                db = event.target.result;
+                resolve(db);
+            };
+
+            request.onerror = function (event) {
+                reject(`IndexedDB error: ${event.target.errorCode}`);
+            };
+        });
+    }
+
+    // Lấy dữ liệu từ một object store trong cơ sở dữ liệu cụ thể
+    function getDataFromIndexedDB(objectStoreName, selectedId) {
+        return new Promise((resolve, reject) => {
+            if (!db) {
+                return reject("Database is not initialized");
+            }
+
+            const transaction = db.transaction([objectStoreName], "readonly");
+            const objectStore = transaction.objectStore(objectStoreName);
+            var id = Number(selectedId);
+            if (isNaN(id) || id <= 0) {
+                // Kiểm tra xem id có phải là số và lớn hơn 0
+                id = 0;
+            }
+            const request = objectStore.get(id);
+
+            request.onsuccess = (event) => {
+                resolve(request.result ? request.result : null);
+            };
+
+            request.onerror = (event) => {
+                reject("Error querying IndexedDB");
+            };
+        });
+    }
+
+    // Lưu dữ liệu vào một object store trong cơ sở dữ liệu cụ thể
+    function saveDataToIndexedDB(objectStoreName, id, data) {
+        objectStoreName = String(objectStoreName).replace(/\./g, "");
+        return new Promise((resolve, reject) => {
+            if (!db) {
+                return reject("Database is not initialized");
+            }
+
+            const transaction = db.transaction([objectStoreName], "readwrite");
+            const objectStore = transaction.objectStore(objectStoreName);
+            const request = objectStore.put({ _id: id, ...data });
+
+            request.onsuccess = () => {
+                resolve();
+            };
+
+            request.onerror = (event) => {
+                reject(`Error saving to IndexedDB: ${event.target.errorCode}`);
+            };
+        });
+    }
+
+    // Hàm cập nhật DOM với dữ liệu
+    function updateDomWithData(focusDom, objData, item) {
+        focusDom.each(function () {
+            if ($(this).prop("tagName") == "SELECT") {
+                const selectData = $(this);
+                const tmp = $(this).attr("data-format") || item.formated;
+                selectData.find("option").each(function () {
+                    const v = $(this).val();
+                    if (objData[v]) {
+                        const replaced = formatReplace(tmp, objData[v]);
+                        $(this).text(replaced);
+                        setTimeout(() => {
+                            selectData.trigger("change_select2");
+                        }, 1000);
+                    }
+                });
+                selectData.trigger("change");
+            } else {
+                const v = $(this).attr(item.attr);
+                if (objData[v]) {
+                    const tmp = $(this).attr("data-format") || item.formated;
+                    if (item.link) {
+                        $(this).html(
+                            `<a href="${formatReplace(
+                                item.link,
+                                objData[v]
+                            )}" class="load_not_ajax" target="_blank">
+                                ${formatReplace(tmp, objData[v])}
+                            </a>`
+                        );
+                    } else {
+                        $(this).text(formatReplace(tmp, objData[v]));
+                    }
+                }
+            }
+        });
+    }
+
+    // Hàm gửi yêu cầu AJAX
+    function ajaxRequest(url, dataGet, item) {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: url,
+                type: "GET",
+                dataType: "json",
+                data: dataGet,
+                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+
+                success: function (response) {
+                    resolve(response);
+                },
+                error: function (error) {
+                    reject(error);
+                },
+            });
+        });
+    }
+
     var selectData = function (parentDom) {
         var __cache = [];
-        parentDom.find(".select2_suggest").each(function () {
+        parentDom.find(".select2_suggest").each(async function () {
             var self = $(this);
-            loadSelectData(self);
-            $(this).bind("select2_suggest", function (e) {
+            await loadSelectData(self); 
+            $(this).on("select2:unselect", function (e) { 
+                if(!$(this).prop("multiple")){
+                    $(this).val(null).trigger("change");
+                    console.log('select2:unselect set null');
+                }
+                $(this).find(`option[value="${e.params.data.id}"]`).remove(); 
+                
+            });
+            
+            $(this).bind("change_select2", function (e) {
+                console.log($(this).val());
+
                 var getID = $(this).select2("data");
                 //console.log(getID[0]['_resultId']);
                 var resultID = getID[0]["_resultId"];
-                console.log(resultID);
+
                 var res = resultID.split("-result-");
 
                 //.text("TEST");
-                $("#" + res[0] + "-container").text(
-                    self.find("option:selected").text()
+                $("#" + res[0] + "-container").html(
+                    $("#" + res[0] + "-container")
+                        .find("span")
+                        .prop("outerHTML") + self.find("option:selected").text()
                 );
             });
         });
     };
+
     var loadSelectData = function (current_dom, option = {}) {
         var dataTable = option.module || current_dom.attr("data-module");
         var showType = option.show || current_dom.attr("data-show");
@@ -1234,18 +1495,17 @@ const AutoloadDataService = (function () {
             return false;
         }
         var objData = objSelect2Suggest[dataTable];
-        var urlLoad = objData.url || "";
 
         if (typeof objSelect2Suggest == "undefined" || !objData) {
             console.log("Suggest data" + dataTable + " not found");
             return false;
         }
+        var urlLoad = objData.url || "";
         if (!urlLoad) {
             console.log("Thieu config cho suggest");
             return false;
         }
         var objParams = {};
-
         if (typeof option.query != "undefined") {
             $.each(option.query, function (qidx, qkey) {
                 if (typeof objData["url_to_" + qidx] != "undefined") {
@@ -1266,8 +1526,11 @@ const AutoloadDataService = (function () {
             });
         } else if (typeof objData.query != "undefined") {
             $.each(objData.query, function (qidx, qkey) {
-                var objQuery = current_dom.attr("data-query-" + qkey);
-
+                var queryKey = qkey;
+                if (qkey == "_id") {
+                    queryKey = "id";
+                }
+                var objQuery = current_dom.attr("data-query-" + queryKey);
                 if (objQuery) {
                     if (typeof objData["url_to_" + qkey] != "undefined") {
                         urlLoad = formatReplace(objData["url_to_" + qkey], {
@@ -1275,7 +1538,7 @@ const AutoloadDataService = (function () {
                         });
                     } else {
                         /////////// API MOI ///////////
-                        if (objData.version != 2) {
+                        if (objData.version == 2) {
                             if (objQuery.indexOf(",") > 0) {
                                 objQuery = objQuery.split(",");
                             }
@@ -1292,61 +1555,110 @@ const AutoloadDataService = (function () {
                 }
             });
         }
-
         var search_param = objData.search_param || "";
+        //console.debug(objParams);
         var minimumInputLength =
             (typeof showType == "undefined" || showType != "all") &&
             search_param
                 ? 2
                 : 0;
-        var limit = search_param ? 50 : 1000;
+        var limit = search_param ? 50 : 500;
         var __cache = [];
-
-        $(current_dom).select2({
-            minimumInputLength: 0,
+        current_dom.select2({
+            minimumInputLength: minimumInputLength,
             allowClear: true,
+            closeOnSelect: false,
             cache: false,
             placeholder: current_dom.attr("placeholder") || "Select an option",
             ajax: {
                 url: urlLoad,
-                type: "GET",
                 dataType: "json",
-                delay: 250,
-                cache: false,
+                delay: 300,
+                cache: true,
                 data: function (params) {
                     var query = {};
                     if (minimumInputLength > 0) {
-                        query = {
-                            [search_param]: params.term,
-                        };
+                        if (search_param == "keyword") {
+                            var moreParams = { keyword: params.term };
+                        } else {
+                            if (objData.version == 2) {
+                                query = {
+                                    [search_param]: { like: params.term },
+                                };
+                            } else {
+                                query = {
+                                    [search_param]: {
+                                        like: "%" + params.term + "%",
+                                    },
+                                };
+                            }
+                        }
                     }
                     $.extend(query, objParams);
                     var offset =
                         params.page > 1 ? (params.page - 1) * limit : 0;
+
                     var result = {
                         params: query,
-                        length: limit,
-                        start: offset,
+                        limit: limit,
+                        offset: offset,
                     };
+
+                    if (typeof moreParams != "undefined") {
+                        $.extend(result, moreParams);
+                    }
                     return result;
                 },
-                processResults: function (responsive, params) {
-                    if (!responsive.data) {
+
+                processResults: function (data, params) {
+                    if (data.error) {
+                        //console.log(data);
                         return false;
                     }
-
-                    params.page = params.page || 1;
-                    let dataResult = [];
-                    $.each(responsive.data, function (item_key, item) {
+                    var term = stringToSlug($.trim(params.term).toLowerCase());
+                    //console.log(params);
+                    var new_str = objData.formated;
+                    var tmp = current_dom.attr("data-format")
+                        ? current_dom.attr("data-format")
+                        : new_str;
+                    // dung de thay doi key khac id
+                    var tmp_val = current_dom.attr("data-format-val")
+                        ? current_dom.attr("data-format-val")
+                        : "$(" + objData.id + ")";
+                    var html = objData.html || "";
+                    var dataResult = [];
+                    $.each(data.data, function (item_key, item) {
+                        //console.log(tmp,item);
                         if (item) {
-                            dataResult.push({
-                                id: item.id,
-                                text: item.title,
-                                html: item.title,
-                            });
+                            var replaced = formatReplace(tmp, item);
+                            var valReplaced = formatReplace(tmp_val, item);
+                            var htmlReplace = !html
+                                ? replaced
+                                : formatReplace(html, item);
+                            if (params.term && !search_param) {
+                                if (
+                                    stringToSlug(
+                                        replaced.toLowerCase()
+                                    ).indexOf(term) > -1
+                                ) {
+                                    dataResult.push({
+                                        id: valReplaced,
+                                        text: replaced,
+                                        html: htmlReplace,
+                                    });
+                                }
+                            } else {
+                                dataResult.push({
+                                    id: valReplaced,
+                                    text: replaced,
+                                    html: htmlReplace,
+                                });
+                            }
                         }
                     });
 
+                    //console.log(dataResult);
+                    // Transforms the top-level key of the response object from 'items' to 'results'
                     return {
                         results: dataResult,
                         pagination: {
@@ -1354,7 +1666,6 @@ const AutoloadDataService = (function () {
                         },
                     };
                 },
-
                 transport: function (params, success, failure) {
                     //retrieve the cached key or default to _ALL_
                     //console.log(params);
@@ -1374,107 +1685,37 @@ const AutoloadDataService = (function () {
                     //return $request;
                 },
             },
+            ...(option.multiple && { multiple: true }),
             templateResult: function (data) {
-                return data.html || data.title;
+                return $($.parseHTML(data.html || data.title));
             },
         });
     };
-    function stringToSlug(str) {
-        // remove accents
-        var from =
-                "àáãảạăằắẳẵặâầấẩẫậèéẻẽẹêềếểễệđùúủũụưừứửữựòóỏõọôồốổỗộơờớởỡợìíỉĩịäëïîöüûñçýỳỹỵỷ",
-            to =
-                "aaaaaaaaaaaaaaaaaeeeeeeeeeeeduuuuuuuuuuuoooooooooooooooooiiiiiaeiiouuncyyyyy";
-        for (var i = 0, l = from.length; i < l; i++) {
-            str = str.replace(RegExp(from[i], "gi"), to[i]);
-        }
-
-        str = str
-            .toLowerCase()
-            .trim()
-            .replace(/[^a-z0-9\-]/g, "-")
-            .replace(/-+/g, "-");
-
-        return str;
-    }
-
-    function formatRepo(repo) {
-        if (repo.loading) {
-            return repo.text;
-        }
-
-        var $container = $(
-            "<div class='select2-result-repository clearfix'>" +
-                "<div class='select2-result-repository__avatar'><img src='" +
-                repo.owner.avatar_url +
-                "' /></div>" +
-                "<div class='select2-result-repository__meta'>" +
-                "<div class='select2-result-repository__title'></div>" +
-                "<div class='select2-result-repository__description'></div>" +
-                "<div class='select2-result-repository__statistics'>" +
-                "<div class='select2-result-repository__forks'><i class='fa fa-flash'></i> </div>" +
-                "<div class='select2-result-repository__stargazers'><i class='fa fa-star'></i> </div>" +
-                "<div class='select2-result-repository__watchers'><i class='fa fa-eye'></i> </div>" +
-                "</div>" +
-                "</div>" +
-                "</div>"
-        );
-
-        $container
-            .find(".select2-result-repository__title")
-            .text(repo.full_name);
-        $container
-            .find(".select2-result-repository__description")
-            .text(repo.description);
-        $container
-            .find(".select2-result-repository__forks")
-            .append(repo.forks_count + " Forks");
-        $container
-            .find(".select2-result-repository__stargazers")
-            .append(repo.stargazers_count + " Stars");
-        $container
-            .find(".select2-result-repository__watchers")
-            .append(repo.watchers_count + " Watchers");
-
-        return $container;
-    }
-
-    function formatRepoSelection(repo) {
-        return repo.full_name || repo.text;
-    }
-
     $.fn.loadSuggestData = function (params) {
         var o = $(this[0]); // This is the element
         loadSelectData($(this), params);
         return this; // This is needed so other functions can keep chaining off of this
     };
 
-    function formatReplace(tpl, data) {
-        return tpl.replace(/\$\(([^\)]+)?\)/g, function ($1, $2) {
-            if (!data[$2] || data[$2] == "null") {
-                return "";
-            }
-            return data[$2];
-        });
-    }
-
     //
     // Return objects assigned to module
     //
 
     return {
-        init: async function (parentDom) {
+        init: function (parentDom) {
+            //console.log(parentDom);
             replaceData(parentDom);
             selectData(parentDom);
         },
-        initReloadreplaceData: async function (parentDom) {
-            replaceData(parentDom);
-        },
-        initReload: function (parentDom) {
-            selectData(parentDom);
-        },
+        getDataFromIndexedDB: getDataFromIndexedDB,
     };
 })();
+// Initialize module
+// ------------------------------
+$(document).on("DOMContentLoaded MainContentReloaded", function (e) {
+    AutoloadDataService.init($(e.target));
+});
+
 // Initialize module
 // ------------------------------
 $(document).on("DOMContentLoaded MainContentReloaded", function (e) {
@@ -1488,33 +1729,23 @@ const formatCurrency = (value) => {
 };
 
 $(document).ready(function () {
-    // $(document).find('.upload-container').each(function(){
-    //     let _this= $(this);
-
-    //     $(parentDom).find(".btn-upload-image").click(function(e) {
-    //         var input = $(this).closest(".box-single-upload").find("input[type='text']");
-    //         var viewImage = $(this).closest(".box-single-upload").find(".view-image");
-
-    //         window.open(
-    //             `${route_prefix}?type=image`,
-    //             "FileManager",
-    //             "width=900,height=600"
-    //         );
-    //         let height = input.
-    //         closest('.input_upload_file ').height();
-    //         console.log(height);
-
-    //         window.SetUrl = function(items) {
-    //             // Only pick the first selected file
-    //             var file_path = new URL(items[0].url).pathname;
-    //             // Update input value and preview
-    //             input.val(file_path);
-    //             viewImage.css({
-    //                 "background-image": `url(${SITE_URL + file_path})`,
-    //             });
-    //         };
-    //     });
-    // });
+    $(document)
+        .off("click", ".removeInputImages")
+        .on("click", ".removeInputImages", function () {
+            let _parent = $(this).closest(".gallery-list");
+            $(this).closest(".upload_box_item").remove();
+            _parent.find(".upload_box_item").each(function (index, element) {
+                let _name = $(element).attr("data-name");
+                $(element).attr("data-field-name", `${_name}[${index}][thumb]`);
+                $(element)
+                    .find('input[type="hidden"]')
+                    .attr("name", `${_name}[${index}][thumb]`);
+                $(element)
+                    .find('input[type="number"]')
+                    .attr("name", `${_name}[${index}][position]`)
+                    .val(index);
+            });
+        });
 
     $(document)
         .off("click", ".upload-box")
@@ -1538,8 +1769,15 @@ $(document).ready(function () {
 
                 // Update input value and preview
                 if (is_mutil == "true") {
+                    let _parent_dom = $(_this).closest(".gallery-upload");
+                    if (_parent_dom.find(".gallery-list").length == 0) {
+                        $(_parent_dom).append(
+                            '<div class="gallery-list p-1"></div>'
+                        );
+                    }
+
                     FUNC.showGallery(
-                        _parent_dom.find(".gallery-images"),
+                        _parent_dom.find(".gallery-list"),
                         _name,
                         file_paths
                     );

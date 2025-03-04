@@ -20,7 +20,7 @@
     <label>Schema</label>
     <textarea name="schema"  placeholder="Schema" class="form-control" rows="12" >{!! $row['schema'] ?? ''!!}</textarea>
 </div> --}} 
-<div class="google">
+{{-- <div class="google">
     <h2 class="cgg"><span class="gg_1">Google!</span></h2>
     <input type="text" class="gg-result" readOnly/>
     <div class="box">
@@ -28,4 +28,4 @@
         <cite class="gg-url"></cite>
         <span class="gg-desc"></span>
     </div>
-</div>
+</div> --}}

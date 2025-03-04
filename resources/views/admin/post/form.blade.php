@@ -72,6 +72,8 @@
                             </div>
                         </div>
                         @include('admin._layout.section.seo')
+
+                        
                     </div>
                 </div>
             </div>
@@ -111,6 +113,27 @@
                         <div class="form-group">
                             <label>Review Yelp</label>
                             <input name="review_yelp" placeholder="Review Yelp" class="form-control" type="text" />
+                        </div>
+                        <div class="form-group">
+                            <label>Ảnh gallerys</label>
+                            <div class="gallery-upload">
+                                <div class="upload-container" data-field-name="thumbnails" is_multiple="true">
+                                    <div class="upload-box w-100">
+                                        <span>+</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Ảnh banners</label>
+                            <div class="gallery-upload">
+                                <div class="upload-container" data-field-name="banners" is_multiple="true">
+                                    <div class="upload-box w-100">
+                                        <span>+</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -258,18 +281,38 @@
                 <div class="row">
                     <div class="col-lg-6 col-12">
                         <fieldset>
-                            <legend class="w-auto ">Content menu:</legend>
+                            <legend class="w-auto ">Content block 1:</legend>
                             <div class="form-group">
-                                <textarea name="content_menu" rows="10" class="form-control tinymce" placeholder="Meta description"></textarea>
+                                <label for="image_block_1">Ảnh </label>
+                                <!-- Single File Upload -->
+                                <div class="upload-container" data-field-name="image_block_1" is_multiple="false">
+                                    <div class="upload-box">
+                                        <span>+</span>
+                                        <img class="preview-image" alt="Preview">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <textarea name="content_block_1" id="content_block_1" rows="10" class="form-control tinymce" placeholder="Meta description"></textarea>
                             </div>
                         </fieldset>
                     </div>
 
                     <div class="col-lg-6 col-12">
                         <fieldset>
-                            <legend class="w-auto ">Config about:</legend>
+                            <legend class="w-auto ">Content block 2:</legend>
                             <div class="form-group">
-                                <textarea name="content_about" rows="10" class="form-control tinymce" placeholder="Meta description"></textarea>
+                                <label for="image_block_2">Ảnh </label>
+                                <!-- Single File Upload -->
+                                <div class="upload-container" data-field-name="image_block_2" is_multiple="false">
+                                    <div class="upload-box">
+                                        <span>+</span>
+                                        <img class="preview-image" alt="Preview">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <textarea name="content_block_2" id="content_block_2" rows="10" class="form-control tinymce" placeholder="Meta description"></textarea>
                             </div>
                         </fieldset>
                     </div>

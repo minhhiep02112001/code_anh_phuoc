@@ -119,28 +119,29 @@ class PostController extends Controller
             DB::beginTransaction();
             $story = $this->_repository->create($input);
 
-            if ($request->has('menus') && !empty($request->get('menus'))) {
-                $menus = array_map(function ($item) use ($story) {
+            if ($request->has('banners') && !empty($request->get('banners'))) {
+                $banners = array_map(function ($item) use ($story) {
                     return [
-                        'position' => 0,
+                        'position' => $item['position'] ?? 0,
                         'thumbnail' => $item['thumb'] ?? '',
                         'post_id' => $story->id,
-                        'type' => 'post_menu'
+                        'type' => 'banner'
                     ];
-                }, $request->menus);
-                DB::table('st_post_images')->insert($menus);
+                }, $request->banners); 
+                DB::table('st_post_images')->insert($banners);
             }
-            if ($request->has('images') && !empty($request->get('images'))) {
+ 
+            if ($request->has('thumbnails') && !empty($request->get('thumbnails'))) {
                 $images = array_map(function ($item) use ($story) {
                     return [
                         'position' => 0,
                         'thumbnail' => $item['thumb'] ?? '',
                         'post_id' => $story->id,
-                        'type' => 'post'
+                        'type' => 'photo'
                     ];
-                }, $request->images);
+                }, $request->thumbnails); 
                 DB::table('st_post_images')->insert($images);
-            }
+            } 
             DB::commit();
             return $this->responsiveSuccess('Thêm bài viết thành công');
         } catch (\Exception $ex) {
@@ -161,8 +162,9 @@ class PostController extends Controller
         $story = $this->_repository->find($id);
         if (empty($story)) return response()->json(['status' => 'error'], 500);
         $story['url'] = route('post', ['slug' => $story->slug]);
-        $story['menus'] = $story->media()->where('type', 'post_menu')->get();
-        $story['images'] = $story->media()->where('type', 'post')->get();
+
+        $story['banners'] = $story->media()->where('type', 'banner')->get();
+        $story['thumbnails'] = $story->media()->where('type', 'post')->get();
         if (!empty($story->config_social)) {
             $story['config_social'] = json_decode($story->config_social);
         }
@@ -217,37 +219,39 @@ class PostController extends Controller
         if (!empty($input['config_social'])) {
             $input['config_social'] = json_encode($input['config_social']);
         }
+      
         try {
             DB::beginTransaction();
             $this->_repository->update($input, $id);
 
-            if ($request->has('menus') && !empty($request->get('menus'))) {
-                $menus = array_map(function ($item) use ($story) {
+            if ($request->has('banners') && !empty($request->get('banners'))) {
+                $banners = array_map(function ($item) use ($story) {
                     return [
-                        'position' => 0,
+                        'position' => $item['position'] ?? 0,
                         'thumbnail' => $item['thumb'] ?? '',
                         'post_id' => $story->id,
-                        'type' => 'post_menu'
+                        'type' => 'banner'
                     ];
-                }, $request->menus);
+                }, $request->banners);
                 DB::table('st_post_images')->where([
                     'post_id' => $story->id,
-                    'type' => 'post_menu'
+                    'type' => 'banner'
                 ])->delete();
-                DB::table('st_post_images')->insert($menus);
+                DB::table('st_post_images')->insert($banners);
             }
-            if ($request->has('images') && !empty($request->get('images'))) {
+ 
+            if ($request->has('thumbnails') && !empty($request->get('thumbnails'))) {
                 $images = array_map(function ($item) use ($story) {
                     return [
                         'position' => 0,
                         'thumbnail' => $item['thumb'] ?? '',
                         'post_id' => $story->id,
-                        'type' => 'post'
+                        'type' => 'photo'
                     ];
-                }, $request->images);
+                }, $request->thumbnails);
                 DB::table('st_post_images')->where([
                     'post_id' => $story->id,
-                    'type' => 'post'
+                    'type' => 'photo'
                 ])->delete();
                 DB::table('st_post_images')->insert($images);
             }

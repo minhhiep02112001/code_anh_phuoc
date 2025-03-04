@@ -242,8 +242,10 @@
                                 '[name="content_footer"]');
                             let time_open = modal_form.find(
                                 '[name="time_open"]');
-                            let content_about = modal_form.find(
-                                '[name="content_about"]');
+                            let content_block_1 = modal_form.find(
+                                '[name="content_block_1"]');
+                            let content_block_2 = modal_form.find(
+                                '[name="content_block_2"]');
 
                             if (content.hasClass('tinymce') && response.data_info
                                 .content) {
@@ -284,12 +286,22 @@
                                 time_open.val(response.data_info.time_open);
                             }
 
-                            if (content_about.hasClass('tinymce') && response.data_info
-                                .content_about) {
-                                tinymce.get(content_about.attr('id')).setContent(
+                            if (content_block_1.hasClass('tinymce') && response
+                                .data_info
+                                .content_block_1) {
+                                tinymce.get(content_block_1.attr('id')).setContent(
                                     response
-                                    .data_info.content_about);
-                                content_about.val(response.data_info.content_about);
+                                    .data_info.content_block_1);
+                                content_block_1.val(response.data_info.content_block_1);
+                            }
+
+                            if (content_block_2.hasClass('tinymce') && response
+                                .data_info
+                                .content_block_2) {
+                                tinymce.get(content_block_2.attr('id')).setContent(
+                                    response
+                                    .data_info.content_block_2);
+                                content_block_2.val(response.data_info.content_block_2);
                             }
 
                             if (response.data_info.thumbnail) {
@@ -302,14 +314,34 @@
                                     `<input type="hidden" name="thumbnail" value="${response.data_info.thumbnail}">`
                                 );
                             }
-                            if (response.data_info.favicon) {
+                            if (response.data_info.thumbnail) {
                                 let parent_thumb = modal_form.find(
-                                    'div[data-field-name="favicon"] .upload-box');
+                                    'div[data-field-name="thumbnail"] .upload-box');
                                 parent_thumb.find('img').addClass('show').attr('src',
-                                    FUNC.getImageThumb(response.data_info.favicon)
+                                    FUNC.getImageThumb(response.data_info.thumbnail)
                                 );
                                 parent_thumb.append(
-                                    `<input type="hidden" name="favicon" value="${response.data_info.favicon}">`
+                                    `<input type="hidden" name="thumbnail" value="${response.data_info.thumbnail}">`
+                                );
+                            }
+                            if (response.data_info.image_block_1) {
+                                let parent_thumb = modal_form.find(
+                                    'div[data-field-name="image_block_1"] .upload-box');
+                                parent_thumb.find('img').addClass('show').attr('src',
+                                    FUNC.getImageThumb(response.data_info.image_block_1)
+                                );
+                                parent_thumb.append(
+                                    `<input type="hidden" name="image_block_1" value="${response.data_info.image_block_1}">`
+                                );
+                            }
+                            if (response.data_info.image_block_2) {
+                                let parent_thumb = modal_form.find(
+                                    'div[data-field-name="image_block_2"] .upload-box');
+                                parent_thumb.find('img').addClass('show').attr('src',
+                                    FUNC.getImageThumb(response.data_info.image_block_2)
+                                );
+                                parent_thumb.append(
+                                    `<input type="hidden" name="image_block_2" value="${response.data_info.image_block_2}">`
                                 );
                             }
                             if (response.data_info.logo_share) {
@@ -321,6 +353,46 @@
                                 );
                                 parent_thumb.append(
                                     `<input type="hidden" name="logo_share" value="${response.data_info.logo_share}">`
+                                );
+                            }
+
+                            if (response.data_info.thumbnails) {
+                                var file_paths = response.data_info.thumbnails.map(
+                                    (item) => item.thumbnail
+                                );
+                                // Update input value and preview 
+                                let _parent_dom = $('div[data-field-name="thumbnails"]')
+                                    .closest(
+                                        ".gallery-upload");
+                                if (_parent_dom.find(".gallery-list").length == 0) {
+                                    $(_parent_dom).append(
+                                        '<div class="gallery-list p-1"></div>'
+                                    );
+                                }
+                                FUNC.showGallery(
+                                    _parent_dom.find(".gallery-list"),
+                                    'thumbnails',
+                                    file_paths
+                                );
+                            }
+
+                            if (response.data_info.banners) {
+                                var file_paths = response.data_info.banners.map(
+                                    (item) => item.thumbnail
+                                );
+                                // Update input value and preview 
+                                let _parent_dom = $('div[data-field-name="banners"]')
+                                    .closest(
+                                        ".gallery-upload");
+                                if (_parent_dom.find(".gallery-list").length == 0) {
+                                    $(_parent_dom).append(
+                                        '<div class="gallery-list p-1"></div>'
+                                    );
+                                }
+                                FUNC.showGallery(
+                                    _parent_dom.find(".gallery-list"),
+                                    'banners',
+                                    file_paths
                                 );
                             }
 
