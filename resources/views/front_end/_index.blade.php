@@ -19,7 +19,7 @@
     <script>
         document.documentElement.className = document.documentElement.className + ' yes-js js_active js'
     </script>
-
+    <link href="{{ asset('admins/vendor/font-awesome-4.7/css/font-awesome.min.css') }}" rel="stylesheet" media="all">
     @include('front_end.block.config_seo_header')
 
     <!-- #region -->
@@ -762,8 +762,32 @@
         </div><!-- **Inner Wrapper - End** -->
 
     </div><!-- **Wrapper - End** -->
+    <div class="mobile-menu  ">
+        <ul id="menu-new-menu-2" class="wdt-primary-nav " data-menu="62">
+            <li class="close-nav"><a href="javascript:void(0);"></a></li>
+            <li id="menu-item-2877"
+                class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-2877 menu-item-depth-0">
+                <a href="#" aria-current="page"><span data-text="Home">Home</span></a>
+            </li>
 
-
+            <li id="menu-item-2744"
+                class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2744 menu-item-depth-0"><a
+                    href="#"><span data-text="About">About</span></a></li>
+            <li id="menu-item-2757"
+                class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2757 menu-item-depth-0"><a
+                    href="#"><span data-text="Contact Us">Contact Us</span></a></li>
+            <li id="menu-item-2755"
+                class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2755 menu-item-depth-0"><a
+                    href="#"><span data-text="Blog">Blog</span></a></li>
+        </ul>
+    </div>
+    <style>
+        @media (min-width: 768px) {
+            .mobile-menu {
+                display: none !important;
+            }
+        }
+    </style>
 
     <link rel='stylesheet' id='wc-ppcp-blocks-styles-css'
         href='/wp-content/plugins/pymntpl-paypal-woocommerce/packages/blocks/build/stylesfe23.css?ver=1.0.55'
@@ -1079,6 +1103,7 @@
             width: 12px;
             margin-right: 2px;
         }
+
         .ti-profile-details {
             padding-left: 10px;
         }
@@ -1176,6 +1201,12 @@
                     },
                 ],
             });
+        });
+
+        jQuery(document).ready(function() {
+            jQuery("li.close-nav, .mobile-nav-offcanvas-right").on('click', function() {
+                jQuery('.mobile-menu').toggleClass('nav-is-visible')
+            })
         });
     </script>
     <style>

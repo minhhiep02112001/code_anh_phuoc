@@ -131,33 +131,9 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="mb-2 flex gap-3 empty:hidden -ml-2">
-                                                            <div class="items-center justify-start rounded-xl p-1 flex">
-                                                                <div class="flex items-center"> </div>
-                                                            </div>
-                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="elementor-element elementor-element-2c3c60b elementor-icon-list--layout-inline elementor-align-center wdt-footer-menu-style elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list"
-                                                    data-id="2c3c60b" data-element_type="widget"
-                                                    data-widget_type="icon-list.default">
-                                                    <div class="elementor-widget-container">
-                                                        <ul class="elementor-icon-list-items elementor-inline-items">
-                                                            @if (!empty($menus_footer))
-                                                                @foreach ($menus_footer as $item)
-                                                                    <li
-                                                                        class="elementor-icon-list-item elementor-inline-item">
-                                                                        <a href="{{ $item->link ?? '/' }}">
 
-                                                                            <span
-                                                                                class="elementor-icon-list-text">{{ $item->title }}</span>
-                                                                        </a>
-                                                                    </li>
-                                                                @endforeach
-                                                            @endif
-                                                        </ul>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                         <div class="elementor-column elementor-col-33 elementor-inner-column elementor-element elementor-element-a7d4774"
@@ -168,16 +144,6 @@
                                                     data-widget_type="text-editor.default">
                                                     <div class="elementor-widget-container">
                                                         <p>Visit Us</p>
-                                                    </div>
-                                                </div>
-                                                <div class="elementor-element elementor-element-97e42ff elementor-widget-divider--view-line elementor-widget elementor-widget-divider"
-                                                    data-id="97e42ff" data-element_type="widget"
-                                                    data-widget_type="divider.default">
-                                                    <div class="elementor-widget-container">
-                                                        <div class="elementor-divider">
-                                                            <span class="elementor-divider-separator">
-                                                            </span>
-                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="elementor-element elementor-element-c4cb3b1 elementor-widget__width-initial elementor-widget elementor-widget-text-editor"

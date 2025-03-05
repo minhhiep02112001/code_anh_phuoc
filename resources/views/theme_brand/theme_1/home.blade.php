@@ -3,8 +3,9 @@
     $config_website = getValueSetting('config_website');
     $config_seo = getValueSetting('config_seo');
     $config_home = getValueSetting('config_home');
- 
-    $menus_footer = getMenuParent(0, 1); 
+
+    $menus_header = getMenuParent(0, 0);
+    $menus_footer = getMenuParent(0, 1);
 @endphp
 
 
@@ -2077,11 +2078,13 @@
         <div class="css-j64p7l e15axdxf1">
             <header class="e18e99my1 css-1nl879o ehep9uj0">
                 <div class="e18e99my0 css-1iiv58m e1xmv6f40">
-                    <div class="css-1l7k9wm ehep9uj0"><a href="index.html" class="e1g407rp0 css-mwwny2 eh0fvrz0">
+                    <div class="css-1l7k9wm ehep9uj0">
+                        <a href="/" class="e1g407rp0 css-mwwny2 eh0fvrz0">
                             <h2 class="eof04c41 css-16n9dof eh0fvrz0">{{ $config_website->website ?? '' }}</h2>
                         </a>
                         <div class="css-dyoadf elovojj0">
-                            <a class=" e46r4ae0 css-11prviu eqqze3d0" href="#main-menu" title="Open menu">
+                            <a class=" e46r4ae0 css-11prviu eqqze3d0" id="open_menu" href="#main-menu"
+                                title="Open menu">
                                 <div class="css-6zvpm ehep9uj0">
                                     <div class="css-1br3txa ehep9uj0"><svg viewBox="0 0 24 24"
                                             class="css-1ktnz7v e1jjwqut0">
@@ -2095,8 +2098,11 @@
                     </div>
                 </div>
             </header>
+
+
+
             <section id="main-menu" class="css-uiw85g e1ia6iam0">
-                <div class="ee94ukk1 css-1h3k0x3 ehep9uj0">
+                <div class="ee94ukk1 css-zmt40d ehep9uj0">
                     <div class="css-9g0g4r ehep9uj0"><button class=" e46r4ae0 css-mnebl eqqze3d0" title="Close"><svg
                                 viewBox="0 0 24 24" class="css-3o0h5k e1jjwqut0">
                                 <rect x="2.10059" y="4.92871" width="4" height="24"
@@ -2105,80 +2111,17 @@
                                     transform="rotate(45 19.0713 2.10059)" fill="currentColor"></rect>
                             </svg> </button></div>
                     <div class="ee94ukk0 css-jazq28 e1xmv6f40">
-                        <div class="css-1f3l2hr elovojj0">
-                            <div class="css-slgx7q ehep9uj0">
-                                <div class="css-0 e1xmv6f40"><a class=" e46r4ae0 css-8q80ou eqqze3d0" href="login.html">
-                                        <div class="css-3e0w3e ehep9uj0">
-                                            <div class="css-qbrse1 e1xmv6f40">Login</div>
-                                            <div class="css-1br3txa ehep9uj0"><svg viewBox="0 0 24 24"
-                                                    class="css-3o0h5k e1jjwqut0">
-                                                    <path
-                                                        d="M17.9528 6.34926C17.9528 9.8737 15.127 12.6997 11.6 12.6997C8.07433 12.6997 5.24727 9.8737 5.24727 6.34926C5.24727 2.82483 8.07433 0 11.6 0C15.127 0 17.9528 2.82483 17.9528 6.34926ZM11.6 23.9999C6.39485 23.9999 2 23.1539 2 19.8898C2 16.6246 6.42246 15.8086 11.6 15.8086C16.8064 15.8086 21.2 16.6546 21.2 19.9186C21.2 23.1839 16.7775 23.9999 11.6 23.9999Z"
-                                                        fill="currentColor"></path>
-                                                </svg></div>
-                                        </div>
-                                    </a></div>
-                            </div>
-                        </div>
                         <nav>
-                            <div>
-                                <button id="collapsible_undefined" aria-controls="collapsible-region_undefined"
-                                    aria-expanded="true" class="eq3vq2v0 css-9gbji6 eqqze3d0">
-                                    <h3 class="css-1khs5xc eh0fvrz0">Hairdressing services in Melbourne</h3><svg
-                                        style="transform:rotate(90deg)" viewBox="0 0 24 24"
-                                        class="css-f9pz52 e1jjwqut0">
-                                        <path d="M7.82 0L5 2.82L14.16 12L5 21.18L7.82 24L19.82 12L7.82 0Z"
-                                            fill="currentColor"></path>
-                                    </svg>
-                                </button>
-                                <div id="collapsible-region_undefined" aria-hidden="false" role="region"
-                                    style="overflow:visible;display:block;height:auto">
-                                    <ul class="css-h3oydn eq3vq2v1">
-                                        <li><a href="book/hairdressing/hair-styling/melbourne.html"
-                                                class="e1g407rp0 css-ie1780 eh0fvrz0">Hair Styling</a></li>
-                                        <li><a href="book/hairdressing/hair-treatments/melbourne.html"
-                                                class="e1g407rp0 css-ie1780 eh0fvrz0">Hair Treatments</a></li>
-                                        <li><a href="book/hairdressing/hair-highlights/melbourne.html"
-                                                class="e1g407rp0 css-ie1780 eh0fvrz0">Hair Highlights</a></li>
-                                        <li><a href="book/hairdressing/hair-colouring/melbourne.html"
-                                                class="e1g407rp0 css-ie1780 eh0fvrz0">Hair Colouring</a></li>
-                                        <li><a href="book/hairdressing/women-s-haircut/melbourne.html"
-                                                class="e1g407rp0 css-ie1780 eh0fvrz0">Women&#x27;s Haircut</a></li>
-                                        <li><a href="venues/hairdressing/melbourne.html"
-                                                class="e1g407rp0 css-ie1780 eh0fvrz0">Hairdressing services in
-                                                Melbourne</a></li>
-                                    </ul>
-                                </div>
-                            </div>
+                            <ul class="css-h3oydn eq3vq2v1">
+                                @if (!empty($menus_header))
+                                    @foreach ($menus_header as $item)
+                                        <li><a href="{{ $item->link }}"
+                                                class="e1g407rp0 css-ie1780 eh0fvrz0">{{ $item->title }}</a>
+                                        </li>
+                                    @endforeach
+                                @endif
 
-                            <div><button id="collapsible_undefined" aria-controls="collapsible-region_undefined"
-                                    aria-expanded="false" class="eq3vq2v0 css-9gbji6 eqqze3d0">
-                                    <h3 class="css-1khs5xc eh0fvrz0">Hair Removal services in Melbourne</h3><svg
-                                        style="transform:rotate(0)" viewBox="0 0 24 24" class="css-lkz9sl e1jjwqut0">
-                                        <path d="M7.82 0L5 2.82L14.16 12L5 21.18L7.82 24L19.82 12L7.82 0Z"
-                                            fill="currentColor"></path>
-                                    </svg>
-                                </button>
-                                <div id="collapsible-region_undefined" aria-hidden="true" role="region"
-                                    style="overflow:hidden;display:none;height:0;transition:height 250ms">
-                                    <ul class="css-h3oydn eq3vq2v1">
-                                        <li><a href="book/waxing-hair-removal/waxing/melbourne.html"
-                                                class="e1g407rp0 css-ie1780 eh0fvrz0">Waxing</a></li>
-                                        <li><a href="book/waxing-hair-removal/eyebrow-waxing/melbourne.html"
-                                                class="e1g407rp0 css-ie1780 eh0fvrz0">Eyebrow Waxing</a></li>
-                                        <li><a href="book/waxing-hair-removal/leg-waxing/melbourne.html"
-                                                class="e1g407rp0 css-ie1780 eh0fvrz0">Leg Waxing</a></li>
-                                        <li><a href="book/waxing-hair-removal/face-waxing/melbourne.html"
-                                                class="e1g407rp0 css-ie1780 eh0fvrz0">Face Waxing</a></li>
-                                        <li><a href="book/waxing-hair-removal/mens-waxing/melbourne.html"
-                                                class="e1g407rp0 css-ie1780 eh0fvrz0">Men&#x27;s Waxing</a></li>
-                                        <li><a href="venues/waxing-hair-removal/melbourne.html"
-                                                class="e1g407rp0 css-ie1780 eh0fvrz0">Hair Removal services in
-                                                Melbourne</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-
+                            </ul>
                         </nav>
                     </div>
                 </div>
@@ -2201,10 +2144,8 @@
                                     <source
                                         srcSet="/static/images/home/hero@2x.webp 2x, /static/images/home/hero.webp 1x"
                                         type="image/webp" />
-                                    <source
-                                        srcSet="/static/images/home/hero@2x.png 2x, /static/images/home/hero.png 1x"
-                                        type="image/png" /><img src="static/images/home/hero%402x.png"
-                                        alt="" />
+                                    <source srcSet="/static/images/home/hero@2x.png 2x, /static/images/home/hero.png 1x"
+                                        type="image/png" /><img src="static/images/home/hero%402x.png" alt="" />
                                 </picture>
                                 <div transform="translate(-50%,-50%)" class="ep2hkag0 css-1lnpsqz e1xmv6f40"></div>
                             </div>
@@ -2259,7 +2200,8 @@
                             <div class="css-1g9vjr2 elovojj0">
                                 @if (!empty($posts) && $posts->count() > 0)
                                     @foreach ($posts as $item)
-                                        <a href="{{ route('post' , ['slug' => $item->slug]) }}" class="e1g407rp0 css-mwwny2 eh0fvrz0">
+                                        <a href="{{ route('post', ['slug' => $item->slug]) }}"
+                                            class="e1g407rp0 css-mwwny2 eh0fvrz0">
                                             <div class="css-p2z5vl elovojj0">
                                                 {!! getThumbnail($item, 300, 300, 'css-fim7d8 e10gmdwn0') !!}
                                                 <div class="css-6iwp6q elovojj0">
@@ -2268,10 +2210,8 @@
                                                             {{ $item->title }}
                                                         </strong>
                                                     </div>
-                                                    <div class="css-0 e1xmv6f40">
-                                                        <div class=" e46r4ae0 css-105fra2 eqqze3d0">
-                                                            {{ $item->description ?? '' }}
-                                                        </div>
+                                                    <div class="claim-line-3">
+                                                        <p>{{ $item->description ?? '' }}</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -2308,24 +2248,24 @@
             <footer id="footer" class="e18e99my1 css-126zv25 ehep9uj0">
                 <div class="e18e99my0 css-1iiv58m e1xmv6f40">
                     <div class="css-jo2aaq elovojj0">
-                        
+
                         <div class="css-9a3ihm elovojj0">
                             <section>
                                 <h4 class="css-g4opy9 eh0fvrz0">Company</h4>
                                 <p>{!! $config_website->content_footer !!}</p>
                             </section>
-                            <section> 
+                            <section>
                                 <ul class="css-3usq65 e1ypdq852">
                                     @if (!empty($menus_footer))
-                                    @foreach ($menus_footer as $item)
-                                        <li class="css-19tzvnq e1ypdq851"><a href="{{ $item->link }}"
-                                            class="e1ypdq850 e1g407rp0 css-1wlq5nj eh0fvrz0">{{ $item->title }}</a></li>
-                                    
+                                        @foreach ($menus_footer as $item)
+                                            <li class="css-19tzvnq e1ypdq851"><a href="{{ $item->link }}"
+                                                    class="e1ypdq850 e1g407rp0 css-1wlq5nj eh0fvrz0">{{ $item->title }}</a>
+                                            </li>
                                         @endforeach
-                                    @endif 
+                                    @endif
                                 </ul>
                             </section>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -2333,6 +2273,43 @@
         </div>
         <div class=" css-1sg0k8w esj4ej70"></div>
     </div>
+    <script src="{{ asset('admins/vendor/jquery-3.2.1.min.js') }}"></script>
+
+    <style>
+        .css-zmt40d {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            bottom: 0px;
+            width: 24em;
+            max-width: 90vw;
+            background-color: white;
+            transform: translate3d(0%, 0px, 0px);
+            transition: transform 250ms;
+        }
+
+        .css-1hd6k1h {
+            position: fixed;
+            inset: 0px;
+            z-index: 200;
+            overflow: hidden;
+            visibility: visible;
+            background-color: rgba(0, 0, 0, 0.35);
+            opacity: 1;
+            backdrop-filter: blur(1px);
+            transition: opacity 250ms;
+        }
+    </style>
+    <script>
+        $(document).ready(function() {
+            $("#open_menu, button.eqqze3d0").click(function() {
+                $("#main-menu").toggleClass('css-1hd6k1h')
+
+            })
+        });
+    </script>
 </body>
 
 </html>

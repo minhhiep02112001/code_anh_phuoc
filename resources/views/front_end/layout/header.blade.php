@@ -74,8 +74,7 @@
                                                             <div class="mobile-nav-container mobile-nav-offcanvas-right"
                                                                 data-menu="62"><a href="#"
                                                                     class="menu-trigger menu-trigger-icon"
-                                                                    data-menu="62"><i></i><span>Menu</span></a>
-                                                                <div class="mobile-menu" data-menu="62"></div>
+                                                                    data-menu="62"><i></i><span>Menu</span></a> 
                                                                 <div class="overlay"></div>
                                                             </div>
                                                         </div>
