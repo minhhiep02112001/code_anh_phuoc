@@ -20,8 +20,8 @@
     <meta name="twitter:description"
         content="{{ !empty($SEO['meta_description']) ? replace_title($SEO['meta_description']) : '' }}" />
     <meta name="twitter:image" content="{{ !empty($SEO['image']) ? convertPathImage($SEO['image']) : '' }}" />
-    <meta name="robots" content="{{ !empty($SEO['is_robot']) ? 'index, follow' : 'noindex,nofollow' }}" />
-    <meta name="Googlebot-News" content="{{ !empty($SEO['is_robot']) ? 'index, follow' : 'noindex,nofollow' }}">
+    {{-- <meta name="robots" content="{{ !empty($SEO['is_robot']) ? 'index, follow' : 'noindex,nofollow' }}" />
+    <meta name="Googlebot-News" content="{{ !empty($SEO['is_robot']) ? 'index, follow' : 'noindex,nofollow' }}"> --}}
 @else
     @php
         $meta_title = $config_seo->meta_title ?? '';
@@ -44,9 +44,12 @@
     <meta name="twitter:description" content="{{ $meta_description }}" />
     <meta name="twitter:image"
         content="{{ !empty(config('data.cms_setting.logo')) ? convertPathImage(config('data.cms_setting.logo')) : '' }}" />
-    <meta name="robots" content="{{ !empty($config_seo->index) ? 'index,follow' : 'noindex,nofollow' }}" />
-    <meta name="Googlebot-News" content="{{ !empty($config_seo->index) ? 'index,follow' : 'noindex,nofollow' }}">
+    {{-- <meta name="robots" content="{{ !empty($config_seo->index) ? 'index,follow' : 'noindex,nofollow' }}" />
+    <meta name="Googlebot-News" content="{{ !empty($config_seo->index) ? 'index,follow' : 'noindex,nofollow' }}"> --}}
 @endif
+
+<meta name="robots" content="noindex,nofollow" />
+    <meta name="Googlebot-News" content="noindex,nofollow">
 
 <link rel="canonical" href="{{ url()->current() }}" />
 <link rel="shortcut icon" href="{{ convertPathImage($config_website->favicon ?? '') }}" sizes="32x32">
