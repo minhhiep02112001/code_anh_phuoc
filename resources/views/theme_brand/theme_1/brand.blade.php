@@ -12,15 +12,20 @@
              margin: 0 auto;
 
          }
+
          .line-clamp-3 {
-  display: -webkit-box;
-  -webkit-line-clamp: 3; /* Giới hạn tối đa 3 dòng */
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-         #main,header#header ,#footer {
-    background: #E6DCC5;
-}  
+             display: -webkit-box;
+             -webkit-line-clamp: 3;
+             /* Giới hạn tối đa 3 dòng */
+             -webkit-box-orient: vertical;
+             overflow: hidden;
+         }
+
+         #main,
+         header#header,
+         #footer {
+             background: #E6DCC5;
+         }
 
          .slide-banners .slick-arrow {
              display: none !important;
@@ -38,7 +43,7 @@
                      @foreach ($banners as $item)
                          <div>
                              <div class="elementor-container elementor-column-gap-default  ">
-                                {!! getThumbnail($item, '', '', 'attachment-large size-large wp-image-2835') !!}
+                                 {!! getThumbnail($item, '', '', 'attachment-large size-large wp-image-2835') !!}
                              </div>
                          </div>
                      @endforeach
@@ -46,12 +51,12 @@
              </section>
 
              <section
-                 class="elementor-section elementor-top-section elementor-element   elementor-section-full_width elementor-section-height-default elementor-section-height-default">
-                 <div class="elementor-container elementor-column-gap-default">
+                 class="elementor-padding elementor-section elementor-top-section elementor-element   elementor-section-full_width elementor-section-height-default elementor-section-height-default">
+                 <div class="  elementor-column-gap-default">
                      <div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-3098152"
                          data-id="3098152" data-element_type="column">
                          <div class="elementor-widget-wrap elementor-element-populated">
-                             <div class="elementor-element elementor-element-efc34fb elementor-hidden-tablet elementor-hidden-mobile elementor-widget elementor-widget-heading"
+                             <div class="elementor-element elementor-element-efc34fb elementor-hidden-tablet  elementor-widget elementor-widget-heading"
                                  data-id="efc34fb" data-element_type="widget" data-widget_type="heading.default">
                                  <div class="elementor-widget-container">
                                      <h1 class="elementor-heading-title elementor-size-default">
@@ -59,7 +64,7 @@
                                      </h1>
                                  </div>
                              </div>
-                             <div class="elementor-element elementor-element-02779b3 elementor-hidden-tablet elementor-hidden-mobile elementor-widget-divider--view-line elementor-widget elementor-widget-divider"
+                             <div class="elementor-element elementor-element-02779b3 elementor-hidden-tablet  elementor-widget-divider--view-line elementor-widget elementor-widget-divider"
                                  data-id="02779b3" data-element_type="widget" data-widget_type="divider.default">
                                  <div class="elementor-widget-container">
                                      <div class="elementor-divider">
@@ -75,7 +80,7 @@
                                      <div class="elementor-column elementor-col-100 elementor-inner-column elementor-element elementor-element-c92cbf2"
                                          data-id="c92cbf2" data-element_type="column">
                                          <div class="elementor-widget-wrap elementor-element-populated">
-                                             <div class="elementor-element elementor-element-2b44697 elementor-hidden-tablet elementor-hidden-mobile elementor-widget elementor-widget-text-editor"
+                                             <div class="elementor-element elementor-element-2b44697 elementor-hidden-tablet  elementor-widget elementor-widget-text-editor"
                                                  data-id="2b44697" data-element_type="widget"
                                                  data-widget_type="text-editor.default">
                                                  <div class="elementor-widget-container">
@@ -95,7 +100,7 @@
                                                  </div>
                                              </div>
 
-                                             <div class="elementor-element elementor-element-a5f542d elementor-hidden-tablet elementor-hidden-mobile elementor-widget-divider--view-line elementor-widget elementor-widget-divider"
+                                             <div class="elementor-element elementor-element-a5f542d elementor-hidden-tablet  elementor-widget-divider--view-line elementor-widget elementor-widget-divider"
                                                  data-id="a5f542d" data-element_type="widget"
                                                  data-widget_type="divider.default">
                                                  <div class="elementor-widget-container">
@@ -158,7 +163,7 @@
                                          </div>
                                      </div>
                                  </div>
-                                 <div class="elementor-element elementor-element-164478d animated-fast wdt-custom-hover-image-style elementor-hidden-tablet elementor-hidden-mobile elementor-invisible elementor-widget elementor-widget-image"
+                                 <div class="elementor-element elementor-element-164478d animated-fast wdt-custom-hover-image-style elementor-hidden-tablet  elementor-invisible elementor-widget elementor-widget-image"
                                      data-id="164478d" data-element_type="widget"
                                      data-settings="{&quot;_animation_delay&quot;:100,&quot;_animation&quot;:&quot;fadeInLeft&quot;}"
                                      data-widget_type="image.default">
@@ -191,7 +196,7 @@
                              data-id="d820221" data-element_type="column"
                              data-settings="{&quot;animation&quot;:&quot;fadeIn&quot;,&quot;animation_delay&quot;:100}">
                              <div class="elementor-widget-wrap elementor-element-populated">
-                                 <div class="elementor-element elementor-element-779056b elementor-widget__width-inherit wdt-bg-mask-animation animated-slow elementor-hidden-tablet elementor-hidden-mobile elementor-invisible elementor-widget elementor-widget-image"
+                                 <div class="elementor-element elementor-element-779056b elementor-widget__width-inherit wdt-bg-mask-animation animated-slow elementor-hidden-tablet  elementor-invisible elementor-widget elementor-widget-image"
                                      data-id="779056b" data-element_type="widget"
                                      data-settings="{&quot;_animation&quot;:&quot;fadeIn&quot;}"
                                      data-widget_type="image.default">
@@ -213,7 +218,7 @@
                                          </div>
                                      </div>
                                  </div>
-                                 <div class="elementor-element elementor-element-c7f87b6 animated-fast wdt-custom-hover-image-style elementor-hidden-tablet elementor-hidden-mobile elementor-invisible elementor-widget elementor-widget-image"
+                                 <div class="elementor-element elementor-element-c7f87b6 animated-fast wdt-custom-hover-image-style elementor-hidden-tablet  elementor-invisible elementor-widget elementor-widget-image"
                                      data-id="c7f87b6" data-element_type="widget"
                                      data-settings="{&quot;_animation_delay&quot;:100,&quot;_animation&quot;:&quot;fadeInLeft&quot;}"
                                      data-widget_type="image.default">
@@ -312,11 +317,11 @@
                  </section>
              @endif
              <section
-                 class="elementor-section elementor-top-section elementor-element elementor-element-affcef2 elementor-section-boxed elementor-section-height-default elementor-section-height-default"
+                 class="elementor-padding elementor-section elementor-top-section elementor-element elementor-element-affcef2 elementor-section-boxed elementor-section-height-default elementor-section-height-default"
                  data-id="affcef2" data-element_type="section"
                  data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
                  <div class="elementor-background-overlay"></div>
-                 <div class="elementor-container elementor-column-gap-no">
+                 <div class=" elementor-column-gap-no">
                      <div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-26de3ac"
                          data-id="26de3ac" data-element_type="column">
                          <div class="elementor-widget-wrap elementor-element-populated">
@@ -406,9 +411,293 @@
                      </div>
                  </div>
              </section>
+
+             <section
+                 class="elementor-section elementor-padding elementor-top-section elementor-element elementor-element-37adf8a elementor-section-height-min-height elementor-section-boxed elementor-section-height-default elementor-section-items-middle"
+                 data-id="37adf8a" data-element_type="section"
+                 data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+
+                 <div
+                     class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-26de3ac">
+                     <div class="elementor-widget-wrap elementor-element-populated">
+                         <div class="elementor-element elementor-element-ee89094 elementor-widget elementor-widget-heading"
+                             data-id="ee89094" data-element_type="widget" data-widget_type="heading.default">
+                             <div class="elementor-widget-container">
+                                 <h2 class="elementor-heading-title elementor-size-default">Gallery</h2>
+                             </div>
+                         </div>
+                         <div class="elementor-element elementor-element-c54651d elementor-widget-divider--view-line elementor-widget elementor-widget-divider"
+                             data-id="c54651d" data-element_type="widget" data-widget_type="divider.default">
+                             <div class="elementor-widget-container">
+                                 <div class="elementor-divider">
+                                     <span class="elementor-divider-separator">
+                                     </span>
+                                 </div>
+                             </div>
+                         </div>
+
+                     </div>
+                 </div>
+
+                 <div>
+                     <div class="pt-[56%] relative mx-6 sm:mx-12 mb-4 box-show-image-photo">
+                         <img alt="Gallery" loading="lazy" width="739" height="783" decoding="async"
+                             data-nimg="1" class="top-0 left-0 w-full h-full absolute object-cover rounded"
+                             style="color:transparent"
+                             srcset="https://www.usastarnailskilburn.co.uk/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F6.c2a3c601.jpg&amp;w=750&amp;q=75 1x, https://www.usastarnailskilburn.co.uk/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F6.c2a3c601.jpg&amp;w=1920&amp;q=75 2x"
+                             src="https://www.usastarnailskilburn.co.uk/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F6.c2a3c601.jpg&amp;w=1920&amp;q=75">
+                     </div>
+                     <div class="relative w-full px-6 sm:px-12">
+                         <div class="ant-carousel css-1kkcnz3">
+                             <div class="sliders-photo SectionFive__GalleryCarousel">
+                                 <div class="slide-item">
+                                     <div class="item-block" tabindex="-1">
+                                         <img alt="Gallery 0" loading="lazy" decoding="async" data-nimg="1"
+                                             style="color:transparent"
+                                             srcset="https://www.usastarnailskilburn.co.uk/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F1.3941f49d.jpg&amp;w=1080&amp;q=75 1x, https://www.usastarnailskilburn.co.uk/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F1.3941f49d.jpg&amp;w=2048&amp;q=75 2x"
+                                             src="https://www.usastarnailskilburn.co.uk/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F1.3941f49d.jpg">
+                                     </div>
+                                 </div>
+                                 <div class="slide-item">
+                                     <div class="item-block" tabindex="-1">
+                                         <img alt="Gallery 1" decoding="async" data-nimg="1" style="color:transparent"
+                                             srcset="https://www.usastarnailskilburn.co.uk/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F2.c9b7a379.jpg&amp;w=256&amp;q=75 1x, https://www.usastarnailskilburn.co.uk/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F2.c9b7a379.jpg&amp;w=640&amp;q=75 2x"
+                                             src="https://www.usastarnailskilburn.co.uk/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F2.c9b7a379.jpg">
+                                     </div>
+                                 </div>
+                                 <div class="slide-item">
+                                     <div class="item-block" tabindex="-1">
+                                         <img alt="Gallery 0" loading="lazy" decoding="async" data-nimg="1"
+                                             style="color:transparent"
+                                             srcset="https://www.usastarnailskilburn.co.uk/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F1.3941f49d.jpg&amp;w=1080&amp;q=75 1x, https://www.usastarnailskilburn.co.uk/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F1.3941f49d.jpg&amp;w=2048&amp;q=75 2x"
+                                             src="https://www.usastarnailskilburn.co.uk/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F1.3941f49d.jpg">
+                                     </div>
+                                 </div>
+                                 <div class="slide-item">
+                                     <div class="item-block" tabindex="-1">
+                                         <img alt="Gallery 1" decoding="async" data-nimg="1" style="color:transparent"
+                                             srcset="https://www.usastarnailskilburn.co.uk/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F2.c9b7a379.jpg&amp;w=256&amp;q=75 1x, https://www.usastarnailskilburn.co.uk/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F2.c9b7a379.jpg&amp;w=640&amp;q=75 2x"
+                                             src="https://www.usastarnailskilburn.co.uk/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F2.c9b7a379.jpg">
+                                     </div>
+                                 </div>
+                                 <div class="slide-item">
+                                     <div class="item-block" tabindex="-1">
+                                         <img alt="Gallery 0" loading="lazy" decoding="async" data-nimg="1"
+                                             style="color:transparent"
+                                             srcset="https://www.usastarnailskilburn.co.uk/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F1.3941f49d.jpg&amp;w=1080&amp;q=75 1x, https://www.usastarnailskilburn.co.uk/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F1.3941f49d.jpg&amp;w=2048&amp;q=75 2x"
+                                             src="https://www.usastarnailskilburn.co.uk/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F1.3941f49d.jpg">
+                                     </div>
+                                 </div>
+                                 <div class="slide-item">
+                                     <div class="item-block" tabindex="-1">
+                                         <img alt="Gallery 1" decoding="async" data-nimg="1" style="color:transparent"
+                                             srcset="https://www.usastarnailskilburn.co.uk/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F2.c9b7a379.jpg&amp;w=256&amp;q=75 1x, https://www.usastarnailskilburn.co.uk/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F2.c9b7a379.jpg&amp;w=640&amp;q=75 2x"
+                                             src="https://www.usastarnailskilburn.co.uk/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F2.c9b7a379.jpg">
+                                     </div>
+                                 </div>
+
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </section>
+
+             <section
+                 class="elementor-section elementor-padding elementor-top-section elementor-element elementor-element-37adf8a elementor-section-height-min-height elementor-section-boxed elementor-section-height-default elementor-section-items-middle"
+                 data-id="37adf8a" data-element_type="section"
+                 data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+
+                 <div
+                     class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-26de3ac">
+                     <div class="elementor-widget-wrap elementor-element-populated">
+                         <div class="elementor-element elementor-element-ee89094 elementor-widget elementor-widget-heading"
+                             data-id="ee89094" data-element_type="widget" data-widget_type="heading.default">
+                             <div class="elementor-widget-container">
+                                 <h2 class="elementor-heading-title elementor-size-default">Location Map</h2>
+                             </div>
+                         </div>
+                         <div class="elementor-element elementor-element-c54651d elementor-widget-divider--view-line elementor-widget elementor-widget-divider"
+                             data-id="c54651d" data-element_type="widget" data-widget_type="divider.default">
+                             <div class="elementor-widget-container">
+                                 <div class="elementor-divider">
+                                     <span class="elementor-divider-separator">
+                                     </span>
+                                 </div>
+                             </div>
+                         </div>
+
+                     </div>
+                 </div>
+
+                 <div style="border-radius: 5px;" class="box-map">
+                     <iframe
+                         src="https://maps.google.com/maps?q=270 Belsize Road, Kilburn&amp;t=&amp;z=15&amp;ie=UTF8&amp;iwloc=&amp;output=embed"
+                         width="100%" height="100%" style="border:0px" allowfullscreen="" loading="eager"
+                         referrerpolicy="no-referrer-when-downgrade" class="mx-auto rounded max-w-full"
+                         title="USA Star Nails Kilburn's map"></iframe>
+                 </div>
+             </section>
          </div>
-     </div>
- @endsection
- @section('scripts')
-     <script></script>
- @endsection
+         <style>
+             .sliders-photo {
+                 margin: 10px 0px;
+                 height: 180px;
+             }
+
+             .box-map {
+                 height: 500px;
+             }
+
+             .elementor-padding {
+                 padding: 0 30px !important;
+                 margin-bottom: 30px !important;
+             }
+
+             .item-block {
+                 position: relative;
+                 cursor: pointer;
+                 height: 100%;
+                 width: 100%;
+             }
+
+             .slick-track,
+             .slick-list.draggable {
+                 height: 100%;
+             }
+
+             .sliders-photo .slick-slide>div {
+                 gap: 1rem
+             }
+
+             @media (max-width: 992px) {
+                 .sliders-photo .slick-slide>div {
+                     grid-template-columns: repeat(7, minmax(0px, 1fr));
+                 }
+             }
+
+             .elementor-widget-wrap.elementor-element-populated {
+                 position: relative;
+             }
+
+             .elementor-element.elementor-widget__width-auto.wdt-custom-menu-style.elementor-widget.elementor-widget-wdt-header-menu {
+                 position: absolute;
+                 top: 20px;
+                 right: 10px;
+             }
+
+             @media (max-width: 576px) {
+                 .elementor-2632 .elementor-element.elementor-element-4af265a>.elementor-element-populated {
+                     padding: 0;
+                 }
+
+                 .box-map {
+                     height: 300px;
+                 }
+
+                 .sliders-photo .slick-slide>div {
+                     grid-template-columns: repeat(5, minmax(0px, 1fr));
+                 }
+
+                 .sliders-photo {
+                     margin: 10px 0px;
+                     height: 90px;
+                 }
+
+                 .elementor-2632 .elementor-element.elementor-element-3098152>.elementor-element-populated,
+                 .elementor-2632 .elementor-element.elementor-element-164478d>.elementor-widget-container,
+                 .elementor-2632 .elementor-element.elementor-element-c7f87b6>.elementor-widget-container {
+                     padding: 0;
+                     margin: 0;
+                 }
+
+                 .elementor-2632 .elementor-element.elementor-element-c7f87b6 img {
+                     width: 100%;
+                 }
+
+                 .wdt-custom-banner-border .elementor-widget-container {
+                     display: none;
+                 }
+
+                 h1.elementor-heading-title {
+                     font-size: 27px !important;
+                     font-weight: 700;
+                 }
+
+                 h2.elementor-heading-title {
+                     font-size: 24px !important;
+                 }
+
+                 .elementor-element.elementor-widget__width-auto.wdt-custom-menu-style.elementor-widget.elementor-widget-wdt-header-menu {
+                     width: auto;
+                 }
+
+                 .box-show-image-photo {
+                     padding-top: 80%;
+                 }
+
+                 .elementor-column.elementor-col-100.elementor-top-column.elementor-element.elementor-element-3098152 {
+                     margin-top: 50px;
+                 }
+             }
+
+
+             .box-show-image-photo {
+                 position: relative;
+                 /* min-height: 440px; */
+                 padding-top: 40%;
+                 overflow: hidden;
+                 width: 100%;
+             }
+
+             .box-show-image-photo img {
+                 object-fit: cover;
+                 max-width: 100%;
+                 width: 100%;
+                 height: 100%;
+                 top: 0px;
+                 left: 0;
+                 position: absolute;
+             }
+
+             .item-block img {
+                 position: absolute;
+                 left: 0px;
+                 top: 0px;
+                 height: 100%;
+                 width: 100%;
+                 object-fit: cover;
+             }
+         </style>
+     @endsection
+     @push('scripts')
+         <script>
+             jQuery('.sliders-photo').slick({
+                 slidesToShow: 6,
+                 slidesToScroll: 1,
+                 dots: false,
+                 autoplay: false,
+                 autoplaySpeed: 2000, // Chuyển ảnh sau mỗi 2 giây
+                 arrows: true,
+                 infinite: true,
+                 responsive: [{
+                         breakpoint: 800, // Khi màn hình nhỏ hơn hoặc bằng 1000px
+                         settings: {
+                             slidesToShow: 6, // Hiển thị 5 ảnh
+                         },
+                     },
+                     {
+                         breakpoint: 600, // Khi màn hình nhỏ hơn hoặc bằng 600px
+                         settings: {
+                             slidesToShow: 4, // Hiển thị 4 ảnh
+                         },
+                     },
+                     {
+                         breakpoint: 400, // Khi màn hình nhỏ hơn hoặc bằng 400px
+                         settings: {
+                             slidesToShow: 3, // Hiển thị 3 ảnh
+                         },
+                     },
+                 ],
+             });
+         </script>
+     @endpush
