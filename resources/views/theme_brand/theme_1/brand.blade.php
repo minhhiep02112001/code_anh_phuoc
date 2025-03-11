@@ -41,7 +41,7 @@
              <section class="elementor-section" data-id="35535b0" data-element_type="section">
                  <div class="slide-banners">
                      @foreach ($banners as $item)
-                         <div>
+                         <div class="block-item">
                              <div class="elementor-container elementor-column-gap-default  ">
                                  {!! getThumbnail($item, '', '', 'attachment-large size-large wp-image-2835') !!}
                              </div>
@@ -50,7 +50,7 @@
                  </div>
              </section>
 
-             <section
+             <section id="about"
                  class="elementor-padding elementor-section elementor-top-section elementor-element   elementor-section-full_width elementor-section-height-default elementor-section-height-default">
                  <div class="  elementor-column-gap-default">
                      <div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-3098152"
@@ -92,7 +92,7 @@
                                                                  class="flex w-full flex-col gap-1 empty:hidden first:pt-[3px]">
                                                                  <div
                                                                      class="markdown prose w-full break-words dark:prose-invert dark">
-                                                                     {!! $post->content_about !!}
+                                                                     {!! $post->content !!}
                                                                  </div>
                                                              </div>
                                                          </div>
@@ -120,7 +120,7 @@
              </section>
 
              @if (!empty($post->content_block_1) && !empty($post->image_block_1))
-                 <section
+                 <section id="content_block_1"
                      class="elementor-section elementor-inner-section elementor-element elementor-element-6533d6c4 elementor-reverse-tablet elementor-reverse-mobile elementor-section-height-min-height elementor-section-content-middle elementor-section-boxed elementor-section-height-default"
                      data-id="6533d6c4" data-element_type="section"
                      data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
@@ -187,7 +187,7 @@
                  </section>
              @endif
              @if (!empty($post->content_block_2) && !empty($post->image_block_2))
-                 <section
+                 <section id="content_block_2"
                      class="elementor-section elementor-inner-section elementor-element elementor-element-1694bb2 elementor-reverse-tablet elementor-reverse-mobile elementor-section-height-min-height elementor-section-content-middle elementor-section-boxed elementor-section-height-default"
                      data-id="1694bb2" data-element_type="section"
                      data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
@@ -264,24 +264,26 @@
                      </div>
                  </section>
              @endif
-             @if (!empty($photos))
+             @if ($comments->isNotEmpty())
                  <section
-                     class="elementor-section elementor-top-section elementor-element elementor-element-37adf8a elementor-section-height-min-height elementor-section-boxed elementor-section-height-default elementor-section-items-middle"
-                     data-id="37adf8a" data-element_type="section"
+                 id="comment"
+                     class="elementor-padding elementor-section elementor-top-section elementor-element elementor-element-affcef2 elementor-section-boxed elementor-section-height-default elementor-section-height-default"
+                     data-id="affcef2" data-element_type="section"
                      data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
-                     <div class="elementor-container elementor-column-gap-default">
-                         <div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-1451955"
-                             data-id="1451955" data-element_type="column">
+                     <div class="elementor-background-overlay"></div>
+                     <div class=" elementor-column-gap-no">
+                         <div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-26de3ac"
+                             data-id="26de3ac" data-element_type="column">
                              <div class="elementor-widget-wrap elementor-element-populated">
-                                 <div class="elementor-element elementor-element-ca9e945 elementor-widget elementor-widget-heading"
-                                     data-id="ca9e945" data-element_type="widget" data-widget_type="heading.default">
+                                 <div class="elementor-element elementor-element-ee89094 elementor-widget elementor-widget-heading"
+                                     data-id="ee89094" data-element_type="widget" data-widget_type="heading.default">
                                      <div class="elementor-widget-container">
-                                         <h2 class="elementor-heading-title elementor-size-default">
-                                             Our Trusted Products Range</h2>
+                                         <h2 class="elementor-heading-title elementor-size-default">What Our
+                                             Clients Say About Us</h2>
                                      </div>
                                  </div>
-                                 <div class="elementor-element elementor-element-7dce78c elementor-widget-divider--view-line elementor-widget elementor-widget-divider"
-                                     data-id="7dce78c" data-element_type="widget" data-widget_type="divider.default">
+                                 <div class="elementor-element elementor-element-c54651d elementor-widget-divider--view-line elementor-widget elementor-widget-divider"
+                                     data-id="c54651d" data-element_type="widget" data-widget_type="divider.default">
                                      <div class="elementor-widget-container">
                                          <div class="elementor-divider">
                                              <span class="elementor-divider-separator">
@@ -289,47 +291,94 @@
                                          </div>
                                      </div>
                                  </div>
+                                 <div class="elementor-element elementor-element-a8bddac elementor-widget elementor-widget-shortcode"
+                                     data-id="a8bddac" data-element_type="widget" data-widget_type="shortcode.default">
+                                     <div class="elementor-widget-container">
+                                         <div class="elementor-shortcode">
+                                             <div class="ti-widget ti-goog ti-disable-font ti-review-text-mode-readmore ti-text-align-left"
+                                                 data-no-translation="true" data-layout-id="4"
+                                                 data-layout-category="slider" data-set-id="light-background"
+                                                 data-pid="" data-language="en" data-review-target-width="300"
+                                                 data-css-version="2" data-review-text-mode="readmore"
+                                                 data-reply-by-locale="Owner's reply" data-pager-autoplay-timeout="6"
+                                                 data-trustindex-widget="true" style="">
+                                                 <div class="ti-widget-container ti-col-5">
+                                                     <div class="ti-reviews-container">
 
-                                 <section
-                                     class="elementor-section elementor-inner-section elementor-element elementor-element-b658847 elementor-section-boxed elementor-section-height-default elementor-section-height-default"
-                                     data-id="b658847" data-element_type="section">
-                                     <div class="elementor-container elementor-column-gap-default sliders-brands">
-                                         @foreach ($photos as $item)
-                                             <div class="elementor-column elementor-col-25 elementor-inner-column elementor-element elementor-element-e87d1b5"
-                                                 data-id="e87d1b5" data-element_type="column">
-                                                 <div class="elementor-widget-wrap elementor-element-populated">
-                                                     <div class="elementor-element elementor-element-9f6740d elementor-widget elementor-widget-image"
-                                                         data-id="9f6740d" data-element_type="widget"
-                                                         data-widget_type="image.default">
-                                                         <div class="elementor-widget-container">
-                                                             {!! getThumbnail($item, 300, 300, 'attachment-large size-large wp-image-2835') !!}
+                                                         <div class="ti-reviews-container-wrapper sliders">
+                                                             @foreach ($comments as $item)
+                                                                 <div data-empty="0"
+                                                                     class="ti-review-item source-Google ti-image-layout-thumbnail"
+                                                                     style="position: relative;">
+                                                                     <div class="ti-inner">
+                                                                         <div class="ti-review-header">
+                                                                             <div class="ti-profile-img">
+                                                                                 {!! getThumbnail($item, 50, 50, 'attachment-large size-large wp-image-2835') !!}
+                                                                             </div>
+                                                                             <div class="ti-profile-details">
+                                                                                 <div class="ti-name">
+                                                                                     {{ $item->fullname }}
+                                                                                 </div>
+                                                                                 <div class="ti-date">
+                                                                                     {{ format_date($item->created_at, 'd-m-Y') }}
+                                                                                 </div>
+                                                                             </div>
+                                                                         </div> <span class="ti-stars">
+
+                                                                             <img class="ti-star"
+                                                                                 src="{{ asset('images/f.svg') }}"
+                                                                                 alt="Google" width="17"
+                                                                                 height="17" loading="lazy">
+                                                                             <img class="ti-star"
+                                                                                 src="{{ asset('images/f.svg') }}"
+                                                                                 alt="Google" width="17"
+                                                                                 height="17" loading="lazy"><img
+                                                                                 class="ti-star"
+                                                                                 src="{{ asset('images/f.svg') }}"
+                                                                                 alt="Google" width="17"
+                                                                                 height="17" loading="lazy"><img
+                                                                                 class="ti-star"
+                                                                                 src="{{ asset('images/f.svg') }}"
+                                                                                 alt="Google" width="17"
+                                                                                 height="17" loading="lazy"><img
+                                                                                 class="ti-star"
+                                                                                 src="{{ asset('images/f.svg') }}"
+                                                                                 alt="Google" width="17"
+                                                                                 height="17" loading="lazy"></span>
+                                                                         <div class="ti-review-text-container ti-review-content line-clamp-3"
+                                                                             style="height: 87px !important;"
+                                                                             data-initial-height="87"
+                                                                             data-expanded-height="261">
+                                                                             {!! $item->content ?? '' !!}
+                                                                         </div>
+                                                                     </div>
+                                                                 </div>
+                                                             @endforeach
                                                          </div>
                                                      </div>
                                                  </div>
                                              </div>
-                                         @endforeach
+                                         </div>
                                      </div>
-
-                                 </section>
+                                 </div>
                              </div>
                          </div>
                      </div>
                  </section>
              @endif
-             <section
-                 class="elementor-padding elementor-section elementor-top-section elementor-element elementor-element-affcef2 elementor-section-boxed elementor-section-height-default elementor-section-height-default"
-                 data-id="affcef2" data-element_type="section"
-                 data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
-                 <div class="elementor-background-overlay"></div>
-                 <div class=" elementor-column-gap-no">
-                     <div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-26de3ac"
-                         data-id="26de3ac" data-element_type="column">
+             @if (!empty($photos))
+                 <section id="gallery"
+                     class="elementor-section elementor-padding elementor-top-section elementor-element elementor-element-37adf8a elementor-section-height-min-height elementor-section-boxed elementor-section-height-default elementor-section-items-middle"
+                     data-id="37adf8a" data-element_type="section"
+                     data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+
+                     <div
+                         class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-26de3ac">
                          <div class="elementor-widget-wrap elementor-element-populated">
                              <div class="elementor-element elementor-element-ee89094 elementor-widget elementor-widget-heading"
                                  data-id="ee89094" data-element_type="widget" data-widget_type="heading.default">
                                  <div class="elementor-widget-container">
-                                     <h2 class="elementor-heading-title elementor-size-default">What Our
-                                         Clients Say About Us</h2>
+                                     <h2 class="elementor-heading-title elementor-size-default">Gallery</h2>
                                  </div>
                              </div>
                              <div class="elementor-element elementor-element-c54651d elementor-widget-divider--view-line elementor-widget elementor-widget-divider"
@@ -341,204 +390,99 @@
                                      </div>
                                  </div>
                              </div>
-                             <div class="elementor-element elementor-element-a8bddac elementor-widget elementor-widget-shortcode"
-                                 data-id="a8bddac" data-element_type="widget" data-widget_type="shortcode.default">
-                                 <div class="elementor-widget-container">
-                                     <div class="elementor-shortcode">
-                                         <div class="ti-widget ti-goog ti-disable-font ti-review-text-mode-readmore ti-text-align-left"
-                                             data-no-translation="true" data-layout-id="4" data-layout-category="slider"
-                                             data-set-id="light-background" data-pid="" data-language="en"
-                                             data-review-target-width="300" data-css-version="2"
-                                             data-review-text-mode="readmore" data-reply-by-locale="Owner's reply"
-                                             data-pager-autoplay-timeout="6" data-trustindex-widget="true"
-                                             style="">
-                                             <div class="ti-widget-container ti-col-5">
-                                                 <div class="ti-reviews-container">
 
-                                                     <div class="ti-reviews-container-wrapper sliders">
-                                                         @foreach ($comments as $item)
-                                                             <div data-empty="0"
-                                                                 class="ti-review-item source-Google ti-image-layout-thumbnail"
-                                                                 style="position: relative;">
-                                                                 <div class="ti-inner">
-                                                                     <div class="ti-review-header">
-                                                                         <div class="ti-profile-img">
-                                                                             {!! getThumbnail($item, 50, 50, 'attachment-large size-large wp-image-2835') !!}
-                                                                         </div>
-                                                                         <div class="ti-profile-details">
-                                                                             <div class="ti-name">{{ $item->fullname }}
-                                                                             </div>
-                                                                             <div class="ti-date">
-                                                                                 {{ format_date($item->created_at, 'd-m-Y') }}
-                                                                             </div>
-                                                                         </div>
-                                                                     </div> <span class="ti-stars">
+                         </div>
+                     </div>
 
-                                                                         <img class="ti-star"
-                                                                             src="{{ asset('images/f.svg') }}"
-                                                                             alt="Google" width="17" height="17"
-                                                                             loading="lazy">
-                                                                         <img class="ti-star"
-                                                                             src="{{ asset('images/f.svg') }}"
-                                                                             alt="Google" width="17" height="17"
-                                                                             loading="lazy"><img class="ti-star"
-                                                                             src="{{ asset('images/f.svg') }}"
-                                                                             alt="Google" width="17" height="17"
-                                                                             loading="lazy"><img class="ti-star"
-                                                                             src="{{ asset('images/f.svg') }}"
-                                                                             alt="Google" width="17" height="17"
-                                                                             loading="lazy"><img class="ti-star"
-                                                                             src="{{ asset('images/f.svg') }}"
-                                                                             alt="Google" width="17" height="17"
-                                                                             loading="lazy"></span>
-                                                                     <div class="ti-review-text-container ti-review-content line-clamp-3"
-                                                                         style="height: 87px !important;"
-                                                                         data-initial-height="87"
-                                                                         data-expanded-height="261">
-                                                                         {!! $item->content ?? '' !!}
-                                                                     </div>
-                                                                 </div>
-                                                             </div>
-                                                         @endforeach
-                                                     </div>
-                                                 </div>
+                     <div>
+                         @php
+                             $first = collect($photos)->first();
+                         @endphp
+                         <div class="pt-[56%] relative mx-6 sm:mx-12 mb-4 box-show-image-photo">
+                             <img alt="Gallery" loading="lazy" decoding="async"
+                                 class="top-0 left-0 w-full h-full absolute object-cover rounded"
+                                 style="color:transparent" src="{!! getImageThumb($first->thumbnail) !!}">
+                         </div>
+                         <div class="relative w-full px-6 sm:px-12">
+                             <div class="ant-carousel css-1kkcnz3">
+                                 <div class="sliders-photo SectionFive__GalleryCarousel">
+                                     @foreach ($photos as $k => $item)
+                                         <div class="slide-item">
+                                             <div class="item-block" tabindex="-1">
+                                                 <img alt="Gallery {{ $k }} " loading="lazy" decoding="async"
+                                                     data-nimg="1" style="color:transparent"
+                                                     srcset="{!! getImageThumb($item->thumbnail) !!}" src="{!! getImageThumb($item->thumbnail, 300, 300) !!}">
                                              </div>
                                          </div>
-                                     </div>
+                                     @endforeach
                                  </div>
                              </div>
                          </div>
                      </div>
-                 </div>
-             </section>
+                 </section>
+             @endif
 
-             <section
-                 class="elementor-section elementor-padding elementor-top-section elementor-element elementor-element-37adf8a elementor-section-height-min-height elementor-section-boxed elementor-section-height-default elementor-section-items-middle"
-                 data-id="37adf8a" data-element_type="section"
-                 data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+             @if (!empty($post->iframe_map))
+                 <section id="location"
+                     class="elementor-section elementor-padding elementor-top-section elementor-element elementor-element-37adf8a elementor-section-height-min-height elementor-section-boxed elementor-section-height-default elementor-section-items-middle"
+                     data-id="37adf8a" data-element_type="section"
+                     data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
 
-                 <div
-                     class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-26de3ac">
-                     <div class="elementor-widget-wrap elementor-element-populated">
-                         <div class="elementor-element elementor-element-ee89094 elementor-widget elementor-widget-heading"
-                             data-id="ee89094" data-element_type="widget" data-widget_type="heading.default">
-                             <div class="elementor-widget-container">
-                                 <h2 class="elementor-heading-title elementor-size-default">Gallery</h2>
-                             </div>
-                         </div>
-                         <div class="elementor-element elementor-element-c54651d elementor-widget-divider--view-line elementor-widget elementor-widget-divider"
-                             data-id="c54651d" data-element_type="widget" data-widget_type="divider.default">
-                             <div class="elementor-widget-container">
-                                 <div class="elementor-divider">
-                                     <span class="elementor-divider-separator">
-                                     </span>
+                     <div
+                         class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-26de3ac">
+                         <div class="elementor-widget-wrap elementor-element-populated">
+                             <div class="elementor-element elementor-element-ee89094 elementor-widget elementor-widget-heading"
+                                 data-id="ee89094" data-element_type="widget" data-widget_type="heading.default">
+                                 <div class="elementor-widget-container">
+                                     <h2 class="elementor-heading-title elementor-size-default">Location Map</h2>
                                  </div>
                              </div>
-                         </div>
-
-                     </div>
-                 </div>
-
-                 <div>
-                     <div class="pt-[56%] relative mx-6 sm:mx-12 mb-4 box-show-image-photo">
-                         <img alt="Gallery" loading="lazy" width="739" height="783" decoding="async"
-                             data-nimg="1" class="top-0 left-0 w-full h-full absolute object-cover rounded"
-                             style="color:transparent"
-                             srcset="https://www.usastarnailskilburn.co.uk/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F6.c2a3c601.jpg&amp;w=750&amp;q=75 1x, https://www.usastarnailskilburn.co.uk/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F6.c2a3c601.jpg&amp;w=1920&amp;q=75 2x"
-                             src="https://www.usastarnailskilburn.co.uk/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F6.c2a3c601.jpg&amp;w=1920&amp;q=75">
-                     </div>
-                     <div class="relative w-full px-6 sm:px-12">
-                         <div class="ant-carousel css-1kkcnz3">
-                             <div class="sliders-photo SectionFive__GalleryCarousel">
-                                 <div class="slide-item">
-                                     <div class="item-block" tabindex="-1">
-                                         <img alt="Gallery 0" loading="lazy" decoding="async" data-nimg="1"
-                                             style="color:transparent"
-                                             srcset="https://www.usastarnailskilburn.co.uk/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F1.3941f49d.jpg&amp;w=1080&amp;q=75 1x, https://www.usastarnailskilburn.co.uk/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F1.3941f49d.jpg&amp;w=2048&amp;q=75 2x"
-                                             src="https://www.usastarnailskilburn.co.uk/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F1.3941f49d.jpg">
+                             <div class="elementor-element elementor-element-c54651d elementor-widget-divider--view-line elementor-widget elementor-widget-divider"
+                                 data-id="c54651d" data-element_type="widget" data-widget_type="divider.default">
+                                 <div class="elementor-widget-container">
+                                     <div class="elementor-divider">
+                                         <span class="elementor-divider-separator">
+                                         </span>
                                      </div>
                                  </div>
-                                 <div class="slide-item">
-                                     <div class="item-block" tabindex="-1">
-                                         <img alt="Gallery 1" decoding="async" data-nimg="1" style="color:transparent"
-                                             srcset="https://www.usastarnailskilburn.co.uk/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F2.c9b7a379.jpg&amp;w=256&amp;q=75 1x, https://www.usastarnailskilburn.co.uk/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F2.c9b7a379.jpg&amp;w=640&amp;q=75 2x"
-                                             src="https://www.usastarnailskilburn.co.uk/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F2.c9b7a379.jpg">
-                                     </div>
-                                 </div>
-                                 <div class="slide-item">
-                                     <div class="item-block" tabindex="-1">
-                                         <img alt="Gallery 0" loading="lazy" decoding="async" data-nimg="1"
-                                             style="color:transparent"
-                                             srcset="https://www.usastarnailskilburn.co.uk/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F1.3941f49d.jpg&amp;w=1080&amp;q=75 1x, https://www.usastarnailskilburn.co.uk/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F1.3941f49d.jpg&amp;w=2048&amp;q=75 2x"
-                                             src="https://www.usastarnailskilburn.co.uk/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F1.3941f49d.jpg">
-                                     </div>
-                                 </div>
-                                 <div class="slide-item">
-                                     <div class="item-block" tabindex="-1">
-                                         <img alt="Gallery 1" decoding="async" data-nimg="1" style="color:transparent"
-                                             srcset="https://www.usastarnailskilburn.co.uk/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F2.c9b7a379.jpg&amp;w=256&amp;q=75 1x, https://www.usastarnailskilburn.co.uk/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F2.c9b7a379.jpg&amp;w=640&amp;q=75 2x"
-                                             src="https://www.usastarnailskilburn.co.uk/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F2.c9b7a379.jpg">
-                                     </div>
-                                 </div>
-                                 <div class="slide-item">
-                                     <div class="item-block" tabindex="-1">
-                                         <img alt="Gallery 0" loading="lazy" decoding="async" data-nimg="1"
-                                             style="color:transparent"
-                                             srcset="https://www.usastarnailskilburn.co.uk/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F1.3941f49d.jpg&amp;w=1080&amp;q=75 1x, https://www.usastarnailskilburn.co.uk/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F1.3941f49d.jpg&amp;w=2048&amp;q=75 2x"
-                                             src="https://www.usastarnailskilburn.co.uk/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F1.3941f49d.jpg">
-                                     </div>
-                                 </div>
-                                 <div class="slide-item">
-                                     <div class="item-block" tabindex="-1">
-                                         <img alt="Gallery 1" decoding="async" data-nimg="1" style="color:transparent"
-                                             srcset="https://www.usastarnailskilburn.co.uk/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F2.c9b7a379.jpg&amp;w=256&amp;q=75 1x, https://www.usastarnailskilburn.co.uk/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F2.c9b7a379.jpg&amp;w=640&amp;q=75 2x"
-                                             src="https://www.usastarnailskilburn.co.uk/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F2.c9b7a379.jpg">
-                                     </div>
-                                 </div>
-
                              </div>
+
                          </div>
                      </div>
-                 </div>
-             </section>
 
-             <section
-                 class="elementor-section elementor-padding elementor-top-section elementor-element elementor-element-37adf8a elementor-section-height-min-height elementor-section-boxed elementor-section-height-default elementor-section-items-middle"
-                 data-id="37adf8a" data-element_type="section"
-                 data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
-
-                 <div
-                     class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-26de3ac">
-                     <div class="elementor-widget-wrap elementor-element-populated">
-                         <div class="elementor-element elementor-element-ee89094 elementor-widget elementor-widget-heading"
-                             data-id="ee89094" data-element_type="widget" data-widget_type="heading.default">
-                             <div class="elementor-widget-container">
-                                 <h2 class="elementor-heading-title elementor-size-default">Location Map</h2>
-                             </div>
-                         </div>
-                         <div class="elementor-element elementor-element-c54651d elementor-widget-divider--view-line elementor-widget elementor-widget-divider"
-                             data-id="c54651d" data-element_type="widget" data-widget_type="divider.default">
-                             <div class="elementor-widget-container">
-                                 <div class="elementor-divider">
-                                     <span class="elementor-divider-separator">
-                                     </span>
-                                 </div>
-                             </div>
-                         </div>
-
+                     <div style="border-radius: 5px;" class="box-map">
+                         {!! getIframeSrcFromString($post->iframe_map) !!}
                      </div>
-                 </div>
-
-                 <div style="border-radius: 5px;" class="box-map">
-                     <iframe
-                         src="https://maps.google.com/maps?q=270 Belsize Road, Kilburn&amp;t=&amp;z=15&amp;ie=UTF8&amp;iwloc=&amp;output=embed"
-                         width="100%" height="100%" style="border:0px" allowfullscreen="" loading="eager"
-                         referrerpolicy="no-referrer-when-downgrade" class="mx-auto rounded max-w-full"
-                         title="USA Star Nails Kilburn's map"></iframe>
-                 </div>
-             </section>
+                 </section>
+             @endif
          </div>
          <style>
+             .slide-banners .block-item.slick-slide.slick-current {
+
+                 
+                 /* min-height: 440px; */
+                 height: 500px;
+                 overflow: hidden;
+                 width: 100%;
+
+             }
+             .slide-banners .block-item .elementor-container{
+                width: 100%;
+                height: 100%; 
+                position: relative;
+             }
+
+             .slide-banners .block-item .elementor-container img{
+               
+                object-fit: cover;
+                 max-width: 100%;
+                 width: 100%;
+                 height: 100%;
+                 top: 0px;
+                 left: 0;
+                 position: absolute;
+             }
+
              .sliders-photo {
                  margin: 10px 0px;
                  height: 180px;

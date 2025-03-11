@@ -48,25 +48,29 @@
                                                                             href="javascript:void(0);"></a></li>
                                                                     <li id="menu-item-2877"
                                                                         class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-2877 menu-item-depth-0">
-                                                                        <a href="#" aria-current="page"><span
+                                                                        <a href="/" aria-current="page"><span
                                                                                 data-text="Home">Home</span></a>
                                                                     </li>
 
                                                                     <li id="menu-item-2744"
                                                                         class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2744 menu-item-depth-0">
-                                                                        <a href="#"><span
+                                                                        <a href="#about"><span
                                                                                 data-text="About">About</span></a>
                                                                     </li>
                                                                     <li id="menu-item-2757"
                                                                         class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2757 menu-item-depth-0">
-                                                                        <a href="#/"><span
-                                                                                data-text="Contact Us">Contact
-                                                                                Us</span></a>
+                                                                        <a href="#gallery"><span
+                                                                                data-text="Contact Us">Photos</span></a>
                                                                     </li>
                                                                     <li id="menu-item-2755"
                                                                         class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2755 menu-item-depth-0">
-                                                                        <a href="#"><span
-                                                                                data-text="Blog">Blog</span></a>
+                                                                        <a href="#comment"><span
+                                                                                data-text="Blog">Review</span></a>
+                                                                    </li>
+                                                                    <li id="menu-item-2755"
+                                                                        class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2755 menu-item-depth-0">
+                                                                        <a href="#location"><span
+                                                                                data-text="Blog">Location</span></a>
                                                                     </li>
                                                                 </ul>
                                                                 <div class="sub-menu-overlay"></div>
@@ -74,7 +78,7 @@
                                                             <div class="mobile-nav-container mobile-nav-offcanvas-right"
                                                                 data-menu="62"><a href="#"
                                                                     class="menu-trigger menu-trigger-icon"
-                                                                    data-menu="62"><i></i><span>Menu</span></a> 
+                                                                    data-menu="62"><i></i><span>Menu</span></a>
                                                                 <div class="overlay"></div>
                                                             </div>
                                                         </div>
@@ -126,27 +130,32 @@
                                                                             href="javascript:void(0);"></a></li>
                                                                     <li class="close-nav"><a
                                                                             href="javascript:void(0);"></a></li>
+
                                                                     <li id="menu-item-2877"
                                                                         class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-2877 menu-item-depth-0">
-                                                                        <a href="#" aria-current="page"><span
+                                                                        <a href="/" aria-current="page"><span
                                                                                 data-text="Home">Home</span></a>
                                                                     </li>
 
                                                                     <li id="menu-item-2744"
                                                                         class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2744 menu-item-depth-0">
-                                                                        <a href="#"><span
+                                                                        <a href="#about"><span
                                                                                 data-text="About">About</span></a>
                                                                     </li>
                                                                     <li id="menu-item-2757"
                                                                         class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2757 menu-item-depth-0">
-                                                                        <a href="#/"><span
-                                                                                data-text="Contact Us">Contact
-                                                                                Us</span></a>
+                                                                        <a href="#gallery"><span
+                                                                                data-text="Contact Us">Photos</span></a>
                                                                     </li>
                                                                     <li id="menu-item-2755"
                                                                         class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2755 menu-item-depth-0">
-                                                                        <a href="#"><span
-                                                                                data-text="Blog">Blog</span></a>
+                                                                        <a href="#comment"><span
+                                                                                data-text="Blog">Review</span></a>
+                                                                    </li>
+                                                                    <li id="menu-item-2755"
+                                                                        class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2755 menu-item-depth-0">
+                                                                        <a href="#location"><span
+                                                                                data-text="Blog">Location</span></a>
                                                                     </li>
                                                                 </ul>
                                                                 <div class="sub-menu-overlay"></div>

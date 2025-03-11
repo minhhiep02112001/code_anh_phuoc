@@ -1,26 +1,11 @@
-const mysql = require("mysql2");
-
-// Tạo kết nối đến cơ sở dữ liệu MySQL
-// const connection = mysql.createConnection({
-//  host: "89.117.146.40",
-//   user: "deverloper",
-//   password: "deverloper123@",
-//   database: "restaurant_mutiple_sub", 
-//   port: 3306,
-// });
+const mysql = require("mysql2"); 
 
 const connection = mysql.createPool({
-  connectionLimit: 100, //important
-    // host: "185.187.235.185",
-    // user: "developer",
-    // password: "Developer123@",
-    // database: "db_restaurant",
-  
+  connectionLimit: 100, 
   host: "89.117.146.40",
   user: "deverloper",
   password: "deverloper123@",
-  database: "restaurant_mutiple_sub_fr", 
-
+  database: "nails",  
   port: 3306,
   waitForConnections: true,
   connectionLimit: 10,
@@ -148,10 +133,10 @@ function handle_post(item) {
     });
 }
 
-function handle_chapter(item) {
+function handle_crawler_map(item) {
     return new Promise((resolve, reject) => {
         connection.query(
-            `select id from st_chapter where crawler_href = '${item.crawler_href}' limit 1`,
+            `select id from crawler_map where key_word = '${item.key_word}' or slug = '${item.slug}' limit 1`,
             (error, elements) => {
                 if (error) {
                     return reject(error);
@@ -160,8 +145,8 @@ function handle_chapter(item) {
                     return resolve(elements[0].id);
                 } else {
                     connection.query(
-                        "INSERT INTO st_chapter SET ?",
-                        { ...item, is_status: 2 },
+                        "INSERT INTO crawler_map SET ?",
+                        { ...item, is_status: 0 },
                         function (error, results) {
                             if (error) return reject(error);
                             return resolve(results.insertId);
@@ -172,26 +157,21 @@ function handle_chapter(item) {
         );
     });
 }
-
-function handle_category_story(category_id, story_id) {
+function update_crawler_map(id, item) {
     return new Promise((resolve, reject) => {
         connection.query(
-            `select * from st_story_category where category_id = ${category_id} and story_id = ${story_id}`,
-            (error, elements) => {
+            "UPDATE crawler_map SET ? WHERE id = ?",
+            [{ ...item, is_status: 0 }, id], // Sử dụng parameterized queries
+            function (error, results) {
                 if (error) {
-                    return reject(error);
+                    console.error("Error updating crawler_map:", error);
+                    return reject(error); // Trả về lỗi nếu xảy ra
                 }
-
-                if (elements.length > 0) {
-                    return resolve(elements);
-                } else {
-                    let sql = `INSERT INTO st_story_category (category_id, story_id) VALUES (${category_id} , ${story_id})`;
-
-                    connection.query(sql, function (error, results) {
-                        if (error) return reject(error);
-                        return resolve(results);
-                    });
+                if (results.affectedRows === 0) {
+                    return reject(new Error("No record found to update"));
                 }
+                console.log("Record updated successfully, ID:", id);
+                return resolve(results.affectedRows); // Trả về số bản ghi đã cập nhật
             }
         );
     });
@@ -200,11 +180,9 @@ function handle_category_story(category_id, story_id) {
 module.exports = {
     query,
     execute,
-    handle_category,
-    handle_author,
     handle_post,
-    handle_category_story,
-    handle_chapter,
+    handle_crawler_map,
+    update_crawler_map,
     closeConnection,
-    connection
+    connection,
 };

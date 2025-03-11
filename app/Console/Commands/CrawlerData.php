@@ -52,7 +52,7 @@ class CrawlerData extends Command
         foreach ($data as $item) {
             $thumb = $item->crawler_href;
             if (!empty($thumb)) {
-                $path = saveImageUrlStorage($thumb, "photos/restaurants/{$item->slug}",   "{$item->slug}-{$item->type}-{$item->position}.jpg");
+                $path = saveImageUrlStorage($thumb, "photos/nails/{$item->slug}",   "{$item->slug}-{$item->type}-{$item->position}.jpg");
                 DB::table('st_post_images')->where('id', $item->id)->update([
                     'is_crawler' => 1,
                     'thumbnail' => "/{$path}"

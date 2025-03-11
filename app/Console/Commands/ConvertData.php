@@ -126,8 +126,28 @@ class ConvertData extends Command
                 if ((empty($thumnail_post) || !Storage::exists($thumnail_post)) && !empty($item->thumbnail)) { // download_image
                     $data['thumbnail'] = saveImageUrlStorage($item->thumbnail, "photos/restaurants/{$item->slug}",   "thumbnail.jpg");
                 }
-                if (empty($post->config_color)) {
+                $thumbs = DB::table('st_post_images')->where('post_id', $item->relate_id)->orderBy('id', 'asc')->get();
 
+
+                if ($thumbs->isNotEmpty()) {
+                    if ($thumbs->where('type', 'banner')->count() == 0) {
+                        for ($i = 0; $i < 3; $i++) {
+                            $item_img = $thumbs->shift();
+                            DB::table('st_post_images')->where('id', $item_img->id)->update(['type' => 'banner']);
+                        }
+                    }
+
+                    if ($thumbs->where('type', 'detail')->count() == 0) {
+                        $thumbs = $thumbs->where('type', '!=', 'banner');
+                        for ($i = 1; $i <= 2; $i++) {
+                            $item_img = $thumbs->shift();
+                            $data["image_block_{$i}"] = $item_img->thumbnail;
+                            DB::table('st_post_images')->where('id', $item_img->id)->update(['type' => 'detail']);
+                        }
+                    }
+                }
+
+                if (empty($post->config_color)) {
                     $color = $this->getRandomTheme();
                     $style = "<style>";
                     if (!empty($color)) {
@@ -165,7 +185,7 @@ class ConvertData extends Command
                     unset($data['google_review']);
                 }
                 if (!empty($data['phone'])) {
-                    $data['phone'] = str_replace(['Téléphone', ':', 'Téléphone', '\u{A0}',], '', $data['phone']);
+                    $data['phone'] = str_replace(['Numéro de téléphone', ':', 'Téléphone', '\u{A0}',], '', $data['phone']);
                     $data['phone'] = trim(str_replace('  ', ' ', $data['phone']));
                 }
 

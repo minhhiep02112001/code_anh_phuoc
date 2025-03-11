@@ -32,6 +32,7 @@ class HomeController extends Controller
 
     public function dashboard(Request $request)
     {
+        return $this->post('morning-ritual-nails-sp');
         // get sản phẩm bestseller config từ admin:
         $data = [];
         $page = $request->page ?? 1;
