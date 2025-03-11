@@ -117,7 +117,7 @@ Route::get('/feeds/rssxxx.xml', [App\Http\Controllers\FeedController::class, 'rs
 Route::group([
     'middleware' => ['redirect_301']
 ], function () {
-    Route::get('/',  [App\Http\Controllers\HomeController::class, 'dashboard'])->name('dashboard')->middleware('cacheResponse:300');
+    Route::get('/',  [App\Http\Controllers\HomeController::class, 'dashboard'])->name('post')->middleware('cacheResponse:300');
     // Route::get('/search', [App\Http\Controllers\HomeController::class, 'search'])->name('search');
     //   Route::get('/{slug}-post.html', [App\Http\Controllers\HomeController::class, 'post'])->name('post')->where(['slug' => '[a-z0-9-_]+', 'id' => '[0-9]+']);
     // //  Route::get('/{slug}-menu.html', [App\Http\Controllers\HomeController::class, 'menu'])->name('menu')->where(['slug' => '[a-z0-9-_]+', 'id' => '[0-9]+']);
