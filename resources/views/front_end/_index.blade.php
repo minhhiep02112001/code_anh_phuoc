@@ -1138,9 +1138,8 @@
                     slidesToShow: 1,
                     slidesToScroll: 1,
                     dots: false,
-                    autoplay: false,
-                    // autoplay: true,
-                    autoplaySpeed: 10000, // Chuyển ảnh sau mỗi 2 giây
+                    autoplay: true,
+                    autoplaySpeed: 5000, // Chuyển ảnh sau mỗi 2 giây
                     arrows: true,
                     infinite: true,
                 });
