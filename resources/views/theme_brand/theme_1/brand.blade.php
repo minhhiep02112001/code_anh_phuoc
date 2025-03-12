@@ -265,8 +265,7 @@
                  </section>
              @endif
              @if ($comments->isNotEmpty())
-                 <section
-                 id="comment"
+                 <section id="comment"
                      class="elementor-padding elementor-section elementor-top-section elementor-element elementor-element-affcef2 elementor-section-boxed elementor-section-height-default elementor-section-height-default"
                      data-id="affcef2" data-element_type="section"
                      data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
@@ -450,31 +449,119 @@
                          </div>
                      </div>
 
-                     <div style="border-radius: 5px;" class="box-map">
-                         {!! getIframeSrcFromString($post->iframe_map) !!}
+                     <div class="location-map">
+                         <div style="border-radius: 5px;" class="box-map">
+                             {!! getIframeSrcFromString($post->iframe_map) !!}
+                         </div>
+                         <div class="box-address">
+                             <div class="box-item">
+                                 <div
+                                     class="max-w-full w-100 mb-8 last:mb-0 sm:mb-0 px-10 md:first:border-l-0 md:border-l border-l-secondary-800">
+                                     <strong
+                                         class="inline-block text-xl md:text-2xl font-semibold mb-6 cursor-pointer transition-colors duration-300 text-accent">{{ $post->title }}</strong>
+                                     <div class="flex flex-col gap-1">
+                                         <span>Address: {{ $post->address }}</span>
+                                         <span>Tel: {{ $post->phone ?? '' }} </span>
+                                         @if (!empty($post->email))
+                                             <span>Email: {{ $post->email }} </span>
+                                         @endif
+
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
                      </div>
                  </section>
              @endif
          </div>
          <style>
+             .box-address {
+                 position: relative;
+                 display: block;
+             }
+
+             .text-xl {
+                 font-size: 1.25rem;
+             }
+
+             .font-semibold {
+                 font-weight: 600;
+             }
+
+             .mb-6 {
+                 margin-bottom: 1.5rem;
+             }
+
+             .box-item {
+                 border: 2px solid #fcca2c;
+                 padding: 2.5rem;
+                 width: 100%;
+                 background: #fff;
+                 border-radius: 20px;
+                 max-width: 550px;
+                 margin: 0 auto;
+                 margin-top: -30px;
+
+                 position: relative;
+             }
+
+             .box-item:before {
+                 content: "";
+                 border-bottom-color: #fecb2e;
+                 border-color: #00000000;
+                 border-right-width: 8px;
+                 border-left-width: 8px;
+                 border-bottom-width: 8px;
+                 display: block;
+                 z-index: 10;
+                 left: 50%;
+                 top: -7px;
+                 position: absolute;
+             }
+
+             .box-item:after {
+                 content: '';
+                 border-right-width: 8px;
+                 border-left-width: 8px;
+                 border-bottom-width: 8px;
+                 display: block;
+                 left: 50%;
+                 top: -10px;
+                 position: absolute;
+                 border-color: #00000000;
+                 border-bottom-color: #fecb2e;
+             }
+
+
+             .box-item strong {
+
+                 display: block;
+                 margin: 10px
+             }
+
+             .box-item span {
+                 display: block;
+             }
+
              .slide-banners .block-item.slick-slide.slick-current {
 
-                 
+
                  /* min-height: 440px; */
                  height: 500px;
                  overflow: hidden;
                  width: 100%;
 
              }
-             .slide-banners .block-item .elementor-container{
-                width: 100%;
-                height: 100%; 
-                position: relative;
+
+             .slide-banners .block-item .elementor-container {
+                 width: 100%;
+                 height: 100%;
+                 position: relative;
              }
 
-             .slide-banners .block-item .elementor-container img{
-               
-                object-fit: cover;
+             .slide-banners .block-item .elementor-container img {
+
+                 object-fit: cover;
                  max-width: 100%;
                  width: 100%;
                  height: 100%;
@@ -530,8 +617,20 @@
              }
 
              @media (max-width: 576px) {
+                 .box-item {
+                     margin-top: 10px;
+                 }
+
                  .elementor-2632 .elementor-element.elementor-element-4af265a>.elementor-element-populated {
                      padding: 0;
+                 }
+
+                 .elementor-2632 .elementor-element.elementor-element-d820221>.elementor-element-populated {
+                     margin: 0 0 30px 0;
+                 }
+
+                 .elementor-2632 .elementor-element.elementor-element-17aa2697>.elementor-element-populated {
+                     margin: 0;
                  }
 
                  .box-map {
