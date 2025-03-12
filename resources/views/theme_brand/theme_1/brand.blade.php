@@ -479,7 +479,9 @@
                  position: relative;
                  display: block;
              }
-
+             .elementor-2632 .elementor-element.elementor-element-164478d>.elementor-widget-container{
+                margin: 0;
+             }
              .text-xl {
                  font-size: 1.25rem;
              }
