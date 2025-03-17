@@ -1162,7 +1162,7 @@
                     {
                         breakpoint: 600, // Khi màn hình nhỏ hơn hoặc bằng 600px
                         settings: {
-                            slidesToShow: 2, // Hiển thị 4 ảnh
+                            slidesToShow: 1, // Hiển thị 4 ảnh
                         },
                     },
                     {
