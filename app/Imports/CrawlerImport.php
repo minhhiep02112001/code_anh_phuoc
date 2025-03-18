@@ -44,7 +44,7 @@ class CrawlerImport  implements ToModel, SkipsEmptyRows, WithHeadingRow, WithSta
             if (empty($row['keyword'])) {
                 throw new \InvalidArgumentException('Empty keyword provided');
             }
-
+           
             $title = ucfirst($row['keyword']);
             $slug = \Str::slug($title);
 
@@ -63,21 +63,22 @@ class CrawlerImport  implements ToModel, SkipsEmptyRows, WithHeadingRow, WithSta
                 'is_status' => 3,
             ]);
 
-            // $item = DB::table('crawler_map')->where('relate_id', $post->id)->first();
-            // if (empty($item)) {
-            //     DB::table('crawler_map')->insert([
-            //         'key_word' => "{$title} restaurant France",
-            //         'slug' => $slug,
-            //         'is_crawler' => 0,
-            //         'relate_id' => $post->id
-            //     ]);
-            // }
+            $item = DB::table('crawler_map')->where('relate_id', $post->id)->first();
+            if (empty($item)) {
+                DB::table('crawler_map')->insert([
+                    'key_word' => $title,
+                    'slug' => $slug,
+                    'is_crawler' => 0,
+                    'relate_id' => $post->id,
+                    'link_google_map' => $row['linkmap'] ?? ''
+                ]);
+            }
 
             DB::commit();
             echo "\n Success {$title} " . $this->importedCount;
             Log::info("SUCCESS {$title}");
             $this->importedCount++;
-        } catch (\Exception $ex) {
+        } catch (\Exception $ex) { 
             Log::error("ERROR processing {$row['keyword']}: " . $ex->getMessage());
             $this->failedCount++;
             DB::rollback();

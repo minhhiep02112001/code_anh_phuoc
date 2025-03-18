@@ -497,7 +497,7 @@ const bearerToken =
     "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJpc3MiOiJMYXJhdmVsIiwiaWF0IjoxNzMwOTk3NDc1LCJleHAiOjE3NjI1MzM0NzV9.DgUAoo-WfTOheMOZo7yU8LMARuPnzMFZsI7GibCr_mOeEqhKbu5Nhlr3VXNjzJ9MD5W0TJK1vc4WdePqCOGFqwusJGvNze9JTQT8U7WIU3nyBpifsDr0Q3fEfIHuAbhFiCG_MWve5USrk5uq8aDY21BCpoogqMT4j09k_vAU7KM";
 
 async function getAllCrawlerDataBase(offset = 0) {
-    const query = ` SELECT * FROM crawler_map WHERE is_crawler = 0 ORDER BY id ASC LIMIT 1000 offset ${offset}`;
+    const query = ` SELECT * FROM crawler_map WHERE is_crawler = 0 ORDER BY id desc LIMIT 1000 offset ${offset}`;
     return database.query(query);
 }
 

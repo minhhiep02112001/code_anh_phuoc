@@ -1,19 +1,35 @@
-const mysql = require("mysql2"); 
+const mysql = require("mysql2");
+
+// const connection = mysql.createPool({
+//     connectionLimit: 100,
+//     host: "89.117.146.40",
+//     user: "deverloper",
+//     password: "deverloper123@",
+//     database: "nails",
+//     port: 3306,
+//     waitForConnections: true,
+//     connectionLimit: 10,
+//     maxIdle: 10, // max idle connections, the default value is the same as `connectionLimit`
+//     idleTimeout: 30000, // idle connections timeout, in milliseconds, the default value 60000
+//     queueLimit: 0,
+//     enableKeepAlive: true,
+//     keepAliveInitialDelay: 0,
+// });
 
 const connection = mysql.createPool({
-  connectionLimit: 100, 
-  host: "89.117.146.40",
-  user: "deverloper",
-  password: "deverloper123@",
-  database: "nails",  
-  port: 3306,
-  waitForConnections: true,
-  connectionLimit: 10,
-  maxIdle: 10, // max idle connections, the default value is the same as `connectionLimit`
-  idleTimeout: 30000, // idle connections timeout, in milliseconds, the default value 60000
-  queueLimit: 0,
-  enableKeepAlive: true,
-  keepAliveInitialDelay: 0,
+    connectionLimit: 100,
+    host: "154.12.255.33",
+    user: "developer",
+    password: "developer123@",
+    database: "nails",
+    port: 3306,
+    waitForConnections: true,
+    connectionLimit: 10,
+    maxIdle: 10, // max idle connections, the default value is the same as `connectionLimit`
+    idleTimeout: 30000, // idle connections timeout, in milliseconds, the default value 60000
+    queueLimit: 0,
+    enableKeepAlive: true,
+    keepAliveInitialDelay: 0,
 });
 
 // const connection = mysql.createConnection({
@@ -81,27 +97,14 @@ function handle_category(item) {
     });
 }
 
-function handle_author(item) {
+function handle_service(item) {
     return new Promise((resolve, reject) => {
         connection.query(
-            `select id from st_author where slug = '${item.slug}' limit 1`,
-            (error, elements) => {
-                if (error) {
-                    return reject(error);
-                }
-                if (elements.length > 0) {
-                    return resolve(elements[0].id);
-                } else {
-                    item.is_status = 2;
-                    connection.query(
-                        "INSERT INTO st_author SET ?",
-                        { ...item },
-                        function (error, results) {
-                            if (error) return reject(error);
-                            return resolve(results.insertId);
-                        }
-                    );
-                }
+            "INSERT INTO service SET ?",
+            { ...item },
+            function (error, results) {
+                if (error) return reject(error);
+                return resolve(results.insertId);
             }
         );
     });
@@ -181,6 +184,7 @@ module.exports = {
     query,
     execute,
     handle_post,
+    handle_service,
     handle_crawler_map,
     update_crawler_map,
     closeConnection,

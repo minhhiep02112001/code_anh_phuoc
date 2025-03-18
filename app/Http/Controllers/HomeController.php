@@ -32,17 +32,17 @@ class HomeController extends Controller
 
     public function dashboard(Request $request)
     {
-        return $this->post('morning-ritual-nails-sp');
+
         // get sản phẩm bestseller config từ admin:
         $data = [];
         $page = $request->page ?? 1;
         $data['posts']  = $this->postRepository->getAll([
-            'is_status' => 1,
+            // 'is_status' => 1,
         ], [
             'order_by' => ['publish_at', 'desc'],
-            'limit' => 18,
+            'limit' => 28,
             'pagination' => $page,
-            'select' => ['id', 'title', 'slug', 'thumbnail', 'address', 'description', 'created_at'],
+            'select' => ['id', 'title', 'slug', 'thumbnail', 'address', 'description', 'publish_at'],
         ]);
 
         $data['banners'] = Banner::getType('home');
@@ -52,8 +52,8 @@ class HomeController extends Controller
     public function post($slug, $id = 0)
     {
         $post = $this->postRepository->findByField('slug', $slug)->first();
-        if (empty($post) || $post->is_status != 1) return abort(404);
-        $medias = $post->media()->select(['position', 'type', 'thumbnail'])->get()->groupBy('type') ;
+        // if (empty($post) || $post->is_status != 1) return abort(404);
+        $medias = $post->media()->select(['position', 'type', 'thumbnail'])->get()->groupBy('type');
         $promat = env('META_DES');
         $SEO = [
             'title' => $post->meta_title,
@@ -74,14 +74,12 @@ class HomeController extends Controller
         ])->limit(5)->get();
 
         $breadcrumbs = [array('url' => '', 'title' => $post->title)];
-
-$pages = Page::limit(2)->get();
+ 
         $data = [
             'breadcrumbs' => $breadcrumbs,
             'post' => $post,
             'SEO' => $SEO,
-            'medias' => $medias,
-            'pages' => $pages,
+            'medias' => $medias, 
             'comments' => $comment,
         ];
         return view('theme_brand.theme_1.brand', $data);
