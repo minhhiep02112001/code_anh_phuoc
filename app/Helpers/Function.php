@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
 
 if (!function_exists('getValueSetting')) {
     function getValueSetting($key)
@@ -161,7 +162,7 @@ if (!function_exists('getLinkUrl')) {
     }
 }
 
-
+ 
 if (!function_exists('saveImageUrlStorage')) {
     function saveImageUrlStorage($url, $folder, $name = '')
     {
@@ -169,25 +170,21 @@ if (!function_exists('saveImageUrlStorage')) {
             $contents = file_get_contents($url);
 
             if (empty($name)) {
-                $pathName = str_replace("//", "/", "storage/$folder/" . rand(1, 1000000) . '-' . substr($url, strrpos($url, '/') + 2));
-            } else {
-                $pathName = str_replace("//", "/", "storage/$folder/$name");
+                $name = rand(1, 1000000) . '-' . substr($url, strrpos($url, '/') + 2);
             }
 
-            $savedPath = public_path($pathName);
-            $savedDir = dirname($savedPath);
+            $pathName = "$folder/$name";
 
-            if (!is_dir($savedDir)) {
-                mkdir($savedDir, 777, true);
-            }
+            // Lưu file vào storage/app/public
+            Storage::disk('public')->put($pathName, $contents);
 
-            file_put_contents($savedPath, $contents);
-            return $pathName;
+            return "storage/$pathName"; // Trả về đường dẫn công khai
         } catch (\Exception $ex) {
             return '';
         }
     }
 }
+
 if (!function_exists('replace_title')) {
     function replace_title($content)
     {
