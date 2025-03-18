@@ -2070,6 +2070,17 @@
                     padding-left: 32px;
                     padding-right: 32px;
                 }
+                .row{
+                    display: flex;
+                }
+                .col-6{
+                    width: 50%;
+                }
+                @media screen and (max-width: 768px) {
+                    .col-6{
+                    width: 100%;
+                }
+                }
     </style>
 </head>
 
@@ -2243,18 +2254,17 @@
                         </div>
                     </div>
                 </section>
-
             </div>
             <footer id="footer" class="e18e99my1 css-126zv25 ehep9uj0">
                 <div class="e18e99my0 css-1iiv58m e1xmv6f40">
                     <div class="css-jo2aaq elovojj0">
 
-                        <div class="css-9a3ihm elovojj0">
-                            <section>
+                        <div class="css-9a3ihm elovojj0 row">
+                            <section class="col-6">
                                 <h4 class="css-g4opy9 eh0fvrz0">Company</h4>
                                 <p>{!! $config_website->content_footer !!}</p>
                             </section>
-                            <section>
+                            <section class="col-6">
                                 <ul class="css-3usq65 e1ypdq852">
                                     @if (!empty($menus_footer))
                                         @foreach ($menus_footer as $item)
