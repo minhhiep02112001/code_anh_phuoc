@@ -65,14 +65,19 @@ class CrawlerData extends Command
     // php artisan crawler:data --function=crawler_images_comment
     public function crawler_images_comment()
     {
-        $data = DB::table('st_comment')->where('is_download_thumb', 0)->get();
+        $data = DB::table('st_comment')->get();
         foreach ($data as $item) {
-            $thumb = $item->thumbnail;
-            $path = saveImageUrlStorage($thumb, "photos/comments",   "user-{$item->id}.jpg");
+            $fullname = str_replace('Photo of' , '', $item->fullname);
             DB::table('st_comment')->where('id', $item->id)->update([
-                'is_download_thumb' => 1,
-                'thumbnail' => "/{$path}"
+                'fullname' =>$fullname
             ]);
+          
+            // $thumb = $item->thumbnail;
+            // $path = saveImageUrlStorage($thumb, "photos/comments",   "user-{$item->id}.jpg");
+            // DB::table('st_comment')->where('id', $item->id)->update([
+            //     'is_download_thumb' => 1,
+            //     'thumbnail' => "/{$path}"
+            // ]);
             echo "\n Done {$item->id}";
         }
     }
