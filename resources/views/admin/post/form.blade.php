@@ -159,14 +159,14 @@
                             </div>
                         </fieldset>
                     </div>
-                    <div class="col-lg-6 col-12">
+                    {{-- <div class="col-lg-6 col-12">
                         <fieldset>
                             <legend class="w-auto ">Content timeopen:</legend>
                             <div class="form-group">
                                 <textarea name="time_open" rows="10" class="form-control tinymce" placeholder=""></textarea>
                             </div>
                         </fieldset>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
             <!-- glyphicons-->
