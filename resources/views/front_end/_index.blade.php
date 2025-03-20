@@ -767,18 +767,25 @@
             <li class="close-nav"><a href="javascript:void(0);"></a></li>
             <li id="menu-item-2877"
                 class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-2877 menu-item-depth-0">
-                <a href="#" aria-current="page"><span data-text="Home">Home</span></a>
+                <a href="/" aria-current="page"><span data-text="Home">Home</span></a>
             </li>
 
             <li id="menu-item-2744"
-                class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2744 menu-item-depth-0"><a
-                    href="#"><span data-text="About">About</span></a></li>
+                class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2744 menu-item-depth-0">
+                <a href="#about"><span data-text="About">About</span></a>
+            </li>
             <li id="menu-item-2757"
-                class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2757 menu-item-depth-0"><a
-                    href="#"><span data-text="Contact Us">Contact Us</span></a></li>
+                class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2757 menu-item-depth-0">
+                <a href="#gallery"><span data-text="Contact Us">Photos</span></a>
+            </li>
             <li id="menu-item-2755"
-                class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2755 menu-item-depth-0"><a
-                    href="#"><span data-text="Blog">Blog</span></a></li>
+                class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2755 menu-item-depth-0">
+                <a href="#comment"><span data-text="Blog">Review</span></a>
+            </li>
+            <li id="menu-item-2755"
+                class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2755 menu-item-depth-0">
+                <a href="#location"><span data-text="Blog">Location</span></a>
+            </li>
         </ul>
     </div>
     <style>
