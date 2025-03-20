@@ -127,7 +127,7 @@ class ConvertData extends Command
                     $data['thumbnail'] = saveImageUrlStorage($item->thumbnail, "photos/restaurants/{$item->slug}",   "thumbnail.jpg");
                 }
                 $thumbs = DB::table('st_post_images')->where('post_id', $item->relate_id)->orderBy('id', 'asc')->get();
-               
+
 
                 if ($thumbs->isNotEmpty()) {
                     if ($thumbs->where('type', 'banner')->count() == 0) {
@@ -141,14 +141,18 @@ class ConvertData extends Command
                         $thumbs = $thumbs->where('type', '!=', 'banner');
                         for ($i = 1; $i <= 2; $i++) {
                             $item_img = $thumbs->shift();
-                            $data["image_block_{$i}"] = $item_img->thumbnail ?? '';
-                            DB::table('st_post_images')->where('id', $item_img->id)->update(['type' => 'detail']);
+                            if (!empty($item_img)) {
+                                $data["image_block_{$i}"] = $item_img->thumbnail ?? '';
+                                DB::table('st_post_images')->where('id', $item_img->id)->update(['type' => 'detail']);
+                            }
                         }
-                    }else{
+                    } else {
                         $thumbs = $thumbs->where('type', '==', 'detail');
                         for ($i = 1; $i <= 2; $i++) {
                             $item_img = $thumbs->shift();
-                            $data["image_block_{$i}"] = $item_img->thumbnail ?? ''; 
+                            if (!empty($item_img)) {
+                            $data["image_block_{$i}"] = $item_img->thumbnail ?? '';
+                            }
                         }
                     }
                 }
@@ -169,7 +173,7 @@ class ConvertData extends Command
                     $meta_description = env('META_DES');
                     $data['meta_description'] = str_replace('[text]',   $post->meta_title, $meta_description);
                 }
-                
+
                 if (!empty($data['address'])) {
                     $data['address'] = str_replace(['Adresse', '\u{A0}', ':'], '', $data['address']);
                     $data['address'] = trim(str_replace('  ', ' ', $data['address']));
@@ -189,7 +193,7 @@ class ConvertData extends Command
                     $data['link_map'] =  $data['link_google_map'];
                     unset($data['link_google_map']);
                 }
-               
+
                 if (!empty($item->relate_id) && !empty($data)) {
                     DB::table('st_post')->where('id', $item->relate_id)->update($data);
                     DB::table('crawler_map')->where('id', $item->id)->update(['is_convert' => 2]);
