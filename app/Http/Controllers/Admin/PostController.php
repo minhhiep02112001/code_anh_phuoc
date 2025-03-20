@@ -164,7 +164,7 @@ class PostController extends Controller
         $story['url'] = route('post', ['slug' => $story->slug]);
 
         $story['banners'] = $story->media()->where('type', 'banner')->get();
-        $story['thumbnails'] = $story->media()->where('type', 'post')->get();
+        $story['thumbnails'] = $story->media()->where('type', 'photo')->get();
         if (!empty($story->config_social)) {
             $story['config_social'] = json_decode($story->config_social);
         }
