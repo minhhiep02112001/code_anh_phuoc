@@ -141,14 +141,14 @@ class ConvertData extends Command
                         $thumbs = $thumbs->where('type', '!=', 'banner');
                         for ($i = 1; $i <= 2; $i++) {
                             $item_img = $thumbs->shift();
-                            $data["image_block_{$i}"] = $item_img->thumbnail;
+                            $data["image_block_{$i}"] = $item_img->thumbnail ?? '';
                             DB::table('st_post_images')->where('id', $item_img->id)->update(['type' => 'detail']);
                         }
                     }else{
                         $thumbs = $thumbs->where('type', '==', 'detail');
                         for ($i = 1; $i <= 2; $i++) {
                             $item_img = $thumbs->shift();
-                            $data["image_block_{$i}"] = $item_img->thumbnail; 
+                            $data["image_block_{$i}"] = $item_img->thumbnail ?? ''; 
                         }
                     }
                 }
