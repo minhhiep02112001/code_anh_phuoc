@@ -311,9 +311,7 @@
                                                                      style="position: relative;">
                                                                      <div class="ti-inner">
                                                                          <div class="ti-review-header">
-                                                                             <div class="ti-profile-img">
-                                                                                 {!! getThumbnail($item, 50, 50, 'attachment-large size-large wp-image-2835') !!}
-                                                                             </div>
+                                                                           
                                                                              <div class="ti-profile-details">
                                                                                  <div class="ti-name">
                                                                                      {{ $item->fullname }}
@@ -613,8 +611,7 @@
              }
 
              .elementor-element.elementor-widget__width-auto.wdt-custom-menu-style.elementor-widget.elementor-widget-wdt-header-menu {
-                 position: absolute;
-                 top: 20px;
+                 position: absolute; 
                  right: 10px;
              }
 

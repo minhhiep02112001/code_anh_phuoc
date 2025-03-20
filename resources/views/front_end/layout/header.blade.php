@@ -19,21 +19,17 @@
                                     class="elementor-section elementor-inner-section elementor-element elementor-element-6ee10e6 elementor-section-full_width elementor-section-content-middle elementor-section-height-default elementor-section-height-default"
                                     data-id="6ee10e6" data-element_type="section">
                                     <div class="elementor-container elementor-column-gap-no">
-                                        <div class="elementor-column elementor-col-60 elementor-inner-column elementor-element elementor-element-179032a"
+                                        <div class="elementor-column elementor-col-50 elementor-inner-column elementor-element  "
                                             data-id="179032a" data-element_type="column">
-                                            <div class="elementor-widget-wrap elementor-element-populated">
-                                                <div class="elementor-element elementor-element-ec95532 elementor-widget elementor-widget-image"
-                                                    data-id="ec95532" data-element_type="widget"
-                                                    data-widget_type="image.default">
-                                                    <div class="elementor-widget-container">
-                                                        <a href="{{ route('post', [$post->slug]) }}">
-                                                            <div class="logo">{{ $post->title }}</div>
-                                                        </a>
-                                                    </div>
-                                                </div>
+
+                                            <div class="elementor-widget-container">
+                                                <a href="{{ route('post', [$post->slug]) }}">
+                                                    <div class="logo">{{ $post->title }}</div>
+                                                </a>
+
                                             </div>
                                         </div>
-                                        <div class="elementor-column elementor-col-60 elementor-inner-column elementor-element elementor-element-c3bec27"
+                                        <div class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-c3bec27"
                                             data-id="c3bec27" data-element_type="column">
                                             <div class="elementor-widget-wrap elementor-element-populated">
                                                 <div class="elementor-element elementor-element-0da02c4 elementor-widget__width-auto wdt-custom-menu-style elementor-widget elementor-widget-wdt-header-menu"
@@ -185,7 +181,8 @@
 </header>
 <style>
     .logo {
-        width: 350px;
+        width: 100%;
+        max-width: 100%;
         height: 70px;
         font-family: 'Playfair Display';
         font-size: 38px;

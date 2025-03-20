@@ -472,7 +472,8 @@ h1.entry-title {
     display: flex;
     margin-left: auto;
     margin-right: auto;
-    position: relative
+    position: relative;
+    justify-content: space-between;
 }
 
 @media (max-width:1024px) {

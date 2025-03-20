@@ -29,15 +29,15 @@
                                     data-id="56d0b69" data-element_type="section"
                                     data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
                                     <div class="elementor-container elementor-column-gap-no">
-                                        <div class="elementor-column elementor-col-33 elementor-inner-column elementor-element elementor-element-99c540d"
+                                        <div class="elementor-column elementor-col-50 elementor-inner-column elementor-element "
+                                        {{-- elementor-element-99c540d --}}
                                             data-id="99c540d" data-element_type="column">
                                             <div class="elementor-widget-wrap elementor-element-populated">
                                                 <div class="elementor-element elementor-element-0bb0a07 elementor-align-center elementor-widget elementor-widget-wdt-logo"
                                                     data-id="0bb0a07" data-element_type="widget"
                                                     data-widget_type="wdt-logo.default">
                                                     <div class="elementor-widget-container">
-                                                        <div id="lilacbeauty-0bb0a07" class="wdt-logo-container">
-
+                                                        <div id="lilacbeauty-0bb0a07" class="wdt-logo-container"> 
                                                             <a href="/" rel="home">
                                                                 <div class="logo logo-footer"> {{ $post->title ?? '' }}
                                                                 </div>
@@ -45,7 +45,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="elementor-element elementor-element-1e4b137 elementor-align-center elementor-widget elementor-widget-button"
+                                                {{-- <div class="elementor-element elementor-element-1e4b137 elementor-align-center elementor-widget elementor-widget-button"
                                                     data-id="1e4b137" data-element_type="widget"
                                                     data-widget_type="button.default">
                                                     <div class="elementor-widget-container">
@@ -59,7 +59,7 @@
                                                             </a>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> --}}
                                                 <div class="elementor-element elementor-element-97c8152 elementor-align-center elementor-widget elementor-widget-button"
                                                     data-id="97c8152" data-element_type="widget"
                                                     data-widget_type="button.default">
