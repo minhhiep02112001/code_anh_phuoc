@@ -311,7 +311,7 @@
                                                                      style="position: relative;">
                                                                      <div class="ti-inner">
                                                                          <div class="ti-review-header">
-                                                                           
+
                                                                              <div class="ti-profile-details">
                                                                                  <div class="ti-name">
                                                                                      {{ $item->fullname }}
@@ -477,9 +477,11 @@
                  position: relative;
                  display: block;
              }
-             .elementor-2632 .elementor-element.elementor-element-164478d>.elementor-widget-container{
-                margin: 0;
+
+             .elementor-2632 .elementor-element.elementor-element-164478d>.elementor-widget-container {
+                 margin: 0;
              }
+
              .text-xl {
                  font-size: 1.25rem;
              }
@@ -611,7 +613,7 @@
              }
 
              .elementor-element.elementor-widget__width-auto.wdt-custom-menu-style.elementor-widget.elementor-widget-wdt-header-menu {
-                 position: absolute; 
+                 position: absolute;
                  right: 10px;
              }
 
@@ -713,33 +715,50 @@
      @endsection
      @push('scripts')
          <script>
-             jQuery('.sliders-photo').slick({
-                 slidesToShow: 6,
-                 slidesToScroll: 1,
-                 dots: false,
-                 autoplay: false,
-                 autoplaySpeed: 2000, // Chuyển ảnh sau mỗi 2 giây
-                 arrows: true,
-                 infinite: true,
-                 responsive: [{
-                         breakpoint: 800, // Khi màn hình nhỏ hơn hoặc bằng 1000px
-                         settings: {
-                             slidesToShow: 6, // Hiển thị 5 ảnh
+             jQuery(document).ready(function() {
+                 var slider = jQuery('.sliders-photo');
+
+                 slider.slick({
+                     slidesToShow: 6,
+                     slidesToScroll: 1,
+                     dots: false,
+                     autoplay: false,
+                     autoplaySpeed: 2000,
+                     arrows: true,
+                     infinite: true,
+                     responsive: [{
+                             breakpoint: 800,
+                             settings: {
+                                 slidesToShow: 5,
+                             },
                          },
-                     },
-                     {
-                         breakpoint: 600, // Khi màn hình nhỏ hơn hoặc bằng 600px
-                         settings: {
-                             slidesToShow: 4, // Hiển thị 4 ảnh
+                         {
+                             breakpoint: 600,
+                             settings: {
+                                 slidesToShow: 4,
+                             },
                          },
-                     },
-                     {
-                         breakpoint: 400, // Khi màn hình nhỏ hơn hoặc bằng 400px
-                         settings: {
-                             slidesToShow: 3, // Hiển thị 3 ảnh
+                         {
+                             breakpoint: 400,
+                             settings: {
+                                 slidesToShow: 3,
+                             },
                          },
-                     },
-                 ],
-             });
+                     ],
+                 });
+
+                 // Khi slider thay đổi ảnh
+                 slider.on('afterChange', function(event, slick, currentSlide) {
+                     var newImage = jQuery('.sliders-photo .slick-slide[data-slick-index="' + currentSlide +
+                         '"] img').attr('src');
+                     jQuery('.box-show-image-photo img').attr('src', newImage + "?" + currentSlide); 
+                 });
+
+                 // Khi click vào ảnh nhỏ, ảnh lớn thay đổi
+                 jQuery('.sliders-photo .slide-item img').on('click', function() {
+                     var newImage = jQuery(this).attr('src');
+                     jQuery('.box-show-image-photo img').attr('src', newImage);
+                 });
+             }); 
          </script>
      @endpush
