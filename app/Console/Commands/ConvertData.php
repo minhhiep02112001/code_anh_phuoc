@@ -133,7 +133,9 @@ class ConvertData extends Command
                     if ($thumbs->where('type', 'banner')->count() == 0) {
                         for ($i = 0; $i < 3; $i++) {
                             $item_img = $thumbs->shift();
+                            if (!empty($item_img)) {
                             DB::table('st_post_images')->where('id', $item_img->id)->update(['type' => 'banner']);
+                        }
                         }
                     }
 
