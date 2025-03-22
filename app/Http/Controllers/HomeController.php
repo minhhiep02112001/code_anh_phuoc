@@ -37,7 +37,7 @@ class HomeController extends Controller
         $data = [];
         $page = $request->page ?? 1;
         $data['posts']  = $this->postRepository->getAll([
-            // 'is_status' => 1,
+            'is_status' => 1,
         ], [
             'order_by' => ['publish_at', 'desc'],
             'limit' => 28,
@@ -52,7 +52,7 @@ class HomeController extends Controller
     public function post($slug, $id = 0)
     {
         $post = $this->postRepository->findByField('slug', $slug)->first();
-        // if (empty($post) || $post->is_status != 1) return abort(404);
+        if (empty($post) || $post->is_status != 1) return abort(404);
         $medias = $post->media()->select(['position', 'type', 'thumbnail'])->get()->groupBy('type');
         $promat = env('META_DES');
         $SEO = [
@@ -69,7 +69,7 @@ class HomeController extends Controller
         $comment = Comment::where([
             'type' => 'post',
             // 'is_content' => 1,
-            // 'is_status' => 1,
+            'is_status' => 1,
             'data_id' => $post->id
         ])->limit(5)->get();
 
@@ -126,11 +126,11 @@ class HomeController extends Controller
                 'title' => $post->title,
                 'public_at' => $post->updated_at,
             ],
-            [
-                'url' => route('menu', [$post->slug]),
-                'title' => __('config_data.pages.menus.menu') . ' ' . $post->title,
-                'public_at' => $post->updated_at,
-            ]
+            // [
+            //     'url' => route('menu', [$post->slug]),
+            //     'title' => __('config_data.pages.menus.menu') . ' ' . $post->title,
+            //     'public_at' => $post->updated_at,
+            // ]
         ];
         $data = [
             'datas' => $datas
