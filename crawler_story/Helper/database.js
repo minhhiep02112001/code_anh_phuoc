@@ -1,26 +1,10 @@
 const mysql = require("mysql2");
 
-// const connection = mysql.createPool({
-//     connectionLimit: 100,
-//     host: "89.117.146.40",
-//     user: "deverloper",
-//     password: "deverloper123@",
-//     database: "nails",
-//     port: 3306,
-//     waitForConnections: true,
-//     connectionLimit: 10,
-//     maxIdle: 10, // max idle connections, the default value is the same as `connectionLimit`
-//     idleTimeout: 30000, // idle connections timeout, in milliseconds, the default value 60000
-//     queueLimit: 0,
-//     enableKeepAlive: true,
-//     keepAliveInitialDelay: 0,
-// });
-
 const connection = mysql.createPool({
     connectionLimit: 100,
-    host: "154.12.255.33",
-    user: "developer",
-    password: "developer123@",
+    host: "89.117.146.40",
+    user: "deverloper",
+    password: "deverloper123@",
     database: "nails",
     port: 3306,
     waitForConnections: true,
@@ -31,6 +15,22 @@ const connection = mysql.createPool({
     enableKeepAlive: true,
     keepAliveInitialDelay: 0,
 });
+
+// const connection = mysql.createPool({
+//     connectionLimit: 100,
+//     host: "154.12.255.33",
+//     user: "developer",
+//     password: "developer123@",
+//     database: "nails",
+//     port: 3306,
+//     waitForConnections: true,
+//     connectionLimit: 10,
+//     maxIdle: 10, // max idle connections, the default value is the same as `connectionLimit`
+//     idleTimeout: 30000, // idle connections timeout, in milliseconds, the default value 60000
+//     queueLimit: 0,
+//     enableKeepAlive: true,
+//     keepAliveInitialDelay: 0,
+// });
 
 // const connection = mysql.createConnection({
 //     host: "127.0.0.1",
@@ -160,11 +160,11 @@ function handle_crawler_map(item) {
         );
     });
 }
-function update_crawler_map(id, item) {
+function update_crawler_map(id, item, is_status = 0) {
     return new Promise((resolve, reject) => {
         connection.query(
             "UPDATE crawler_map SET ? WHERE id = ?",
-            [{ ...item, is_status: 0 }, id], // Sử dụng parameterized queries
+            [{ ...item, is_status: is_status }, id], // Sử dụng parameterized queries
             function (error, results) {
                 if (error) {
                     console.error("Error updating crawler_map:", error);

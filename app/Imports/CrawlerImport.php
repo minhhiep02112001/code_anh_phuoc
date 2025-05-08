@@ -2,6 +2,7 @@
 
 namespace App\Imports;
 
+use App\Models\Crawler;
 use App\Models\Post;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -14,11 +15,12 @@ use Maatwebsite\Excel\Concerns\SkipsFailures;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Concerns\SkipsOnFailure;
 use Maatwebsite\Excel\Concerns\SkipsOnError;
+use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithStartRow;
 use Maatwebsite\Excel\Validators\Failure;
 
-class CrawlerImport  implements ToModel, SkipsEmptyRows, WithHeadingRow, WithStartRow, WithValidation
+class CrawlerImport  implements ToModel, SkipsEmptyRows, WithHeadingRow, WithStartRow, WithValidation, WithChunkReading
 {
     use Importable;
 
@@ -39,50 +41,40 @@ class CrawlerImport  implements ToModel, SkipsEmptyRows, WithHeadingRow, WithSta
 
     public function model(array $row)
     {
-
-        try {
-            if (empty($row['keyword'])) {
-                throw new \InvalidArgumentException('Empty keyword provided');
-            }
-           
-            $title = ucfirst($row['keyword']);
-            $slug = \Str::slug($title);
-
-            DB::beginTransaction();
-
-            // $key = DB::table('crawler')->where('keyword', "Ravintola sisään {$title}")->first();
-            // if (empty($key)) {
-            //     DB::table('crawler')->insert([
-            //         'keyword' => "Ravintola sisään {$title}",
-            //     ]);
-            // }
-
-            $post = Post::firstOrCreate(['slug' => $slug], [
-                'slug' => $slug,
-                'title' => $title,
-                'is_status' => 3,
-            ]);
-
-            $item = DB::table('crawler_map')->where('relate_id', $post->id)->first();
-            if (empty($item)) {
-                DB::table('crawler_map')->insert([
-                    'key_word' => $title,
-                    'slug' => $slug,
-                    'is_crawler' => 0,
-                    'relate_id' => $post->id,
-                    'link_google_map' => $row['linkmap'] ?? ''
+        if (!empty($row['key_word'])) {
+            try {
+            
+                $keyword = $row['key_word'];
+                
+                
+                 
+                Crawler::updateOrCreate(['slug' => \Str::slug($keyword)], [
+                    'slug' => \Str::slug($keyword),
+                    'keyword' => $keyword,
+                    'is_status' => 2,
+                    'link_google_map' => $row['link_google_map'] ?? ''
                 ]);
+                // $keyword = ucfirst("Nails In {$row['key_word']}, United Kingdom");
+                // $key = DB::table('crawler')->where('keyword', $keyword)->first();
+                // if (empty($key)) {
+                //     DB::table('crawler')->insert(['keyword' => $keyword, 'is_status' => 2, 'link_google_map' => $row['link_google_map'] ?? '']);
+                // } else {
+                //     DB::table('crawler')->where('id', $key->id)->update([
+                //         'is_status' => 2,
+                //         'link_google_map' => $row['link_google_map'] ?? ''
+                //     ]);
+                // }
+    
+                
+                echo "\n Success {$keyword} " . $this->importedCount;
+                Log::info("SUCCESS {$keyword}");
+                $this->importedCount++;
+            } catch (\Exception $ex) {
+            dd($ex);
+                Log::error("ERROR processing {$row['key_word']}: " . $ex->getMessage());
+                $this->failedCount++; 
             }
-
-            DB::commit();
-            echo "\n Success {$title} " . $this->importedCount;
-            Log::info("SUCCESS {$title}");
-            $this->importedCount++;
-        } catch (\Exception $ex) { 
-            Log::error("ERROR processing {$row['keyword']}: " . $ex->getMessage());
-            $this->failedCount++;
-            DB::rollback();
-        }
+        } 
     }
 
 
@@ -123,5 +115,9 @@ class CrawlerImport  implements ToModel, SkipsEmptyRows, WithHeadingRow, WithSta
     public function getFailedCount()
     {
         return $this->failedCount;
+    }
+    public function chunkSize(): int
+    {
+        return 100; // xử lý 100 dòng mỗi lần (bạn có thể điều chỉnh)
     }
 }

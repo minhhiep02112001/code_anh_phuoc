@@ -32,6 +32,7 @@ class ReadingFileExcel extends Command
         $file = $this->option('file'); 
         
         try{
+             
             Excel::import(new CrawlerImport, public_path($file));
         }catch(\Exception $e){
             dd($e);

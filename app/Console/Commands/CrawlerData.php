@@ -56,7 +56,7 @@ class CrawlerData extends Command
                 DB::table('st_post_images')->where('id', $item->id)->update([
                     'is_crawler' => 1,
                     'thumbnail' => "/{$path}"
-                ]);
+                ]); 
                 echo "\n Done {$item->id} {$path}";
             }
         }
