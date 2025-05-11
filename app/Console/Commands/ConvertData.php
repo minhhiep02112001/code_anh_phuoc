@@ -52,47 +52,50 @@ class ConvertData extends Command
     // php artisan convert:data --function=updatePost
     public function updatePost()
     {
-        $posts = Post::where([
-            'is_status' => 3,
-            'is_crawler_content' => 1,
+
+        $datas = DB::table('crawler_map')->where([
+            'is_crawler' => 1,
+            'is_status' => 2
         ])->get();
 
-        foreach ($posts as $post) {
-            $crawler = DB::table('crawler_map')->where('relate_id', $post->id)->first();
+        foreach ($datas as $data) {
+            $post = Post::firstOrCreate(['slug' => $data->slug], ['title' => $data->key_word, 'slug' => $data->slug]);
+
             $data_update = [];
-            if (!empty($crawler)) {
-                $thumnail_post = str_replace(['storage', '//'], '', trim($post->thumbnail ?? '', '/'));
-                if ((empty($thumnail_post) || !Storage::exists($thumnail_post)) && !empty($crawler->thumbnail)) { // download_image
-                    $data_update['thumbnail'] = saveImageUrlStorage($crawler->thumbnail, "photos/restaurants/{$post->slug}",   "thumbnail.jpg");
-                }
 
-                if (!empty($crawler->address)) {
-                    $_address = str_replace(['Adresse', '\u{A0}', ':'], '', $crawler->address);
-                    $data_update['address'] = trim(str_replace('  ', ' ', $_address));
-                }
 
-                if (!empty($crawler->google_review)) {
-                    $data_update['review_google'] = trim(str_replace(['avis Google', ' ', '\u{A0}',], '', $crawler->google_review));
-                    $data_update['review_google'] = (int) $data_update['review_google'];
-                }
+            $thumnail_post = str_replace(['storage', '//'], '', trim($post->thumbnail ?? '', '/'));
+            if ((empty($thumnail_post) || !Storage::exists($thumnail_post)) && !empty($data->thumbnail)) { // download_image
+                $data_update['thumbnail'] = saveImageUrlStorage($data->thumbnail, "photos/nails/{$post->slug}",   "thumbnail.jpg");
+            }
 
-                if (!empty($crawler->phone)) {
-                    $data_update['phone'] = str_replace(['Téléphone', ':', 'Téléphone', '\u{A0}',], '', $crawler->phone);
-                    $data_update['phone'] = trim(str_replace('  ', ' ', $data_update['phone']));
-                }
+            if (!empty($data->address)) {
+                $_address = str_replace(['Address:', '\u{A0}', ':'], '', $data->address);
+                $data_update['address'] = trim(str_replace('  ', ' ', $_address));
+            }
 
-                if (!empty($crawler->link_google_map)) {
-                    $data_update['link_map'] =  $crawler->link_google_map;
-                }
+            if (!empty($data->google_review)) {
+                $data_update['review_google'] = trim(str_replace(['avis Google', ' ', '\u{A0}',], '', $data->google_review));
+                $data_update['review_google'] = (int) $data_update['review_google'];
+            }
 
-                if (!empty($crawler->iframe_map)) {
-                    $data_update['iframe_map'] =  $crawler->iframe_map;
-                }
+            if (!empty($data->phone)) {
+                $data_update['phone'] = str_replace(['Phone: ', ':', '\u{A0}',], '', $data->phone);
+                $data_update['phone'] = trim(str_replace('  ', ' ', $data_update['phone']));
+            }
 
-                if (!empty($data_update)) {
-                    DB::table('st_post')->where('id', $post->id)->update($data_update);
-                    echo "\n Done $post->id";
-                }
+            if (!empty($data->link_google_map)) {
+                $data_update['link_map'] =  $data->link_google_map;
+            }
+
+            if (!empty($data->iframe_map)) {
+                $data_update['iframe_map'] =  $data->iframe_map;
+            }
+            if (!empty($data_update)) {
+                $data_update['is_status'] = 3;
+                DB::table('st_post')->where('id', $post->id)->update($data_update);
+                DB::table('crawler_map')->where('id', $data->id)->update(['relate_id' => $post->id]);
+                echo "\n Done $post->id";
             }
         }
         die("Done All");
@@ -134,8 +137,8 @@ class ConvertData extends Command
                         for ($i = 0; $i < 3; $i++) {
                             $item_img = $thumbs->shift();
                             if (!empty($item_img)) {
-                            DB::table('st_post_images')->where('id', $item_img->id)->update(['type' => 'banner']);
-                        }
+                                DB::table('st_post_images')->where('id', $item_img->id)->update(['type' => 'banner']);
+                            }
                         }
                     }
 
@@ -153,7 +156,7 @@ class ConvertData extends Command
                         for ($i = 1; $i <= 2; $i++) {
                             $item_img = $thumbs->shift();
                             if (!empty($item_img)) {
-                            $data["image_block_{$i}"] = $item_img->thumbnail ?? '';
+                                $data["image_block_{$i}"] = $item_img->thumbnail ?? '';
                             }
                         }
                     }
