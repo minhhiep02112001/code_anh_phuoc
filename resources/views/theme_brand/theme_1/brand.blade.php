@@ -638,7 +638,7 @@
                  data-id="37adf8a" data-element_type="section"
                  data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
 
-                 <div id="content " class="justify">
+                 <div id="content" class="justify">
                      {!! $post?->content !!}
                  </div>
          </div>
