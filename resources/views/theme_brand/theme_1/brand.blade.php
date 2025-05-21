@@ -120,7 +120,7 @@
                  </div>
              </section>
              <section
-                 class="elementor-section elementor-inner-section elementor-element elementor-element-6d3b147 elementor-reverse-mobile elementor-hidden-tablet elementor-hidden-mobile elementor-section-boxed elementor-section-height-default elementor-section-height-default"
+                 class="elementor-section elementor-inner-section elementor-element elementor-element-6d3b147 elementor-reverse-mobile   elementor-section-boxed elementor-section-height-default elementor-section-height-default"
                  data-id="6d3b147" data-element_type="section">
                  <div class="elementor-container elementor-column-gap-default">
                      <div class="elementor-column elementor-col-100 elementor-inner-column elementor-element elementor-element-11ae3cf"
