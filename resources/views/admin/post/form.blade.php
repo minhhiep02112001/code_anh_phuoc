@@ -73,7 +73,7 @@
                         </div>
                         @include('admin._layout.section.seo')
 
-                        
+
                     </div>
                 </div>
             </div>
@@ -124,7 +124,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="form-group">
                             <label>Ảnh banners</label>
                             <div class="gallery-upload">
@@ -279,7 +279,7 @@
             <!-- /#ion-icons -->
             <div class="tab-pane" id="tab_page">
                 <div class="row">
-                    <div class="col-lg-6 col-12">
+                    <div class=" col-12">
                         <fieldset>
                             <legend class="w-auto ">Content block 1:</legend>
                             <div class="form-group">
@@ -293,30 +293,18 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <textarea name="content_block_1" id="content_block_1" rows="10" class="form-control tinymce" placeholder="Meta description"></textarea>
-                            </div>
-                        </fieldset>
-                    </div>
-
-                    <div class="col-lg-6 col-12">
-                        <fieldset>
-                            <legend class="w-auto ">Content block 2:</legend>
-                            <div class="form-group">
-                                <label for="image_block_2">Ảnh </label>
-                                <!-- Single File Upload -->
-                                <div class="upload-container" data-field-name="image_block_2" is_multiple="false">
-                                    <div class="upload-box">
-                                        <span>+</span>
-                                        <img class="preview-image" alt="Preview">
-                                    </div>
+                                <div class="form-group">
+                                    <label>Tiêu đề H2</label>
+                                    <input name="title_block_1" class="form-control" type="text" />
                                 </div>
                             </div>
                             <div class="form-group">
-                                <textarea name="content_block_2" id="content_block_2" rows="10" class="form-control tinymce" placeholder="Meta description"></textarea>
+                                <label>Nội dung</label>
+                                <textarea name="content_block_1" id="content_block_1" rows="10" class="form-control tinymce"
+                                    placeholder="Meta description"></textarea>
                             </div>
                         </fieldset>
                     </div>
-
                 </div>
             </div>
         </div>

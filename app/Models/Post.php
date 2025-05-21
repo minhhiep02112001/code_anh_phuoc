@@ -66,8 +66,8 @@ class Post extends AbstractModel
         'publish_at',
         'image_block_2',
         'image_block_1',
+        'title_block_1',
         'content_block_1',
-        'content_block_2',
     ];
 
     public function categories()
