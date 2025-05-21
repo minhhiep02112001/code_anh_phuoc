@@ -40,11 +40,11 @@
                                 <option value="0">Không Index</option>
                             </select>
                         </div>
-                        {{--                         
+
                         <div class="form-group">
                             <label>Tóm tắt</label>
                             <textarea name="description" id="description" placeholder="Tóm tắt" class="form-control" rows="5"></textarea>
-                        </div> --}}
+                        </div>
                         <div class="form-group">
                             <label>Nội dung</label>
                             <textarea name="content" id="content" placeholder="Nội dung" class="form-control tinymce" rows="5"></textarea>

@@ -92,7 +92,7 @@
                                                                  class="flex w-full flex-col gap-1 empty:hidden first:pt-[3px]">
                                                                  <div
                                                                      class="markdown prose w-full break-words dark:prose-invert dark">
-                                                                     {!! $post->content !!}
+                                                                     {!! $post->description !!}
                                                                  </div>
                                                              </div>
                                                          </div>
