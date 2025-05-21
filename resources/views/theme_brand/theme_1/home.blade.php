@@ -2344,6 +2344,9 @@
             text-decoration:none
         }
         @media (min-width: 1440px) {
+            footer .col{
+                width: 100%;
+            }
             .FooterLinks_gridItem__SwRrK {
                 inline-size: 227px;
                 min-inline-size: 227px;
