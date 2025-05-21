@@ -2345,6 +2345,7 @@
             }
              footer .col{
                 width: 100%;
+                        flex: auto;
             }
         }
         @media (min-width: 1440px) { 
