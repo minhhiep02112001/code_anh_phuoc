@@ -513,7 +513,7 @@
         href='/wp-content/plugins/elementor/assets/css/widget-spacer.min3830.css?ver=3.27.4' type='text/css'
         media='all' />
     <link rel='stylesheet' id='elementor-post-2632-css'
-        href='/wp-content/uploads/elementor/css/post-26321de5.css?ver=1739556579' type='text/css' media='all' />
+        href='/wp-content/uploads/elementor/css/post-26321de5.css?ver=123' type='text/css' media='all' />
     <link rel='stylesheet' id='a971fbc1c37daacff709eb88c7fe0bfb-css'
         href='http://fonts.googleapis.com/css?family=Outfit:100,200,300,400,500,600,700,800,900&amp;subset=latin-ext'
         type='text/css' media='all' />
