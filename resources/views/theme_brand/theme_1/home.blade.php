@@ -2307,7 +2307,7 @@
                 <div class="e18e99my0 css-1iiv58m e1xmv6f40">
                     <div class="css-1l7k9wm ehep9uj0">
                         <a href="/" class="e1g407rp0 css-mwwny2 eh0fvrz0">
-                            {!! getImageThumb(  $config_website?->logo )  !!}
+                            <img src="{!! getImageThumb($config_website?->logo) !!}" id="logo" alt="{{$config_website?->website }}">
                         </a>
                         <div class="css-dyoadf elovojj0">
                             <a class=" e46r4ae0 css-11prviu eqqze3d0" id="open_menu" href="#main-menu"
@@ -2526,10 +2526,10 @@
                                         </div>
                                     @endforeach
                                 </div>
-                            </div> 
+                            </div>
                         </div>
                     </section>
-                @endif 
+                @endif
             </div>
             <footer id="footer" class="e18e99my1 css-126zv25 ehep9uj0">
                 <div class="e18e99my0 css-1iiv58m e1xmv6f40">
