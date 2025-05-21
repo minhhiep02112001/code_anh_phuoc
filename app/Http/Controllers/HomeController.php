@@ -49,10 +49,10 @@ class HomeController extends Controller
             'is_status' => 1,
             'type' => 'home'
         ], [
-            'order_by' => ['id', 'desc'],
+            'order_by' => ['id', 'asc'],
             'limit' => 20,
             'pagination' => $page,
-            'select' => ['id', 'title', 'slug', 'thumbnail',   'description'],
+            'select' => ['id', 'title', 'slug', 'thumbnail', 'description'],
         ]);
         $data['banners'] = Banner::getType('home');
         return view('theme_brand.theme_1.home', $data);

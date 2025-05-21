@@ -2307,7 +2307,7 @@
                 <div class="e18e99my0 css-1iiv58m e1xmv6f40">
                     <div class="css-1l7k9wm ehep9uj0">
                         <a href="/" class="e1g407rp0 css-mwwny2 eh0fvrz0">
-                            <h2 class="eof04c41 css-16n9dof eh0fvrz0">{{ $config_website->website ?? '' }}</h2>
+                            {!! getImageThumb(  $config_website?->logo )  !!}
                         </a>
                         <div class="css-dyoadf elovojj0">
                             <a class=" e46r4ae0 css-11prviu eqqze3d0" id="open_menu" href="#main-menu"
