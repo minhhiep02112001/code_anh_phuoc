@@ -2316,6 +2316,39 @@
                 background-image: url('{{ asset('/images/beyout-banner-mb.jpg') }}');
             }
         }
+
+        .FooterLinks_self__1NbYV .FooterLinks_gridItem__SwRrK:nth-child(2) {
+            grid-area: about;
+        }
+
+        ._-wKyRQ.rfrdHQ {
+            color: #0d1619;
+        }
+
+        ._-wKyRQ.rfrdHQ {
+            color: #0d1619;
+        }
+
+        [dir] ._-wKyRQ {
+            text-align: inherit;
+        }
+        footer ul{
+            list-style: none;
+             color: #0d1619;
+        }
+         ul li.title p{
+            font-weight: 600;
+         }
+        ul li a{
+             color: #0d1619;
+            text-decoration:none
+        }
+        @media (min-width: 1440px) {
+            .FooterLinks_gridItem__SwRrK {
+                inline-size: 227px;
+                min-inline-size: 227px;
+            }
+        }
     </style>
 </head>
 
@@ -2525,7 +2558,7 @@
                             <div class="auto-container">
                                 <div class="sec-title text-center">
                                     <h2>Explore Places</h2> <span class="divider"></span>
-                                  
+
                                 </div>
                                 <div class="row">
                                     @foreach ($posts as $item)
@@ -2558,7 +2591,7 @@
                 <div class="e18e99my0 css-1iiv58m e1xmv6f40">
                     <div class="css-jo2aaq elovojj0">
 
-                        <div class="css-9a3ihm elovojj0 row">
+                        {{-- <div class="css-9a3ihm elovojj0 row">
                             <section class="col-6">
                                 <h4 class="css-g4opy9 eh0fvrz0">Company</h4>
                                 <p>{!! $config_website->content_footer !!}</p>
@@ -2574,6 +2607,109 @@
                                     @endif
                                 </ul>
                             </section>
+
+                        </div> --}}
+
+                        <div class="FooterLinks_innerContent__8anC0 row">
+                            <div class="col">
+                                <a href="/"
+                                    class="BaseAnchor_i-anh__wrapper__guUVX _Xd4TX util-focusRing-overrides _0HRiNX"
+                                    aria-label="{{ $config_website?->website }}"><img style="max-height: 50px;"
+                                        src="{!! getImageThumb($config_website?->logo) !!}" id="logo"
+                                        alt="{{ $config_website?->website }}">
+                                </a>
+                            </div>
+                            <div class="col">
+                                <ul
+                                    class="_5zC0N5 gap-default-150 direction-default-vertical display-default-inline-flex FooterLinks_gridItem__SwRrK">
+                                    <li class="p_ehs5 title">
+                                        <p class="_-wKyRQ rfrdHQ font-default-body-m-semibold">About Fresha</p>
+                                    </li>
+                                    <li class="p_ehs5">
+                                        <p class="_-wKyRQ rfrdHQ font-default-body-s-regular"><a href="#"
+                                                class="BaseAnchor_i-anh__wrapper__guUVX _Xd4TX util-focusRing-overrides _0HRiNX c2bV0y POrP8y"
+                                                data-qa="footer-careers" id="footer-careers"
+                                                target="_blank">Careers</a>
+                                        </p>
+                                    </li>
+                                    <li class="p_ehs5">
+                                        <p class="_-wKyRQ rfrdHQ font-default-body-s-regular"><a href="#"
+                                                class="BaseAnchor_i-anh__wrapper__guUVX _Xd4TX util-focusRing-overrides _0HRiNX c2bV0y POrP8y"
+                                                data-qa="footer-customer-support" id="footer-customer-support"
+                                                target="_blank">Customer Support</a></p>
+                                    </li>
+                                    <li class="p_ehs5">
+                                        <p class="_-wKyRQ rfrdHQ font-default-body-s-regular"><a href="#"
+                                                class="BaseAnchor_i-anh__wrapper__guUVX _Xd4TX util-focusRing-overrides _0HRiNX c2bV0y POrP8y"
+                                                data-qa="footer-blog" id="footer-blog" target="_self">Blog</a></p>
+                                    </li>
+                                    <li class="p_ehs5">
+                                        <p class="_-wKyRQ rfrdHQ font-default-body-s-regular"><a href="#"
+                                                class="BaseAnchor_i-anh__wrapper__guUVX _Xd4TX util-focusRing-overrides _0HRiNX c2bV0y POrP8y"
+                                                data-qa="footer-sitemap" id="footer-sitemap">Sitemap</a></p>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col">
+                                <ul
+                                    class="_5zC0N5 gap-default-150 direction-default-vertical display-default-inline-flex FooterLinks_gridItem__SwRrK">
+                                    <li class="p_ehs5 title">
+                                        <p class="_-wKyRQ rfrdHQ font-default-body-m-semibold">For business</p>
+                                    </li>
+                                    <li class="p_ehs5">
+                                        <p class="_-wKyRQ rfrdHQ font-default-body-s-regular"><a href="#"
+                                                class="BaseAnchor_i-anh__wrapper__guUVX _Xd4TX util-focusRing-overrides _0HRiNX c2bV0y POrP8y"
+                                                data-qa="footer-partners" id="footer-partners" target="_self">For
+                                                partners</a></p>
+                                    </li>
+                                    <li class="p_ehs5">
+                                        <p class="_-wKyRQ rfrdHQ font-default-body-s-regular"><a href="#"
+                                                class="BaseAnchor_i-anh__wrapper__guUVX _Xd4TX util-focusRing-overrides _0HRiNX c2bV0y POrP8y"
+                                                data-qa="footer-pricing" id="footer-pricing"
+                                                target="_self">Pricing</a>
+                                        </p>
+                                    </li>
+                                    <li class="p_ehs5">
+                                        <p class="_-wKyRQ rfrdHQ font-default-body-s-regular"><a href="#"
+                                                class="BaseAnchor_i-anh__wrapper__guUVX _Xd4TX util-focusRing-overrides _0HRiNX c2bV0y POrP8y"
+                                                data-qa="footer-partners-support" id="footer-partners-support"
+                                                target="_blank">Support</a></p>
+                                    </li>
+                                    <li class="p_ehs5">
+                                        <p class="_-wKyRQ rfrdHQ font-default-body-s-regular"><a href="#"
+                                                class="BaseAnchor_i-anh__wrapper__guUVX _Xd4TX util-focusRing-overrides _0HRiNX c2bV0y POrP8y"
+                                                data-qa="footer-status" id="footer-status" target="_blank">Status</a>
+                                        </p>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col">
+                                <ul
+                                    class="_5zC0N5 gap-default-150 direction-default-vertical display-default-inline-flex FooterLinks_gridItem__SwRrK">
+                                    <li class="p_ehs5 title">
+                                        <p class="_-wKyRQ rfrdHQ font-default-body-m-semibold">Legal</p>
+                                    </li>
+                                    <li class="p_ehs5">
+                                        <p class="_-wKyRQ rfrdHQ font-default-body-s-regular"><a href="#"
+                                                class="BaseAnchor_i-anh__wrapper__guUVX _Xd4TX util-focusRing-overrides _0HRiNX c2bV0y POrP8y"
+                                                data-qa="footer-privacy-policy" id="footer-privacy-policy"
+                                                target="_blank">Privacy Policy</a></p>
+                                    </li>
+                                    <li class="p_ehs5">
+                                        <p class="_-wKyRQ rfrdHQ font-default-body-s-regular"><a href="#"
+                                                class="BaseAnchor_i-anh__wrapper__guUVX _Xd4TX util-focusRing-overrides _0HRiNX c2bV0y POrP8y"
+                                                data-qa="footer-service-terms" id="footer-service-terms"
+                                                target="_blank">Terms of service</a></p>
+                                    </li>
+                                    <li class="p_ehs5">
+                                        <p class="_-wKyRQ rfrdHQ font-default-body-s-regular"><a href="#"
+                                                class="BaseAnchor_i-anh__wrapper__guUVX _Xd4TX util-focusRing-overrides _0HRiNX c2bV0y POrP8y"
+                                                data-qa="footer-use-terms" id="footer-use-terms"
+                                                target="_blank">Terms of
+                                                use</a></p>
+                                    </li>
+                                </ul>
+                            </div>
 
                         </div>
                     </div>
