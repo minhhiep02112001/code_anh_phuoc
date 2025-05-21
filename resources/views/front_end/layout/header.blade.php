@@ -183,8 +183,7 @@
     .logo {
         width: 100%;
         max-width: 100%;
-        height: 70px;
-        font-family: 'Playfair Display';
+        height: 70px; 
         font-size: 38px;
         font-weight: 700;
         white-space: nowrap;

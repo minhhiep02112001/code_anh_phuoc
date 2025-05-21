@@ -30,7 +30,6 @@
          .slide-banners .slick-arrow {
              display: none !important;
          }
-          
      </style>
 
      <div class="wdt-elementor-container-fluid">
@@ -62,7 +61,7 @@
                                  data-id="efc34fb" data-element_type="widget" data-widget_type="heading.default">
                                  <div class="elementor-widget-container">
                                      <h1 class="elementor-heading-title elementor-size-default">
-                                         {!! $post->title ?? '' !!}
+                                         {!! "Welcome To {$post->title}" !!}
                                      </h1>
                                  </div>
                              </div>
