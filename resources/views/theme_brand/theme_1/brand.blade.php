@@ -80,7 +80,7 @@
 
          #content p,
                   #content li ,         #content span {
-             font-size: 16px;
+             font-size: 18px;
          }
 
                  #content h2 {
@@ -88,11 +88,11 @@
          }
 
                   #content h3 {
-             font-size: 22px;
+             font-size: 25px;
          }
 
                   #content h4 {
-             font-size: 18px;
+             font-size: 20px;
          }
      </style>
 
