@@ -73,6 +73,18 @@
                  text-align: justify !important;
              }
          }
+         .content {
+            font-size: 16px;
+         }
+           .content h2 {
+            font-size: 28px;
+         }
+          .content h3 {
+            font-size: 22px;
+         }
+          .content h3 {
+            font-size: 18px;
+         }
      </style>
 
      <div class="wdt-elementor-container-fluid">
