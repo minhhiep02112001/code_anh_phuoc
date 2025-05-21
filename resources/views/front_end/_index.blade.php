@@ -477,6 +477,11 @@
         .elementor-element.elementor-element-ee89094 .elementor-heading-title{
             font-weight: 500!important
         }
+        .elementor-element.elementor-element-efc34fb .elementor-heading-title{
+             
+              font-weight: 600!important;
+    font-size: 45px!important;
+        }
     </style>
     <link rel='stylesheet' id='brands-styles-css'
         href='/wp-content/plugins/woocommerce/assets/css/brandsc2dd.css?ver=9.6.2' type='text/css' media='all' />
