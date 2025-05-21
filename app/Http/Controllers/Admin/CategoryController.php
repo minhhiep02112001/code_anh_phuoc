@@ -22,7 +22,7 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($type = 'category')
+    public function index($type = 'home')
     {
         return view('admin.category.index', ['type' => $type]);
     }
