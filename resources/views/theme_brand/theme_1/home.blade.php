@@ -2361,12 +2361,11 @@
                             <div class="e18e99my0 css-1iiv58m e1xmv6f40">
                                 <div class="css-w8wg2g elovojj0">
                                     <h6 class="css-tvdhho eh0fvrz0">
-                                        <div>Search<span class="css-1tzeee1 e1xmv6f40">.</span></div>
-                                        <div>Book<span class="css-1tzeee1 e1xmv6f40">.</span></div>
-                                        <div>Enjoy<span class="css-1tzeee1 e1xmv6f40">.</span></div>
+                                        <div>Discover<span class="css-1tzeee1 e1xmv6f40">.</span></div>
+                                        <div>Reserve<span class="css-1tzeee1 e1xmv6f40">.</span></div>
+                                        <div>Relax<span class="css-1tzeee1 e1xmv6f40">.</span></div>
                                     </h6>
-                                    <h1 class="css-1y5e797 eh0fvrz0">Instantly book a hair, beauty or wellness
-                                        experience</h1>
+                                    <h1 class="css-1y5e797 eh0fvrz0">Instant booking for beauty, haircuts, and relaxation</h1>
                                 </div>
                                 <picture transform="translate(-50%, 0)" class="css-1tz8ogm ehep9uj0">
                                     <source
