@@ -2492,7 +2492,7 @@
                 @if ($categories->isNotEmpty())
                     <div class="css-1iiv58m m-auto">
                         <div class="sec-title text-center mt-3 mb-3">
-                            <h2>Explore Places</h2> <span class="divider"></span>
+                            <h2>Explore Treatments</h2> <span class="divider"></span>
 
                         </div>
                         <div class="row">
