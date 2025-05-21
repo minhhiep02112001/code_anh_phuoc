@@ -2307,15 +2307,7 @@
             /* tùy chọn */
         }
 
-        @media screen and (max-width: 768px) {
-            .explore-block .image img {
-                height: 230px;
-            }
-
-            #banner {
-                background-image: url('{{ asset('/images/beyout-banner-mb.jpg') }}');
-            }
-        }
+    
 
         .FooterLinks_self__1NbYV .FooterLinks_gridItem__SwRrK:nth-child(2) {
             grid-area: about;
@@ -2343,10 +2335,19 @@
              color: #0d1619;
             text-decoration:none
         }
-        @media (min-width: 1440px) {
-            footer .col{
+            @media screen and (max-width: 768px) {
+            .explore-block .image img {
+                height: 230px;
+            }
+
+            #banner {
+                background-image: url('{{ asset('/images/beyout-banner-mb.jpg') }}');
+            }
+             footer .col{
                 width: 100%;
             }
+        }
+        @media (min-width: 1440px) { 
             .FooterLinks_gridItem__SwRrK {
                 inline-size: 227px;
                 min-inline-size: 227px;
