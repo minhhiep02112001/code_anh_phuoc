@@ -2297,6 +2297,12 @@
             -webkit-transition: all .3s ease;
             transition: all .3s ease;
         }
+
+        @media screen and (max-width: 768px) {
+            .explore-block .image img {
+                height: 230px;
+            }
+        }
     </style>
 </head>
 
@@ -2307,7 +2313,7 @@
                 <div class="e18e99my0 css-1iiv58m e1xmv6f40">
                     <div class="css-1l7k9wm ehep9uj0">
                         <a href="/" class="e1g407rp0 css-mwwny2 eh0fvrz0">
-                            <img src="{!! getImageThumb($config_website?->logo) !!}" id="logo" alt="{{$config_website?->website }}">
+                            <img src="{!! getImageThumb($config_website?->logo) !!}" id="logo" alt="{{ $config_website?->website }}">
                         </a>
                         <div class="css-dyoadf elovojj0">
                             <a class=" e46r4ae0 css-11prviu eqqze3d0" id="open_menu" href="#main-menu"
@@ -2365,7 +2371,8 @@
                                         <div>Reserve<span class="css-1tzeee1 e1xmv6f40">.</span></div>
                                         <div>Relax<span class="css-1tzeee1 e1xmv6f40">.</span></div>
                                     </h6>
-                                    <h1 class="css-1y5e797 eh0fvrz0">Instant booking for beauty, haircuts, and relaxation</h1>
+                                    <h1 class="css-1y5e797 eh0fvrz0">Instant booking for beauty, haircuts, and
+                                        relaxation</h1>
                                 </div>
                                 <picture transform="translate(-50%, 0)" class="css-1tz8ogm ehep9uj0">
                                     <source
@@ -2473,7 +2480,7 @@
                         <div class="row">
                             @if (!empty($categories) && $categories->count() > 0)
                                 @foreach ($categories as $item)
-                                    <div class="explore-block col-lg-3 col-md-6 col-sm-12">
+                                    <div class="explore-block col-lg-3 col-6">
                                         <div class="inner-box">
                                             <figure class="image">
                                                 {!! getThumbnail($item, 300, 400, 'css-fim7d8 e10gmdwn0') !!}
