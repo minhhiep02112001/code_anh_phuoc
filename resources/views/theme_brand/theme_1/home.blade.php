@@ -2307,7 +2307,7 @@
             /* tùy chọn */
         }
 
-    
+
 
         .FooterLinks_self__1NbYV .FooterLinks_gridItem__SwRrK:nth-child(2) {
             grid-area: about;
@@ -2324,18 +2324,22 @@
         [dir] ._-wKyRQ {
             text-align: inherit;
         }
-        footer ul{
+
+        footer ul {
             list-style: none;
-             color: #0d1619;
+            color: #0d1619;
         }
-         ul li.title p{
+
+        ul li.title p {
             font-weight: 600;
-         }
-        ul li a{
-             color: #0d1619;
-            text-decoration:none
         }
-            @media screen and (max-width: 768px) {
+
+        ul li a {
+            color: #0d1619;
+            text-decoration: none
+        }
+
+        @media screen and (max-width: 768px) {
             .explore-block .image img {
                 height: 230px;
             }
@@ -2343,16 +2347,24 @@
             #banner {
                 background-image: url('{{ asset('/images/beyout-banner-mb.jpg') }}');
             }
-             footer .col{
+
+            footer .col {
                 width: 100%;
-                        flex: auto;
+                flex: auto;
             }
+        } 
+
+        ._-6pfzC .rtl-icon {
+            display: none;
         }
-        @media (min-width: 1440px) { 
-            .FooterLinks_gridItem__SwRrK {
-                inline-size: 227px;
-                min-inline-size: 227px;
-            }
+
+        .FooterLinks_socialIcon__MdMqQ {
+            block-size: 20px;
+        }
+
+        .FooterLinks_socialIcon__MdMqQ svg {
+            transform: rotate(-45deg);
+            width: 20px;
         }
     </style>
 </head>
@@ -2367,24 +2379,12 @@
                             <img style="max-height: 50px;" src="{!! getImageThumb($config_website?->logo) !!}" id="logo"
                                 alt="{{ $config_website?->website }}">
                         </a>
-                        <div class="css-dyoadf elovojj0">
-                            <a class=" e46r4ae0 css-11prviu eqqze3d0" id="open_menu" href="#main-menu"
-                                title="Open menu">
-                                <div class="css-6zvpm ehep9uj0">
-                                    <div class="css-1br3txa ehep9uj0"><svg viewBox="0 0 24 24"
-                                            class="css-1ktnz7v e1jjwqut0">
-                                            <path
-                                                d="M24 20H0V17.3333H24V20ZM24 13.3333H0V10.6667H24V13.3333ZM24 6.66667H0V4H24V6.66667Z"
-                                                fill="currentColor"></path>
-                                        </svg></div>
-                                </div>
-                            </a>
-                        </div>
+                         
                     </div>
                 </div>
             </header>
 
-
+{{-- 
 
             <section id="main-menu" class="css-uiw85g e1ia6iam0">
                 <div class="ee94ukk1 css-zmt40d ehep9uj0">
@@ -2410,7 +2410,7 @@
                         </nav>
                     </div>
                 </div>
-            </section>
+            </section> --}}
             <div class="css-mkkf9p e15axdxf0">
 
                 <section class="e18e99my1 css-1i7dxix ehep9uj0" id="banner">
@@ -2616,7 +2616,7 @@
                         </div> --}}
 
                         <div class="FooterLinks_innerContent__8anC0 row">
-                            <div class="col">
+                            <div class="col col-12 col-lg-2">
                                 <a href="/"
                                     class="BaseAnchor_i-anh__wrapper__guUVX _Xd4TX util-focusRing-overrides _0HRiNX"
                                     aria-label="{{ $config_website?->website }}"><img style="max-height: 50px;"
@@ -2624,11 +2624,11 @@
                                         alt="{{ $config_website?->website }}">
                                 </a>
                             </div>
-                            <div class="col">
+                             <div class="col col-12 col-lg-2">
                                 <ul
                                     class="_5zC0N5 gap-default-150 direction-default-vertical display-default-inline-flex FooterLinks_gridItem__SwRrK">
                                     <li class="p_ehs5 title">
-                                        <p class="_-wKyRQ rfrdHQ font-default-body-m-semibold">About Fresha</p>
+                                        <p class="_-wKyRQ rfrdHQ font-default-body-m-semibold">About Beyout</p>
                                     </li>
                                     <li class="p_ehs5">
                                         <p class="_-wKyRQ rfrdHQ font-default-body-s-regular"><a href="#"
@@ -2655,7 +2655,7 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div class="col">
+                            <div class="col col-12 col-lg-2">
                                 <ul
                                     class="_5zC0N5 gap-default-150 direction-default-vertical display-default-inline-flex FooterLinks_gridItem__SwRrK">
                                     <li class="p_ehs5 title">
@@ -2688,7 +2688,7 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div class="col">
+                             <div class="col col-12 col-lg-2">
                                 <ul
                                     class="_5zC0N5 gap-default-150 direction-default-vertical display-default-inline-flex FooterLinks_gridItem__SwRrK">
                                     <li class="p_ehs5 title">
@@ -2712,6 +2712,90 @@
                                                 data-qa="footer-use-terms" id="footer-use-terms"
                                                 target="_blank">Terms of
                                                 use</a></p>
+                                    </li>
+                                </ul>
+                            </div>
+                             <div class="col col-12 col-lg-2">
+                                <ul
+                                    class="_5zC0N5 gap-default-150 direction-default-vertical display-default-inline-flex FooterLinks_gridItem__SwRrK">
+                                    <li class="p_ehs5 title">
+                                        <p class="_-wKyRQ rfrdHQ font-default-body-m-semibold">Find us on social</p>
+                                    </li>
+                                    <li class="p_ehs5">
+                                        <p class="_-wKyRQ rfrdHQ font-default-body-s-regular"><a href="#"
+                                                class="BaseAnchor_i-anh__wrapper__guUVX _Xd4TX util-focusRing-overrides _0HRiNX FooterLinks_socialCopyLink__cI3Pa"
+                                                target="_blank"><span class="FooterLinks_socialIcon__MdMqQ"><span
+                                                        class="_-6pfzC I-8PaC" aria-hidden="true"><span
+                                                            class="rtl-icon"><svg fill="currentColor"
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                viewBox="0 0 32 32">
+                                                                <path fill-rule="evenodd"
+                                                                    d="M14.707 6.293a1 1 0 0 1 0 1.414L7.414 15H27a1 1 0 1 1 0 2H7.414l7.293 7.293a1 1 0 0 1-1.414 1.414l-9-9a1 1 0 0 1 0-1.414l9-9a1 1 0 0 1 1.414 0"
+                                                                    clip-rule="evenodd"></path>
+                                                            </svg></span><span class="ltr-icon"><svg
+                                                                fill="currentColor" xmlns="http://www.w3.org/2000/svg"
+                                                                viewBox="0 0 32 32">
+                                                                <path fill-rule="evenodd"
+                                                                    d="M17.293 6.293a1 1 0 0 1 1.414 0l9 9a1 1 0 0 1 0 1.414l-9 9a1 1 0 0 1-1.414-1.414L24.586 17H5a1 1 0 1 1 0-2h19.586l-7.293-7.293a1 1 0 0 1 0-1.414"
+                                                                    clip-rule="evenodd"></path>
+                                                            </svg></span></span></span>Facebook</a></p>
+                                    </li>
+                                    <li class="p_ehs5">
+                                        <p class="_-wKyRQ rfrdHQ font-default-body-s-regular"><a href="#"
+                                                class="BaseAnchor_i-anh__wrapper__guUVX _Xd4TX util-focusRing-overrides _0HRiNX FooterLinks_socialCopyLink__cI3Pa"
+                                                target="_blank"><span class="FooterLinks_socialIcon__MdMqQ"><span
+                                                        class="_-6pfzC I-8PaC" aria-hidden="true"><span
+                                                            class="rtl-icon"><svg fill="currentColor"
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                viewBox="0 0 32 32">
+                                                                <path fill-rule="evenodd"
+                                                                    d="M14.707 6.293a1 1 0 0 1 0 1.414L7.414 15H27a1 1 0 1 1 0 2H7.414l7.293 7.293a1 1 0 0 1-1.414 1.414l-9-9a1 1 0 0 1 0-1.414l9-9a1 1 0 0 1 1.414 0"
+                                                                    clip-rule="evenodd"></path>
+                                                            </svg></span><span class="ltr-icon"><svg
+                                                                fill="currentColor" xmlns="http://www.w3.org/2000/svg"
+                                                                viewBox="0 0 32 32">
+                                                                <path fill-rule="evenodd"
+                                                                    d="M17.293 6.293a1 1 0 0 1 1.414 0l9 9a1 1 0 0 1 0 1.414l-9 9a1 1 0 0 1-1.414-1.414L24.586 17H5a1 1 0 1 1 0-2h19.586l-7.293-7.293a1 1 0 0 1 0-1.414"
+                                                                    clip-rule="evenodd"></path>
+                                                            </svg></span></span></span>Twitter</a></p>
+                                    </li>
+                                    <li class="p_ehs5">
+                                        <p class="_-wKyRQ rfrdHQ font-default-body-s-regular"><a href="#"
+                                                class="BaseAnchor_i-anh__wrapper__guUVX _Xd4TX util-focusRing-overrides _0HRiNX FooterLinks_socialCopyLink__cI3Pa"
+                                                target="_blank"><span class="FooterLinks_socialIcon__MdMqQ"><span
+                                                        class="_-6pfzC I-8PaC" aria-hidden="true"><span
+                                                            class="rtl-icon"><svg fill="currentColor"
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                viewBox="0 0 32 32">
+                                                                <path fill-rule="evenodd"
+                                                                    d="M14.707 6.293a1 1 0 0 1 0 1.414L7.414 15H27a1 1 0 1 1 0 2H7.414l7.293 7.293a1 1 0 0 1-1.414 1.414l-9-9a1 1 0 0 1 0-1.414l9-9a1 1 0 0 1 1.414 0"
+                                                                    clip-rule="evenodd"></path>
+                                                            </svg></span><span class="ltr-icon"><svg
+                                                                fill="currentColor" xmlns="http://www.w3.org/2000/svg"
+                                                                viewBox="0 0 32 32">
+                                                                <path fill-rule="evenodd"
+                                                                    d="M17.293 6.293a1 1 0 0 1 1.414 0l9 9a1 1 0 0 1 0 1.414l-9 9a1 1 0 0 1-1.414-1.414L24.586 17H5a1 1 0 1 1 0-2h19.586l-7.293-7.293a1 1 0 0 1 0-1.414"
+                                                                    clip-rule="evenodd"></path>
+                                                            </svg></span></span></span>Linkedin</a></p>
+                                    </li>
+                                    <li class="p_ehs5">
+                                        <p class="_-wKyRQ rfrdHQ font-default-body-s-regular"><a href="#"
+                                                class="BaseAnchor_i-anh__wrapper__guUVX _Xd4TX util-focusRing-overrides _0HRiNX FooterLinks_socialCopyLink__cI3Pa"
+                                                target="_blank"><span class="FooterLinks_socialIcon__MdMqQ"><span
+                                                        class="_-6pfzC I-8PaC" aria-hidden="true"><span
+                                                            class="rtl-icon"><svg fill="currentColor"
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                viewBox="0 0 32 32">
+                                                                <path fill-rule="evenodd"
+                                                                    d="M14.707 6.293a1 1 0 0 1 0 1.414L7.414 15H27a1 1 0 1 1 0 2H7.414l7.293 7.293a1 1 0 0 1-1.414 1.414l-9-9a1 1 0 0 1 0-1.414l9-9a1 1 0 0 1 1.414 0"
+                                                                    clip-rule="evenodd"></path>
+                                                            </svg></span><span class="ltr-icon"><svg
+                                                                fill="currentColor" xmlns="http://www.w3.org/2000/svg"
+                                                                viewBox="0 0 32 32">
+                                                                <path fill-rule="evenodd"
+                                                                    d="M17.293 6.293a1 1 0 0 1 1.414 0l9 9a1 1 0 0 1 0 1.414l-9 9a1 1 0 0 1-1.414-1.414L24.586 17H5a1 1 0 1 1 0-2h19.586l-7.293-7.293a1 1 0 0 1 0-1.414"
+                                                                    clip-rule="evenodd"></path>
+                                                            </svg></span></span></span>Instagram</a></p>
                                     </li>
                                 </ul>
                             </div>
