@@ -2476,7 +2476,7 @@
                                     <div class="explore-block col-lg-3 col-md-6 col-sm-12">
                                         <div class="inner-box">
                                             <figure class="image">
-                                                {!! getThumbnail($item, 600, 300, 'css-fim7d8 e10gmdwn0') !!}
+                                                {!! getThumbnail($item, 300, 400, 'css-fim7d8 e10gmdwn0') !!}
                                             </figure>
                                             <div class="overlay-box">
                                                 <div class="content">
