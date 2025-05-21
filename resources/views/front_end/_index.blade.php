@@ -714,6 +714,8 @@
         }
     </style>
 
+        
+   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
     <style type="text/css" id="wp-custom-css">
         .product-thumb-overlay {
@@ -731,6 +733,10 @@
             box-sizing: border-box;
             /* Include padding and border in the size */
         }
+
+        body, button, input, textarea, select, optgroup {
+    font-family:   'Nunito', sans-serif;
+}
     </style>
 </head>
 

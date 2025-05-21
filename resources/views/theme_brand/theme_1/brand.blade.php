@@ -30,7 +30,9 @@
          .slide-banners .slick-arrow {
              display: none !important;
          }
+          
      </style>
+
      <div class="wdt-elementor-container-fluid">
          <div class="elementor elementor-2632">
              <style>

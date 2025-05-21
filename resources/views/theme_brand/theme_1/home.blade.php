@@ -21,6 +21,9 @@
     <meta name="google-site-verification" content="XIP1nLPnmhXza-MULIlMIwPmXZ_m3YxV336RlJt51Ng" />
     <meta name="theme-color" content="white" />
     @include('front_end.block.config_seo_header')
+   
+   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+
     <style
         data-emotion-css="0 1w9yb6b j64p7l 1nl879o 1l7k9wm mwwny2 16n9dof kau6op dyoadf 11prviu 6zvpm 1br3txa 1ktnz7v uiw85g 1h3k0x3 9g0g4r mnebl 3o0h5k jazq28 mkkf9p 126zv25 jo2aaq k008qs 1hcy63r 1ta5v59 9a3ihm g4opy9 3usq65 19tzvnq 1wlq5nj 1sg0k8w 1f3l2hr slgx7q 8q80ou 3e0w3e qbrse1 9gbji6 1khs5xc f9pz52 h3oydn ie1780 lkz9sl animation-vo2oum 1xy5o1q squ00q zkadht e2vg5q bjn8wh 173p03h p2z5vl kjafn5 ve357d fn2um 105fra2 6iwp6q 19v4aip uodor8 1iiv58m 1g9vjr2 fim7d8 1rruakd ouysy5 sis14u mm5std 9vornv q424i7 1s7dpk1 l951p5 ruw0ik q6wv6b 1i7dxix w8wg2g tvdhho 1tzeee1 1y5e797 1tz8ogm 1lnpsqz 1wcjc1k d65tcr 1a7f7p 1ryz6ze 1yz0o3j n7e2yo qh9ukh 1mu8hzh 1g1q0hs 1o52x4a bk7e3w 1600jh 42crao 1q886t9 1l4w6pd x3j6co 1sddqb5 15frxp ccv1m5 smptyk 142foij 1hqpjkr 1cjvpa3 1hgunyx 12ci84q 1jsxf2a shx0pi u2ep48 j7qwjs 14c8jl2">
         html {
@@ -48,7 +51,7 @@
         }
 
         pre {
-            font-family: monospace, monospace;
+            font-family: 'Nunito', sans-serif;
             font-size: 1em;
         }
 
@@ -62,7 +65,7 @@
             text-decoration: underline;
             -webkit-text-decoration: underline dotted;
 
-            text-decoration:underline dotted;}b,strong{font-weight:bolder;}code,kbd,samp{font-family:monospace,monospace;font-size:1em;}small{font-size:80%;}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline;}sub{bottom:-0.25em;}sup{top:-0.5em;}img{border-style:none;}button,input,optgroup,select,textarea{font-family:inherit;font-size:100%;line-height:1.15;margin:0;}button,input{overflow:visible;}button,select{text-transform:none;}button,[type='button'],
+            text-decoration:underline dotted;}b,strong{font-weight:bolder;}code,kbd,samp{font-family:monospace,monospace;font-size:1em;}small{font-size:80%;}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline;}sub{bottom:-0.25em;}sup{top:-0.5em;}img{border-style:none;}button,input,optgroup,select,textarea{font-family:'Nunito', sans-serif;font-size:100%;line-height:1.15;margin:0;}button,input{overflow:visible;}button,select{text-transform:none;}button,[type='button'],
             [type='reset'],
             [type='submit'] {
                 -webkit-appearance: button;
@@ -129,101 +132,7 @@
                     display: none;
                 }
 
-                @font-face {
-                    font-family: 'Kollektif';
-                    font-weight: 400;
-                    font-style: normal;
-                    font-display: swap;
-                    src: url('static/fonts/Kollektif/Kollektif.woff2') format('woff2');
-                }
-
-                @font-face {
-                    font-family: 'Kollektif';
-                    font-weight: 400;
-                    font-style: italic;
-                    font-display: swap;
-                    src: url('static/fonts/Kollektif/Kollektif-Italic.woff2') format('woff2');
-                }
-
-                @font-face {
-                    font-family: 'Kollektif';
-                    font-weight: 700;
-                    font-style: normal;
-                    font-display: swap;
-                    src: url('static/fonts/Kollektif/Kollektif-Bold.woff2') format('woff2');
-                }
-
-                @font-face {
-                    font-family: 'Kollektif';
-                    font-weight: 700;
-                    font-style: italic;
-                    font-display: swap;
-                    src: url('static/fonts/Kollektif/Kollektif-Bold-Italic.woff2') format('woff2');
-                }
-
-                @font-face {
-                    font-family: 'Lato';
-                    font-weight: 100;
-                    font-style: normal;
-                    font-display: swap;
-                    src: url('static/fonts/Lato/Lato-Hairline.woff2') format('woff2');
-                }
-
-                @font-face {
-                    font-family: 'Lato';
-                    font-weight: 100;
-                    font-style: italic;
-                    font-display: swap;
-                    src: url('static/fonts/Lato/Lato-Hairline-Italic.woff2') format('woff2');
-                }
-
-                @font-face {
-                    font-family: 'Lato';
-                    font-weight: 300;
-                    font-style: normal;
-                    font-display: swap;
-                    src: url('static/fonts/Lato/Lato-Light.woff2') format('woff2');
-                }
-
-                @font-face {
-                    font-family: 'Lato';
-                    font-weight: 300;
-                    font-style: italic;
-                    font-display: swap;
-                    src: url('static/fonts/Lato/Lato-Light-Italic.woff2') format('woff2');
-                }
-
-                @font-face {
-                    font-family: 'Lato';
-                    font-weight: 400;
-                    font-style: normal;
-                    font-display: swap;
-                    src: url('static/fonts/Lato/Lato-Regular.woff2') format('woff2');
-                }
-
-                @font-face {
-                    font-family: 'Lato';
-                    font-weight: 400;
-                    font-style: italic;
-                    font-display: swap;
-                    src: url('static/fonts/Lato/Lato-Italic.woff2') format('woff2');
-                }
-
-                @font-face {
-                    font-family: 'Lato';
-                    font-weight: 700;
-                    font-style: normal;
-                    font-display: swap;
-                    src: url('static/fonts/Lato/Lato-Bold.woff2') format('woff2');
-                }
-
-                @font-face {
-                    font-family: 'Lato';
-                    font-weight: 700;
-                    font-style: italic;
-                    font-display: swap;
-                    src: url('static/fonts/Lato/Lato-Bold-Italic.woff2') format('woff2');
-                }
+               
 
                 :root {
                     --bookwell-error-hue: 4;
@@ -235,7 +144,7 @@
                 html {
                     box-sizing: border-box;
                     height: 100%;
-                    font-family: Lato, sans-serif;
+                    font-family: 'Nunito', sans-serif;
                     color: hsl(0, 0%, 13%);
                     background-color: white;
                     overflow-wrap: break-word;
@@ -345,13 +254,12 @@
                 }
 
                 .css-16n9dof {
-                    color: hsl(0, 0%, 13%);
-                    font-family: Lato, sans-serif;
+                    color: hsl(0, 0%, 13%); 
                     font-size: 30px;
                     font-weight: 700;
                     margin: 0;
                     text-align: left;
-                    font-family: Kollektif, Helvetica, Arial, sans-serif;
+                    font-family:'Nunito', sans-serif;
                     color: hsl(8, 86%, 62%);
                     font-weight: normal;
                     line-height: 1;
@@ -396,7 +304,7 @@
                     width: 40px;
                     border-width: 1px;
                     border-style: solid;
-                    font-family: Lato, sans-serif;
+                    font-family: 'Nunito', sans-serif;
                     font-weight: 400;
                     border-color: hsl(0, 0%, 90%);
                     border-radius: 4px;
@@ -535,7 +443,7 @@
                     box-sizing: border-box;
                     border-width: 1px;
                     border-style: solid;
-                    font-family: Lato, sans-serif;
+                    font-family: 'Nunito', sans-serif;
                     font-weight: 400;
                     border-color: hsl(0, 0%, 90%);
                     border-radius: 4px;
@@ -660,11 +568,10 @@
                 .css-1ta5v59 {
                     margin: 0;
                     color: hsl(0, 0%, 13%);
-                    font-family: Lato, sans-serif;
+                    font-family: 'Nunito', sans-serif;
                     font-size: 30px;
                     font-weight: 700;
-                    text-align: left;
-                    font-family: Kollektif, Helvetica, Arial, sans-serif;
+                    text-align: left; 
                     color: hsl(8, 86%, 62%);
                     font-weight: normal;
                     line-height: 1;
@@ -694,7 +601,7 @@
                 .css-g4opy9 {
                     margin: 0;
                     color: hsl(0, 0%, 13%);
-                    font-family: Lato, sans-serif;
+                    font-family: 'Nunito', sans-serif;
                     font-size: 16px;
                     font-weight: 700;
                     text-align: left;
@@ -703,7 +610,7 @@
                 .css-3usq65 {
                     list-style: none;
                     padding: 0;
-                    font-family: Lato, sans-serif;
+                    font-family: 'Nunito', sans-serif;
                 }
 
                 .css-19tzvnq {
@@ -804,7 +711,7 @@
                     width: auto;
                     border-width: 1px;
                     border-style: solid;
-                    font-family: Lato, sans-serif;
+                    font-family: 'Nunito', sans-serif;
                     font-weight: 400;
                     border-color: hsl(0, 0%, 90%);
                     border-radius: 4px;
@@ -916,7 +823,7 @@
                 .css-1khs5xc {
                     margin: 0;
                     color: hsl(0, 0%, 13%);
-                    font-family: Lato, sans-serif;
+                    font-family: 'Nunito', sans-serif;
                     font-size: 16px;
                     font-weight: 700;
                     text-transform: inherit;
@@ -1011,7 +918,7 @@
                 .css-1xy5o1q {
                     margin: 0;
                     color: hsl(0, 0%, 13%);
-                    font-family: Lato, sans-serif;
+                    font-family: 'Nunito', sans-serif;
                     font-size: 26px;
                     font-weight: 700;
                     text-align: left;
@@ -1020,7 +927,7 @@
                 .css-squ00q {
                     margin: 0;
                     color: hsl(0, 0%, 13%);
-                    font-family: Lato, sans-serif;
+                    font-family: 'Nunito', sans-serif;
                     font-size: 16px;
                     font-weight: 400;
                     text-transform: inherit;
@@ -1083,7 +990,7 @@
                     width: 1200px;
                     height: 1200px;
                     font-size: 16px;
-                    font-family: Lato, sans-serif;
+                    font-family: 'Nunito', sans-serif;
                     font-weight: normal;
                     color: hsl(0, 0%, 13%);
                     overflow: hidden;
@@ -1157,7 +1064,7 @@
                     box-sizing: border-box;
                     border-width: 1px;
                     border-style: solid;
-                    font-family: Lato, sans-serif;
+                    font-family: 'Nunito', sans-serif;
                     font-weight: 400;
                     border-color: hsl(0, 0%, 90%);
                     border-radius: 4px;
@@ -1212,7 +1119,7 @@
                     box-sizing: border-box;
                     border-width: 1px;
                     border-style: solid;
-                    font-family: Lato, sans-serif;
+                    font-family: 'Nunito', sans-serif;
                     font-weight: 400;
                     border-color: hsl(0, 0%, 90%);
                     border-radius: 4px;
@@ -1260,7 +1167,7 @@
                 .css-19v4aip {
                     margin: 0;
                     color: inherit;
-                    font-family: Lato, sans-serif;
+                    font-family: 'Nunito', sans-serif;
                     font-size: 16px;
                     font-weight: 400;
                     text-transform: inherit;
@@ -1496,7 +1403,7 @@
 
                 .css-tvdhho {
                     color: hsl(0, 0%, 100%);
-                    font-family: Kollektif, Helvetica, Arial, sans-serif;
+                    font-family: 'Nunito', sans-serif;
                     font-size: 52px;
                     font-weight: 700;
                     margin: 0;
@@ -1516,7 +1423,7 @@
 
                 .css-1y5e797 {
                     color: hsl(0, 0%, 100%);
-                    font-family: Lato, sans-serif;
+                    font-family: 'Nunito', sans-serif;
                     font-size: 22px;
                     font-weight: 700;
                     margin: 0;
@@ -1675,7 +1582,7 @@
                 .css-1g1q0hs {
                     margin: 0;
                     color: hsl(0, 0%, 13%);
-                    font-family: Lato, sans-serif;
+                    font-family: 'Nunito', sans-serif;
                     font-size: 26px;
                     font-weight: 400;
                     text-transform: inherit;
@@ -1684,7 +1591,7 @@
                 .css-1o52x4a {
                     margin: 0;
                     color: hsl(0, 0%, 13%);
-                    font-family: Lato, sans-serif;
+                    font-family: 'Nunito', sans-serif;
                     font-size: 16px;
                     text-align: center;
                     font-weight: 400;
@@ -1762,7 +1669,7 @@
                 .css-1q886t9 {
                     margin: 0;
                     color: hsl(0, 0%, 13%);
-                    font-family: Lato, sans-serif;
+                    font-family: 'Nunito', sans-serif;
                     font-size: 40px;
                     font-weight: 400;
                     text-transform: inherit;
@@ -1805,7 +1712,7 @@
                 .css-x3j6co {
                     margin: 0;
                     color: hsl(0, 0%, 13%);
-                    font-family: Lato, sans-serif;
+                    font-family: 'Nunito', sans-serif;
                     font-size: 22px;
                     text-align: center;
                     font-weight: 700;
@@ -1878,7 +1785,7 @@
 
                 .css-1hqpjkr {
                     color: hsl(0, 0%, 13%);
-                    font-family: Lato, sans-serif;
+                    font-family: 'Nunito', sans-serif;
                     font-size: 30px;
                     font-weight: 700;
                     margin: 0;
@@ -1893,7 +1800,7 @@
 
                 .css-1cjvpa3 {
                     color: hsl(0, 0%, 13%);
-                    font-family: Lato, sans-serif;
+                    font-family: 'Nunito', sans-serif;
                     font-size: 16px;
                     font-weight: 400;
                     margin: 0;
@@ -1943,7 +1850,7 @@
                     box-sizing: border-box;
                     border-width: 1px;
                     border-style: solid;
-                    font-family: Lato, sans-serif;
+                    font-family: 'Nunito', sans-serif;
                     font-weight: 400;
                     border-color: hsl(0, 0%, 90%);
                     border-radius: 4px;
@@ -1986,7 +1893,7 @@
                 .css-1jsxf2a {
                     margin: 0;
                     color: hsl(0, 0%, 13%);
-                    font-family: Lato, sans-serif;
+                    font-family: 'Nunito', sans-serif;
                     font-size: 30px;
                     font-weight: 700;
                     text-align: left;
@@ -2044,7 +1951,7 @@
                 .css-u2ep48 {
                     margin: 0;
                     color: hsl(0, 0%, 13%);
-                    font-family: Lato, sans-serif;
+                    font-family: 'Nunito', sans-serif;
                     font-size: 20px;
                     font-weight: 700;
                     text-transform: inherit;

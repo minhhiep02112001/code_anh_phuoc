@@ -151,9 +151,7 @@
                                                     data-widget_type="text-editor.default">
                                                     <div class="elementor-widget-container">
                                                         <ul>
-                                                            {!! !empty($post->address) ? "<li>$post->address</li>" : '' !!}
-                                                            {!! !empty($post->email) ? "<li>$post->email</li>" : '' !!}
-                                                            {!! !empty($post->phone) ? "<li>$post->phone</li>" : '' !!}
+                                                            {!! !empty($post->address) ? "<li>$post->address</li>" : '' !!} 
                                                         </ul>
                                                     </div>
                                                 </div>
