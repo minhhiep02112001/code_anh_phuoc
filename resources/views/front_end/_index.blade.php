@@ -475,7 +475,7 @@
             color: #ff0000;
         }
         .elementor-element.elementor-element-ee89094 .elementor-heading-title{
-            font-weight: 500
+            font-weight: 500!important
         }
     </style>
     <link rel='stylesheet' id='brands-styles-css'
