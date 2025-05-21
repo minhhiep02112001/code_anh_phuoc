@@ -30,6 +30,31 @@
          .slide-banners .slick-arrow {
              display: none !important;
          }
+
+         @media screen and (max-width: 768px) {
+             .logo {
+               height: 100%;
+                 font-size: 25px;
+             }
+             h2.elementor-heading-title{
+                text-align: center;
+             }
+             .elementor-2632 .elementor-element.elementor-element-efc34fb .elementor-heading-title{
+               font-family:   'Nunito', sans-serif;
+               font-size:25px!important;
+             }
+             .elementor-16 .elementor-element.elementor-element-16ca706 > .elementor-widget-container,
+             .elementor-widget:not(:last-child){
+                margin: 0px!important;
+                padding: 0px!important;
+             }
+             header .elementor-column{
+                height: 50px!important;
+             }
+             header.elementor-widget-container {
+    text-align: justify!important;
+}
+         }
      </style>
 
      <div class="wdt-elementor-container-fluid">
