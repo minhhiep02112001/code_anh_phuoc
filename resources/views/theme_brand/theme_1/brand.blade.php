@@ -73,17 +73,26 @@
                  text-align: justify !important;
              }
          }
-         .content {
-            font-size: 16px;
+
+         #content {
+             font-family: 'Nunito', sans-serif;
          }
-           .content h2 {
-            font-size: 28px;
+
+         #content p,
+                  #content li ,         #content span {
+             font-size: 16px;
          }
-          .content h3 {
-            font-size: 22px;
+
+                 #content h2 {
+             font-size: 28px;
          }
-          .content h3 {
-            font-size: 18px;
+
+                  #content h3 {
+             font-size: 22px;
+         }
+
+                  #content h4 {
+             font-size: 18px;
          }
      </style>
 
