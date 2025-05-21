@@ -13,6 +13,10 @@
 
          }
 
+         .d-block {
+             display: block;
+         }
+
          .line-clamp-3 {
              display: -webkit-box;
              -webkit-line-clamp: 3;
@@ -27,33 +31,47 @@
              background: #E6DCC5;
          }
 
+         .text-center {
+             text-align: center;
+         }
+
          .slide-banners .slick-arrow {
              display: none !important;
          }
 
+         .justify {
+             text-align: justify;
+         }
+
          @media screen and (max-width: 768px) {
              .logo {
-               height: 100%;
+                 height: 100%;
                  font-size: 25px;
              }
-             h2.elementor-heading-title{
-                text-align: center;
+
+             h2.elementor-heading-title {
+                 text-align: center;
+                 width: 100%;
              }
-             .elementor-2632 .elementor-element.elementor-element-efc34fb .elementor-heading-title{
-               font-family:   'Nunito', sans-serif;
-               font-size:25px!important;
+
+             .elementor-2632 .elementor-element.elementor-element-efc34fb .elementor-heading-title {
+                 font-family: 'Nunito', sans-serif;
+                 font-size: 25px !important;
              }
-             .elementor-16 .elementor-element.elementor-element-16ca706 > .elementor-widget-container,
-             .elementor-widget:not(:last-child){
-                margin: 0px!important;
-                padding: 0px!important;
+
+             .elementor-16 .elementor-element.elementor-element-16ca706>.elementor-widget-container,
+             .elementor-widget:not(:last-child) {
+                 margin: 0px !important;
+                 padding: 0px !important;
              }
-             header .elementor-column{
-                height: 50px!important;
+
+             header .elementor-column {
+                 height: 50px !important;
              }
+
              header.elementor-widget-container {
-    text-align: justify!important;
-}
+                 text-align: justify !important;
+             }
          }
      </style>
 
@@ -328,7 +346,7 @@
                              data-id="7ea6c594" data-element_type="column"
                              data-settings="{&quot;animation&quot;:&quot;fadeInLeft&quot;,&quot;animation_delay&quot;:100}">
                              <div class="elementor-widget-wrap elementor-element-populated">
-                                 <h2 class="elementor-heading-title elementor-size-default">
+                                 <h2 class="elementor-heading-title elementor-size-default text-center d-block">
                                      {!! $post?->title_block_1 !!}
                                  </h2>
                                  <div class="elementor-element elementor-element-7b2894d elementor-widget-divider--view-line elementor-widget elementor-widget-divider"
@@ -340,7 +358,7 @@
                                  </div>
                                  <div class="elementor-element elementor-element-d02be1a elementor-widget elementor-widget-text-editor"
                                      data-id="d02be1a" data-element_type="widget" data-widget_type="text-editor.default">
-                                     <div class="elementor-widget-container">
+                                     <div class="elementor-widget-container justify">
                                          {!! $post->content_block_1 !!}
                                      </div>
                                  </div>
@@ -464,7 +482,7 @@
                                                                                  src="{{ asset('images/f.svg') }}"
                                                                                  alt="Google" width="17"
                                                                                  height="17" loading="lazy"></span>
-                                                                         <div class="ti-review-text-container ti-review-content line-clamp-3"
+                                                                         <div class="ti-review-text-container justify ti-review-content line-clamp-3"
                                                                              style="height: 87px !important;"
                                                                              data-initial-height="87"
                                                                              data-expanded-height="261">
@@ -599,7 +617,7 @@
                  data-id="37adf8a" data-element_type="section"
                  data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
 
-                 <div id="content">
+                 <div id="content " class="justify">
                      {!! $post?->content !!}
                  </div>
          </div>
