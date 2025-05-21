@@ -45,6 +45,15 @@ class HomeController extends Controller
             'select' => ['id', 'title', 'slug', 'thumbnail', 'address', 'description', 'publish_at'],
         ]);
 
+        $data['categories']  = $this->categoryRepository->getAll([
+            'is_status' => 1,
+            'type' => 'home'
+        ], [
+            'order_by' => ['id', 'desc'],
+            'limit' => 20,
+            'pagination' => $page,
+            'select' => ['id', 'title', 'slug', 'thumbnail',   'description'],
+        ]);
         $data['banners'] = Banner::getType('home');
         return view('theme_brand.theme_1.home', $data);
     }
@@ -74,12 +83,12 @@ class HomeController extends Controller
         ])->limit(5)->get();
 
         $breadcrumbs = [array('url' => '', 'title' => $post->title)];
- 
+
         $data = [
             'breadcrumbs' => $breadcrumbs,
             'post' => $post,
             'SEO' => $SEO,
-            'medias' => $medias, 
+            'medias' => $medias,
             'comments' => $comment,
         ];
         return view('theme_brand.theme_1.brand', $data);

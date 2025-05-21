@@ -2070,17 +2070,233 @@
                     padding-left: 32px;
                     padding-right: 32px;
                 }
-                .row{
+
+                .row {
                     display: flex;
                 }
-                .col-6{
+
+                .col-6 {
                     width: 50%;
                 }
+
                 @media screen and (max-width: 768px) {
-                    .col-6{
-                    width: 100%;
+                    .col-6 {
+                        width: 100%;
+                    }
                 }
-                }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        .explore-block {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .explore-block .inner-box {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .explore-block .image {
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 0;
+        }
+
+        figure {
+            margin: 0 0 1rem;
+        }
+
+        .explore-block .inner-box:hover .image img {
+            -webkit-transform: scale(1.1);
+            transform: scale(1.1);
+        }
+
+        .explore-block .image img {
+            height: 300px;
+            display: block;
+            width: 100%;
+            -webkit-transition: all .3s ease;
+            transition: all .3s ease;
+            max-width: 100%;
+            vertical-align: middle;
+            border-style: none;
+        }
+
+        .explore-block .overlay-box {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 100%;
+        }
+
+        .explore-block .overlay-box .content {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            padding: 30px 30px 25px;
+            z-index: 9;
+        }
+
+        .explore-block .overlay-box:before {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            background: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0)), to(#1b2032));
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0, #1b2032 100%);
+            content: "";
+        }
+
+        .explore-block .overlay-box h5 {
+            font-size: 18px;
+            color: #fff;
+            font-weight: 500;
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        .explore-block .overlay-box .locations {
+            display: block;
+            font-size: 14px;
+            color: #fff;
+        }
+
+        .overlay-link {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            z-index: 9;
+        }
+
+        .listing-block {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .listing-block .inner-box {
+            position: relative;
+            background-color: #e3e3e3;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 4px rgba(0, 0, 0, .09);
+        }
+
+        .listing-block .image-box {
+            position: relative;
+        }
+
+        .listing-block .image img {
+            width: 420px !important;
+            height: 220px !important;
+            object-fit: cover;
+        }
+
+        .listing-block .lower-content {
+            min-height: 130px;
+            position: relative;
+            padding: 10px;
+            z-index: 2;
+        }
+
+        .sec-title h2 {
+            position: relative;
+            display: block;
+            font-size: 32px;
+            line-height: 1.2em;
+            color: #1b2032;
+            font-weight: 700;
+        }
+
+        .sec-title.text-center .divider {
+            margin: 12px auto;
+        }
+
+        .sec-title .text {
+            position: relative;
+            margin-top: 15px;
+        }
+
+        .sec-title .divider {
+            position: relative;
+            display: block;
+            width: 100px;
+            background-color: #9fa9b8;
+            height: 2px;
+            margin-top: 12px;
+        }
+
+        .listing-block .bottom-box {
+            position: relative;
+            display: -webkit-box;
+            display: flex;
+            -webkit-box-pack: justify;
+            justify-content: space-between;
+            -webkit-box-align: center;
+            align-items: center;
+            border-top: 1px solid #e6e8ed;
+            padding: 10px 25px;
+        }
+
+        .listing-block .places {
+            position: relative;
+            display: -webkit-box;
+            display: flex;
+        }
+
+        .listing-block .place {
+            position: relative;
+            color: #4cbfd8;
+            font-size: 14px;
+            margin-right: 30px;
+        }
+
+        .listing-block .status {
+            position: relative;
+            font-size: 14px;
+            color: #5c6770;
+        }
+
+        .listing-block .text {
+            position: relative;
+            margin-bottom: 10px;
+        }
+
+        .text {
+            font-size: 16px;
+            line-height: normal;
+            color: #5c6770;
+            font-weight: 400;
+            margin: 0;
+        }
+
+        .listing-block h3 {
+            position: relative;
+            font-size: 18px;
+            line-height: 1.2em;
+            color: #1b2032;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .listing-block h3 a {
+            display: -webkit-box;
+            text-decoration: none;
+            cursor: pointer;
+            display: flex;
+            -webkit-box-align: center;
+            align-items: center;
+            color: #1b2032;
+            -webkit-transition: all .3s ease;
+            transition: all .3s ease;
+        }
     </style>
 </head>
 
@@ -2138,6 +2354,7 @@
                 </div>
             </section>
             <div class="css-mkkf9p e15axdxf0">
+
                 <section class="e18e99my1 css-1i7dxix ehep9uj0">
                     @if (!empty($banners))
                         @foreach ($banners as $banner)
@@ -2204,56 +2421,115 @@
                         </div>
                     </div>
                 </section>
-                <section class="e18e99my1 css-1600jh ehep9uj0">
+                <section class="e18e99my1 css-1ryz6ze ehep9uj0">
                     <div class="e18e99my0 css-1iiv58m e1xmv6f40">
-                        <div class="css-6iwp6q elovojj0">
-                            <h3 class="css-1xy5o1q eh0fvrz0">Explore Treatments</h3>
-                            <div class="css-1g9vjr2 elovojj0">
-                                @if (!empty($posts) && $posts->count() > 0)
-                                    @foreach ($posts as $item)
-                                        <a href="{{ route('post', ['slug' => $item->slug]) }}"
-                                            class="e1g407rp0 css-mwwny2 eh0fvrz0">
-                                            <div class="css-p2z5vl elovojj0">
-                                                {!! getThumbnail($item, 300, 300, 'css-fim7d8 e10gmdwn0') !!}
-                                                <div class="css-6iwp6q elovojj0">
-                                                    <div class="css-squ00q eh0fvrz0">
-                                                        <strong class="ejmi5p50 css-19v4aip eh0fvrz0">
-                                                            {{ $item->title }}
-                                                        </strong>
-                                                    </div>
-                                                    <div class="claim-line-3">
-                                                        <p>{{ $item->description ?? '' }}</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    @endforeach
-                                @endif
+                        <div class="css-1yz0o3j elovojj0">
+                            <div class="css-n7e2yo elovojj0">
+                                <div class="css-qh9ukh elovojj0"><svg viewBox="0 0 24 24"
+                                        class="css-1mu8hzh e1jjwqut0">
+                                        <path
+                                            d="M23.8812 8.07028L22.6208 2.82459C22.3568 1.74424 21.4205 1 20.3281 1H3.65474C2.57439 1 1.62609 1.75624 1.374 2.82459L0.113599 8.07028C-0.174494 9.29467 0.0895916 10.5431 0.857839 11.5274C0.95387 11.6594 1.08591 11.7555 1.19395 11.8755V20.2062C1.19395 21.5266 2.27429 22.607 3.59472 22.607H20.4001C21.7206 22.607 22.8009 21.5266 22.8009 20.2062V11.8755C22.9089 11.7675 23.041 11.6594 23.137 11.5394C23.9053 10.5551 24.1813 9.29467 23.8812 8.07028V8.07028ZM13.1978 3.40077H15.5506L16.1988 8.82652C16.2588 9.29467 16.1147 9.76282 15.8026 10.1109C15.5386 10.423 15.1544 10.6031 14.6623 10.6031C13.858 10.6031 13.1978 9.89486 13.1978 9.03058V3.40077ZM7.78407 8.82652L8.44428 3.40077H10.797V9.03058C10.797 9.89486 10.1368 10.6031 9.24854 10.6031C8.84041 10.6031 8.46829 10.423 8.18019 10.1109C7.8801 9.76282 7.73605 9.29467 7.78407 8.82652V8.82652ZM2.74245 10.0389C2.43034 9.64278 2.32231 9.12661 2.44235 8.63446L3.65474 3.40077H6.0195L5.32328 9.23465C5.22724 10.0149 4.60304 10.6031 3.87081 10.6031C3.27062 10.6031 2.9105 10.255 2.74245 10.0389V10.0389ZM20.4001 20.2062H3.59472V12.9679C3.69075 12.9799 3.77478 13.0039 3.87081 13.0039C4.91514 13.0039 5.86345 12.5717 6.55967 11.8635C7.27991 12.5837 8.24021 13.0039 9.33257 13.0039C10.3769 13.0039 11.3132 12.5717 12.0094 11.8875C12.7177 12.5717 13.678 13.0039 14.7583 13.0039C15.7666 13.0039 16.7269 12.5837 17.4472 11.8635C18.1434 12.5717 19.0917 13.0039 20.136 13.0039C20.2321 13.0039 20.3161 12.9799 20.4121 12.9679V20.2062H20.4001ZM21.2524 10.0389C21.0843 10.255 20.7242 10.6031 20.124 10.6031C19.3918 10.6031 18.7556 10.0149 18.6716 9.23465L17.9753 3.40077L20.2921 3.38877L21.5525 8.63446C21.6725 9.13862 21.5645 9.65478 21.2524 10.0389Z"
+                                            fill="currentColor"></path>
+                                    </svg>
+                                    <div class="css-1g1q0hs eh0fvrz0"><strong
+                                            class="ejmi5p50 css-19v4aip eh0fvrz0">Discover</strong></div>
+                                </div>
+                                <div class="css-1o52x4a eh0fvrz0">Uncover the best nearby beauty & wellness places.
+                                </div>
+                            </div>
+                            <div class="css-bk7e3w e1xmv6f40">
+                                <div class="css-n7e2yo elovojj0">
+                                    <div class="css-qh9ukh elovojj0"><svg viewBox="0 0 24 24"
+                                            class="css-1mu8hzh e1jjwqut0">
+                                            <path
+                                                d="M17.4535 13.1951C18.3532 13.1951 19.1449 12.7033 19.5527 11.9596L23.8471 4.17445C24.291 3.38274 23.7152 2.39911 22.8035 2.39911H5.05012L3.92254 0H0V2.39911H2.39911L6.71751 11.5037L5.09811 14.4306C4.22243 16.038 5.374 17.9933 7.19733 17.9933H21.592V15.5942H7.19733L8.51684 13.1951H17.4535ZM6.1897 4.79822H20.7643L17.4535 10.796H9.03265L6.1897 4.79822ZM7.19733 19.1929C5.87782 19.1929 4.81021 20.2725 4.81021 21.592C4.81021 22.9115 5.87782 23.9911 7.19733 23.9911C8.51684 23.9911 9.59644 22.9115 9.59644 21.592C9.59644 20.2725 8.51684 19.1929 7.19733 19.1929ZM19.1929 19.1929C17.8734 19.1929 16.8058 20.2725 16.8058 21.592C16.8058 22.9115 17.8734 23.9911 19.1929 23.9911C20.5124 23.9911 21.592 22.9115 21.592 21.592C21.592 20.2725 20.5124 19.1929 19.1929 19.1929Z"
+                                                fill="currentColor"></path>
+                                        </svg>
+                                        <div class="css-1g1q0hs eh0fvrz0"><strong
+                                                class="ejmi5p50 css-19v4aip eh0fvrz0">Reserve</strong></div>
+                                    </div>
+                                    <div class="css-1o52x4a eh0fvrz0">Effortless online reservations – anytime,
+                                        anywhere.</div>
+                                </div>
+                            </div>
+                            <div class="css-n7e2yo elovojj0">
+                                <div class="css-qh9ukh elovojj0"><svg viewBox="0 0 24 24"
+                                        class="css-1mu8hzh e1jjwqut0">
+                                        <path
+                                            d="M17.4 1C15.312 1 13.308 1.972 12 3.508C10.692 1.972 8.688 1 6.6 1C2.904 1 0 3.904 0 7.6C0 12.136 4.08 15.832 10.26 21.448L12 23.02L13.74 21.436C19.92 15.832 24 12.136 24 7.6C24 3.904 21.096 1 17.4 1ZM12.12 19.66L12 19.78L11.88 19.66C6.168 14.488 2.4 11.068 2.4 7.6C2.4 5.2 4.2 3.4 6.6 3.4C8.448 3.4 10.248 4.588 10.884 6.232H13.128C13.752 4.588 15.552 3.4 17.4 3.4C19.8 3.4 21.6 5.2 21.6 7.6C21.6 11.068 17.832 14.488 12.12 19.66Z"
+                                            fill="currentColor"></path>
+                                    </svg>
+                                    <div class="css-1g1q0hs eh0fvrz0"><strong
+                                            class="ejmi5p50 css-19v4aip eh0fvrz0">Relax</strong></div>
+                                </div>
+                                <div class="css-1o52x4a eh0fvrz0">Sit back and relax, we’ll take care of the rest
+                                </div>
                             </div>
                         </div>
                     </div>
                 </section>
 
-                <section class="e18e99my1 css-15frxp ehep9uj0">
-                    <div class="e18e99my0 css-q6wv6b e1xmv6f40">
-                        <div class="css-ccv1m5 elovojj0">
-                            <div class="css-1l4w6pd ehep9uj0">
-                                <picture>
-                                    <source srcSet="{{ getImageThumb($config_website->logo) }}" type="image/webp" />
-                                    <source srcSet="{{ getImageThumb($config_website->logo) }}" type="image/png" />
-                                    <img src="{{ getImageThumb($config_website->logo) }}" loading="lazy"
-                                        width="230px" height="230px" class="css-smptyk e3dpwv80" />
-                                </picture>
-                            </div>
-                            <div class="css-142foij elovojj0">
-                                <h2 class="css-1hqpjkr eh0fvrz0">{{ $config_home->title_home ?? '' }}</h2>
-                                <p class="css-1cjvpa3 eh0fvrz0">
-                                    {!! $config_home->content_title ?? '' !!}
-                                </p>
-                            </div>
+                @if ($categories->isNotEmpty())
+                    <div class="css-1iiv58m m-auto">
+                        <div class="row">
+                            @if (!empty($categories) && $categories->count() > 0)
+                                @foreach ($categories as $item)
+                                    <div class="explore-block col-lg-3 col-md-6 col-sm-12">
+                                        <div class="inner-box">
+                                            <figure class="image">
+                                                {!! getThumbnail($item, 600, 300, 'css-fim7d8 e10gmdwn0') !!}
+                                            </figure>
+                                            <div class="overlay-box">
+                                                <div class="content">
+                                                    <h5>{{ $item->title }}</h5><a href="#"
+                                                        class="overlay-link"></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @endif
                         </div>
                     </div>
-                </section>
+                @endif
+                @if (!empty($posts) && $posts->count() > 0)
+
+
+
+                    <section class="e18e99my1 css-1600jh ehep9uj0">
+                        <div class="e18e99my0 css-1iiv58m e1xmv6f40">
+                            <div class="auto-container">
+                                <div class="sec-title text-center">
+                                    <h2>Explore Places</h2> <span class="divider"></span>
+                                    <div class="text mb-4">Explore some of the best tips from around the city from our
+                                        partners and friends.</div>
+                                </div>
+                                <div class="row">
+                                    @foreach ($posts as $item)
+                                        <div class="listing-block col-lg-4 col-md-6 col-sm-12">
+                                            <div class="inner-box">
+                                                <div class="image-box">
+                                                    <figure class="image">
+                                                        {!! getThumbnail($item, 600, 400) !!}
+                                                    </figure>
+                                                </div>
+                                                <div class="lower-content">
+                                                    <h3 class="title-brand"><a
+                                                            href="{{ route('post', ['slug' => $item->slug]) }}"
+                                                            title="{{ $item->title }}">{{ $item->title }}</a>
+                                                    </h3>
+                                                    <div class="text">
+                                                        {{ $item->address }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div> 
+                        </div>
+                    </section>
+                @endif 
             </div>
             <footer id="footer" class="e18e99my1 css-126zv25 ehep9uj0">
                 <div class="e18e99my0 css-1iiv58m e1xmv6f40">
