@@ -2298,9 +2298,22 @@
             transition: all .3s ease;
         }
 
+        #banner {
+            background-image: url('{{ asset('/images/beyout-banner-pc.jpg') }}');
+            background-repeat: no-repeat;
+            background-size: cover;
+            /* tùy chọn */
+            background-position: center;
+            /* tùy chọn */
+        }
+
         @media screen and (max-width: 768px) {
             .explore-block .image img {
                 height: 230px;
+            }
+
+            #banner {
+                background-image: url('{{ asset('/images/beyout-banner-mb.jpg') }}');
             }
         }
     </style>
@@ -2313,7 +2326,8 @@
                 <div class="e18e99my0 css-1iiv58m e1xmv6f40">
                     <div class="css-1l7k9wm ehep9uj0">
                         <a href="/" class="e1g407rp0 css-mwwny2 eh0fvrz0">
-                            <img src="{!! getImageThumb($config_website?->logo) !!}" id="logo" alt="{{ $config_website?->website }}">
+                            <img style="max-height: 50px;" src="{!! getImageThumb($config_website?->logo) !!}" id="logo"
+                                alt="{{ $config_website?->website }}">
                         </a>
                         <div class="css-dyoadf elovojj0">
                             <a class=" e46r4ae0 css-11prviu eqqze3d0" id="open_menu" href="#main-menu"
@@ -2361,7 +2375,7 @@
             </section>
             <div class="css-mkkf9p e15axdxf0">
 
-                <section class="e18e99my1 css-1i7dxix ehep9uj0">
+                <section class="e18e99my1 css-1i7dxix ehep9uj0" id="banner">
                     @if (!empty($banners))
                         @foreach ($banners as $banner)
                             <div class="e18e99my0 css-1iiv58m e1xmv6f40">
@@ -2374,14 +2388,14 @@
                                     <h1 class="css-1y5e797 eh0fvrz0">Instant booking for beauty, haircuts, and
                                         relaxation</h1>
                                 </div>
-                                <picture transform="translate(-50%, 0)" class="css-1tz8ogm ehep9uj0">
+                                {{-- <picture transform="translate(-50%, 0)" class="css-1tz8ogm ehep9uj0">
                                     <source
-                                        srcSet="/static/images/home/hero@2x.webp 2x, /static/images/home/hero.webp 1x"
+                                        srcSet="{{ asset('/images/beyout-banner-pc.jpg') }} 2x, {{ asset('/images/beyout-banner-pc.jpg') }} 1x"
                                         type="image/webp" />
-                                    <source srcSet="/static/images/home/hero@2x.png 2x, /static/images/home/hero.png 1x"
-                                        type="image/png" /><img src="static/images/home/hero%402x.png" alt="" />
+                                    <source srcSet="{{ asset('/images/beyout-banner-pc.jpg') }} 2x, {{ asset('/images/beyout-banner-pc.jpg') }} 1x"
+                                        type="image/png" /><img src="{{ asset('/images/beyout-banner-pc.jpg') }}" alt="" />
                                 </picture>
-                                <div transform="translate(-50%,-50%)" class="ep2hkag0 css-1lnpsqz e1xmv6f40"></div>
+                                <div transform="translate(-50%,-50%)" class="ep2hkag0 css-1lnpsqz e1xmv6f40"></div> --}}
                             </div>
                         @endforeach
                     @endif
@@ -2477,6 +2491,10 @@
 
                 @if ($categories->isNotEmpty())
                     <div class="css-1iiv58m m-auto">
+                        <div class="sec-title text-center mt-3 mb-3">
+                            <h2>Explore Places</h2> <span class="divider"></span>
+
+                        </div>
                         <div class="row">
                             @if (!empty($categories) && $categories->count() > 0)
                                 @foreach ($categories as $item)
@@ -2507,8 +2525,7 @@
                             <div class="auto-container">
                                 <div class="sec-title text-center">
                                     <h2>Explore Places</h2> <span class="divider"></span>
-                                    <div class="text mb-4">Explore some of the best tips from around the city from our
-                                        partners and friends.</div>
+                                  
                                 </div>
                                 <div class="row">
                                     @foreach ($posts as $item)
