@@ -474,6 +474,9 @@
         #yith-quick-view-close:hover {
             color: #ff0000;
         }
+        .elementor-element.elementor-element-ee89094 .elementor-heading-title{
+            font-weight: 500
+        }
     </style>
     <link rel='stylesheet' id='brands-styles-css'
         href='/wp-content/plugins/woocommerce/assets/css/brandsc2dd.css?ver=9.6.2' type='text/css' media='all' />
