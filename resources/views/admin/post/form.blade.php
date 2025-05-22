@@ -45,6 +45,11 @@
                             <label>Tóm tắt</label>
                             <textarea name="description" id="description" placeholder="Tóm tắt" class="form-control" rows="5"></textarea>
                         </div>
+                        
+                        <div class="form-group">
+                            <label>Nội dung Banner</label>
+                            <textarea name="content_banner" id="description"  class="form-control" rows="5"></textarea>
+                        </div>
                         <div class="form-group">
                             <label>Nội dung</label>
                             <textarea name="content" id="content" placeholder="Nội dung" class="form-control tinymce" rows="5"></textarea>
@@ -82,6 +87,13 @@
             <div class="tab-pane" id="tab_information">
                 <div class="row">
                     <div class="col-lg-6 col-12">
+                        <div class="form-group">
+                            <label>Danh mục cha:</label>
+                            <select class="form-control select2_suggest em-category" data-query-type="home" id="category_id"
+                                name="category_id" data-module="category" style="width: 100%;">
+                            </select>
+                        </div>
+
                         <div class="form-group">
                             <label>Address</label>
                             <input name="address" placeholder="Địa chỉ" class="form-control" type="text" />

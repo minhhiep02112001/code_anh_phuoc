@@ -228,14 +228,19 @@
                             $.each(response.data_info, function(key, value) {
                                 let element = modal_form.find('[name="' + key +
                                     '"]');
-                                $(element).val(value);
-                                if (element.hasClass('switchBootstrap')) {
-                                    element.prop('checked', value);
-                                    // element.bootstrapSwitch('state', (value == 1 ? true : false));
+                                if (element.hasClass('tinymce')) {
+                                    const id = element.attr('id');
+                                    setTimeout(() => {
+                                        if (id && tinymce.get(id)) {
+                                            tinymce.get(id).setContent(
+                                                value ?? '');
+                                        }
+                                    }, 200); // hoặc 300 nếu vẫn chưa ăn
+                                } else {
+                                    $(element).val(value);
                                 }
                             });
-                            let content = modal_form.find('[name="content"]');
-                            let content_menu = modal_form.find('[name="content_menu"]');
+
                             let content_photo = modal_form.find(
                                 '[name="content_photo"]');
                             let content_footer = modal_form.find(
@@ -246,62 +251,14 @@
                                 '[name="content_block_1"]');
                             let content_block_2 = modal_form.find(
                                 '[name="content_block_2"]');
-
-                            if (content.hasClass('tinymce') && response.data_info
-                                .content) {
-                                tinymce.get(content.attr('id')).setContent(response
-                                    .data_info.content);
-                                content.val(response.data_info.content);
-                            }
-
-
-                            if (content_menu.hasClass('tinymce') && response.data_info
-                                .content_menu) {
-                                tinymce.get(content_menu.attr('id')).setContent(response
-                                    .data_info.content_menu);
-                                content_menu.val(response.data_info.content_photo);
-                            }
-
-                            if (content_photo.hasClass('tinymce') && response.data_info
-                                .content_photo) {
-                                tinymce.get(content_photo.attr('id')).setContent(
-                                    response
-                                    .data_info.content_photo);
-                                content_photo.val(response.data_info.content_photo);
-                            }
-
-                            if (content_footer.hasClass('tinymce') && response.data_info
-                                .content_footer) {
-                                tinymce.get(content_footer.attr('id')).setContent(
-                                    response
-                                    .data_info.content_footer);
-                                content_footer.val(response.data_info.content_footer);
-                            }
-
-                            if (time_open.hasClass('tinymce') && response.data_info
-                                .time_open) {
-                                tinymce.get(time_open.attr('id')).setContent(
-                                    response
-                                    .data_info.time_open);
-                                time_open.val(response.data_info.time_open);
-                            }
-
-                            if (content_block_1.hasClass('tinymce') && response
-                                .data_info
-                                .content_block_1) {
-                                tinymce.get(content_block_1.attr('id')).setContent(
-                                    response
-                                    .data_info.content_block_1);
-                                content_block_1.val(response.data_info.content_block_1);
-                            }
-
-                            if (content_block_2.hasClass('tinymce') && response
-                                .data_info
-                                .content_block_2) {
-                                tinymce.get(content_block_2.attr('id')).setContent(
-                                    response
-                                    .data_info.content_block_2);
-                                content_block_2.val(response.data_info.content_block_2);
+                            if (response.data_info.category_id && $('#category_id')
+                                .length > 0) {
+                                var newOption = new Option(response.data_info
+                                    .category_id, response.data_info.category_id,
+                                    true,
+                                    true);
+                                // Append it to the select
+                                $('#category_id').append(newOption).trigger('change');
                             }
 
                             if (response.data_info.thumbnail) {
@@ -326,9 +283,11 @@
                             }
                             if (response.data_info.image_block_1) {
                                 let parent_thumb = modal_form.find(
-                                    'div[data-field-name="image_block_1"] .upload-box');
+                                    'div[data-field-name="image_block_1"] .upload-box'
+                                );
                                 parent_thumb.find('img').addClass('show').attr('src',
-                                    FUNC.getImageThumb(response.data_info.image_block_1)
+                                    FUNC.getImageThumb(response.data_info
+                                        .image_block_1)
                                 );
                                 parent_thumb.append(
                                     `<input type="hidden" name="image_block_1" value="${response.data_info.image_block_1}">`
@@ -336,9 +295,11 @@
                             }
                             if (response.data_info.image_block_2) {
                                 let parent_thumb = modal_form.find(
-                                    'div[data-field-name="image_block_2"] .upload-box');
+                                    'div[data-field-name="image_block_2"] .upload-box'
+                                );
                                 parent_thumb.find('img').addClass('show').attr('src',
-                                    FUNC.getImageThumb(response.data_info.image_block_2)
+                                    FUNC.getImageThumb(response.data_info
+                                        .image_block_2)
                                 );
                                 parent_thumb.append(
                                     `<input type="hidden" name="image_block_2" value="${response.data_info.image_block_2}">`

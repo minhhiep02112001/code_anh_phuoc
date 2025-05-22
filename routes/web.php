@@ -112,7 +112,7 @@ Route::get('/feeds/pinterestxxx.xml', [App\Http\Controllers\FeedController::clas
 Route::get('/feeds/rssxxx.xml', [App\Http\Controllers\FeedController::class, 'rssxxx'])->name('rssxxx');
 
 Route::domain('{slug}.' . env('DOMAIN'))->group(function () {
-    Route::get('/', [\App\Http\Controllers\HomeController::class, 'post'])->name('post');
+    // Route::get('/', [\App\Http\Controllers\HomeController::class, 'post'])->name('post');
     // Route::get('/menu.html', [\App\Http\Controllers\HomeController::class, 'menu'])->name('menu');
     Route::get('/site_map.xml', [\App\Http\Controllers\HomeController::class, 'sitemapBrand']);
 });
@@ -122,7 +122,7 @@ Route::group([
 ], function () {
     Route::get('/',  [App\Http\Controllers\HomeController::class, 'dashboard'])->name('home')->middleware('cacheResponse:300');
     // Route::get('/search', [App\Http\Controllers\HomeController::class, 'search'])->name('search');
-    //   Route::get('/{slug}-post.html', [App\Http\Controllers\HomeController::class, 'post'])->name('post')->where(['slug' => '[a-z0-9-_]+', 'id' => '[0-9]+']);
+      Route::get('/{slug}-post.html', [App\Http\Controllers\HomeController::class, 'post'])->name('post')->where(['slug' => '[a-z0-9-_]+', 'id' => '[0-9]+']);
     //   Route::get('/{slug}-menu.html', [App\Http\Controllers\HomeController::class, 'menu'])->name('menu')->where(['slug' => '[a-z0-9-_]+', 'id' => '[0-9]+']);
     Route::get('/{slug}.html', [App\Http\Controllers\HomeController::class, 'page'])->name('page')->where(['slug' => '[a-z0-9-_]+'])->middleware('cacheResponse:2592000');
     // Route::get('/{slug}.php', [App\Http\Controllers\HomeController::class, 'redirect301'])->name('redirect301')->where(['slug' => '[a-z0-9-_]+']);

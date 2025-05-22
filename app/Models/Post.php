@@ -59,6 +59,7 @@ class Post extends AbstractModel
         'content_header',
         'content_footer',
         'content_menu',
+        'content_banner',
         'content_about',
         'content_photo',
         'config_social',

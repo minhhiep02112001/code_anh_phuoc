@@ -79,19 +79,20 @@
          }
 
          #content p,
-                  #content li ,         #content span {
+         #content li,
+         #content span {
              font-size: 18px;
          }
 
-                 #content h2 {
+         #content h2 {
              font-size: 28px;
          }
 
-                  #content h3 {
+         #content h3 {
              font-size: 25px;
          }
 
-                  #content h4 {
+         #content h4 {
              font-size: 20px;
          }
      </style>
@@ -102,13 +103,91 @@
                  .elementor-element-35535b0 {
                      margin-top: 0 !important;
                  }
+
+                 .slide-banners .block-item {
+                     position: relative;
+                     /* height: 100vh;
+                                                         width: 100%; */
+                     /* overflow: hidden; */
+                 }
+
+                 .elementor-container.position-relative {
+                     position: relative;
+                     /* height: 100%; */
+                     /* width: 100%; */
+                 }
+
+                 .banner-content {
+                     position: absolute;
+                     /* thêm dòng này */
+                     left: 50%;
+                     top: 50%;
+                     padding: 20px 15px;
+                     transform: translate(-50%, -50%);
+                     text-align: center;
+                     z-index: 2;
+                     color: black;
+                 }
+
+                 .btn--bordered.btn--white {
+                     border-color: #fff;
+                     color: #fff;
+                     box-shadow: none;
+                 }
+
+                 .btn--bordered.btn--white:active,
+                 .btn--bordered.btn--white:focus,
+                 .btn--bordered.btn--white:hover {
+                     color: #c59d5f;
+                     background-color: #e3dede;
+                     border-color: #fff;
+                 }
+
+                 .banner-content {
+                     
+                     color: white; 
+                 }
+                  .banner-content p{
+                    font-size: 20px;
+                  }
+
+                 .overlay {
+                     position: absolute;
+                     top: 0;
+                     left: 0;
+                     right: 0;
+                     bottom: 0;
+                     background-color: rgba(0, 0, 0, 0.4);
+                     /* màu đen mờ */
+                     z-index: 1;
+                 }
+
+                 .cta-button {
+                     display: inline-block;
+                     box-shadow: none;
+                     text-decoration: none;
+                     padding: 10px 20px;
+                     border: 0.5px solid #c5c5c5;
+                     border-radius: 5px;
+                 }
              </style>
+
              <section class="elementor-section" data-id="35535b0" data-element_type="section">
-                 <div class="slide-banners">
-                     @foreach ($banners as $item)
-                         <div class="block-item">
-                             <div class="elementor-container elementor-column-gap-default  ">
+                 {{-- <div class="slide-banners slick-slider"> --}}
+                 <div class="slide-banners slick-slider">
+                     @foreach ($banners as $k => $item)
+                         <div class="block-item ">
+                             <div class="elementor-container position-relative text-center">
+                                 <div class="overlay"></div>
                                  {!! getThumbnail($item, '', '', 'attachment-large size-large wp-image-2835') !!}
+
+                                 @if (!empty($post->content_banner))
+                                     <div class="banner-content">
+                                         <p>{{ $post->content_banner }}</p>
+                                         <a href="#" class="cta-button btn btn-outline btn--bordered btn--white">BOOK
+                                             NOW</a>
+                                     </div>
+                                 @endif
                              </div>
                          </div>
                      @endforeach

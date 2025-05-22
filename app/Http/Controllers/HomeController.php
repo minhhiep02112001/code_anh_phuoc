@@ -40,9 +40,10 @@ class HomeController extends Controller
             'is_status' => 1,
         ], [
             'order_by' => ['publish_at', 'desc'],
+            'with' => ['category'],
             'limit' => 28,
             'pagination' => $page,
-            'select' => ['id', 'title', 'slug', 'thumbnail', 'address', 'description', 'publish_at'],
+            'select' => ['id', 'title', 'slug', 'thumbnail','category_id', 'address', 'email', 'phone', 'description', 'publish_at'],
         ]);
 
         $data['categories']  = $this->categoryRepository->getAll([

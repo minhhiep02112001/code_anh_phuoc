@@ -34,7 +34,7 @@ abstract class Repository extends BaseRepository
      * Build query with search parameters.
      */
     protected function buildSearchQuery($query, array $params)
-    { 
+    {
         foreach ($params as $k => $v) {
             if ($v === '' || $v == null) continue;
 
@@ -61,7 +61,7 @@ abstract class Repository extends BaseRepository
     public function count_customer(array $where = [], $columns = '*')
     {
         $params = \Arr::only($where, $this->fillSearch ?? []);
-        
+
         return $this->buildSearchQuery($this->model->newQuery(), $params)->count($columns);
     }
     public function getCustomFillable()
@@ -75,10 +75,10 @@ abstract class Repository extends BaseRepository
     {
         $params = \Arr::only($params, $this->fillSearch ?? []);
         $this->applyCriteria();
-
         // Sử dụng `findWhere` hoặc `all` từ BaseRepository để cache tự động được áp dụng
         $queryBuilder = $this->buildSearchQuery($this->model->newQuery(), $params);
 
+        if (!empty($options['with'])) $queryBuilder->with($options['with']);
         if (!empty($options['order_by'])) {
             $queryBuilder->orderBy($options['order_by'][0], $options['order_by'][1] ?? 'ASC');
         } else {

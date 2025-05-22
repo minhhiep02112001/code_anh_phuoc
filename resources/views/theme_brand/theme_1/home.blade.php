@@ -21,8 +21,9 @@
     <meta name="google-site-verification" content="XIP1nLPnmhXza-MULIlMIwPmXZ_m3YxV336RlJt51Ng" />
     <meta name="theme-color" content="white" />
     @include('front_end.block.config_seo_header')
-   
-   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="{{ asset('admins/vendor/font-awesome-4.7/css/font-awesome.min.css') }}" rel="stylesheet" media="all">
 
     <style
         data-emotion-css="0 1w9yb6b j64p7l 1nl879o 1l7k9wm mwwny2 16n9dof kau6op dyoadf 11prviu 6zvpm 1br3txa 1ktnz7v uiw85g 1h3k0x3 9g0g4r mnebl 3o0h5k jazq28 mkkf9p 126zv25 jo2aaq k008qs 1hcy63r 1ta5v59 9a3ihm g4opy9 3usq65 19tzvnq 1wlq5nj 1sg0k8w 1f3l2hr slgx7q 8q80ou 3e0w3e qbrse1 9gbji6 1khs5xc f9pz52 h3oydn ie1780 lkz9sl animation-vo2oum 1xy5o1q squ00q zkadht e2vg5q bjn8wh 173p03h p2z5vl kjafn5 ve357d fn2um 105fra2 6iwp6q 19v4aip uodor8 1iiv58m 1g9vjr2 fim7d8 1rruakd ouysy5 sis14u mm5std 9vornv q424i7 1s7dpk1 l951p5 ruw0ik q6wv6b 1i7dxix w8wg2g tvdhho 1tzeee1 1y5e797 1tz8ogm 1lnpsqz 1wcjc1k d65tcr 1a7f7p 1ryz6ze 1yz0o3j n7e2yo qh9ukh 1mu8hzh 1g1q0hs 1o52x4a bk7e3w 1600jh 42crao 1q886t9 1l4w6pd x3j6co 1sddqb5 15frxp ccv1m5 smptyk 142foij 1hqpjkr 1cjvpa3 1hgunyx 12ci84q 1jsxf2a shx0pi u2ep48 j7qwjs 14c8jl2">
@@ -65,7 +66,53 @@
             text-decoration: underline;
             -webkit-text-decoration: underline dotted;
 
-            text-decoration:underline dotted;}b,strong{font-weight:bolder;}code,kbd,samp{font-family:monospace,monospace;font-size:1em;}small{font-size:80%;}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline;}sub{bottom:-0.25em;}sup{top:-0.5em;}img{border-style:none;}button,input,optgroup,select,textarea{font-family:'Nunito', sans-serif;;font-size:100%;line-height:1.15;margin:0;}button,input{overflow:visible;}button,select{text-transform:none;}button,[type='button'],
+            text-decoration: underline dotted;
+        }
+
+        b,
+        strong {
+            font-weight: bolder;
+        }
+
+        code,
+        kbd,
+        samp {
+            font-family: monospace, monospace;
+            font-size: 1em;
+        }
+
+        small {
+            font-size: 80%;
+        }
+
+        sub,
+        sup {
+            font-size: 75%;
+            line-height: 0;
+            position: relative;
+            vertical-align: baseline;
+        }
+
+        sub {
+            bottom: -0.25em;
+        }
+
+        sup {
+            top: -0.5em;
+        }
+
+        img {
+            border-style: none;
+        }
+
+        button,
+        input,
+        optgroup,
+        select,
+        textarea {
+
+            font-family:'Nunito',
+            sans-serif;;font-size:100%;line-height:1.15;margin:0;}button,input{overflow:visible;}button,select{text-transform:none;}button,[type='button'],
             [type='reset'],
             [type='submit'] {
                 -webkit-appearance: button;
@@ -132,7 +179,7 @@
                     display: none;
                 }
 
-               
+
 
                 :root {
                     --bookwell-error-hue: 4;
@@ -254,12 +301,12 @@
                 }
 
                 .css-16n9dof {
-                    color: hsl(0, 0%, 13%); 
+                    color: hsl(0, 0%, 13%);
                     font-size: 30px;
                     font-weight: 700;
                     margin: 0;
                     text-align: left;
-                    font-family:'Nunito', sans-serif;
+                    font-family: 'Nunito', sans-serif;
                     color: hsl(8, 86%, 62%);
                     font-weight: normal;
                     line-height: 1;
@@ -571,7 +618,7 @@
                     font-family: 'Nunito', sans-serif;
                     font-size: 30px;
                     font-weight: 700;
-                    text-align: left; 
+                    text-align: left;
                     color: hsl(8, 86%, 62%);
                     font-weight: normal;
                     line-height: 1;
@@ -2259,7 +2306,7 @@
                 width: 100%;
                 flex: auto;
             }
-        } 
+        }
 
         ._-6pfzC .rtl-icon {
             display: none;
@@ -2286,12 +2333,12 @@
                             <img style="max-height: 50px;" src="{!! getImageThumb($config_website?->logo) !!}" id="logo"
                                 alt="{{ $config_website?->website }}">
                         </a>
-                         
+
                     </div>
                 </div>
             </header>
 
-{{-- 
+            {{-- 
 
             <section id="main-menu" class="css-uiw85g e1ia6iam0">
                 <div class="ee94ukk1 css-zmt40d ehep9uj0">
@@ -2390,8 +2437,7 @@
                     <div class="e18e99my0 css-1iiv58m e1xmv6f40">
                         <div class="css-1yz0o3j elovojj0">
                             <div class="css-n7e2yo elovojj0">
-                                <div class="css-qh9ukh elovojj0"><svg viewBox="0 0 24 24"
-                                        class="css-1mu8hzh e1jjwqut0">
+                                <div class="css-qh9ukh elovojj0"><svg viewBox="0 0 24 24" class="css-1mu8hzh e1jjwqut0">
                                         <path
                                             d="M23.8812 8.07028L22.6208 2.82459C22.3568 1.74424 21.4205 1 20.3281 1H3.65474C2.57439 1 1.62609 1.75624 1.374 2.82459L0.113599 8.07028C-0.174494 9.29467 0.0895916 10.5431 0.857839 11.5274C0.95387 11.6594 1.08591 11.7555 1.19395 11.8755V20.2062C1.19395 21.5266 2.27429 22.607 3.59472 22.607H20.4001C21.7206 22.607 22.8009 21.5266 22.8009 20.2062V11.8755C22.9089 11.7675 23.041 11.6594 23.137 11.5394C23.9053 10.5551 24.1813 9.29467 23.8812 8.07028V8.07028ZM13.1978 3.40077H15.5506L16.1988 8.82652C16.2588 9.29467 16.1147 9.76282 15.8026 10.1109C15.5386 10.423 15.1544 10.6031 14.6623 10.6031C13.858 10.6031 13.1978 9.89486 13.1978 9.03058V3.40077ZM7.78407 8.82652L8.44428 3.40077H10.797V9.03058C10.797 9.89486 10.1368 10.6031 9.24854 10.6031C8.84041 10.6031 8.46829 10.423 8.18019 10.1109C7.8801 9.76282 7.73605 9.29467 7.78407 8.82652V8.82652ZM2.74245 10.0389C2.43034 9.64278 2.32231 9.12661 2.44235 8.63446L3.65474 3.40077H6.0195L5.32328 9.23465C5.22724 10.0149 4.60304 10.6031 3.87081 10.6031C3.27062 10.6031 2.9105 10.255 2.74245 10.0389V10.0389ZM20.4001 20.2062H3.59472V12.9679C3.69075 12.9799 3.77478 13.0039 3.87081 13.0039C4.91514 13.0039 5.86345 12.5717 6.55967 11.8635C7.27991 12.5837 8.24021 13.0039 9.33257 13.0039C10.3769 13.0039 11.3132 12.5717 12.0094 11.8875C12.7177 12.5717 13.678 13.0039 14.7583 13.0039C15.7666 13.0039 16.7269 12.5837 17.4472 11.8635C18.1434 12.5717 19.0917 13.0039 20.136 13.0039C20.2321 13.0039 20.3161 12.9799 20.4121 12.9679V20.2062H20.4001ZM21.2524 10.0389C21.0843 10.255 20.7242 10.6031 20.124 10.6031C19.3918 10.6031 18.7556 10.0149 18.6716 9.23465L17.9753 3.40077L20.2921 3.38877L21.5525 8.63446C21.6725 9.13862 21.5645 9.65478 21.2524 10.0389Z"
                                             fill="currentColor"></path>
@@ -2474,6 +2520,7 @@
                                 </div>
                                 <div class="row">
                                     @foreach ($posts as $item)
+                                     
                                         <div class="listing-block col-lg-4 col-md-6 col-sm-12">
                                             <div class="inner-box">
                                                 <div class="image-box">
@@ -2486,8 +2533,22 @@
                                                             href="{{ route('post', ['slug' => $item->slug]) }}"
                                                             title="{{ $item->title }}">{{ $item->title }}</a>
                                                     </h3>
-                                                    <div class="text">
-                                                        {{ $item->address }}
+                                                    @if ($item->category)
+                                                        <div class="text" style="font-size:14px;margin-bottom:5px;">
+                                                            <i class="fa fa-tag" aria-hidden="true"></i> {{ $item->category?->title }}
+                                                        </div>
+                                                    @endif
+
+
+                                                    @if ($item->phone)
+                                                          <div class="text" style="font-size:14px;margin-bottom:5px;">
+                                                            <i class="fa fa-phone"></i> {{ $item->phone }}
+                                                        </div>
+                                                    @endif
+
+
+                                                    <div class="text" style="font-size:13px;">
+                                                        <i class="fa fa-map-marker"></i> {{ $item->address }}
                                                     </div>
                                                 </div>
                                             </div>
@@ -2531,7 +2592,7 @@
                                         alt="{{ $config_website?->website }}">
                                 </a>
                             </div>
-                             <div class="col col-12 col-lg-2">
+                            <div class="col col-12 col-lg-2">
                                 <ul
                                     class="_5zC0N5 gap-default-150 direction-default-vertical display-default-inline-flex FooterLinks_gridItem__SwRrK">
                                     <li class="p_ehs5 title">
@@ -2595,7 +2656,7 @@
                                     </li>
                                 </ul>
                             </div>
-                             <div class="col col-12 col-lg-2">
+                            <div class="col col-12 col-lg-2">
                                 <ul
                                     class="_5zC0N5 gap-default-150 direction-default-vertical display-default-inline-flex FooterLinks_gridItem__SwRrK">
                                     <li class="p_ehs5 title">
@@ -2622,7 +2683,7 @@
                                     </li>
                                 </ul>
                             </div>
-                             <div class="col col-12 col-lg-2">
+                            <div class="col col-12 col-lg-2">
                                 <ul
                                     class="_5zC0N5 gap-default-150 direction-default-vertical display-default-inline-flex FooterLinks_gridItem__SwRrK">
                                     <li class="p_ehs5 title">
