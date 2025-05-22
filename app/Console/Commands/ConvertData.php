@@ -64,9 +64,18 @@ class ConvertData extends Command
             $data_update = [];
 
 
-            $thumnail_post = str_replace(['storage', '//'], '', trim($post->thumbnail ?? '', '/'));
-            if ((empty($thumnail_post) || !Storage::exists($thumnail_post)) && !empty($data->thumbnail)) { // download_image
-                $data_update['thumbnail'] = saveImageUrlStorage($data->thumbnail, "photos/nails/{$post->slug}",   "thumbnail.jpg");
+            // $thumnail_post = str_replace(['storage', '//'], '', trim($post->thumbnail ?? '', '/'));
+            // if ((empty($thumnail_post) || !Storage::exists($thumnail_post)) && !empty($data->thumbnail)) { // download_image
+            //     $data_update['thumbnail'] = saveImageUrlStorage($data->thumbnail, "photos/nails/{$post->slug}",   "thumbnail.jpg");
+            // }
+
+            $thumbs = DB::table('st_post_images')->where('post_id', $post->id)->orderBy('id', 'asc')->get();
+
+            if ($thumbs->isNotEmpty()) {
+                if ($thumbs->where('type', 'banner')->count() == 0) {
+                    $arrs = $thumbs->where('type', 'photo')->take(3)->pluck('id')->toArray(); 
+                    DB::table('st_post_images')->whereIn('id',  $arrs)->update(['type' => 'banner']);
+                }
             }
 
             if (!empty($data->address)) {
@@ -92,7 +101,7 @@ class ConvertData extends Command
                 $data_update['iframe_map'] =  $data->iframe_map;
             }
             if (!empty($data_update)) {
-                $data_update['is_status'] = 3;
+                $data_update['is_status'] = 0;
                 DB::table('st_post')->where('id', $post->id)->update($data_update);
                 DB::table('crawler_map')->where('id', $data->id)->update(['relate_id' => $post->id]);
                 DB::table('st_post_images')->where('crawler_id', $data->id)->update(['post_id' => $post->id]);
@@ -139,25 +148,6 @@ class ConvertData extends Command
                             $item_img = $thumbs->shift();
                             if (!empty($item_img)) {
                                 DB::table('st_post_images')->where('id', $item_img->id)->update(['type' => 'banner']);
-                            }
-                        }
-                    }
-
-                    if ($thumbs->where('type', 'detail')->count() == 0) {
-                        $thumbs = $thumbs->where('type', '!=', 'banner');
-                        for ($i = 1; $i <= 2; $i++) {
-                            $item_img = $thumbs->shift();
-                            if (!empty($item_img)) {
-                                $data["image_block_{$i}"] = $item_img->thumbnail ?? '';
-                                DB::table('st_post_images')->where('id', $item_img->id)->update(['type' => 'detail']);
-                            }
-                        }
-                    } else {
-                        $thumbs = $thumbs->where('type', '==', 'detail');
-                        for ($i = 1; $i <= 2; $i++) {
-                            $item_img = $thumbs->shift();
-                            if (!empty($item_img)) {
-                                $data["image_block_{$i}"] = $item_img->thumbnail ?? '';
                             }
                         }
                     }
