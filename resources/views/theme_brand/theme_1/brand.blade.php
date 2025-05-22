@@ -148,7 +148,7 @@
                      color: white; 
                  }
                   .banner-content p{
-                    font-size: 20px;
+                    font-size: 40px;
                   }
 
                  .overlay {
