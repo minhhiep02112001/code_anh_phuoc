@@ -73,6 +73,7 @@ class HomeController extends Controller
             'meta_keyword' => $post->title ?? '',
             'is_robot' => $post->is_robot ?? 0,
             'image' => $post->thumbnail ?? config('data.cms_setting.logo'),
+            'favicon' => getImageThumb($post->thumbnail, 50, 50),
             'url' => route('post', ['slug' => $post->slug]),
         ];
 

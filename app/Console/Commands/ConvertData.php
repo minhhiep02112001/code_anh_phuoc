@@ -69,14 +69,29 @@ class ConvertData extends Command
             //     $data_update['thumbnail'] = saveImageUrlStorage($data->thumbnail, "photos/nails/{$post->slug}",   "thumbnail.jpg");
             // }
 
-            $thumbs = DB::table('st_post_images')->where('post_id', $post->id)->orderBy('id', 'asc')->get();
+            // $thumbs = DB::table('st_post_images')->where('post_id', $post->id)->orderBy('id', 'asc')->get();
 
-            if ($thumbs->isNotEmpty()) {
-                if ($thumbs->where('type', 'banner')->count() == 0) {
-                    $arrs = $thumbs->where('type', 'photo')->take(3)->pluck('id')->toArray(); 
-                    DB::table('st_post_images')->whereIn('id',  $arrs)->update(['type' => 'banner']);
-                }
+            // if ($thumbs->isNotEmpty()) {
+            //     if ($thumbs->where('type', 'banner')->count() == 0) {
+            //         $arrs = $thumbs->where('type', 'photo')->take(3)->pluck('id')->toArray();
+            //         DB::table('st_post_images')->whereIn('id',  $arrs)->update(['type' => 'banner']);
+            //     }
+            // }
+
+            $image_block_1 = str_replace(['storage', '//'], '', trim($post->image_block_1 ?? '', '/'));
+            
+            if ((empty($image_block_1) || !Storage::exists($post->image_block_1))) { // download_image
+                $first =  DB::table('st_post_images')->where([
+                    'post_id' => $post->id,
+                    'type' => 'photo'
+                ])->first();
+                $data_update['image_block_1'] = $first->thumbnail ?? '';
+                // if (!empty($first)) { 
+                //     DB::table('st_post_images')->whereIn('id',  $first->id)->update(['type' => 'block']);
+                // }
             }
+
+           
 
             if (!empty($data->address)) {
                 $_address = str_replace(['Address:', '\u{A0}', ':'], '', $data->address);
@@ -100,8 +115,9 @@ class ConvertData extends Command
             if (!empty($data->iframe_map)) {
                 $data_update['iframe_map'] =  $data->iframe_map;
             }
+            
             if (!empty($data_update)) {
-                $data_update['is_status'] = 0;
+                // $data_update['is_status'] = 0;
                 DB::table('st_post')->where('id', $post->id)->update($data_update);
                 DB::table('crawler_map')->where('id', $data->id)->update(['relate_id' => $post->id]);
                 DB::table('st_post_images')->where('crawler_id', $data->id)->update(['post_id' => $post->id]);
