@@ -107,7 +107,7 @@
                  .slide-banners .block-item {
                      position: relative;
                      /* height: 100vh;
-                                                         width: 100%; */
+                                                             width: 100%; */
                      /* overflow: hidden; */
                  }
 
@@ -144,12 +144,13 @@
                  }
 
                  .banner-content {
-                     
-                     color: white; 
+
+                     color: white;
                  }
-                  .banner-content p{
-                    font-size: 40px;
-                  }
+
+                 .banner-content p {
+                     font-size: 40px;
+                 }
 
                  .overlay {
                      position: absolute;
@@ -169,6 +170,13 @@
                      padding: 10px 20px;
                      border: 0.5px solid #c5c5c5;
                      border-radius: 5px;
+                 }
+
+                 @media screen and (max-width: 768px) {
+                     .banner-content { 
+                         width: 100%!important; 
+                         padding: 0 10px;
+                     }
                  }
              </style>
 
