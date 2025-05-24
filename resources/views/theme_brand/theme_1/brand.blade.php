@@ -779,7 +779,7 @@
                                                  </figure>
                                              </div>
                                              <div class="lower-content">
-                                                 <a
+                                                 <a style="font-weight: bold;"
                                                          href="{{ route('post', ['slug' => $item->slug]) }}"
                                                          title="{{ $item->title }}">{{ $item->title }}</a>
                                                  
@@ -1077,7 +1077,7 @@
              slider.slick({
                  slidesToShow: 6,
                  slidesToScroll: 1, // số slide scroll mỗi lần
-                 dots: true,
+                 dots: false,
                  autoplay: false,
                  autoplaySpeed: 0, // liên tục
                  speed: 1000, // tốc độ chuyển slide (ms)
