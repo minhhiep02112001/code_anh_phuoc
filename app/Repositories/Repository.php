@@ -60,7 +60,7 @@ abstract class Repository extends BaseRepository
      */
     public function count_customer(array $where = [], $columns = '*')
     {
-        $params = \Arr::only($where, $this->fillSearch ?? []);
+        $params = \Arr::only($where, $this->getCustomFillable() ?? []);
 
         return $this->buildSearchQuery($this->model->newQuery(), $params)->count($columns);
     }
@@ -73,7 +73,7 @@ abstract class Repository extends BaseRepository
      */
     public function getAll(array $params = [], $options = [])
     {
-        $params = \Arr::only($params, $this->fillSearch ?? []);
+        $params = \Arr::only($params, $this->getCustomFillable() ?? []);
         $this->applyCriteria();
         // Sử dụng `findWhere` hoặc `all` từ BaseRepository để cache tự động được áp dụng
         $queryBuilder = $this->buildSearchQuery($this->model->newQuery(), $params);

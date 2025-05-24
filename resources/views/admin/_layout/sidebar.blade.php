@@ -18,11 +18,17 @@
                             class="fas fa-table"></i><span>Quản lý
                             banner</span></a>
                 </li>
-                {{-- <li class="{{ \Request::route()->getName() == 'admin.category.index' ? 'active' : '' }}">
+                <li class="{{ \Request::route()->getName() == 'admin.category.index' ? 'active' : '' }}">
                     <a href="{{ route('admin.category.index') }}" title="Quản lý danh mục"> <i
                             class="fas fa-table"></i><span>Quản lý danh
                             mục</span></a>
-                </li> --}}
+                </li>
+
+                   <li class="{{ \Request::route()->getName() == 'admin.toplist' ? 'active' : '' }}">
+                    <a href="{{ route('admin.toplist') }}" title="Quản lý danh mục"> <i
+                            class="fas fa-table"></i><span>Quản lý top list</span></a>
+                </li>
+
                 <li class="{{ \Request::route()->getName() == 'admin.post.index' ? 'active' : '' }}">
                     <a href="{{ route('admin.post.index') }}" title="Quản lý brand"> <i
                             class="fas fa-table"></i><span>Quản lý

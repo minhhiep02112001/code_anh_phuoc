@@ -107,13 +107,18 @@
             </div>
         </div>
     </div>
+
+    @if ($type == 'top_list')
+        @include('admin.page.form')
+    @else
+        @include('admin.post.form')
+    @endif
 @endsection
 
 @push('scripts')
-    @include('admin.post.form')
     <script>
         //setting url
-        var url_ajax_list = window.APP_URL + "/admin/ajax/post";
+        var url_ajax_list = window.APP_URL + "/admin/ajax/post?type={{ $type }}";
         var url_ajax_edit = window.APP_URL + "/admin/post";
         // Dom Ready
 

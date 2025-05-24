@@ -42,7 +42,7 @@ class Post extends AbstractModel
         'meta_description',
         'meta_keyword',
         'is_robot',
-        'crawler_href',
+        'type',
         'internal_arr',
         'avg_vote',
         'total_vote',

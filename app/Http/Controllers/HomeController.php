@@ -76,24 +76,25 @@ class HomeController extends Controller
             'favicon' => getImageThumb($post->thumbnail, 50, 50),
             'url' => route('post', ['slug' => $post->slug]),
         ];
-
-        $comment = Comment::where([
-            'type' => 'post',
-            // 'is_content' => 1,
-            'is_status' => 1,
-            'data_id' => $post->id
-        ])->limit(5)->get();
-
         $breadcrumbs = [array('url' => '', 'title' => $post->title)];
-
         $data = [
             'breadcrumbs' => $breadcrumbs,
             'post' => $post,
             'SEO' => $SEO,
             'medias' => $medias,
-            'comments' => $comment,
+
         ];
-        return view('theme_brand.theme_1.brand', $data);
+
+        if ($post->type == 'brand') {
+            $data['comments'] = Comment::where([
+                'type' => 'post',
+                // 'is_content' => 1,
+                'is_status' => 1,
+                'data_id' => $post->id
+            ])->limit(5)->get();
+        } 
+        $view = $post->type == 'top_list' ? 'theme_brand.theme_1.topList' : 'theme_brand.theme_1.brand';
+        return view($view, $data);
     }
 
     public function menu($slug, $id = 0)
@@ -122,6 +123,7 @@ class HomeController extends Controller
             'SEO' => $SEO,
 
         ];
+
         return view('theme_2.menu', $data);
     }
 
@@ -180,7 +182,7 @@ class HomeController extends Controller
         $page = $this->pageRepository->findByField('slug', $slug)->first();
 
         if (empty($page) || $page->is_status != 1) return abort(404);
-    
+
         $SEO = [
             'title' => $page->meta_title ?? '',
             'meta_title' => $page->meta_title ?? '',
@@ -192,7 +194,6 @@ class HomeController extends Controller
         ];
 
         $view = $page->layout ?? 'front_end.page';
-        return view('theme_brand.theme_1.topList', ['page' => $page, 'SEO' => $SEO ?? [],]);
         return view($view, ['row' => $page, 'SEO' => $SEO ?? [],]);
     }
 

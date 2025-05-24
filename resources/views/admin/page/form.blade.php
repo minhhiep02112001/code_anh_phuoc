@@ -8,11 +8,13 @@
             <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#tab_info" role="tab"
                 aria-controls="nav-profile" aria-selected="true">Thông tin thêm</a>
 
-           
+
         </div>
         <div class="tab-content pt-3">
             <!-- Font Awesome Icons -->
             <div class="tab-pane active" id="tab_language">
+                <input name="type" value="{{ $type ?? '' }}" class="not_reload" data-value="{{ $type ?? '' }}"
+                    type="hidden" />
                 <div class="row">
                     <div class="col-sm-8 col-xs-12">
                         <div class="form-group">
@@ -70,7 +72,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- /#ion-icons -->
 
         </div>

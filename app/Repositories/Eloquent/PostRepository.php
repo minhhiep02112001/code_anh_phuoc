@@ -15,6 +15,7 @@ class PostRepository extends Repository implements PostContracts
         'slug', 
         'is_status',
         'is_robot',
+        'type'
     ];
     public function model()
     {

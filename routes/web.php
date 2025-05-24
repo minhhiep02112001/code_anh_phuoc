@@ -64,9 +64,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => [
 
     Route::get('/', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
     Route::get('category/product', [App\Http\Controllers\Admin\CategoryController::class, 'product']);
+    Route::get('toplist', [App\Http\Controllers\Admin\PostController::class, 'topList'])->name('toplist');
     Route::resource('category', App\Http\Controllers\Admin\CategoryController::class);
-    Route::resource('product', App\Http\Controllers\Admin\ProductController::class);
-    Route::resource('banner', App\Http\Controllers\Admin\BannerController::class);
+     Route::resource('banner', App\Http\Controllers\Admin\BannerController::class);
     Route::resource('comment', App\Http\Controllers\Admin\CommentController::class);
     Route::resource('drag', App\Http\Controllers\Admin\DragController::class);
     Route::resource('crawler', App\Http\Controllers\Admin\CrawlerController::class);
@@ -90,8 +90,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => [
     Route::group(['prefix' => 'ajax', 'as' => 'ajax.'], function () {
         Route::post('/update-multiple-menu', [\App\Http\Controllers\Admin\MenuController::class, 'updateMultiple']);
         Route::get('/config_page', [App\Http\Controllers\Admin\ConfigPageController::class, 'ajax_load_data']);
-        Route::get('/product', [App\Http\Controllers\Admin\ProductController::class, 'ajax_load_data']);
-        Route::get('/crawler', [App\Http\Controllers\Admin\CrawlerController::class, 'ajax_load_data']);
+          Route::get('/crawler', [App\Http\Controllers\Admin\CrawlerController::class, 'ajax_load_data']);
         Route::get('/role', [App\Http\Controllers\Admin\RoleController::class, 'ajax_load_data']);
         Route::get('/banner', [App\Http\Controllers\Admin\BannerController::class, 'ajax_load_data']);
         Route::get('/category', [App\Http\Controllers\Admin\CategoryController::class, 'ajax_load_data']);

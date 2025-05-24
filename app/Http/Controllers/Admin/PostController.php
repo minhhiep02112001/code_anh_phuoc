@@ -21,9 +21,16 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function topList($type = 'brand')
     {
-        $data = [];
+       return $this->index('top_list');
+    }
+
+    public function index($type = 'brand')
+    {
+        $data = [
+            'type' => $type
+        ];
         return view('admin.post.index', $data);
     }
 
@@ -39,7 +46,7 @@ class PostController extends Controller
             $option['order_by'] = [$order[0], $order[1]];
             unset($params['order_by']);
         }
-
+        $params['type'] = request('type', 'brand');
         $total = $this->_repository->count_customer($params);
         $list = $this->_repository->getAll($params, $option);
 
@@ -105,7 +112,7 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $input = $request->only($this->_repository->getCustomFillable());
-        $input['config_social'] = $input['config_social'] ?? [];
+        $input['config_social'] = $input['config_social'] ?? json_encode([]);
         if (!empty($input['config_social'])) {
             $input['config_social'] = json_encode($input['config_social']);
         }
@@ -115,6 +122,7 @@ class PostController extends Controller
             $index = array_rand($arr_theme);
             $input['theme'] = $arr_theme[$index];
         }
+       
         try {
             DB::beginTransaction();
             $story = $this->_repository->create($input);
@@ -127,10 +135,10 @@ class PostController extends Controller
                         'post_id' => $story->id,
                         'type' => 'banner'
                     ];
-                }, $request->banners); 
+                }, $request->banners);
                 DB::table('st_post_images')->insert($banners);
             }
- 
+
             if ($request->has('thumbnails') && !empty($request->get('thumbnails'))) {
                 $images = array_map(function ($item) use ($story) {
                     return [
@@ -139,13 +147,14 @@ class PostController extends Controller
                         'post_id' => $story->id,
                         'type' => 'photo'
                     ];
-                }, $request->thumbnails); 
+                }, $request->thumbnails);
                 DB::table('st_post_images')->insert($images);
-            } 
+            }
             DB::commit();
             return $this->responsiveSuccess('Thêm bài viết thành công');
         } catch (\Exception $ex) {
             DB::rollBack();
+            dd($ex);
             return $this->responsiveError($ex->getMessage());
         }
     }
@@ -215,11 +224,11 @@ class PostController extends Controller
         }
         if ($request->has('is_robot')) $input['is_robot'] = $request->get('is_robot') ?? $story->is_robot;
 
-        $input['config_social'] = $input['config_social'] ?? [];
+        $input['config_social'] = $input['config_social'] ?? json_encode([]);
         if (!empty($input['config_social'])) {
             $input['config_social'] = json_encode($input['config_social']);
         }
-      
+
         try {
             DB::beginTransaction();
             $this->_repository->update($input, $id);
@@ -239,7 +248,7 @@ class PostController extends Controller
                 ])->delete();
                 DB::table('st_post_images')->insert($banners);
             }
- 
+
             if ($request->has('thumbnails') && !empty($request->get('thumbnails'))) {
                 $images = array_map(function ($item) use ($story) {
                     return [

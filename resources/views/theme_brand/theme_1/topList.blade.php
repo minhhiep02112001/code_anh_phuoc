@@ -2382,13 +2382,13 @@
                                                 class="e1n50ka0 css-1bxmhsp eh0fvrz0">Home</a></li>
                                         <li class="e1n50ka1 css-1nvsk3n e1xmv6f40"> <a
                                                 href="/venues/hairdressing/melbourne"
-                                                class="e1n50ka0 css-1bxmhsp eh0fvrz0">{{ $page->title }}</a>
+                                                class="e1n50ka0 css-1bxmhsp eh0fvrz0">{{ $post->title }}</a>
                                         </li>
                                     </ol>
                                 </nav>
                                 <h1 class="css-1xy5o1q eh0fvrz0">
-                                    <div class="css-1f3l2hr elovojj0">{{ $page->title }}<!-- -->
-                                        <div class="css-squ00q eh0fvrz0">{{ $page->description }}</div>
+                                    <div class="css-1f3l2hr elovojj0">{{ $post->title }}<!-- -->
+                                        <div class="css-squ00q eh0fvrz0">{{ $post->description }}</div>
                                     </div>
                                 </h1>
                                 <div id="collapsible-region_undefined" aria-hidden="false" role="region"
@@ -2446,7 +2446,7 @@
                                                 class="prose lg:prose-lg !max-w-screen-md mx-auto dark:prose-invert"
                                                 data-content-ads-inserted="true">
                                                 <div class="news-content">
-                                                    {!! $page?->content !!}
+                                                    {!! $post?->content !!}
                                                 </div>
                                             </div>
                                         </div>
