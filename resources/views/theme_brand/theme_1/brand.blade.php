@@ -773,7 +773,9 @@
                                  @foreach ($relates as $item)
                                      <div class="listing-block col-lg-4 col-md-6 col-sm-12">
                                          <div class="inner-box">
-                                             <div class="image-box">
+                                             <a href="{{ route('post', ['slug' => $item->slug]) }}"
+                                                     title="{{ $item->title }}">
+                                                <div class="image-box">
                                                  <figure class="image">
                                                      {!! getThumbnail($item, 600, 400) !!}
                                                  </figure>
@@ -784,6 +786,7 @@
                                                      title="{{ $item->title }}">{{ $item->title }}</a>
 
                                              </div>
+                                             </a>
                                          </div>
                                      </div>
                                  @endforeach
