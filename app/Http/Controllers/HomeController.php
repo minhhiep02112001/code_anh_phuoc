@@ -38,6 +38,7 @@ class HomeController extends Controller
         $page = $request->page ?? 1;
         $data['posts']  = $this->postRepository->getAll([
             'is_status' => 1,
+            'type' => 'brand'
         ], [
             'order_by' => ['publish_at', 'desc'],
             'with' => ['category'],

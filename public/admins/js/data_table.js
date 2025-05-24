@@ -78,7 +78,7 @@ var DatatablesServerSide = (function () {
 
     // Search Datatable --- official docs reference: https://datatables.net/reference/api/search()
     var handleSearchDatatable = function () {
-        $("#form-filter-data").on("submit", function (e) {
+        $("#form-filter-data").off("submit").on("submit", function (e) {
             e.preventDefault();
             let formData = $(this).serializeArray();
             let extraSearchData = {};
@@ -239,7 +239,7 @@ var DatatablesServerSide = (function () {
         //     });
         // });
 
-        $(document).on("click", ".btnDelete", function (ev) {
+        $(document).off("submit", '.btnDelete').on("click", ".btnDelete", function (ev) {
             ev.preventDefault();
             let id = $(this).closest("tr").find('input[type="checkbox"]').val();
 
@@ -298,7 +298,7 @@ var DatatablesServerSide = (function () {
             });
         });
 
-        $(document).on("click", ".btnUpdateField", function (ev) {
+        $(document).off("submit", '.btnUpdateField').on("click", ".btnUpdateField", function (ev) {
             ev.preventDefault();
             let id = $(this).closest("tr").find('input[type="checkbox"]').val();
             let field = $(this).data("field");
