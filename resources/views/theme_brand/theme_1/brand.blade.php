@@ -107,7 +107,7 @@
                  .slide-banners .block-item {
                      position: relative;
                      /* height: 100vh;
-                                                                                             width: 100%; */
+                                                                                                 width: 100%; */
                      /* overflow: hidden; */
                  }
 
@@ -774,18 +774,18 @@
                                      <div class="listing-block col-lg-4 col-md-6 col-sm-12">
                                          <div class="inner-box">
                                              <a href="{{ route('post', ['slug' => $item->slug]) }}"
-                                                     title="{{ $item->title }}">
-                                                <div class="image-box">
-                                                 <figure class="image">
-                                                     {!! getThumbnail($item, 600, 400) !!}
-                                                 </figure>
-                                             </div>
-                                             <div class="lower-content">
-                                                 <a style="font-weight: bold; font-size:16px;"
-                                                     href="{{ route('post', ['slug' => $item->slug]) }}"
-                                                     title="{{ $item->title }}">{{ $item->title }}</a>
+                                                 title="{{ $item->title }}">
+                                                 <div class="image-box">
+                                                     <figure class="image">
+                                                         {!! getThumbnail($item, 600, 400) !!}
+                                                     </figure>
+                                                 </div>
+                                                 <div class="lower-content">
+                                                     <a style="font-weight: bold; font-size:16px;"
+                                                         href="{{ route('post', ['slug' => $item->slug]) }}"
+                                                         title="{{ $item->title }}">{{ $item->title }}</a>
 
-                                             </div>
+                                                 </div>
                                              </a>
                                          </div>
                                      </div>
@@ -950,7 +950,9 @@
              .box-item {
                  margin-top: 10px;
              }
-
+.auto-container{
+    padding: 0 20px;
+}
              .elementor-2632 .elementor-element.elementor-element-4af265a>.elementor-element-populated {
                  padding: 0;
              }
@@ -1084,7 +1086,7 @@
                  dots: false,
                  autoplay: false,
                  autoplaySpeed: 0, // liên tục
-                 speed: 1000, // tốc độ chuyển slide (ms)
+                 speed: 100, // tốc độ chuyển slide (ms)
                  cssEase: 'linear', // mượt liên tục
                  arrows: true,
                  infinite: true,
