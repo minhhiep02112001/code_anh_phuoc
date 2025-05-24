@@ -2316,18 +2316,30 @@
             color: #0d1619;
             text-decoration: none
         }
-.css-1iiv58m {
-    max-width: 992px;
-    width: calc(100% - (16px * 2));
-}
+
+        .css-1iiv58m {
+            max-width: 992px;
+            width: calc(100% - (16px * 2));
+        }
+.news-content {
+            text-align: justify;
+        }
+
+        .news-content iframe {
+            width: 100%;
+        }
         @media screen and (max-width: 768px) {
             .explore-block .image img {
                 height: 230px;
-            }.css-1iiv58m { 
-    width: 100% ;
-    padding: 0 10px;
-}
+            }
 
+            .css-1iiv58m {
+                width: 100%;
+                padding: 0 10px;
+            }
+ .news-content iframe{
+    max-height: 300px;
+ }
             #banner {
                 background-image: url('{{ asset('/images/beyout-banner-mb.jpg') }}');
             }
@@ -2350,12 +2362,8 @@
             transform: rotate(-45deg);
             width: 20px;
         }
-        .news-content{
-    text-align: justify;
-}
-.news-content iframe{
-    width: 100%;
-}
+
+        
     </style>
 
 </head>
@@ -2364,7 +2372,7 @@
     <div id="__next">
         <div class="css-j64p7l e15axdxf1">
             <header class="e18e99my1 css-1nl879o ehep9uj0">
-                <div class="e18e99my0 css-a14gsd css-1iiv58m e1xmv6f40" >
+                <div class="e18e99my0 css-a14gsd css-1iiv58m e1xmv6f40">
                     <div class="css-1l7k9wm ehep9uj0">
 
                         <a href="/" class="e1g407rp0 css-mwwny2 eh0fvrz0">
@@ -2654,8 +2662,8 @@
                         </div>
                     </div>
                 </div>
-            </footer> 
-        </div> 
+            </footer>
+        </div>
     </div>
 </body>
 
