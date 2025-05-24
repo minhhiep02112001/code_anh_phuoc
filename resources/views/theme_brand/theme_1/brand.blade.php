@@ -779,7 +779,7 @@
                                                  </figure>
                                              </div>
                                              <div class="lower-content">
-                                                 <a style="font-weight: bold;"
+                                                 <a style="font-weight: bold; font-size:16px;"
                                                      href="{{ route('post', ['slug' => $item->slug]) }}"
                                                      title="{{ $item->title }}">{{ $item->title }}</a>
 
