@@ -107,7 +107,7 @@
                  .slide-banners .block-item {
                      position: relative;
                      /* height: 100vh;
-                                                                                         width: 100%; */
+                                                                                             width: 100%; */
                      /* overflow: hidden; */
                  }
 
@@ -766,8 +766,8 @@
                  <section class="e18e99my1 css-1600jh ehep9uj0">
                      <div class="e18e99my0 css-1iiv58m e1xmv6f40">
                          <div class="auto-container">
-                             <div class="sec-title text-center">
-                                 <h2>Recommend Brand</h2> <span class="divider"></span>
+                             <div class="sec-title ">
+                                 <h4>Recommend Brand</h4> <span class="divider"></span>
                              </div>
                              <div class="row" id="list-recomend">
                                  @foreach ($relates as $item)
@@ -780,9 +780,9 @@
                                              </div>
                                              <div class="lower-content">
                                                  <a style="font-weight: bold;"
-                                                         href="{{ route('post', ['slug' => $item->slug]) }}"
-                                                         title="{{ $item->title }}">{{ $item->title }}</a>
-                                                 
+                                                     href="{{ route('post', ['slug' => $item->slug]) }}"
+                                                     title="{{ $item->title }}">{{ $item->title }}</a>
+
                                              </div>
                                          </div>
                                      </div>
@@ -799,9 +799,11 @@
              position: relative;
              display: block;
          }
-.inner-box{
-    padding: 10px;
-}
+
+         .inner-box {
+             padding: 10px;
+         }
+
          .elementor-2632 .elementor-element.elementor-element-164478d>.elementor-widget-container {
              margin: 0;
          }
@@ -1035,7 +1037,6 @@
              width: 100%;
              object-fit: cover;
          }
- 
      </style>
  @endsection
  @push('scripts')
