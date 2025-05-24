@@ -107,7 +107,7 @@
                  .slide-banners .block-item {
                      position: relative;
                      /* height: 100vh;
-                                                             width: 100%; */
+                                                                     width: 100%; */
                      /* overflow: hidden; */
                  }
 
@@ -173,8 +173,8 @@
                  }
 
                  @media screen and (max-width: 768px) {
-                     .banner-content { 
-                         width: 100%!important; 
+                     .banner-content {
+                         width: 100% !important;
                          padding: 0 10px;
                      }
                  }
@@ -728,6 +728,24 @@
                  <div id="content" class="justify">
                      {!! $post?->content !!}
                  </div>
+             </section>
+
+             @if (!empty($relates) && $relates->isNotEmpty())
+                 <section id="location"
+                     class="elementor-section elementor-padding elementor-top-section elementor-element elementor-element-37adf8a elementor-section-height-min-height elementor-section-boxed elementor-section-height-default elementor-section-items-middle"
+                     data-id="37adf8a" data-element_type="section"
+                     data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+                     <div class="elementor-widget-container">
+                         <h3 class=" elementor-size-default">
+                         Recommend Brand</h3>
+                     </div>
+                     <ul style="display: flex; flex-wrap: wrap;">
+                         @foreach ($relates as $item)
+                             <li style="padding: 0 40px 0px 0px;"><a href="{{ route('post', $item->slug) }}">{{ $item->title }}</a></li>
+                         @endforeach
+                     </ul>
+                 </section>
+             @endif
          </div>
      </div>
      <style>

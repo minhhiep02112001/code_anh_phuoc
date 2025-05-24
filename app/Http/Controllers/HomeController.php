@@ -78,6 +78,8 @@ class HomeController extends Controller
             'url' => route('post', ['slug' => $post->slug]),
         ];
         $breadcrumbs = [array('url' => '', 'title' => $post->title)];
+
+
         $data = [
             'breadcrumbs' => $breadcrumbs,
             'post' => $post,
@@ -87,13 +89,19 @@ class HomeController extends Controller
         ];
 
         if ($post->type == 'brand') {
+            $data['relates'] = Post::where([
+                'type' => 'brand',
+                'is_status' => 1,
+            ])->where('publish_at', '>', $post->publish_at)->orderBy('publish_at', 'asc')->limit(7)->get();
+
+
             $data['comments'] = Comment::where([
                 'type' => 'post',
                 // 'is_content' => 1,
                 'is_status' => 1,
                 'data_id' => $post->id
             ])->limit(5)->get();
-        } 
+        }
         $view = $post->type == 'top_list' ? 'theme_brand.theme_1.topList' : 'theme_brand.theme_1.brand';
         return view($view, $data);
     }
