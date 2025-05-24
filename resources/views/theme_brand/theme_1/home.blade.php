@@ -2497,9 +2497,6 @@
                     </div>
                 @endif
                 @if (!empty($posts) && $posts->count() > 0)
-
-
-
                     <section class="e18e99my1 css-1600jh ehep9uj0">
                         <div class="e18e99my0 css-1iiv58m e1xmv6f40">
                             <div class="auto-container">

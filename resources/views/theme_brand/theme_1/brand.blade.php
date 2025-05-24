@@ -107,7 +107,7 @@
                  .slide-banners .block-item {
                      position: relative;
                      /* height: 100vh;
-                                                                                 width: 100%; */
+                                                                                         width: 100%; */
                      /* overflow: hidden; */
                  }
 
@@ -763,25 +763,33 @@
              </section>
 
              @if (!empty($relates) && $relates->isNotEmpty())
-                 <section id="location"
-                     class="elementor-section elementor-padding elementor-top-section elementor-element elementor-element-37adf8a elementor-section-height-min-height elementor-section-boxed elementor-section-height-default elementor-section-items-middle"
-                     data-id="37adf8a" data-element_type="section"
-                     data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
-                     <div class="elementor-widget-container">
-                         <h3 class="title-recomend elementor-size-default">
-                             Recommend Brand</h3>
+                 <section class="e18e99my1 css-1600jh ehep9uj0">
+                     <div class="e18e99my0 css-1iiv58m e1xmv6f40">
+                         <div class="auto-container">
+                             <div class="sec-title text-center">
+                                 <h2>Recommend Brand</h2> <span class="divider"></span>
+                             </div>
+                             <div class="row" id="list-recomend">
+                                 @foreach ($relates as $item)
+                                     <div class="listing-block col-lg-4 col-md-6 col-sm-12">
+                                         <div class="inner-box">
+                                             <div class="image-box">
+                                                 <figure class="image">
+                                                     {!! getThumbnail($item, 600, 400) !!}
+                                                 </figure>
+                                             </div>
+                                             <div class="lower-content">
+                                                 <a
+                                                         href="{{ route('post', ['slug' => $item->slug]) }}"
+                                                         title="{{ $item->title }}">{{ $item->title }}</a>
+                                                 
+                                             </div>
+                                         </div>
+                                     </div>
+                                 @endforeach
+                             </div>
+                         </div>
                      </div>
-                     <ul style="display: flex; flex-wrap: wrap;" id="list-recomend">
-                         @foreach ($relates as $item)
-                             <li>
-                                 <div class="image">
-                                     <img src="{{ getImageThumb($item->thumbnail, 100, 100) }}"
-                                         alt="{{ $item->title }}">
-                                 </div>
-                                 <a href="{{ route('post', $item->slug) }}">{{ $item->title }}</a>
-                             </li>
-                         @endforeach
-                     </ul>
                  </section>
              @endif
          </div>
@@ -791,7 +799,9 @@
              position: relative;
              display: block;
          }
-
+.inner-box{
+    padding: 10px;
+}
          .elementor-2632 .elementor-element.elementor-element-164478d>.elementor-widget-container {
              margin: 0;
          }
@@ -1025,10 +1035,7 @@
              width: 100%;
              object-fit: cover;
          }
-
-         #list-recomend button.slick-arrow {
-             display: none !important;
-         }
+ 
      </style>
  @endsection
  @push('scripts')
@@ -1069,8 +1076,8 @@
 
              slider.slick({
                  slidesToShow: 6,
-                 slidesToScroll: 2, // số slide scroll mỗi lần
-                 dots: false,
+                 slidesToScroll: 1, // số slide scroll mỗi lần
+                 dots: true,
                  autoplay: false,
                  autoplaySpeed: 0, // liên tục
                  speed: 1000, // tốc độ chuyển slide (ms)
@@ -1087,7 +1094,7 @@
                      {
                          breakpoint: 600,
                          settings: {
-                             slidesToShow: 2,
+                             slidesToShow: 1,
                          },
                      },
                  ],
