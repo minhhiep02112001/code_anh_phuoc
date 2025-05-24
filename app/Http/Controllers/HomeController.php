@@ -43,7 +43,7 @@ class HomeController extends Controller
             'with' => ['category'],
             'limit' => 28,
             'pagination' => $page,
-            'select' => ['id', 'title', 'slug', 'thumbnail','category_id', 'address', 'email', 'phone', 'description', 'publish_at'],
+            'select' => ['id', 'title', 'slug', 'thumbnail', 'category_id', 'address', 'email', 'phone', 'description', 'publish_at'],
         ]);
 
         $data['categories']  = $this->categoryRepository->getAll([
@@ -180,8 +180,7 @@ class HomeController extends Controller
         $page = $this->pageRepository->findByField('slug', $slug)->first();
 
         if (empty($page) || $page->is_status != 1) return abort(404);
-
-
+    
         $SEO = [
             'title' => $page->meta_title ?? '',
             'meta_title' => $page->meta_title ?? '',
@@ -192,7 +191,9 @@ class HomeController extends Controller
             'url' => route('page', ['slug' => $page->slug]),
         ];
 
-        return view('front_end.page', ['row' => $page, 'SEO' => $SEO ?? [],]);
+        $view = $page->layout ?? 'front_end.page';
+        return view('theme_brand.theme_1.topList', ['page' => $page, 'SEO' => $SEO ?? [],]);
+        return view($view, ['row' => $page, 'SEO' => $SEO ?? [],]);
     }
 
     public function redirect(Request $request)
