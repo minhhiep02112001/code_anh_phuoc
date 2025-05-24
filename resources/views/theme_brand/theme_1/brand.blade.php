@@ -107,7 +107,7 @@
                  .slide-banners .block-item {
                      position: relative;
                      /* height: 100vh;
-                                                                     width: 100%; */
+                                                                         width: 100%; */
                      /* overflow: hidden; */
                  }
 
@@ -172,10 +172,42 @@
                      border-radius: 5px;
                  }
 
+
+                 .title-recomend {
+                     font-size: 20px;
+                 }
+
+                 #list-recomend {
+                     list-style: none;
+                     padding: 0px;
+                     margin: 0px;
+                 }
+
+                 #list-recomend li img {
+                     max-width: 50px;
+                 }
+
+                 #list-recomend li {
+                     padding: 0px;
+                     display: flex;
+                     margin-right: 20px;
+                 }
+
+                 #list-recomend li a {
+                     font-size: 13px;
+                     font-weight: 600;
+                     margin-left: 10px;
+                 }
+
                  @media screen and (max-width: 768px) {
                      .banner-content {
                          width: 100% !important;
                          padding: 0 10px;
+                     }
+
+                     #list-recomend li {
+                         width: 100%;
+                         margin: 10px 0px;
                      }
                  }
              </style>
@@ -736,12 +768,18 @@
                      data-id="37adf8a" data-element_type="section"
                      data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
                      <div class="elementor-widget-container">
-                         <h3 class=" elementor-size-default">
-                         Recommend Brand</h3>
+                         <h3 class="title-recomend elementor-size-default">
+                             Recommend Brand</h3>
                      </div>
-                     <ul style="display: flex; flex-wrap: wrap;">
+                     <ul style="display: flex; flex-wrap: wrap;" id="list-recomend">
                          @foreach ($relates as $item)
-                             <li style="padding: 0 40px 0px 0px;"><a href="{{ route('post', $item->slug) }}">{{ $item->title }}</a></li>
+                             <li>
+                                 <div class="image">
+                                     <img src="{{ getImageThumb($item->thumbnail, 100, 100) }}"
+                                         alt="{{ $item->title }}">
+                                 </div>
+                                 <a href="{{ route('post', $item->slug) }}">{{ $item->title }}</a>
+                             </li>
                          @endforeach
                      </ul>
                  </section>
