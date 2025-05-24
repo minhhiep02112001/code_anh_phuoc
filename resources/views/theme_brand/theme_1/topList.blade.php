@@ -2350,7 +2350,12 @@
             transform: rotate(-45deg);
             width: 20px;
         }
-        
+        .news-content{
+    text-align: justify;
+}
+.news-content iframe{
+    width: 100%;
+}
     </style>
 
 </head>

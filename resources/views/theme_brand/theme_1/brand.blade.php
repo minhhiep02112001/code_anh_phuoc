@@ -107,7 +107,7 @@
                  .slide-banners .block-item {
                      position: relative;
                      /* height: 100vh;
-                                                                                                     width: 100%; */
+                                                                                                 width: 100%; */
                      /* overflow: hidden; */
                  }
 
@@ -803,14 +803,6 @@
              display: block;
          }
 
-         .news-content {
-             text-align: justify;
-         }
-
-         .news-content iframe {
-             width: 100%;
-         }
-
          .inner-box {
              padding: 10px;
          }
@@ -958,11 +950,9 @@
              .box-item {
                  margin-top: 10px;
              }
-
-             .auto-container {
-                 padding: 0 20px;
-             }
-
+.auto-container{
+    padding: 0 20px;
+}
              .elementor-2632 .elementor-element.elementor-element-4af265a>.elementor-element-populated {
                  padding: 0;
              }
