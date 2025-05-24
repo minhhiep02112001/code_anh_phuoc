@@ -107,7 +107,7 @@
                  .slide-banners .block-item {
                      position: relative;
                      /* height: 100vh;
-                                                                         width: 100%; */
+                                                                                 width: 100%; */
                      /* overflow: hidden; */
                  }
 
@@ -188,9 +188,9 @@
                  }
 
                  #list-recomend li {
-                     padding: 0px;
+                     padding: 0px 10px;
                      display: flex;
-                     margin-right: 20px;
+
                  }
 
                  #list-recomend li a {
@@ -1025,6 +1025,10 @@
              width: 100%;
              object-fit: cover;
          }
+
+         #list-recomend button.slick-arrow {
+             display: none !important;
+         }
      </style>
  @endsection
  @push('scripts')
@@ -1060,6 +1064,35 @@
                      },
                  ],
              });
+
+             var slider = jQuery('#list-recomend');
+
+             slider.slick({
+                 slidesToShow: 6,
+                 slidesToScroll: 2, // số slide scroll mỗi lần
+                 dots: false,
+                 autoplay: false,
+                 autoplaySpeed: 0, // liên tục
+                 speed: 1000, // tốc độ chuyển slide (ms)
+                 cssEase: 'linear', // mượt liên tục
+                 arrows: true,
+                 infinite: true,
+                 pauseOnHover: false,
+                 responsive: [{
+                         breakpoint: 800,
+                         settings: {
+                             slidesToShow: 5,
+                         },
+                     },
+                     {
+                         breakpoint: 600,
+                         settings: {
+                             slidesToShow: 2,
+                         },
+                     },
+                 ],
+             });
+
 
              // Khi slider thay đổi ảnh
              slider.on('afterChange', function(event, slick, currentSlide) {
