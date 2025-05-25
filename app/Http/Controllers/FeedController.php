@@ -14,21 +14,24 @@ class FeedController extends Controller
     {
         $posts = $this->postRepository->getAll([
             'is_status' => 1,
-        ], ['order_by' => ['updated_at', 'desc'], 'limit' => 200]); 
+            'type' => 'brand',
+        ], ['order_by' => ['publish_at', 'desc'], 'limit' => 200]);
         return response()->view('front_end.sitemap.rss', ['data' => $posts])->header('Content-Type', 'text/xml');
     }
     public function pinterestxxx()
     {
         $posts = $this->postRepository->getAll([
             'is_status' => 1,
-        ], ['order_by' => ['updated_at', 'desc'], 'limit' => 200]); 
+            'type' => 'brand',
+        ], ['order_by' => ['publish_at', 'desc'], 'limit' => 200]);
         return response()->view('front_end.sitemap.pinterestxxx', ['data' => $posts])->header('Content-Type', 'text/xml');
     }
     public function rssxxx()
     {
         $posts = $this->postRepository->getAll([
             'is_status' => 1,
-        ], ['order_by' => ['updated_at', 'desc'], 'limit' => 200]); 
+            'type' => 'brand',
+        ], ['order_by' => ['publish_at', 'desc'], 'limit' => 200]);
         return response()->view('front_end.sitemap.rssxxx', ['data' => $posts])->header('Content-Type', 'text/xml');
     }
 }

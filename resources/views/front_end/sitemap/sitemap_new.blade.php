@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
     @foreach ($data as $key => $item)
         @php
-            $time = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $item->updated_at);
+            $time = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $item->publish_at);
         @endphp
         <url>
             <loc>{{ route('post', ['slug' => $item->slug]) }}</loc>

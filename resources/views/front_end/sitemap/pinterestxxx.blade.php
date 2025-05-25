@@ -33,7 +33,7 @@
 
         @foreach ($data as $item)
             @php
-                $time = \Carbon\Carbon::parse($item->updated_at);
+                $time = \Carbon\Carbon::parse($item->publish_at);
                 $title = $item->meta_title;
                 $sapo = $item->meta_description;
             @endphp

@@ -37,7 +37,7 @@
 
         @foreach ($data as $item)
             @php
-                $time = \Carbon\Carbon::parse($item->created_at);
+                $time = \Carbon\Carbon::parse($item->publish_at);
                 $title = $item->meta_title;
                 $sapo = $item->meta_description;
                 $content = preg_replace('/<meta\b[^>]*>(.*?)<\/meta>/i', '', $item->content);

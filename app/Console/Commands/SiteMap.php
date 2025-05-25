@@ -66,7 +66,7 @@ class SiteMap extends Command
     {
         $sitemap = CustomSitemapIndex::create();
         // $sitemap->add(ST::create('sitemap_news.xml')->setLastModificationDate(Carbon::yesterday()));
-        
+
         foreach (glob(public_path() . '/sitemap_brand*') as $filename) {
             $url = str_replace(public_path(), '', $filename);
             $sitemap->add(ST::create($url)->setLastModificationDate(Carbon::yesterday()));
@@ -101,7 +101,7 @@ class SiteMap extends Command
         $sitemap->writeToFile(public_path('sitemap_category.xml'));
         Log::info("Vừa chạy sitemap_category: " . now()->format('H:i:s d-m-Y'));
         return true;
-    } 
+    }
 
     // php artisan sitemap:create --function=sitemapPage
     public function sitemapPage()
@@ -115,7 +115,7 @@ class SiteMap extends Command
         $categories = Page::where([
             'is_status' => 1,
         ])->select(['id', 'title', 'slug', 'updated_at'])->orderBy('created_at', 'desc')->get();
- 
+
         foreach ($categories as $key => $data) {
             $sitemap->add(Url::create(route('page', ['slug' => $data->slug]))
                 ->setLastModificationDate($data->updated_at)
@@ -132,7 +132,7 @@ class SiteMap extends Command
         $posts = Post::where([
             'is_status' => 1,
             'type' => 'brand'
-        ])->select(['id', 'title', 'slug','publish_at', 'updated_at'])->orderBy('publish_at', 'desc')->get();
+        ])->select(['id', 'title', 'slug', 'publish_at', 'updated_at'])->orderBy('publish_at', 'desc')->get();
 
         foreach (glob(public_path() . '/sitemap_brand*') as $filename) {
             if (File::exists($filename)) {
@@ -141,13 +141,13 @@ class SiteMap extends Command
         }
 
         foreach ($posts->chunk(300) as $key => $data) {
-          
+
             $sitemap = SitemapGenerator::create('/')->getSitemap();
             // add home pages mặc định
             foreach ($data as $post) {
-                $time = Carbon::parse($post->publish_at) ;
+                $time = Carbon::parse($post->publish_at);
                 $sitemap->add(Url::create(route('post', ['slug' => $post->slug]))
-                    ->setLastModificationDate( $time)
+                    ->setLastModificationDate($time)
                     ->setChangeFrequency(Url::CHANGE_FREQUENCY_ALWAYS)
                     ->setPriority(0.8));
             }
