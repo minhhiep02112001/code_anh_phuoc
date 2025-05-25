@@ -131,6 +131,7 @@ class SiteMap extends Command
     {
         $posts = Post::where([
             'is_status' => 1,
+            'type' => 'brand'
         ])->select(['id', 'title', 'slug','publish_at', 'updated_at'])->orderBy('publish_at', 'desc')->get();
 
         foreach (glob(public_path() . '/sitemap_brand*') as $filename) {
