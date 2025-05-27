@@ -27,12 +27,18 @@ class ReadingFileExcel extends Command
      *
      * @return int
      */
+    // php artisan import:excel --file=Nails.xlsx
     public function handle()
     {
         $file = $this->option('file'); 
-        
+
+         if (!file_exists(public_path($file))) {
+            $this->error('File not found: ' . $file);
+            return 1;
+        }
+      
         try{
-             
+             echo "Reading";
             Excel::import(new CrawlerImport, public_path($file));
         }catch(\Exception $e){
             dd($e);
