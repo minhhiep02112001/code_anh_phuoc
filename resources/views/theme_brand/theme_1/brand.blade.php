@@ -6,6 +6,17 @@
  @endphp
  @extends('front_end._index')
  @section('content')
+<style>
+.slide-banners {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.slide-banners.slick-initialized {
+  visibility: visible;
+  opacity: 1;
+}
+</style>
 
 
      <div class="wdt-elementor-container-fluid">
@@ -34,43 +45,43 @@
              <section id="about"
                  class="elementor-padding elementor-section elementor-top-section elementor-element   elementor-section-full_width elementor-section-height-default elementor-section-height-default">
                  <div class="  elementor-column-gap-default">
-                    <div class="elementor-widget-wrap elementor-element-populated">
-                             <div class="elementor-element elementor-element-efc34fb elementor-hidden-tablet  elementor-widget elementor-widget-heading"
-                                 data-id="efc34fb" data-element_type="widget" data-widget_type="heading.default">
-                                 <div class="elementor-widget-container">
-                                     <h1 class="elementor-heading-title elementor-size-default">
-                                         {!! "Welcome To {$post->title}" !!}
-                                     </h1>
-                                 </div>
-                             </div>
-                             <div class="elementor-element elementor-element-02779b3 elementor-hidden-tablet  elementor-widget-divider--view-line elementor-widget elementor-widget-divider"
-                                 data-id="02779b3" data-element_type="widget" data-widget_type="divider.default">
-                                 <div class="elementor-widget-container">
-                                     <div class="elementor-divider">
-                                         <span class="elementor-divider-separator">
-                                         </span>
-                                     </div>
-                                 </div>
-                             </div>
-                             <section
-                                 class="elementor-section elementor-inner-section elementor-element elementor-element-2f91dc4 elementor-section-full_width elementor-section-height-default elementor-section-height-default"
-                                 data-id="2f91dc4" data-element_type="section">
-                                 <div class="elementor-container elementor-column-gap-default">
-                                     <div class="markdown prose w-full break-words dark:prose-invert dark">
-                                         {!! $post->description !!}
-                                     </div>
-                                 </div>
-                             </section>
-                             <div class="elementor-element elementor-element-02779b3 elementor-hidden-tablet  elementor-widget-divider--view-line elementor-widget elementor-widget-divider"
-                                 data-id="02779b3" data-element_type="widget" data-widget_type="divider.default">
-                                 <div class="elementor-widget-container">
-                                     <div class="elementor-divider">
-                                         <span class="elementor-divider-separator">
-                                         </span>
-                                     </div>
+                     <div class="elementor-element elementor-element-efc34fb elementor-hidden-tablet  elementor-widget elementor-widget-heading"
+                         data-id="efc34fb" data-element_type="widget" data-widget_type="heading.default">
+                         <div class="elementor-widget-container">
+                             <h1 class="elementor-heading-title elementor-size-default">
+                                 {!! "Welcome To {$post->title}" !!}
+                             </h1>
+                         </div>
+                     </div>
+                     <div style="max-width: 700px; margin: 0 auto;">
+                        <div class="elementor-element elementor-element-02779b3 elementor-hidden-tablet  elementor-widget-divider--view-line elementor-widget elementor-widget-divider"
+                             data-id="02779b3" data-element_type="widget" data-widget_type="divider.default">
+                             <div class="elementor-widget-container">
+                                 <div class="elementor-divider">
+                                     <span class="elementor-divider-separator">
+                                     </span>
                                  </div>
                              </div>
                          </div>
+                         <section
+                             class="elementor-section elementor-inner-section elementor-element elementor-element-2f91dc4 elementor-section-full_width elementor-section-height-default elementor-section-height-default"
+                             data-id="2f91dc4" data-element_type="section">
+                             <div class="elementor-container elementor-column-gap-default">
+                                 <div class="markdown prose w-full break-words dark:prose-invert dark">
+                                     {!! $post->description !!}
+                                 </div>
+                             </div>
+                         </section>
+                         <div class="elementor-element elementor-element-02779b3 elementor-hidden-tablet  elementor-widget-divider--view-line elementor-widget elementor-widget-divider"
+                             data-id="02779b3" data-element_type="widget" data-widget_type="divider.default">
+                             <div class="elementor-widget-container">
+                                 <div class="elementor-divider">
+                                     <span class="elementor-divider-separator">
+                                     </span>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
                  </div>
              </section>
              <section
@@ -722,37 +733,52 @@
  @endsection
  @push('scripts')
      <script>
-         jQuery(document).ready(function() {
-             var slider = jQuery('.sliders-photo');
+         jQuery(document).ready(function() { 
+            var bannerSlider = jQuery('.sliders-photo');
+             if (bannerSlider.length > 0) {
+                 // Ẩn slider lúc đầu (cũng có thể chỉ cần CSS thôi)
+                 bannerSlider.css({
+                     visibility: 'hidden',
+                     opacity: 0
+                 });
 
-             slider.slick({
-                 slidesToShow: 6,
-                 slidesToScroll: 1,
-                 dots: false,
-                 autoplay: false,
-                 autoplaySpeed: 2000,
-                 arrows: true,
-                 infinite: true,
-                 responsive: [{
-                         breakpoint: 800,
-                         settings: {
-                             slidesToShow: 5,
+                 // Bắt sự kiện slick init để hiện slider
+                 bannerSlider.on('init', function(event, slick) {
+                     bannerSlider.css({
+                         visibility: 'visible',
+                         opacity: 1
+                     });
+                 });
+
+                 // Khởi tạo slick slider cho slide-banners
+                 bannerSlider.slick({
+                     slidesToShow: 6,
+                     slidesToScroll: 1,
+                     dots: false,
+                     autoplay: false,
+                     arrows: true,
+                     infinite: true,
+                     responsive: [{
+                             breakpoint: 800,
+                             settings: {
+                                 slidesToShow: 5,
+                             }
                          },
-                     },
-                     {
-                         breakpoint: 600,
-                         settings: {
-                             slidesToShow: 4,
+                         {
+                             breakpoint: 600,
+                             settings: {
+                                 slidesToShow: 4,
+                             }
                          },
-                     },
-                     {
-                         breakpoint: 400,
-                         settings: {
-                             slidesToShow: 3,
-                         },
-                     },
-                 ],
-             });
+                         {
+                             breakpoint: 400,
+                             settings: {
+                                 slidesToShow: 3,
+                             }
+                         }
+                     ],
+                 });
+             }
 
              var slider = jQuery('#list-recomend');
 
