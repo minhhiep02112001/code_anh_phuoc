@@ -369,13 +369,7 @@
 	align-content: center;
 	align-items: center;
 }
-
-.elementor-2632 .elementor-element.elementor-element-6533d6c4:not(.elementor-motion-effects-element-type-background),
-.elementor-2632 .elementor-element.elementor-element-6533d6c4>.elementor-motion-effects-container>.elementor-motion-effects-layer {
-	background-color: #E6DCC5;
-	background-image: url("../../2023/06/product-list-bg.png");
-}
-
+ 
 .elementor-2632 .elementor-element.elementor-element-6533d6c4>.elementor-container {
 	min-height: 700px;
 }
@@ -893,30 +887,5 @@
 		background-attachment: fixed;
 	}
 }
-
-/* Start Custom Fonts CSS */
-@font-face {
-	font-family: 'Optima';
-	font-style: normal;
-	font-weight: normal;
-	font-display: auto;
-	src: url('../../2024/10/OPTIMA.ttf') format('truetype');
-}
-
-@font-face {
-	font-family: 'Optima';
-	font-style: normal;
-	font-weight: bold;
-	font-display: auto;
-	src: url('../../2024/10/OPTIMA_B.ttf') format('truetype');
-}
-
-@font-face {
-	font-family: 'Optima';
-	font-style: italic;
-	font-weight: normal;
-	font-display: auto;
-	src: url('../../2024/10/Optima_Italic.ttf') format('truetype');
-}
-
+ 
 /* End Custom Fonts CSS */

@@ -35,11 +35,12 @@ class ReadExcelFile extends Command
             $this->error('File not found: ' . $filePath);
             return 1;
         }
-      
+
 
         try {
+            echo 'Excel file read successfully!';
             Excel::import(new CrawlerImport, public_path($filePath));
-            $this->info('Excel file read and processed successfully!');
+            $this->info("\n=>Excel file read and processed successfully!");
         } catch (\Exception $e) {
             $this->error('Error reading file: ' . $e->getMessage());
         }

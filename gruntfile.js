@@ -55,28 +55,25 @@ module.exports = function (grunt) {
 
             css: {
                 src: [
-                    'assets/css/owl.carousel.min.css',
-                    'assets/css/rating.css',
-                    'assets/css/timber.scss.css',
-                    'assets/css/theme.scss.css',
-                    'assets/css/themepunch.revolution.css',
-                    'assets/css/digital-world.css',
+                    'public/wp-content/uploads/elementor/css/custom-frontend.min4d29.css',
+                    'public/wp-content/plugins/elementor/assets/css/widget-heading.min3830.css',
+                    'public/wp-content/uploads/elementor/css/post-26321de5.css',
+                    'public/wp-content/themes/lilac-beauty/assets/css/iconsce14.css',
+                    'public/wp-content/themes/lilac-beauty/assets/css/basece14.css',
+                    'public/wp-content/themes/lilac-beauty/assets/css/gridce14.css',
+                    'public/wp-content/plugins/elementor/assets/css/widget-divider.min3830.css',
+                    'public/wp-content/themes/lilac-beauty/assets/css/layoutce14.css',
+                    'public/wp-content/themes/lilac-beauty/modules/footer/assets/css/footerce14.css',
+                    'public/wp-content/themes/lilac-beauty/modules/header/assets/css/headerce14.css',
+                    'public/wp-content/themes/lilac-beauty/assets/css/themece14.css',
+                    'public/wp-content/uploads/elementor/css/post-12651579.css',
                 ],
                 dest: "public/assets/css/css_minified.css",
             },
 
             js: {
                 src: [
-                    "public/assets/js/jquery.min.js",
-                    "public/assets/js/owl.carousel.min.js",
-                    "public/assets/js/jquery.easytabs.min.js",
-                    "public/assets/js/jquery.elevateZoom-3.0.8.min.js",
-                    "public/assets/js/jquery.fancybox.min.js",
-                    "public/assets/js/modernizr.min.js",
-                    "public/assets/js/jquery.themepunch.plugins.min.js",
-                    "public/assets/js/jquery.themepunch.revolution.min.js",
-                    "public/assets/js/tada.js",
-                    "public/assets/js/notify.js"
+                   
                 ],
                 dest: "public/assets/js/script_minified.js",
             },

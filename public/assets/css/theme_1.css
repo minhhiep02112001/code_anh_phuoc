@@ -1,0 +1,250 @@
+.product-thumb-overlay {
+    width: 300px;
+    /* Set your desired width */
+    height: 300px;
+    /* Set your desired height */
+    display: flex;
+    justify-content: center;
+    /* Center the content horizontally */
+    align-items: center;
+    /* Center the content vertically */
+    overflow: hidden;
+    /* Hide any overflow content */
+    box-sizing: border-box;
+    /* Include padding and border in the size */
+}
+
+body,
+button,
+input,
+textarea,
+select,
+optgroup {
+    font-family: 'Nunito', sans-serif;
+}
+
+.elementor-element.elementor-element-ee89094 .elementor-heading-title {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600 !important;
+}
+
+@media screen and (max-width: 768px) {
+    .elementor-element.elementor-element-ee89094 .elementor-heading-title {
+        font-weight: 700 !important;
+    }
+}
+
+.elementor-element.elementor-element-efc34fb .elementor-heading-title {
+
+    font-weight: 600 !important;
+    font-size: 45px !important;
+}
+
+.elementor-icon-box-icon {
+    display: flex;
+    justify-content: center;
+}
+
+.elementor-icon-box-icon img {
+    width: 70px;
+}
+
+.elementor-icon-box-content p {
+    font-weight: 600 !important;
+    font-family: 'Nunito', sans-serif !important;
+}
+
+.wdt-elementor-container-fluid {
+    max-width: 1200px;
+    margin: 0 auto;
+
+}
+
+.d-block {
+    display: block;
+}
+
+.line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    /* Giới hạn tối đa 3 dòng */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+#main,
+header#header,
+#footer {
+    background: #E6DCC5;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.slide-banners .slick-arrow {
+    display: none !important;
+}
+
+.justify {
+    text-align: justify;
+}
+
+@media screen and (max-width: 768px) {
+    .logo {
+        height: 100%;
+        font-size: 25px;
+    }
+
+    h2.elementor-heading-title {
+        text-align: center;
+        width: 100%;
+    }
+
+    .elementor-2632 .elementor-element.elementor-element-efc34fb .elementor-heading-title {
+        font-family: 'Nunito', sans-serif;
+        font-size: 25px !important;
+    }
+
+    .elementor-16 .elementor-element.elementor-element-16ca706>.elementor-widget-container,
+    .elementor-widget:not(:last-child) {
+        margin: 0px !important;
+        padding: 0px !important;
+    }
+
+    header .elementor-column {
+        height: 50px !important;
+    }
+
+    header.elementor-widget-container {
+        text-align: justify !important;
+    }
+}
+
+#content {
+    font-family: 'Nunito', sans-serif;
+}
+
+#content p,
+#content li,
+#content span {
+    font-size: 18px;
+}
+
+#content h2 {
+    font-size: 28px;
+}
+
+#content h3 {
+    font-size: 25px;
+}
+
+#content h4 {
+    font-size: 20px;
+}
+
+.elementor-element-35535b0 {
+    margin-top: 0 !important;
+}
+
+.slide-banners .block-item {
+    position: relative;
+}
+
+.elementor-container.position-relative {
+    position: relative;
+}
+
+.banner-content {
+    position: absolute;
+    /* thêm dòng này */
+    left: 50%;
+    top: 50%;
+    padding: 20px 15px;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 2;
+    color: black;
+}
+
+.btn--bordered.btn--white {
+    border-color: #fff;
+    color: #fff;
+    box-shadow: none;
+}
+
+.btn--bordered.btn--white:active,
+.btn--bordered.btn--white:focus,
+.btn--bordered.btn--white:hover {
+    color: #c59d5f;
+    background-color: #e3dede;
+    border-color: #fff;
+}
+
+.banner-content {
+
+    color: white;
+}
+
+.banner-content p {
+    font-size: 40px;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    /* màu đen mờ */
+    z-index: 1;
+}
+
+.cta-button {
+    display: inline-block;
+    box-shadow: none;
+    text-decoration: none;
+    padding: 10px 20px;
+    border: 0.5px solid #c5c5c5;
+    border-radius: 5px;
+}
+
+
+.title-recomend {
+    font-size: 20px;
+}
+
+#list-recomend {
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+#list-recomend li img {
+    max-width: 50px;
+}
+
+#list-recomend li {
+    padding: 0px 10px;
+    display: flex;
+
+}
+
+#list-recomend li a {
+    font-size: 13px;
+    font-weight: 600;
+    margin-left: 10px;
+}
+
+@media screen and (max-width: 768px) {
+    .banner-content {
+        width: 100% !important;
+        padding: 0 10px;
+    }
+
+    #list-recomend li {
+        width: 100%;
+        margin: 10px 0px;
+    }
+}
