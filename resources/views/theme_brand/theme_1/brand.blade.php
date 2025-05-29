@@ -6,7 +6,7 @@
  @endphp
  @extends('front_end._index')
  @section('content')
-  
+
 
      <div class="wdt-elementor-container-fluid">
          <div class="elementor elementor-2632">
@@ -34,9 +34,7 @@
              <section id="about"
                  class="elementor-padding elementor-section elementor-top-section elementor-element   elementor-section-full_width elementor-section-height-default elementor-section-height-default">
                  <div class="  elementor-column-gap-default">
-                     <div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-3098152"
-                         data-id="3098152" data-element_type="column">
-                         <div class="elementor-widget-wrap elementor-element-populated">
+                    <div class="elementor-widget-wrap elementor-element-populated">
                              <div class="elementor-element elementor-element-efc34fb elementor-hidden-tablet  elementor-widget elementor-widget-heading"
                                  data-id="efc34fb" data-element_type="widget" data-widget_type="heading.default">
                                  <div class="elementor-widget-container">
@@ -58,44 +56,21 @@
                                  class="elementor-section elementor-inner-section elementor-element elementor-element-2f91dc4 elementor-section-full_width elementor-section-height-default elementor-section-height-default"
                                  data-id="2f91dc4" data-element_type="section">
                                  <div class="elementor-container elementor-column-gap-default">
-                                     <div class="elementor-column elementor-col-100 elementor-inner-column elementor-element elementor-element-c92cbf2"
-                                         data-id="c92cbf2" data-element_type="column">
-                                         <div class="elementor-widget-wrap elementor-element-populated">
-                                             <div class="elementor-element elementor-element-2b44697 elementor-hidden-tablet  elementor-widget elementor-widget-text-editor"
-                                                 data-id="2b44697" data-element_type="widget"
-                                                 data-widget_type="text-editor.default">
-                                                 <div class="elementor-widget-container">
-                                                     <div class="flex max-w-full flex-col flex-grow">
-                                                         <div class="min-h-8 text-message flex w-full flex-col items-end gap-2 whitespace-normal break-words [.text-message+&amp;]:mt-5"
-                                                             dir="auto" data-message-author-role="assistant"
-                                                             data-message-id="6561a84e-b3c8-4f76-afa3-9a10e5873873">
-                                                             <div
-                                                                 class="flex w-full flex-col gap-1 empty:hidden first:pt-[3px]">
-                                                                 <div
-                                                                     class="markdown prose w-full break-words dark:prose-invert dark">
-                                                                     {!! $post->description !!}
-                                                                 </div>
-                                                             </div>
-                                                         </div>
-                                                     </div>
-                                                 </div>
-                                             </div>
-                                             <div class="elementor-element elementor-element-a5f542d elementor-hidden-tablet  elementor-widget-divider--view-line elementor-widget elementor-widget-divider"
-                                                 data-id="a5f542d" data-element_type="widget"
-                                                 data-widget_type="divider.default">
-                                                 <div class="elementor-widget-container">
-                                                     <div class="elementor-divider">
-                                                         <span class="elementor-divider-separator">
-                                                         </span>
-                                                     </div>
-                                                 </div>
-                                             </div>
-                                         </div>
+                                     <div class="markdown prose w-full break-words dark:prose-invert dark">
+                                         {!! $post->description !!}
                                      </div>
                                  </div>
                              </section>
+                             <div class="elementor-element elementor-element-02779b3 elementor-hidden-tablet  elementor-widget-divider--view-line elementor-widget elementor-widget-divider"
+                                 data-id="02779b3" data-element_type="widget" data-widget_type="divider.default">
+                                 <div class="elementor-widget-container">
+                                     <div class="elementor-divider">
+                                         <span class="elementor-divider-separator">
+                                         </span>
+                                     </div>
+                                 </div>
+                             </div>
                          </div>
-                     </div>
                  </div>
              </section>
              <section
