@@ -19,47 +19,7 @@
     <script>
         document.documentElement.className = document.documentElement.className + ' yes-js js_active js'
     </script>
-    <link href="{{ asset('admins/vendor/font-awesome-4.7/css/font-awesome.min.css') }}" rel="stylesheet" media="all">
     @include('front_end.block.config_seo_header')
-
-    <!-- #region -->
-
-    <style id='wp-emoji-styles-inline-css' type='text/css'>
-        img.wp-smiley,
-        img.emoji {
-            display: inline !important;
-            border: none !important;
-            box-shadow: none !important;
-            height: 1em !important;
-            width: 1em !important;
-            margin: 0 0.07em !important;
-            vertical-align: -0.1em !important;
-            background: none !important;
-            padding: 0 !important;
-        }
-    </style>
-    <style id='safe-svg-svg-icon-style-inline-css' type='text/css'>
-        .safe-svg-cover {
-            text-align: center
-        }
-
-        .safe-svg-cover .safe-svg-inside {
-            display: inline-block;
-            max-width: 100%
-        }
-
-        .safe-svg-cover svg {
-            height: 100%;
-            max-height: 100%;
-            max-width: 100%;
-            width: 100%
-        }
-    </style>
-
-
-
-
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
 
     <style id='lilac-beauty-inline-css' type='text/css'>
@@ -123,12 +83,78 @@
         }
     </style>
 
-    <link rel='stylesheet' href='/assets/css/css_minified.css?ver=1.0.8' type='text/css' media='all' />
-    <link rel='stylesheet' href='/assets/css/theme_1.css?ver=1.0.8' type='text/css' media='all' />
-    <link rel='stylesheet' href='/assets/slick/slick/slick.css?ver=1.0.8' type='text/css' media='all' />
-  
-    <script type="text/javascript" src="wp-includes/js/jquery/jquery.minf43b.js?ver=3.7.1" id="jquery-core-js"></script> 
-    <script type="text/javascript" src="/assets/js/slick.min.js?ver=3.7.1"  ></script>  
+    {{-- FontAwesome preload --}}
+    <link rel="preload" href="{{ asset('admins/vendor/font-awesome-4.7/css/font-awesome.min.css') }}" as="style"
+        onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript>
+        <link href="{{ asset('admins/vendor/font-awesome-4.7/css/font-awesome.min.css') }}" rel="stylesheet"
+            media="all" />
+    </noscript>
+
+    {{-- Google Fonts preload + fallback --}}
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap"
+        as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript>
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
+    </noscript>
+
+    {{-- Các CSS chính preload + onload --}}
+    <link rel="preload" href="/assets/css/css_minified.css?ver=1.0.8" as="style"
+        onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript>
+        <link href="/assets/css/css_minified.css?ver=1.0.8" rel="stylesheet" media="all" />
+    </noscript>
+
+    <link rel="preload" href="/assets/css/theme_1.css?ver=1.0.8" as="style"
+        onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript>
+        <link href="/assets/css/theme_1.css?ver=1.0.8" rel="stylesheet" media="all" />
+    </noscript>
+
+    <link rel="preload" href="/assets/slick/slick/slick.css?ver=1.0.8" as="style"
+        onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript>
+        <link href="/assets/slick/slick/slick.css?ver=1.0.8" rel="stylesheet" media="all" />
+    </noscript>
+
+    @include('front_end.block.config_seo_header')
+
+    {{-- Các style inline hiện tại giữ nguyên --}}
+    <style id='wp-emoji-styles-inline-css' type='text/css'>
+        img.wp-smiley,
+        img.emoji {
+            display: inline !important;
+            border: none !important;
+            box-shadow: none !important;
+            height: 1em !important;
+            width: 1em !important;
+            margin: 0 0.07em !important;
+            vertical-align: -0.1em !important;
+            background: none !important;
+            padding: 0 !important;
+        }
+    </style>
+    <style id='safe-svg-svg-icon-style-inline-css' type='text/css'>
+        .safe-svg-cover {
+            text-align: center
+        }
+
+        .safe-svg-cover .safe-svg-inside {
+            display: inline-block;
+            max-width: 100%
+        }
+
+        .safe-svg-cover svg {
+            height: 100%;
+            max-height: 100%;
+            max-width: 100%;
+            width: 100%
+        }
+    </style>
+
+    {{-- Tải JS với defer để không chặn render --}}
+    <script type="text/javascript" src="wp-includes/js/jquery/jquery.minf43b.js?ver=3.7.1"></script>
+    <script type="text/javascript" src="/assets/js/slick.min.js?ver=3.7.1" defer></script>
 </head>
 
 <body
@@ -193,7 +219,7 @@
         }
     </style>
 
-   
+
     <script type="text/javascript" src="/wp-content/plugins/elementor/assets/js/webpack.runtime.min3830.js?ver=3.27.4"
         id="elementor-webpack-runtime-js"></script>
     <script type="text/javascript" src="/wp-content/plugins/elementor/assets/js/frontend-modules.min3830.js?ver=3.27.4"
