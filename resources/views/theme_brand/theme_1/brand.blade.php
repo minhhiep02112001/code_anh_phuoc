@@ -6,17 +6,26 @@
  @endphp
  @extends('front_end._index')
  @section('content')
-<style>
-.slide-banners {
-  visibility: hidden;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-.slide-banners.slick-initialized {
-  visibility: visible;
-  opacity: 1;
-}
-</style>
+     <style>
+         .slide-banners {
+             visibility: hidden;
+             opacity: 0;
+             transition: opacity 0.3s ease;
+             position: relative;
+         }
+
+         .slide-banners.slick-initialized {
+             visibility: visible;
+             opacity: 1;
+         }
+
+         /* Hiển thị slide đầu tiên khi slider chưa init */
+       
+
+         .slide-banners .block-item:first-child {
+             display: block;
+         }
+     </style>
 
 
      <div class="wdt-elementor-container-fluid">
@@ -54,7 +63,7 @@
                          </div>
                      </div>
                      <div style="max-width: 700px; margin: 0 auto;">
-                        <div class="elementor-element elementor-element-02779b3 elementor-hidden-tablet  elementor-widget-divider--view-line elementor-widget elementor-widget-divider"
+                         <div class="elementor-element elementor-element-02779b3 elementor-hidden-tablet  elementor-widget-divider--view-line elementor-widget elementor-widget-divider"
                              data-id="02779b3" data-element_type="widget" data-widget_type="divider.default">
                              <div class="elementor-widget-container">
                                  <div class="elementor-divider">
@@ -733,22 +742,22 @@
  @endsection
  @push('scripts')
      <script>
-         jQuery(document).ready(function() { 
-            var bannerSlider = jQuery('.sliders-photo');
+         jQuery(document).ready(function() {
+             var bannerSlider = jQuery('.sliders-photo');
              if (bannerSlider.length > 0) {
                  // Ẩn slider lúc đầu (cũng có thể chỉ cần CSS thôi)
-                 bannerSlider.css({
-                     visibility: 'hidden',
-                     opacity: 0
-                 });
-
-                 // Bắt sự kiện slick init để hiện slider
                  bannerSlider.on('init', function(event, slick) {
                      bannerSlider.css({
                          visibility: 'visible',
                          opacity: 1
                      });
                  });
+
+                 bannerSlider.css({
+                     visibility: 'hidden',
+                     opacity: 0
+                 });
+
 
                  // Khởi tạo slick slider cho slide-banners
                  bannerSlider.slick({
