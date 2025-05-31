@@ -1,7 +1,5 @@
- @php
-     $ver = 122;
-     $config_website = getValueSetting('config_website');
-     $banners = !empty($medias['banner']) ? $medias['banner'] : [];
+ @php 
+    $banners = !empty($medias['banner']) ? $medias['banner'] : [];
      $photos = !empty($medias['photo']) ? $medias['photo'] : [];
  @endphp
  @extends('front_end._index')
@@ -22,18 +20,16 @@
              margin: 10px 0px;
          }
      </style>
-
-
+ 
      <div class="wdt-elementor-container-fluid">
          <div class="elementor elementor-2632">
              <section class="elementor-section" data-id="35535b0" data-element_type="section">
                  <div class="slide-banners slick-slider"> 
-                     @foreach ($banners as $k => $item)
-                         @php
-                             $imgUrl = getImageThumb($item->thumbnail); // hoặc hàm trả về URL ảnh
-                         @endphp
+                     @foreach ($banners as $k => $item)  
                          <div class="block-item">
-                             <div class="banner-box text-center" style="background-image: url('{{ $imgUrl }}');">
+                             <div class="banner-box text-center" data-thumnail="{{$item->thumbnail}}" 
+                                style="background-image: url('{!! getImageThumb($item->thumbnail) !!}');"
+                                >
                                  <div class="overlay"></div>
                                  @if (!empty($post->content_banner))
                                      <div class="banner-content">
