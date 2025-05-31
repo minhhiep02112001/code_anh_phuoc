@@ -99,22 +99,22 @@
     </noscript>
 
     {{-- Các CSS chính preload + onload --}}
-    <link rel="preload" href="/assets/css/css_minified.css?ver=1.0.8" as="style"
+    <link rel="preload" href="/assets/css/css_minified.css?ver={{ $ver }}" as="style"
         onload="this.onload=null;this.rel='stylesheet'" />
     <noscript>
-        <link href="/assets/css/css_minified.css?ver=1.0.8" rel="stylesheet" media="all" />
+        <link href="/assets/css/css_minified.css?ver={{ $ver }}" rel="stylesheet" media="all" />
     </noscript>
 
-    <link rel="preload" href="/assets/css/theme_1.css?ver=1.0.8" as="style"
+    <link rel="preload" href="/assets/css/theme_1.css?ver={{ $ver }}" as="style"
         onload="this.onload=null;this.rel='stylesheet'" />
     <noscript>
-        <link href="/assets/css/theme_1.css?ver=1.0.8" rel="stylesheet" media="all" />
+        <link href="/assets/css/theme_1.css?ver={{ $ver }}" rel="stylesheet" media="all" />
     </noscript>
 
-    <link rel="preload" href="/assets/slick/slick/slick.css?ver=1.0.8" as="style"
+    <link rel="preload" href="/assets/slick/slick/slick.css?ver={{ $ver }}" as="style"
         onload="this.onload=null;this.rel='stylesheet'" />
     <noscript>
-        <link href="/assets/slick/slick/slick.css?ver=1.0.8" rel="stylesheet" media="all" />
+        <link href="/assets/slick/slick/slick.css?ver={{ $ver }}" rel="stylesheet" media="all" />
     </noscript>
 
     @include('front_end.block.config_seo_header')
@@ -210,7 +210,7 @@
                 <a href="#location"><span data-text="Blog">Location</span></a>
             </li>
         </ul>
-    </div> 
+    </div>
     <script type="text/javascript" id="elementor-frontend-js-before">
         /* <![CDATA[ */
         var elementorFrontendConfig = {
