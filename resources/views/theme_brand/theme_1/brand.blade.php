@@ -158,17 +158,9 @@
                          <div
                              class="elementor-element elementor-element-164478d animated-fast wdt-custom-hover-image-style elementor-hidden-tablet elementor-widget elementor-widget-image">
                              <div class="elementor-widget-container">
-                                 <img decoding="async" width="1707" height="1710"
-                                     src="{{ getImageThumb($post->image_block_1) }}"
-                                     class="attachment-full size-full wp-image-3006" alt=""
-                                     srcset="{{ getImageThumb($post->image_block_1) }} 1707w,
-                                       {{ getImageThumb($post->image_block_1, 300, 300) }} 300w, 
-                                       {{ getImageThumb($post->image_block_1, 1022, 1024) }} 1022w, 
-                                       {{ getImageThumb($post->image_block_1, 1000, 1002) }} 1000w, 
-                                       {{ getImageThumb($post->image_block_1, 1533, 1536) }} 1533w, 
-                                       {{ getImageThumb($post->image_block_1, 150, 150) }} 150w, 
-                                       {{ getImageThumb($post->image_block_1, 100, 100) }} 100w"
-                                     sizes="(max-width: 1707px) 100vw, 1707px" />
+                                 <img decoding="async" width="500" height="500"
+                                     src="{{ getImageThumb($post->image_block_1 , 500,500) }}"
+                                     class="attachment-full size-full wp-image-3006" alt="" />
                              </div>
                          </div>
                      </div>
@@ -318,7 +310,7 @@
                                              <div class="item-block" tabindex="-1">
                                                  <img alt="Gallery {{ $k }} " loading="lazy" decoding="async"
                                                      data-nimg="1" style="color:transparent"
-                                                     srcset="{!! getImageThumb($item->thumbnail) !!}" src="{!! getImageThumb($item->thumbnail, 300, 300) !!}">
+                                                     srcset="{!! getImageThumb($item->thumbnail) !!}" src="{!! getImageThumb($item->thumbnail, 300, 250) !!}">
                                              </div>
                                          </div>
                                      @endforeach
