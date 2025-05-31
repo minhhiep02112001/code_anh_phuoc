@@ -1,5 +1,5 @@
  @php
-     $ver = 126;
+     $ver = 122;
      $config_website = getValueSetting('config_website');
      $banners = !empty($medias['banner']) ? $medias['banner'] : [];
      $photos = !empty($medias['photo']) ? $medias['photo'] : [];
@@ -27,27 +27,10 @@
      <div class="wdt-elementor-container-fluid">
          <div class="elementor elementor-2632">
              <section class="elementor-section" data-id="35535b0" data-element_type="section">
-                 <div class="slide-banners slick-slider">
-                     {{-- @foreach ($banners as $k => $item)
-                         <div class="block-item ">
-                             <div class="elementor-container position-relative text-center">
-                                 <div class="overlay"></div>
-                                 {!! getThumbnail($item, '', '', 'attachment-large size-large wp-image-2835') !!}
-
-                                 @if (!empty($post->content_banner))
-                                     <div class="banner-content">
-                                         <p>{{ $post->content_banner }}</p>
-                                         <a href="#" class="cta-button btn btn-outline btn--bordered btn--white">BOOK
-                                             NOW</a>
-                                     </div>
-                                 @endif
-                             </div>
-                         </div>
-                     @endforeach --}}
-
+                 <div class="slide-banners slick-slider"> 
                      @foreach ($banners as $k => $item)
                          @php
-                             $imgUrl = getImageThumb($item); // hoặc hàm trả về URL ảnh
+                             $imgUrl = getImageThumb($item->thumbnail); // hoặc hàm trả về URL ảnh
                          @endphp
                          <div class="block-item">
                              <div class="banner-box text-center" style="background-image: url('{{ $imgUrl }}');">
@@ -146,9 +129,7 @@
                              <p class="elementor-icon-box-description">
                                  Gift Cards </p>
                          </div>
-                     </div>
-
-
+                     </div>  
                  </div>
              </section>
              @if (!empty($post->content_block_1) && !empty($post->image_block_1))

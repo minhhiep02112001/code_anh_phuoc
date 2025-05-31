@@ -90,7 +90,7 @@
                     </div>
                 </section>
                 <section
-                    class="elementor-section elementor-top-section elementor-element elementor-element-8b5cf9e animated-fast elementor-section-full_width elementor-hidden-desktop elementor-hidden-tablet elementor-section-height-default elementor-section-height-default elementor-invisible"
+                    class="elementor-section elementor-top-section elementor-element elementor-element-8b5cf9e animated-fast elementor-section-full_width elementor-hidden-desktop elementor-hidden-tablet elementor-section-height-default elementor-section-height-default "
                     data-id="8b5cf9e" data-element_type="section"
                     data-settings="{&quot;animation&quot;:&quot;fadeIn&quot;,&quot;animation_delay&quot;:100,&quot;background_background&quot;:&quot;classic&quot;}">
                     <div class="elementor-container elementor-column-gap-no">
@@ -180,34 +180,5 @@
     </div>
 </header>
 <style>
-    .logo {
-        width: 100%;
-        max-width: 100%;
-        height: 70px; 
-        font-size: 38px;
-        font-weight: 700;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    @media (max-width: 767px) {
-
-        .elementor-16 .elementor-element.elementor-element-8b5cf9e,
-        .elementor-2632 .elementor-element.elementor-element-7ea6c594>.elementor-element-populated {
-            padding: 0 !important;
-        }
-
-        .elementor-16 .elementor-element.elementor-element-179032a {
-            width: 60% !important;
-        }
-
-        .elementor-16 .elementor-element.elementor-element-c3bec27 {
-            width: 30% !important;
-        }
-
-        .elementor-2632 .elementor-element.elementor-element-7ea6c594 {
-            width: 100% !important;
-        }
-    }
+    
 </style>
