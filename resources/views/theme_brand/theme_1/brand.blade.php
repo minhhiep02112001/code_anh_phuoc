@@ -310,7 +310,7 @@
                                              <div class="item-block" tabindex="-1">
                                                  <img alt="Gallery {{ $k }} " loading="lazy" decoding="async"
                                                      data-nimg="1" style="color:transparent"
-                                                     srcset="{!! getImageThumb($item->thumbnail) !!}" src="{!! getImageThumb($item->thumbnail, 200, 100) !!}">
+                                                     src-set="{!! getImageThumb($item->thumbnail) !!}" src="{!! getImageThumb($item->thumbnail, 200, 100) !!}">
                                              </div>
                                          </div>
                                      @endforeach
@@ -502,13 +502,13 @@
              // Khi slider thay đổi ảnh
              slider.on('afterChange', function(event, slick, currentSlide) {
                  var newImage = jQuery('.sliders-photo .slick-slide[data-slick-index="' + currentSlide +
-                     '"] img').attr('src');
+                     '"] img').attr('src-set');
                  jQuery('.box-show-image-photo img').attr('src', newImage + "?" + currentSlide);
              });
 
              // Khi click vào ảnh nhỏ, ảnh lớn thay đổi
              jQuery('.sliders-photo .slide-item img').on('click', function() {
-                 var newImage = jQuery(this).attr('src');
+                 var newImage = jQuery(this).attr('src-set');
                  jQuery('.box-show-image-photo img').attr('src', newImage);
              });
          });
