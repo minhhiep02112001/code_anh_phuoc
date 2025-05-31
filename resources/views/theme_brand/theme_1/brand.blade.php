@@ -6,17 +6,22 @@
  @endphp
  @extends('front_end._index')
  @section('content')
-<style>
-.slide-banners {
-  visibility: hidden;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-.slide-banners.slick-initialized {
-  visibility: visible;
-  opacity: 1;
-}
-</style>
+     <style>
+         .slide-banners {
+             visibility: hidden;
+             opacity: 0;
+             transition: opacity 0.3s ease;
+         }
+
+         .slide-banners.slick-initialized {
+             visibility: visible;
+             opacity: 1;
+         }
+
+         h1 {
+             margin: 10px 0px;
+         }
+     </style>
 
 
      <div class="wdt-elementor-container-fluid">
@@ -44,186 +49,129 @@
 
              <section id="about"
                  class="elementor-padding elementor-section elementor-top-section elementor-element   elementor-section-full_width elementor-section-height-default elementor-section-height-default">
-                 <div class="  elementor-column-gap-default">
-                     <div class="elementor-element elementor-element-efc34fb elementor-hidden-tablet  elementor-widget elementor-widget-heading"
-                         data-id="efc34fb" data-element_type="widget" data-widget_type="heading.default">
-                         <div class="elementor-widget-container">
-                             <h1 class="elementor-heading-title elementor-size-default">
-                                 {!! "Welcome To {$post->title}" !!}
-                             </h1>
-                         </div>
-                     </div>
+                 <div class="elementor-column-gap-default">
+                     <h1 class="elementor-heading-title elementor-size-default text-center">
+                         {!! "Welcome To {$post->title}" !!}
+                     </h1>
+
                      <div style="max-width: 700px; margin: 0 auto;">
-                        <div class="elementor-element elementor-element-02779b3 elementor-hidden-tablet  elementor-widget-divider--view-line elementor-widget elementor-widget-divider"
-                             data-id="02779b3" data-element_type="widget" data-widget_type="divider.default">
-                             <div class="elementor-widget-container">
-                                 <div class="elementor-divider">
-                                     <span class="elementor-divider-separator">
-                                     </span>
-                                 </div>
+                         <div
+                             class="elementor-element elementor-element-02779b3 elementor-hidden-tablet  elementor-widget-divider--view-line elementor-widget elementor-widget-divider">
+                             <div class="elementor-divider">
+                                 <span class="elementor-divider-separator">
+                                 </span>
                              </div>
                          </div>
                          <section
                              class="elementor-section elementor-inner-section elementor-element elementor-element-2f91dc4 elementor-section-full_width elementor-section-height-default elementor-section-height-default"
                              data-id="2f91dc4" data-element_type="section">
-                             <div class="elementor-container elementor-column-gap-default">
-                                 <div class="markdown prose w-full break-words dark:prose-invert dark">
-                                     {!! $post->description !!}
-                                 </div>
+                             <div class="markdown prose text-justify w-full break-words dark:prose-invert dark">
+                                 {!! $post->description !!}
                              </div>
                          </section>
-                         <div class="elementor-element elementor-element-02779b3 elementor-hidden-tablet  elementor-widget-divider--view-line elementor-widget elementor-widget-divider"
-                             data-id="02779b3" data-element_type="widget" data-widget_type="divider.default">
-                             <div class="elementor-widget-container">
-                                 <div class="elementor-divider">
-                                     <span class="elementor-divider-separator">
-                                     </span>
-                                 </div>
+                         <div
+                             class="elementor-element elementor-element-02779b3 elementor-hidden-tablet  elementor-widget-divider--view-line elementor-widget elementor-widget-divider">
+                             <div class="elementor-divider">
+                                 <span class="elementor-divider-separator">
+                                 </span>
                              </div>
                          </div>
                      </div>
                  </div>
              </section>
              <section
-                 class="elementor-section elementor-inner-section elementor-element elementor-element-6d3b147 elementor-reverse-mobile   elementor-section-boxed elementor-section-height-default elementor-section-height-default"
-                 data-id="6d3b147" data-element_type="section">
-                 <div class="elementor-container elementor-column-gap-default">
-                     <div class="elementor-column elementor-col-100 elementor-inner-column elementor-element elementor-element-11ae3cf"
-                         data-id="11ae3cf" data-element_type="column">
-                         <div class="elementor-widget-wrap elementor-element-populated">
-                             <div class="elementor-element elementor-element-6836990 elementor-widget__width-initial elementor-view-default elementor-position-top elementor-mobile-position-top elementor-widget elementor-widget-icon-box"
-                                 data-id="6836990" data-element_type="widget" data-widget_type="icon-box.default">
-                                 <div class="elementor-widget-container">
-                                     <div class="elementor-icon-box-wrapper">
+                 class="elementor-section elementor-inner-section elementor-element elementor-element-6d3b147 elementor-reverse-mobile   elementor-section-boxed elementor-section-height-default elementor-section-height-default">
+                 <div class="elementor-widget-wrap elementor-element-populated d-flex justify-content-center flex-warp">
+                     <div class="elementor-icon-box-wrapper p-2">
 
-                                         <div class="elementor-icon-box-icon">
-                                             <img src="{{ asset('assets/images/icon_1.png') }}" alt=" New Consultation">
-                                         </div>
+                         <div class="elementor-icon-box-icon">
+                             <img src="{{ asset('assets/images/icon_1.png') }}" alt=" New Consultation">
+                         </div>
 
-                                         <div class="elementor-icon-box-content">
-                                             <p class="elementor-icon-box-description">
-                                                 New Consultation </p>
-                                         </div>
-                                     </div>
-                                 </div>
-                             </div>
-                             <div class="elementor-element elementor-element-3e4b9d4 elementor-widget__width-initial elementor-view-default elementor-position-top elementor-mobile-position-top elementor-widget elementor-widget-icon-box"
-                                 data-id="3e4b9d4" data-element_type="widget" data-widget_type="icon-box.default">
-                                 <div class="elementor-widget-container">
-                                     <div class="elementor-icon-box-wrapper">
-                                         <div class="elementor-icon-box-icon">
-                                             <img src="{{ asset('assets/images/icon_2.png') }}" alt=" All Services">
-                                         </div>
-
-                                         <div class="elementor-icon-box-content">
-                                             <p class="elementor-icon-box-description">
-                                                 All Services </p>
-                                         </div>
-
-                                     </div>
-                                 </div>
-                             </div>
-                             <div class="elementor-element elementor-element-633c238 elementor-widget__width-initial elementor-view-default elementor-position-top elementor-mobile-position-top elementor-widget elementor-widget-icon-box"
-                                 data-id="633c238" data-element_type="widget" data-widget_type="icon-box.default">
-                                 <div class="elementor-widget-container">
-                                     <div class="elementor-icon-box-wrapper">
-
-                                         <div class="elementor-icon-box-icon">
-                                             <img src="{{ asset('assets/images/icon_3.png') }}" alt="Book Appointments">
-                                         </div>
-
-                                         <div class="elementor-icon-box-content">
-                                             <p class="elementor-icon-box-description">
-                                                 Book Appointments </p>
-                                         </div>
-
-                                     </div>
-                                 </div>
-                             </div>
-                             <div class="elementor-element elementor-element-ce17083 elementor-widget__width-initial elementor-view-default elementor-position-top elementor-mobile-position-top elementor-widget elementor-widget-icon-box"
-                                 data-id="ce17083" data-element_type="widget" data-widget_type="icon-box.default">
-                                 <div class="elementor-widget-container">
-                                     <div class="elementor-icon-box-wrapper">
-
-                                         <div class="elementor-icon-box-icon">
-                                             <span class="elementor-icon">
-                                                 <img src="{{ asset('assets/images/icon_4.png') }}" alt="Gift Cards ">
-                                             </span>
-                                         </div>
-                                         <div class="elementor-icon-box-content">
-                                             <p class="elementor-icon-box-description">
-                                                 Gift Cards </p>
-                                         </div>
-                                     </div>
-                                 </div>
-                             </div>
+                         <div class="elementor-icon-box-content">
+                             <p class="elementor-icon-box-description">
+                                 New Consultation </p>
                          </div>
                      </div>
+                     <div class="elementor-icon-box-wrapper p-2">
+                         <div class="elementor-icon-box-icon">
+                             <img src="{{ asset('assets/images/icon_2.png') }}" alt=" All Services">
+                         </div>
+
+                         <div class="elementor-icon-box-content">
+                             <p class="elementor-icon-box-description">
+                                 All Services </p>
+                         </div>
+
+                     </div>
+                     <div class="elementor-icon-box-wrapper p-2">
+
+                         <div class="elementor-icon-box-icon">
+                             <img src="{{ asset('assets/images/icon_3.png') }}" alt="Book Appointments">
+                         </div>
+
+                         <div class="elementor-icon-box-content">
+                             <p class="elementor-icon-box-description">
+                                 Book Appointments </p>
+                         </div>
+
+                     </div>
+                     <div class="elementor-icon-box-wrapper p-2">
+
+                         <div class="elementor-icon-box-icon">
+                             <span class="elementor-icon">
+                                 <img src="{{ asset('assets/images/icon_4.png') }}" alt="Gift Cards ">
+                             </span>
+                         </div>
+                         <div class="elementor-icon-box-content">
+                             <p class="elementor-icon-box-description">
+                                 Gift Cards </p>
+                         </div>
+                     </div>
+
+
                  </div>
              </section>
              @if (!empty($post->content_block_1) && !empty($post->image_block_1))
                  <section id="content_block_1"
-                     class="elementor-section elementor-inner-section elementor-element elementor-element-6533d6c4 elementor-reverse-tablet elementor-reverse-mobile elementor-section-height-min-height elementor-section-content-middle elementor-section-boxed elementor-section-height-default"
-                     data-id="6533d6c4" data-element_type="section"
-                     data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
-                     <div class="elementor-container elementor-column-gap-no">
-                         <div class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-7ea6c594 animated-fast elementor-invisible"
-                             data-id="7ea6c594" data-element_type="column"
-                             data-settings="{&quot;animation&quot;:&quot;fadeInLeft&quot;,&quot;animation_delay&quot;:100}">
-                             <div class="elementor-widget-wrap elementor-element-populated">
-                                 <h2 class="elementor-heading-title elementor-size-default text-center d-block">
-                                     {!! $post?->title_block_1 !!}
-                                 </h2>
-                                 <div class="elementor-element elementor-element-7b2894d elementor-widget-divider--view-line elementor-widget elementor-widget-divider"
-                                     data-id="7b2894d" data-element_type="widget" data-widget_type="divider.default">
-                                     <div class="elementor-widget-container">
-                                         <div class="elementor-divider">
-                                         </div>
+                     class="elementor-section elementor-inner-section elementor-element elementor-element-6533d6c4 elementor-reverse-tablet elementor-reverse-mobile elementor-section-height-min-height elementor-section-content-middle elementor-section-boxed elementor-section-height-default">
+                     <div
+                         class="elementor-column elementor-column-1 elementor-col-50 elementor-inner-column elementor-element elementor-element-7ea6c594 animated-fast ">
+                         <div class="elementor-widget-wrap elementor-element-populated">
+                             <h2 class="elementor-heading-title elementor-size-default text-center d-block">
+                                 {!! $post?->title_block_1 !!}
+                             </h2>
+                             <div class="elementor-element elementor-element-7b2894d elementor-widget-divider--view-line elementor-widget elementor-widget-divider"
+                                 data-id="7b2894d" data-element_type="widget" data-widget_type="divider.default">
+                                 <div class="elementor-widget-container">
+                                     <div class="elementor-divider">
                                      </div>
                                  </div>
-                                 <div class="elementor-element elementor-element-d02be1a elementor-widget elementor-widget-text-editor"
-                                     data-id="d02be1a" data-element_type="widget" data-widget_type="text-editor.default">
-                                     <div class="elementor-widget-container justify">
-                                         {!! $post->content_block_1 !!}
-                                     </div>
+                             </div>
+                             <div
+                                 class="elementor-element elementor-element-d02be1a elementor-widget elementor-widget-text-editor">
+                                 <div class="elementor-widget-container justify">
+                                     {!! $post->content_block_1 !!}
                                  </div>
-
                              </div>
                          </div>
+                     </div>
 
-                         <div class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-17aa2697 animated-fast elementor-invisible"
-                             data-id="17aa2697" data-element_type="column"
-                             data-settings="{&quot;animation&quot;:&quot;fadeIn&quot;,&quot;animation_delay&quot;:100}">
-                             <div class="elementor-widget-wrap elementor-element-populated">
-
-                                 <div class="elementor-element elementor-element-12ed96c2 wdt-custom-banner-border animated-fast elementor-invisible elementor-widget elementor-widget-spacer"
-                                     data-id="12ed96c2" data-element_type="widget"
-                                     data-settings="{&quot;_animation&quot;:&quot;fadeInRight&quot;,&quot;_animation_delay&quot;:300}"
-                                     data-widget_type="spacer.default">
-                                     <div class="elementor-widget-container">
-                                         <div class="elementor-spacer">
-                                             <div class="elementor-spacer-inner"></div>
-                                         </div>
-                                     </div>
-                                 </div>
-                                 <div class="elementor-element elementor-element-164478d animated-fast wdt-custom-hover-image-style elementor-hidden-tablet  elementor-invisible elementor-widget elementor-widget-image"
-                                     data-id="164478d" data-element_type="widget"
-                                     data-settings="{&quot;_animation_delay&quot;:100,&quot;_animation&quot;:&quot;fadeInLeft&quot;}"
-                                     data-widget_type="image.default">
-                                     <div class="elementor-widget-container">
-                                         <img decoding="async" width="1707" height="1710"
-                                             src="{{ getImageThumb($post->image_block_1) }}"
-                                             class="attachment-full size-full wp-image-3006" alt=""
-                                             srcset="{{ getImageThumb($post->image_block_1) }} 1707w,
+                     <div
+                         class="elementor-column elementor-column-2 elementor-col-50 elementor-inner-column elementor-element elementor-element-17aa2697 animated-fast ">
+                         <div class="elementor-element elementor-element-164478d animated-fast wdt-custom-hover-image-style elementor-hidden-tablet elementor-widget elementor-widget-image">
+                             <div class="elementor-widget-container">
+                                 <img decoding="async" width="1707" height="1710"
+                                     src="{{ getImageThumb($post->image_block_1) }}"
+                                     class="attachment-full size-full wp-image-3006" alt=""
+                                     srcset="{{ getImageThumb($post->image_block_1) }} 1707w,
                                        {{ getImageThumb($post->image_block_1, 300, 300) }} 300w, 
                                        {{ getImageThumb($post->image_block_1, 1022, 1024) }} 1022w, 
                                        {{ getImageThumb($post->image_block_1, 1000, 1002) }} 1000w, 
                                        {{ getImageThumb($post->image_block_1, 1533, 1536) }} 1533w, 
                                        {{ getImageThumb($post->image_block_1, 150, 150) }} 150w, 
                                        {{ getImageThumb($post->image_block_1, 100, 100) }} 100w"
-                                             sizes="(max-width: 1707px) 100vw, 1707px" />
-                                     </div>
-                                 </div>
+                                     sizes="(max-width: 1707px) 100vw, 1707px" />
                              </div>
                          </div>
                      </div>
@@ -482,259 +430,12 @@
              @endif
          </div>
      </div>
-     <style>
-         .box-address {
-             position: relative;
-             display: block;
-         }
 
-         .inner-box {
-             padding: 10px;
-         }
-
-         .elementor-2632 .elementor-element.elementor-element-164478d>.elementor-widget-container {
-             margin: 0;
-         }
-
-         .text-xl {
-             font-size: 1.25rem;
-         }
-
-         .font-semibold {
-             font-weight: 600;
-         }
-
-         .mb-6 {
-             margin-bottom: 1.5rem;
-         }
-
-         .box-item {
-             border: 2px solid #fcca2c;
-             padding: 2.5rem;
-             width: 100%;
-             background: #fff;
-             border-radius: 20px;
-             max-width: 550px;
-             margin: 0 auto;
-             margin-top: -30px;
-
-             position: relative;
-         }
-
-         .box-item:before {
-             content: "";
-             border-bottom-color: #fecb2e;
-             border-color: #00000000;
-             border-right-width: 8px;
-             border-left-width: 8px;
-             border-bottom-width: 8px;
-             display: block;
-             z-index: 10;
-             left: 50%;
-             top: -7px;
-             position: absolute;
-         }
-
-         .box-item:after {
-             content: '';
-             border-right-width: 8px;
-             border-left-width: 8px;
-             border-bottom-width: 8px;
-             display: block;
-             left: 50%;
-             top: -10px;
-             position: absolute;
-             border-color: #00000000;
-             border-bottom-color: #fecb2e;
-         }
-
-
-         .box-item strong {
-
-             display: block;
-             margin: 10px
-         }
-
-         .box-item span {
-             display: block;
-         }
-
-         .slide-banners .block-item.slick-slide.slick-current {
-
-
-             /* min-height: 440px; */
-             height: 500px;
-             overflow: hidden;
-             width: 100%;
-
-         }
-
-         .slide-banners .block-item .elementor-container {
-             width: 100%;
-             height: 100%;
-             position: relative;
-         }
-
-         .slide-banners .block-item .elementor-container img {
-
-             object-fit: cover;
-             max-width: 100%;
-             width: 100%;
-             height: 100%;
-             top: 0px;
-             left: 0;
-             position: absolute;
-         }
-
-         .sliders-photo {
-             margin: 10px 0px;
-             height: 180px;
-         }
-
-         .box-map {
-             height: 500px;
-         }
-
-         .elementor-padding {
-             padding: 0 30px !important;
-             margin-bottom: 30px !important;
-         }
-
-         .item-block {
-             position: relative;
-             cursor: pointer;
-             height: 100%;
-             width: 100%;
-         }
-
-         .slick-track,
-         .slick-list.draggable {
-             height: 100%;
-         }
-
-         .sliders-photo .slick-slide>div {
-             gap: 1rem
-         }
-
-         @media (max-width: 992px) {
-             .sliders-photo .slick-slide>div {
-                 grid-template-columns: repeat(7, minmax(0px, 1fr));
-             }
-         }
-
-         .elementor-widget-wrap.elementor-element-populated {
-             position: relative;
-         }
-
-         .elementor-element.elementor-widget__width-auto.wdt-custom-menu-style.elementor-widget.elementor-widget-wdt-header-menu {
-             position: absolute;
-             right: 10px;
-         }
-
-         @media (max-width: 576px) {
-             .box-item {
-                 margin-top: 10px;
-             }
-
-             .auto-container {
-                 padding: 0 20px;
-             }
-
-             .elementor-2632 .elementor-element.elementor-element-4af265a>.elementor-element-populated {
-                 padding: 0;
-             }
-
-             .elementor-2632 .elementor-element.elementor-element-d820221>.elementor-element-populated {
-                 margin: 0 0 30px 0;
-             }
-
-             .elementor-2632 .elementor-element.elementor-element-17aa2697>.elementor-element-populated {
-                 margin: 0;
-             }
-
-             .box-map {
-                 height: 300px;
-             }
-
-             .sliders-photo .slick-slide>div {
-                 grid-template-columns: repeat(5, minmax(0px, 1fr));
-             }
-
-             .sliders-photo {
-                 margin: 10px 0px;
-                 height: 90px;
-             }
-
-             .elementor-2632 .elementor-element.elementor-element-3098152>.elementor-element-populated,
-             .elementor-2632 .elementor-element.elementor-element-164478d>.elementor-widget-container,
-             .elementor-2632 .elementor-element.elementor-element-c7f87b6>.elementor-widget-container {
-                 padding: 0;
-                 margin: 0;
-             }
-
-             .elementor-2632 .elementor-element.elementor-element-c7f87b6 img {
-                 width: 100%;
-             }
-
-             .wdt-custom-banner-border .elementor-widget-container {
-                 display: none;
-             }
-
-             h1.elementor-heading-title {
-                 font-size: 27px !important;
-                 font-weight: 700;
-             }
-
-             h2.elementor-heading-title {
-                 font-size: 24px !important;
-             }
-
-             .elementor-element.elementor-widget__width-auto.wdt-custom-menu-style.elementor-widget.elementor-widget-wdt-header-menu {
-                 width: auto;
-             }
-
-             .box-show-image-photo {
-                 padding-top: 80%;
-             }
-
-             .elementor-column.elementor-col-100.elementor-top-column.elementor-element.elementor-element-3098152 {
-                 margin-top: 50px;
-             }
-         }
-
-
-         .box-show-image-photo {
-             position: relative;
-             /* min-height: 440px; */
-             padding-top: 40%;
-             overflow: hidden;
-             width: 100%;
-         }
-
-         .box-show-image-photo img {
-             object-fit: cover;
-             max-width: 100%;
-             width: 100%;
-             height: 100%;
-             top: 0px;
-             left: 0;
-             position: absolute;
-         }
-
-         .item-block img {
-             position: absolute;
-             left: 0px;
-             top: 0px;
-             height: 100%;
-             width: 100%;
-             object-fit: cover;
-         }
-     </style>
  @endsection
  @push('scripts')
      <script>
-         jQuery(document).ready(function() { 
-            var bannerSlider = jQuery('.sliders-photo');
+         jQuery(document).ready(function() {
+             var bannerSlider = jQuery('.sliders-photo');
              if (bannerSlider.length > 0) {
                  // Ẩn slider lúc đầu (cũng có thể chỉ cần CSS thôi)
                  bannerSlider.css({

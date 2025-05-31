@@ -210,25 +210,7 @@
                 <a href="#location"><span data-text="Blog">Location</span></a>
             </li>
         </ul>
-    </div>
-    <style>
-        @media (min-width: 768px) {
-            .mobile-menu {
-                display: none !important;
-            }
-        }
-    </style>
-
-
-    <script type="text/javascript" src="/wp-content/plugins/elementor/assets/js/webpack.runtime.min3830.js?ver=3.27.4"
-        id="elementor-webpack-runtime-js"></script>
-    <script type="text/javascript" src="/wp-content/plugins/elementor/assets/js/frontend-modules.min3830.js?ver=3.27.4"
-        id="elementor-frontend-modules-js"></script>
-
-    <script type="text/javascript" src="/wp-content/plugins/elementor-pro/assets/js/frontend.min44b4.js?ver=3.24.3"
-        id="elementor-pro-frontend-js"></script>
-    <script type="text/javascript" src="wp-includes/js/jquery/ui/core.minb37e.js?ver=1.13.3" id="jquery-ui-core-js">
-    </script>
+    </div> 
     <script type="text/javascript" id="elementor-frontend-js-before">
         /* <![CDATA[ */
         var elementorFrontendConfig = {
