@@ -310,7 +310,7 @@
                                              <div class="item-block" tabindex="-1">
                                                  <img alt="Gallery {{ $k }} " loading="lazy" decoding="async"
                                                      data-nimg="1" style="color:transparent"
-                                                     srcset="{!! getImageThumb($item->thumbnail) !!}" src="{!! getImageThumb($item->thumbnail, 300, 250) !!}">
+                                                     srcset="{!! getImageThumb($item->thumbnail) !!}" src="{!! getImageThumb($item->thumbnail, 200, 100) !!}">
                                              </div>
                                          </div>
                                      @endforeach
