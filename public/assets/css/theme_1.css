@@ -343,14 +343,10 @@ header#header,
     display: block;
 }
 
-.slide-banners .block-item.slick-slide.slick-current {
-
-
-    /* min-height: 440px; */
-    height: 500px;
+.slide-banners .block-item.slick-slide.slick-current { 
+    height: 400px;
     overflow: hidden;
-    width: 100%;
-
+    width: 100%; 
 }
 
 .slide-banners .block-item .elementor-container {
@@ -528,6 +524,29 @@ header#header,
     order: 2;
 }
 
+.banner-box {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 400px;
+    /* chỉnh theo nhu cầu */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    color: white;
+    text-align: center;
+}
+
+.banner-box .overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    /* overlay màu đen mờ */
+    z-index: 1;
+} 
+
 @media (min-width: 768px) {
     .mobile-menu {
         display: none !important;
@@ -549,4 +568,6 @@ header#header,
     .elementor-column-2 {
         order: 1;
     }
+
+
 }

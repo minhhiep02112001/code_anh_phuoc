@@ -28,7 +28,7 @@
          <div class="elementor elementor-2632">
              <section class="elementor-section" data-id="35535b0" data-element_type="section">
                  <div class="slide-banners slick-slider">
-                     @foreach ($banners as $k => $item)
+                     {{-- @foreach ($banners as $k => $item)
                          <div class="block-item ">
                              <div class="elementor-container position-relative text-center">
                                  <div class="overlay"></div>
@@ -43,10 +43,29 @@
                                  @endif
                              </div>
                          </div>
+                     @endforeach --}}
+
+                     @foreach ($banners as $k => $item)
+                         @php
+                             $imgUrl = getImageThumb($item); // hoặc hàm trả về URL ảnh
+                         @endphp
+                         <div class="block-item">
+                             <div class="banner-box text-center" style="background-image: url('{{ $imgUrl }}');">
+                                 <div class="overlay"></div>
+                                 @if (!empty($post->content_banner))
+                                     <div class="banner-content">
+                                         <p>{{ $post->content_banner }}</p>
+                                         <a href="#" class="cta-button btn btn-outline btn--bordered btn--white">BOOK
+                                             NOW</a>
+                                     </div>
+                                 @endif
+                             </div>
+                         </div>
                      @endforeach
+
                  </div>
              </section>
-
+             
              <section id="about"
                  class="elementor-padding elementor-section elementor-top-section elementor-element   elementor-section-full_width elementor-section-height-default elementor-section-height-default">
                  <div class="elementor-column-gap-default">
@@ -159,7 +178,8 @@
 
                      <div
                          class="elementor-column elementor-column-2 elementor-col-50 elementor-inner-column elementor-element elementor-element-17aa2697 animated-fast ">
-                         <div class="elementor-element elementor-element-164478d animated-fast wdt-custom-hover-image-style elementor-hidden-tablet elementor-widget elementor-widget-image">
+                         <div
+                             class="elementor-element elementor-element-164478d animated-fast wdt-custom-hover-image-style elementor-hidden-tablet elementor-widget elementor-widget-image">
                              <div class="elementor-widget-container">
                                  <img decoding="async" width="1707" height="1710"
                                      src="{{ getImageThumb($post->image_block_1) }}"
