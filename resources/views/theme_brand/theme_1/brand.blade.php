@@ -46,8 +46,9 @@
                  @foreach ($banners as $k => $item)
                      <div class="block-item">
                          <div class="banner-box text-center">
-                             <img rel="preload" src="{{ getImageThumb($item->thumbnail, 1200, 400) }}" alt="Banner" class="banner-img"
-                                 width="100%" height="100%" height="auto" loading="eager" fetchpriority="high" />
+                             <img rel="preload" src="{{ getImageThumb($item->thumbnail, 1200, 400) }}" alt="Banner"
+                                 class="banner-img" width="100%" height="100%" height="auto" loading="eager"
+                                 fetchpriority="high" />
                              <div class="overlay"></div>
                              @if (!empty($post->content_banner))
                                  <div class="banner-content">
@@ -178,8 +179,7 @@
                      <div
                          class="elementor-element elementor-element-164478d animated-fast wdt-custom-hover-image-style elementor-hidden-tablet elementor-widget elementor-widget-image">
                          <div class="elementor-widget-container">
-                             <img decoding="async" width="500" height="500"
-                             loading="lazy"
+                             <img decoding="async" width="500" height="500" loading="lazy"
                                  src="{{ getImageThumb($post->image_block_1, 500, 500) }}"
                                  class="attachment-full size-full wp-image-3006" alt="" />
                          </div>
@@ -416,7 +416,7 @@
                                          <a href="{{ route('post', ['slug' => $item->slug]) }}"
                                              title="{{ $item->title }}">
                                              <div class="image-box">
-                                                 <figure class="image">
+                                                 <figure class="image" style="aspect-ratio: 3/2;">
                                                      {!! getThumbnail($item, 600, 400) !!}
                                                  </figure>
                                              </div>
@@ -440,7 +440,6 @@
 
  @endsection
  @push('scripts')
-     
      <script>
          jQuery(document).ready(function() {
              var bannerSlider = jQuery('.sliders-photo');
