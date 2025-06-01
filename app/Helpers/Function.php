@@ -490,7 +490,7 @@ function parseKeyValue($input)
 function getIframeSrcFromString($iframeString)
 {
     // Thay thế width và height bằng biểu thức chính quy
-    $iframeString = preg_replace('/width="[^"]*"/', 'width="100%"', $iframeString);
+    $iframeString = preg_replace('/width="[^"]*"/', 'width="100%" title="Google Map location"', $iframeString);
     $iframeString = preg_replace('/height="[^"]*"/', 'height="100%"', $iframeString);
     return $iframeString; // Trả về giá trị src hoặc null nếu không tìm thấy
 }
