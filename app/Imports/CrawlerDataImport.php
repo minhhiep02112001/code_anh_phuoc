@@ -11,7 +11,7 @@ use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithStartRow;
 
-class CrawlerImport implements ToCollection, WithChunkReading, WithHeadingRow, WithStartRow
+class CrawlerDataImport implements ToCollection, WithChunkReading, WithHeadingRow, WithStartRow
 {
     use Importable;
 
@@ -30,21 +30,28 @@ class CrawlerImport implements ToCollection, WithChunkReading, WithHeadingRow, W
         try {
             foreach ($rows as $row) {
                 if (!empty($row['key_word'])) {
-                    $keyword = ucfirst("Nails in {$row['key_word']}");
-                    $key = DB::table('crawler')->where('keyword', $keyword)->first();
+                    $key_word = $row['key_word'];
+                    if(empty($key_word)) continue;
+                    $slug = \Str::slug($row['key_word']);
+                    $key = DB::table('crawler_data')->where('slug', $slug)->first();
 
                     if (empty($key)) {
-                        DB::table('crawler')->insert(['keyword' => $keyword, 'status' => 0, 'count' => 1]);
+                        DB::table('crawler_data')->insert([
+                            'key_word' => $key_word,
+                            'slug' => $slug,
+                            'status' => 2,
+                            'link_google_map' => $row['link_google_map']
+                        ]);
                     } else {
-                        DB::table('crawler')->where('id', $key->id)->update([
-                            'status' => 0,
-                            'count' => 1
+                        DB::table('crawler_data')->where('id', $key->id)->update([
+                            'status' => 2,
+                            'link_google_map' => $row['link_google_map']
                         ]);
                     }
 
                     $this->importedCount++;
-                    echo "\n Done {$keyword} " . $this->importedCount;
-                    Log::info("SUCCESS {$keyword}");
+                    echo "\n Done {$key_word} - " . $this->importedCount;
+                    Log::info("SUCCESS {$key_word}");
                 }
             }
             DB::commit();

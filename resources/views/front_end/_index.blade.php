@@ -1,5 +1,5 @@
 @php
-    $ver = 123;
+    $ver = 124;
     $config_website = getValueSetting('config_website');
     $config_seo = getValueSetting('config_seo');
     $config_social = getValueSetting('config_social');
@@ -90,30 +90,18 @@
     </noscript>
 
     {{-- Google Fonts preload + fallback --}}
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap"
-        as="style" onload="this.onload=null;this.rel='stylesheet'" />
-    <noscript>
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
-    </noscript>
-
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap"
+        as="style"  />
+     
     {{-- Các CSS chính preload + onload --}}
-    <link rel="preload" href="/assets/css/css_minified.css?ver={{ $ver }}" as="style"
-        onload="this.onload=null;this.rel='stylesheet'" />
-    <noscript>
-        <link href="/assets/css/css_minified.css?ver={{ $ver }}" rel="stylesheet" media="all" />
-    </noscript>
+    <link rel="stylesheet" href="/assets/css/css_minified.css?ver={{ $ver }}" as="style"  />
+     
 
-    <link rel="preload" href="/assets/css/theme_1.css?ver={{ $ver }}" as="style"
-        onload="this.onload=null;this.rel='stylesheet'" />
-    <noscript>
-        <link href="/assets/css/theme_1.css?ver={{ $ver }}" rel="stylesheet" media="all" />
-    </noscript>
+    <link rel="stylesheet" href="/assets/css/theme_1.css?ver={{ $ver }}" as="style"  />
+  
 
-    <link rel="preload" href="/assets/slick/slick/slick.css?ver={{ $ver }}" as="style"
-        onload="this.onload=null;this.rel='stylesheet'" />
-    <noscript>
-        <link href="/assets/slick/slick/slick.css?ver={{ $ver }}" rel="stylesheet" media="all" />
-    </noscript>
+    <link rel="stylesheet" href="/assets/slick/slick/slick.css?ver={{ $ver }}" as="style"/>
+   
 
     @include('front_end.block.config_seo_header')
 
