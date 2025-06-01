@@ -82,26 +82,29 @@
     </style>
 
     {{-- FontAwesome preload --}}
-    <link rel="preload" href="{{ asset('admins/vendor/font-awesome-4.7/css/font-awesome.min.css') }}" as="style"
-        onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="preload" href="{{ convertPathImage('admins/vendor/font-awesome-4.7/css/font-awesome.min.css') }}"
+        as="style" onload="this.onload=null;this.rel='stylesheet'" />
     <noscript>
-        <link href="{{ asset('admins/vendor/font-awesome-4.7/css/font-awesome.min.css') }}" rel="stylesheet"
+        <link href="{{ convertPathImage('admins/vendor/font-awesome-4.7/css/font-awesome.min.css') }}" rel="stylesheet"
             media="all" />
     </noscript>
 
     {{-- Google Fonts preload + fallback --}}
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap"
-        as="style"  />
-     
+        as="style" />
+
     {{-- Các CSS chính preload + onload --}}
-    <link rel="stylesheet" href="/assets/css/css_minified.css?ver={{ $ver }}" as="style"  />
-     
+    <link rel="stylesheet" href="{{ convertPathImage('/assets/css/css_minified.css') }}?ver={{ $ver }}"
+        as="style" />
 
-    <link rel="stylesheet" href="/assets/css/theme_1.css?ver={{ $ver }}" as="style"  />
-  
 
-    <link rel="stylesheet" href="/assets/slick/slick/slick.css?ver={{ $ver }}" as="style"/>
-   
+    <link rel="stylesheet" href="{{ convertPathImage('/assets/css/theme_1.css') }}?ver={{ $ver }}"
+        as="style" />
+
+
+    <link rel="stylesheet" href="{{ convertPathImage('/assets/slick/slick/slick.css') }}?ver={{ $ver }}"
+        as="style" />
+
 
     @include('front_end.block.config_seo_header')
 
@@ -196,8 +199,10 @@
             </li>
         </ul>
     </div>
-    <script type="text/javascript" src="wp-includes/js/jquery/jquery.minf43b.js?ver=3.7.1"></script>
-    <script type="text/javascript" src="/assets/js/slick.min.js?ver=3.7.1" defer></script>
+    <script type="text/javascript"
+        src="{{ convertPathImage('wp-includes/js/jquery/jquery.minf43b.js') }}?ver={{ $ver }}"></script>
+    <script type="text/javascript" src="{{ convertPathImage('/assets/js/slick.min.js') }}?ver={{ $ver }}" defer>
+    </script>
     <a id="back-to-top" href="#">
         <span id="back-to-top-hover"></span>
         <span class="back-to-top-icon"><i class="wdticon-angle-up"></i></span>

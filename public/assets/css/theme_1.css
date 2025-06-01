@@ -580,12 +580,12 @@ header#header,
         padding: 10px 20px;
     }
 
-    .elementor-column-1 {
+    .elementor-column-2 {
         order: 2;
     }
 
-    .elementor-column-2 {
-        order: 1;
+    .elementor-column-1 {
+        order: 1!important;
     }
 
     #content_block_1 .elementor-column {

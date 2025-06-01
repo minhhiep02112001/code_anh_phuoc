@@ -122,7 +122,7 @@ Route::group([
 ], function () {
     Route::get('/',  [App\Http\Controllers\HomeController::class, 'dashboard'])->name('home')->middleware('cacheResponse:300');
     // Route::get('/search', [App\Http\Controllers\HomeController::class, 'search'])->name('search');
-      Route::get('/{slug}-post.html', [App\Http\Controllers\HomeController::class, 'post'])->name('post')->where(['slug' => '[a-z0-9-_]+', 'id' => '[0-9]+']);
+     // Route::get('/{slug}-post.html', [App\Http\Controllers\HomeController::class, 'post'])->name('post')->where(['slug' => '[a-z0-9-_]+', 'id' => '[0-9]+']);
     //   Route::get('/{slug}-menu.html', [App\Http\Controllers\HomeController::class, 'menu'])->name('menu')->where(['slug' => '[a-z0-9-_]+', 'id' => '[0-9]+']);
     Route::get('/{slug}.html', [App\Http\Controllers\HomeController::class, 'page'])->name('page')->where(['slug' => '[a-z0-9-_]+']);
     // Route::get('/{slug}.html', [App\Http\Controllers\HomeController::class, 'page'])->name('page')->where(['slug' => '[a-z0-9-_]+'])->middleware('cacheResponse:2592000');
