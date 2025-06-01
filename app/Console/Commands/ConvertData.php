@@ -64,19 +64,19 @@ class ConvertData extends Command
             $data_update = [];
 
 
-            // $thumnail_post = str_replace(['storage', '//'], '', trim($post->thumbnail ?? '', '/'));
-            // if ((empty($thumnail_post) || !Storage::exists($thumnail_post)) && !empty($data->thumbnail)) { // download_image
-            //     $data_update['thumbnail'] = saveImageUrlStorage($data->thumbnail, "photos/nails/{$post->slug}",   "thumbnail.jpg");
-            // }
+            $thumnail_post = str_replace(['storage', '//'], '', trim($post->thumbnail ?? '', '/'));
+            if ((empty($thumnail_post) || !Storage::exists($thumnail_post)) && !empty($data->thumbnail)) { // download_image
+                $data_update['thumbnail'] = saveImageUrlStorage($data->thumbnail, "photos/nails/{$post->slug}",   "thumbnail.jpg");
+            }
 
-            // $thumbs = DB::table('st_post_images')->where('post_id', $post->id)->orderBy('id', 'asc')->get();
+            $thumbs = DB::table('st_post_images')->where('post_id', $post->id)->orderBy('id', 'asc')->get();
 
-            // if ($thumbs->isNotEmpty()) {
-            //     if ($thumbs->where('type', 'banner')->count() == 0) {
-            //         $arrs = $thumbs->where('type', 'photo')->take(3)->pluck('id')->toArray();
-            //         DB::table('st_post_images')->whereIn('id',  $arrs)->update(['type' => 'banner']);
-            //     }
-            // }
+            if ($thumbs->isNotEmpty()) {
+                if ($thumbs->where('type', 'banner')->count() == 0) {
+                    $arrs = $thumbs->where('type', 'photo')->take(3)->pluck('id')->toArray();
+                    DB::table('st_post_images')->whereIn('id',  $arrs)->update(['type' => 'banner']);
+                }
+            }
 
             $image_block_1 = str_replace(['storage', '//'], '', trim($post->image_block_1 ?? '', '/'));
             
@@ -86,9 +86,9 @@ class ConvertData extends Command
                     'type' => 'photo'
                 ])->first();
                 $data_update['image_block_1'] = $first->thumbnail ?? '';
-                // if (!empty($first)) { 
-                //     DB::table('st_post_images')->whereIn('id',  $first->id)->update(['type' => 'block']);
-                // }
+                if (!empty($first)) { 
+                    DB::table('st_post_images')->whereIn('id',  $first->id)->update(['type' => 'block']);
+                }
             }
 
            
