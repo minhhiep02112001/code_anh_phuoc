@@ -59,7 +59,7 @@ module.exports = function (grunt) {
                     'public/wp-content/uploads/elementor/css/custom-frontend.min4d29.css',
                     'public/wp-content/plugins/elementor/assets/css/widget-heading.min3830.css',
                     'public/wp-content/uploads/elementor/css/post-26321de5.css',
-                    'public/wp-content/themes/lilac-beauty/assets/css/iconsce14.css',
+                    // 'public/wp-content/themes/lilac-beauty/assets/css/iconsce14.css',
                     'public/wp-content/themes/lilac-beauty/assets/css/basece14.css',
                     'public/wp-content/themes/lilac-beauty/assets/css/gridce14.css',
                     'public/wp-content/plugins/elementor/assets/css/widget-divider.min3830.css',
