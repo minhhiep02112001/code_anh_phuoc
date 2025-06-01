@@ -82,15 +82,15 @@
     </style>
 
     {{-- FontAwesome preload --}}
-    <link rel="preload" href="{{ convertPathImage('admins/vendor/font-awesome-4.7/css/font-awesome.min.css') }}"
+    <link rel="preload" href="{{ asset('admins/vendor/font-awesome-4.7/css/font-awesome.min.css') }}"
         as="style" onload="this.onload=null;this.rel='stylesheet'" />
     <noscript>
-        <link href="{{ convertPathImage('admins/vendor/font-awesome-4.7/css/font-awesome.min.css') }}" rel="stylesheet"
+        <link href="{{ asset('admins/vendor/font-awesome-4.7/css/font-awesome.min.css') }}" rel="stylesheet"
             media="all" />
     </noscript>
 
 
-    <link rel="stylesheet" href="{{ convertPathImage('/assets/css/fonts.css') }}?ver={{ $ver }}"
+    <link rel="stylesheet" href="{{ asset('/assets/css/fonts.css') }}?ver={{ $ver }}"
         as="style" />
 
     {{-- Các CSS chính preload + onload --}}
