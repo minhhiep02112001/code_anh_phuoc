@@ -78,53 +78,34 @@
                                         </div>
                                         <div class="elementor-column elementor-col-33 elementor-inner-column elementor-element elementor-element-d6b5a38"
                                             data-id="d6b5a38" data-element_type="column">
-                                            <div class="elementor-widget-wrap elementor-element-populated">
-                                                <div class="elementor-element elementor-element-50c5603 elementor-widget elementor-widget-text-editor"
-                                                    data-id="50c5603" data-element_type="widget"
-                                                    data-widget_type="text-editor.default">
-                                                    <div class="elementor-widget-container">
-                                                        <div class="flex max-w-full flex-col flex-grow">
-                                                            <div class="min-h-8 text-message flex w-full flex-col items-end gap-2 whitespace-normal break-words [.text-message+&amp;]:mt-5"
-                                                                dir="auto" data-message-author-role="assistant"
-                                                                data-message-id="ec3c0653-3a99-4f89-a247-8bad019a0e76"
-                                                                data-message-model-slug="gpt-4o">
+
+                                            <div style="margin-top: 15px;" class="flex w-full flex-col gap-1 empty:hidden first:pt-[3px]">
+                                                <div class="markdown prose w-full break-words dark:prose-invert dark">
+                                                    <div class="flex-shrink-0 flex flex-col relative items-end">
+                                                        <div>
+                                                            <div class="pt-0">
                                                                 <div
-                                                                    class="flex w-full flex-col gap-1 empty:hidden first:pt-[3px]">
+                                                                    class="gizmo-bot-avatar flex h-8 w-8 items-center justify-center overflow-hidden rounded-full">
                                                                     <div
-                                                                        class="markdown prose w-full break-words dark:prose-invert dark">
+                                                                        class="relative p-1 rounded-sm flex items-center justify-center bg-token-main-surface-primary text-token-text-primary h-8 w-8">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div
+                                                        class="group/conversation-turn relative flex w-full min-w-0 flex-col agent-turn">
+                                                        <div class="flex-col gap-1 md:gap-3">
+                                                            <div class="flex max-w-full flex-col flex-grow">
+                                                                <div class="min-h-8 text-message flex w-full flex-col items-end gap-2 whitespace-normal break-words [.text-message+&amp;]:mt-5"
+                                                                    dir="auto" data-message-author-role="assistant"
+                                                                    data-message-id="7286533f-4c65-44fa-89e0-4a782b60d50b"
+                                                                    data-message-model-slug="gpt-4o">
+                                                                    <div
+                                                                        class="flex w-full flex-col gap-1 empty:hidden first:pt-[3px]">
                                                                         <div
-                                                                            class="flex-shrink-0 flex flex-col relative items-end">
-                                                                            <div>
-                                                                                <div class="pt-0">
-                                                                                    <div
-                                                                                        class="gizmo-bot-avatar flex h-8 w-8 items-center justify-center overflow-hidden rounded-full">
-                                                                                        <div
-                                                                                            class="relative p-1 rounded-sm flex items-center justify-center bg-token-main-surface-primary text-token-text-primary h-8 w-8">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div
-                                                                            class="group/conversation-turn relative flex w-full min-w-0 flex-col agent-turn">
-                                                                            <div class="flex-col gap-1 md:gap-3">
-                                                                                <div
-                                                                                    class="flex max-w-full flex-col flex-grow">
-                                                                                    <div class="min-h-8 text-message flex w-full flex-col items-end gap-2 whitespace-normal break-words [.text-message+&amp;]:mt-5"
-                                                                                        dir="auto"
-                                                                                        data-message-author-role="assistant"
-                                                                                        data-message-id="7286533f-4c65-44fa-89e0-4a782b60d50b"
-                                                                                        data-message-model-slug="gpt-4o">
-                                                                                        <div
-                                                                                            class="flex w-full flex-col gap-1 empty:hidden first:pt-[3px]">
-                                                                                            <div
-                                                                                                class="markdown prose w-full break-words dark:prose-invert dark">
-                                                                                                {!! $post->content_footer ?? '' !!}
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
+                                                                            class="markdown prose w-full break-words dark:prose-invert dark">
+                                                                            {!! $post->content_footer ?? '' !!}
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -132,8 +113,9 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
                                             </div>
+
+
                                         </div>
                                         <div class="elementor-column elementor-col-33 elementor-inner-column elementor-element elementor-element-a7d4774"
                                             data-id="a7d4774" data-element_type="column">
@@ -202,8 +184,7 @@
                                                                     </span>
                                                                     <span class="elementor-grid-item">
                                                                         <a class="elementor-icon elementor-social-icon elementor-social-icon-whatsapp elementor-repeater-item-56c79bf"
-                                                                            href="#"
-                                                                            target="_blank">
+                                                                            href="#" target="_blank">
                                                                             <span
                                                                                 class="elementor-screen-only">Whatsapp</span>
                                                                             <svg class="e-font-icon-svg e-fab-whatsapp"
