@@ -1,5 +1,5 @@
 @php
-    $ver = 1.123;
+    $ver = 1234;
     $config_website = getValueSetting('config_website');
     $config_seo = getValueSetting('config_seo');
     $config_social = getValueSetting('config_social');
@@ -189,59 +189,16 @@
             </li>
         </ul>
     </div>
-    <script type="text/javascript"
-        src="{{ convertPathImage('wp-includes/js/jquery/jquery.minf43b.js') }}?ver={{ $ver }}"></script>
-    <script type="text/javascript" src="{{ convertPathImage('/assets/js/slick.min.js') }}?ver={{ $ver }}" defer>
-    </script>
     <a id="back-to-top" href="#">
         <span id="back-to-top-hover"></span>
         <span class="back-to-top-icon"><i class="wdticon-angle-up"></i></span>
     </a>
 
-    <style>
-        span.ti-stars {
-            display: flex;
-            margin-bottom: 5px;
-            margin-top: 5px;
-        }
-
-        .ti-review-header {
-            display: flex;
-            align-content: center;
-            justify-content: flex-start;
-        }
-
-        img.ti-star {
-            width: 12px;
-            margin-right: 2px;
-        }
-
-        .ti-profile-details {
-            padding-left: 10px;
-        }
-
-        .ti-widget.ti-goog .ti-widget-container .ti-name {
-            font-weight: bold;
-            font-size: 14px;
-            overflow: hidden;
-            padding-right: 25px;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            color: #000000;
-            margin-bottom: 2px;
-        }
-
-        .ti-widget.ti-goog .ti-review-item>.ti-inner {
-            border-style: solid !important;
-            border-color: #f4f4f4 !important;
-            background: #f4f4f4 !important;
-            border-radius: 4px !important;
-            padding: 20px !important;
-            margin: 10px !important;
-            display: block;
-            position: relative;
-        }
-    </style>
+    <script type="text/javascript"
+        src="{{ convertPathImage('/assets/js/jquery.min.js') }}?ver={{ $ver }}"></script>
+    <script type="text/javascript" src="{{ convertPathImage('/assets/js/slick.min.js') }}?ver={{ $ver }}" defer>
+    </script>
+   
     <script>
         jQuery(document).ready(function() {
             // Khởi tạo Slick Slider
@@ -321,89 +278,7 @@
             })
         });
     </script>
-    <style>
-        /* Thiết lập vị trí, kích thước & màu sắc của nút */
-        .slick-prev,
-        .slick-next {
-            background-color: rgba(0, 0, 0, 0.5);
-            /* Màu nền */
-            color: white;
-            /* Màu icon */
-            border-radius: 50% !important;
-            /* Bo tròn */
-            width: 40px;
-            height: 40px;
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 1000;
-            /* Đảm bảo nút hiển thị trên cùng */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-
-        .slick-prev,
-        .slick-next {
-            font-size: 0 !important;
-            margin: 0 !important;
-            padding: 0 !important;
-            /* Ẩn chữ nhưng vẫn hiển thị icon */
-        }
-
-        /* Nút Previous (Trái) */
-        .slick-prev {
-            left: -10px;
-            /* Điều chỉnh vị trí */
-        }
-
-        /* Nút Next (Phải) */
-        .slick-next {
-            right: -10px;
-        }
-
-        /* Thêm icon FontAwesome 4 vào nút */
-        .slick-prev::before {
-            content: "\f104";
-            font-family: "FontAwesome";
-            font-size: 20px;
-            position: absolute;
-            top: 6px;
-            left: 14px;
-        }
-
-        .slick-next::before {
-            content: "\f105";
-            /* Icon FontAwesome (fa-chevron-right) */
-            font-family: "FontAwesome";
-            font-size: 20px;
-            position: absolute;
-            top: 6px;
-            left: 18px;
-        }
-
-        /* Hiệu ứng khi hover */
-        .slick-prev:hover,
-        .slick-next:hover {
-            background-color: rgba(0, 0, 0, 0.8);
-        }
-
-
-        @media (max-width: 768px) {
-
-            .slick-prev,
-            .slick-next {
-                width: 30px;
-                height: 30px;
-            }
-
-            .slick-prev::before,
-            .slick-next::before {
-                font-size: 16px;
-            }
-        }
-    </style>
+  
     @stack('scripts')
 </body>
 

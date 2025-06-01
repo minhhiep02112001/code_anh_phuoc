@@ -111,7 +111,8 @@ Route::get('/feeds/pinterestxxx.xml', [App\Http\Controllers\FeedController::clas
 Route::get('/feeds/rssxxx.xml', [App\Http\Controllers\FeedController::class, 'rssxxx'])->name('rssxxx');
 
 Route::domain('{slug}.' . env('DOMAIN'))->group(function () {
-    Route::get('/', [\App\Http\Controllers\HomeController::class, 'post'])->name('post')->middleware('cacheResponse:600');
+    Route::get('/', [\App\Http\Controllers\HomeController::class, 'post'])->name('post');
+    // ->middleware('cacheResponse:600');
     // Route::get('/menu.html', [\App\Http\Controllers\HomeController::class, 'menu'])->name('menu');
     Route::get('/site_map.xml', [\App\Http\Controllers\HomeController::class, 'sitemapBrand']);
 });
@@ -129,4 +130,12 @@ Route::group([
     Route::get('{slug}', [App\Http\Controllers\HomeController::class, 'redirect301'])->name('redirect_301')->where(['slug' => '[a-z0-9-_]+']);
 });
 
+// <!-- Google tag (gtag.js) -->
+// <script async src="https://www.googletagmanager.com/gtag/js?id=G-DB1DK8FTX7"></script>
+// <script>
+//   window.dataLayer = window.dataLayer || [];
+//   function gtag(){dataLayer.push(arguments);}
+//   gtag('js', new Date());
 
+//   gtag('config', 'G-DB1DK8FTX7');
+// </script>

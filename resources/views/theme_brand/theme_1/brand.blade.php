@@ -421,7 +421,7 @@
                                              title="{{ $item->title }}">
                                              <div class="image-box">
                                                  <figure class="image" style="aspect-ratio: 3/2;">
-                                                     {!! getThumbnailImg($item->thumbnail, 600, 400, 'lazyload', $item->title) !!}
+                                                     {!! getThumbnailImg($item->thumbnail, 600, 400, '', $item->title) !!}
                                                  </figure>
                                              </div>
                                              <div class="lower-content">
