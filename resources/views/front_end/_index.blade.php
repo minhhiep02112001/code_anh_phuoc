@@ -14,9 +14,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <script>
+    {{-- <script>
         document.documentElement.className = document.documentElement.className + ' yes-js js_active js'
-    </script>
+    </script> --}}
     @include('front_end.block.config_seo_header')
 
 
@@ -94,18 +94,10 @@
         as="style" />
 
     {{-- Các CSS chính preload + onload --}}
-    <link rel="stylesheet" href="{{ convertPathImage('/assets/css/css_minified.css') }}?ver={{ $ver }}"
+    <link rel="stylesheet" href="{{ convertPathImage('/assets/css/css_minified.min.css') }}?ver={{ $ver }}"
         as="style" />
-
-
     <link rel="stylesheet" href="{{ convertPathImage('/assets/css/theme_1.css') }}?ver={{ $ver }}"
-        as="style" />
-
-
-    <link rel="stylesheet" href="{{ convertPathImage('/assets/slick/slick/slick.css') }}?ver={{ $ver }}"
-        as="style" />
-
-
+        as="style" />  
     @include('front_end.block.config_seo_header')
 
     {{-- Các style inline hiện tại giữ nguyên --}}

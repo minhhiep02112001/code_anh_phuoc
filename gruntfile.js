@@ -67,6 +67,7 @@ module.exports = function (grunt) {
                     'public/wp-content/themes/lilac-beauty/modules/header/assets/css/headerce14.css',
                     'public/wp-content/themes/lilac-beauty/assets/css/themece14.css',
                     'public/wp-content/uploads/elementor/css/post-12651579.css',
+                    'public/assets/slick/slick/slick.css',
                 ],
                 dest: "public/assets/css/css_minified.css",
             },
