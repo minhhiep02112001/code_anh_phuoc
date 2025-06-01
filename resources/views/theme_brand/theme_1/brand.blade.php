@@ -5,6 +5,10 @@
  @extends('front_end._index')
  @section('content')
      <style>
+         h1 {
+             font-size: 50px;
+         }
+
          .slide-banners {
              visibility: hidden;
              opacity: 0;
@@ -417,7 +421,7 @@
                                              title="{{ $item->title }}">
                                              <div class="image-box">
                                                  <figure class="image" style="aspect-ratio: 3/2;">
-                                                     {!! getThumbnailImg($item->thumbnail, 600, 400, 'lazyload', $item->title ) !!}
+                                                     {!! getThumbnailImg($item->thumbnail, 600, 400, 'lazyload', $item->title) !!}
                                                  </figure>
                                              </div>
                                              <div class="lower-content">
@@ -440,6 +444,22 @@
 
  @endsection
  @push('scripts')
+     <script>
+         document.addEventListener("DOMContentLoaded", function() {
+             const iframes = document.querySelectorAll('iframe[data-src]');
+             const observer = new IntersectionObserver((entries, observer) => {
+                 entries.forEach(entry => {
+                     if (entry.isIntersecting) {
+                         const iframe = entry.target;
+                         iframe.src = iframe.dataset.src;
+                         observer.unobserve(iframe);
+                     }
+                 });
+             });
+
+             iframes.forEach(iframe => observer.observe(iframe));
+         });
+     </script>
      <script>
          jQuery(document).ready(function() {
              var bannerSlider = jQuery('.sliders-photo');
