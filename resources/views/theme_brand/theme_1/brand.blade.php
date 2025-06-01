@@ -29,9 +29,11 @@
              left: 0;
              z-index: 0;
          }
-.slick-slide img{
-    height: 100%;
-}
+
+         .slick-slide img {
+             height: 100%;
+         }
+
          .banner-box {
              position: relative;
              overflow: hidden;
@@ -44,13 +46,12 @@
                  @foreach ($banners as $k => $item)
                      <div class="block-item">
                          <div class="banner-box text-center">
-                             <img src="{{ getImageThumb($item->thumbnail, 1200, 400) }}" alt="Banner"
-                              class="banner-img" width="100%" height="100%"
-                                 height="auto" loading="eager" fetchpriority="high" />
+                             <img src="{{ getImageThumb($item->thumbnail, 1200, 400) }}" alt="Banner" class="banner-img"
+                                 width="100%" height="100%" height="auto" loading="eager" fetchpriority="high" />
                              <div class="overlay"></div>
                              @if (!empty($post->content_banner))
                                  <div class="banner-content">
-                                     <p>{{ $post->content_banner }}</p>
+                                     <p class="text-center">{{ $post->content_banner }}</p>
                                      <a href="#" class="cta-button btn btn-outline btn--bordered btn--white">BOOK
                                          NOW</a>
                                  </div>
@@ -58,55 +59,40 @@
                          </div>
                      </div>
                  @endforeach
-                 {{-- @foreach ($banners as $k => $item)
-                     <div class="block-item">
-                         <div class="banner-box text-center" style="background-image: url('{!! getImageThumb($item->thumbnail) !!}');">
-                             <div class="overlay"></div>
-                             @if (!empty($post->content_banner))
-                                 <div class="banner-content">
-                                     <p>{{ $post->content_banner }}</p>
-                                     <a href="#" class="cta-button btn btn-outline btn--bordered btn--white">BOOK
-                                         NOW</a>
-                                 </div>
-                             @endif
-                         </div>
-                     </div>
-                 @endforeach --}}
              </div>
          </section>
 
          <section id="about"
-             class="elementor-padding elementor-section elementor-top-section elementor-element   elementor-section-full_width elementor-section-height-default elementor-section-height-default">
+             class="elementor-padding elementor-section elementor-top-section elementor-element elementor-section-full_width elementor-section-height-default"
+             style="min-height: 250px;">
+
              <div class="elementor-column-gap-default">
                  <h1 class="elementor-heading-title elementor-size-default text-center">
                      {!! "Welcome To {$post->title}" !!}
                  </h1>
 
                  <div style="max-width: 700px; margin: 0 auto;">
-                     <div
-                         class="elementor-element elementor-element-02779b3 elementor-hidden-tablet  elementor-widget-divider--view-line elementor-widget elementor-widget-divider">
+                     <div class="elementor-widget-divider">
                          <div class="elementor-divider">
-                             <span class="elementor-divider-separator">
-                             </span>
+                             <span class="elementor-divider-separator"></span>
                          </div>
                      </div>
-                     <section
-                         class="elementor-section elementor-inner-section elementor-element elementor-element-2f91dc4 elementor-section-full_width elementor-section-height-default elementor-section-height-default"
-                         data-id="2f91dc4" data-element_type="section">
-                         <div class="markdown prose text-justify w-full break-words dark:prose-invert dark">
+
+                     <section class="elementor-inner-section elementor-section-full_width">
+                         <div class="markdown prose text-justify w-full break-words dark:prose-invert">
                              {!! $post->description !!}
                          </div>
                      </section>
-                     <div
-                         class="elementor-element elementor-element-02779b3 elementor-hidden-tablet  elementor-widget-divider--view-line elementor-widget elementor-widget-divider">
+
+                     <div class="elementor-widget-divider">
                          <div class="elementor-divider">
-                             <span class="elementor-divider-separator">
-                             </span>
+                             <span class="elementor-divider-separator"></span>
                          </div>
                      </div>
                  </div>
              </div>
          </section>
+
          <section
              class="elementor-section elementor-inner-section elementor-element elementor-element-6d3b147 elementor-reverse-mobile   elementor-section-boxed elementor-section-height-default elementor-section-height-default">
              <div class="elementor-widget-wrap elementor-element-populated d-flex justify-content-center flex-warp">
