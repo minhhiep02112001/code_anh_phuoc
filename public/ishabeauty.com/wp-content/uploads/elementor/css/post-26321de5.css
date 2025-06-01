@@ -725,15 +725,14 @@
 
 .elementor-2632 .elementor-element.elementor-element-affcef2:not(.elementor-motion-effects-element-type-background),
 .elementor-2632 .elementor-element.elementor-element-affcef2>.elementor-motion-effects-container>.elementor-motion-effects-layer {
-	background-image: url("../../../uploads/2022/09/product-list-bg.png");
+ 
 	background-position: center center;
 	background-repeat: no-repeat;
 	background-size: cover;
 }
 
 .elementor-2632 .elementor-element.elementor-element-affcef2>.elementor-background-overlay {
-	background-color: var(--e-global-color-accent);
-	background-image: url("../../../uploads/2022/09/product-list-bg.png");
+	background-color: var(--e-global-color-accent); 
 	background-position: center center;
 	background-repeat: no-repeat;
 	background-size: cover;

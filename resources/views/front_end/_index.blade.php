@@ -1,5 +1,5 @@
 @php
-    $ver = 125;
+    $ver = 1.12;
     $config_website = getValueSetting('config_website');
     $config_seo = getValueSetting('config_seo');
     $config_social = getValueSetting('config_social');
@@ -42,39 +42,39 @@
             --wdtBorderColorRgb: 183, 183, 183;
             --wdtAccentTxtColor: #ffffff;
             --wdtAccentTxtColorRgb: 255, 255, 255;
-            --wdtFontTypo_Base: "Lato", sans-serif;
+            --wdtFontTypo_Base: "LaNunitoto", sans-serif;
             --wdtFontWeight_Base: 400;
             --wdtFontSize_Base: 16px;
             --wdtLineHeight_Base: 1.64;
-            --wdtFontTypo_Alt: "Outfit", sans-serif;
+            --wdtFontTypo_Alt: "Nunito", sans-serif;
             --wdtFontWeight_Alt: 700;
             --wdtFontSize_Alt: 60px;
             --wdtLineHeight_Alt: 1.28;
-            --wdtFontTypo_H1: "Outfit", sans-serif;
+            --wdtFontTypo_H1: "Nunito", sans-serif;
             --wdtFontWeight_H1: 700;
             --wdtFontSize_H1: 60px;
             --wdtLineHeight_H1: 1.28;
-            --wdtFontTypo_H2: "Outfit", sans-serif;
+            --wdtFontTypo_H2: "Nunito", sans-serif;
             --wdtFontWeight_H2: 700;
             --wdtFontSize_H2: 50px;
             --wdtLineHeight_H2: 1.28;
-            --wdtFontTypo_H3: "Outfit", sans-serif;
+            --wdtFontTypo_H3: "Nunito", sans-serif;
             --wdtFontWeight_H3: 500;
             --wdtFontSize_H3: 44px;
             --wdtLineHeight_H3: 1.28;
-            --wdtFontTypo_H4: "Outfit", sans-serif;
+            --wdtFontTypo_H4: "Nunito", sans-serif;
             --wdtFontWeight_H4: 500;
             --wdtFontSize_H4: 30px;
             --wdtLineHeight_H4: 1.28;
-            --wdtFontTypo_H5: "Outfit", sans-serif;
+            --wdtFontTypo_H5: "Nunito", sans-serif;
             --wdtFontWeight_H5: 500;
             --wdtFontSize_H5: 26px;
             --wdtLineHeight_H5: 1.28;
-            --wdtFontTypo_H6: "Outfit", sans-serif;
+            --wdtFontTypo_H6: "Nunito", sans-serif;
             --wdtFontWeight_H6: 500;
             --wdtFontSize_H6: 20px;
             --wdtLineHeight_H6: 1.28;
-            --wdtFontTypo_Ext: "Mrs Saint Delafield", cursive;
+            --wdtFontTypo_Ext: "Nunito", cursive;
             --wdtFontWeight_Ext: 600;
             --wdtFontSize_Ext: 12px;
             --wdtLineHeight_Ext: 1.1;
@@ -89,15 +89,15 @@
             media="all" />
     </noscript>
 
-    {{-- Google Fonts preload + fallback --}}
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap"
+
+    <link rel="stylesheet" href="{{ convertPathImage('/assets/css/fonts.css') }}?ver={{ $ver }}"
         as="style" />
 
     {{-- Các CSS chính preload + onload --}}
     <link rel="stylesheet" href="{{ convertPathImage('/assets/css/css_minified.min.css') }}?ver={{ $ver }}"
         as="style" />
     <link rel="stylesheet" href="{{ convertPathImage('/assets/css/theme_1.css') }}?ver={{ $ver }}"
-        as="style" />  
+        as="style" />
     @include('front_end.block.config_seo_header')
 
     {{-- Các style inline hiện tại giữ nguyên --}}
