@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 
 if (!function_exists('getValueSetting')) {
@@ -162,24 +163,36 @@ if (!function_exists('getLinkUrl')) {
     }
 }
 
- 
 if (!function_exists('saveImageUrlStorage')) {
     function saveImageUrlStorage($url, $folder, $name = '')
     {
         try {
-            $contents = file_get_contents($url);
+            $response = Http::timeout(10)->get($url);
+
+            if (!$response->successful()) {
+                return '';
+            }
+
+            $contents = $response->body();
+
+            $pathInfo = pathinfo(parse_url($url, PHP_URL_PATH));
+            $basename = $pathInfo['basename'] ?? 'image.jpg';
 
             if (empty($name)) {
-                $name = rand(1, 1000000) . '-' . substr($url, strrpos($url, '/') + 2);
+                $name = rand(1, 1000000) . '-' . $basename;
             }
 
             $pathName = "$folder/$name";
 
-            // Lưu file vào storage/app/public
+            // Đảm bảo thư mục tồn tại
+            Storage::disk('public')->makeDirectory($folder);
+
             Storage::disk('public')->put($pathName, $contents);
 
-            return "storage/$pathName"; // Trả về đường dẫn công khai
+            return "storage/$pathName";
         } catch (\Exception $ex) {
+            // Log lỗi nếu cần
+            \Log::error('saveImageUrlStorage error: ' . $ex->getMessage());
             return '';
         }
     }
@@ -473,7 +486,7 @@ function parseKeyValue($input)
     }
     return $input;
 }
- 
+
 function getIframeSrcFromString($iframeString)
 {
     // Thay thế width và height bằng biểu thức chính quy
