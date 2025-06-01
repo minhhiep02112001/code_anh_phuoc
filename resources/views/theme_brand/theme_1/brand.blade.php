@@ -417,7 +417,7 @@
                                              title="{{ $item->title }}">
                                              <div class="image-box">
                                                  <figure class="image" style="aspect-ratio: 3/2;">
-                                                     {!! getThumbnail($item, 600, 400) !!}
+                                                     {!! getThumbnailImg($item, 600, 400) !!}
                                                  </figure>
                                              </div>
                                              <div class="lower-content">
