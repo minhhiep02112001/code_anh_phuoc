@@ -46,7 +46,7 @@
                  @foreach ($banners as $k => $item)
                      <div class="block-item">
                          <div class="banner-box text-center">
-                             <img src="{{ getImageThumb($item->thumbnail, 1200, 400) }}" alt="Banner" class="banner-img"
+                             <img rel="preload" src="{{ getImageThumb($item->thumbnail, 1200, 400) }}" alt="Banner" class="banner-img"
                                  width="100%" height="100%" height="auto" loading="eager" fetchpriority="high" />
                              <div class="overlay"></div>
                              @if (!empty($post->content_banner))
@@ -99,7 +99,7 @@
                  <div class="elementor-icon-box-wrapper p-2">
 
                      <div class="elementor-icon-box-icon">
-                         <img src="{{ asset('assets/images/icon_1.png') }}" lazyload width="100px" height="100px"
+                         <img src="{{ asset('assets/images/icon_1.png') }}" loading="lazy" width="100px" height="100px"
                              alt=" New Consultation">
                      </div>
 
@@ -110,7 +110,7 @@
                  </div>
                  <div class="elementor-icon-box-wrapper p-2">
                      <div class="elementor-icon-box-icon">
-                         <img src="{{ asset('assets/images/icon_2.png') }}" lazyload width="100px" height="100px"
+                         <img src="{{ asset('assets/images/icon_2.png') }}" loading="lazy" width="100px" height="100px"
                              alt=" All Services">
                      </div>
 
@@ -123,7 +123,7 @@
                  <div class="elementor-icon-box-wrapper p-2">
 
                      <div class="elementor-icon-box-icon">
-                         <img src="{{ asset('assets/images/icon_3.png') }}" lazyload width="100px" height="100px"
+                         <img src="{{ asset('assets/images/icon_3.png') }}" loading="lazy" width="100px" height="100px"
                              alt="Book Appointments">
                      </div>
 
@@ -137,7 +137,7 @@
 
                      <div class="elementor-icon-box-icon">
                          <span class="elementor-icon">
-                             <img src="{{ asset('assets/images/icon_4.png') }}" lazyload width="100px" height="100px"
+                             <img src="{{ asset('assets/images/icon_4.png') }}" loading="lazy" width="100px" height="100px"
                                  alt="Gift Cards ">
                          </span>
                      </div>
@@ -179,6 +179,7 @@
                          class="elementor-element elementor-element-164478d animated-fast wdt-custom-hover-image-style elementor-hidden-tablet elementor-widget elementor-widget-image">
                          <div class="elementor-widget-container">
                              <img decoding="async" width="500" height="500"
+                             loading="lazy"
                                  src="{{ getImageThumb($post->image_block_1, 500, 500) }}"
                                  class="attachment-full size-full wp-image-3006" alt="" />
                          </div>

@@ -95,11 +95,7 @@
     <noscript>
         <link rel="stylesheet" href="{{ convertPathImage('/assets/css/theme_1.css') }}?ver={{ $ver }}">
     </noscript>
-
-    {{-- <link rel="stylesheet" href="{{ convertPathImage('/assets/css/css_minified.min.css') }}?ver={{ $ver }}"
-        as="style" />
-    <link rel="stylesheet" href="{{ convertPathImage('/assets/css/theme_1.css') }}?ver={{ $ver }}"
-        as="style" /> --}}
+ 
     @include('front_end.block.config_seo_header')
 
     {{-- Các style inline hiện tại giữ nguyên --}}
