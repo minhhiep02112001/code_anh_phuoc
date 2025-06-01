@@ -29,7 +29,9 @@
              left: 0;
              z-index: 0;
          }
-
+.slick-slide img{
+    height: 100%;
+}
          .banner-box {
              position: relative;
              overflow: hidden;
