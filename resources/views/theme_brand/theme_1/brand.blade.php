@@ -19,12 +19,44 @@
          h1 {
              margin: 10px 0px;
          }
+
+         .banner-img {
+             width: 100%;
+             height: auto;
+             object-fit: cover;
+             position: absolute;
+             top: 0;
+             left: 0;
+             z-index: 0;
+         }
+
+         .banner-box {
+             position: relative;
+             overflow: hidden;
+         }
      </style>
 
      <div class="wdt-elementor-container-fluid elementor elementor-2632">
          <section class="elementor-section" data-id="35535b0" data-element_type="section">
              <div class="slide-banners slick-slider">
                  @foreach ($banners as $k => $item)
+                     <div class="block-item">
+                         <div class="banner-box text-center">
+                             <img src="{{ getImageThumb($item->thumbnail, 1200, 400) }}" alt="Banner"
+                              class="banner-img" width="100%" height="100%"
+                                 height="auto" loading="eager" fetchpriority="high" />
+                             <div class="overlay"></div>
+                             @if (!empty($post->content_banner))
+                                 <div class="banner-content">
+                                     <p>{{ $post->content_banner }}</p>
+                                     <a href="#" class="cta-button btn btn-outline btn--bordered btn--white">BOOK
+                                         NOW</a>
+                                 </div>
+                             @endif
+                         </div>
+                     </div>
+                 @endforeach
+                 {{-- @foreach ($banners as $k => $item)
                      <div class="block-item">
                          <div class="banner-box text-center" style="background-image: url('{!! getImageThumb($item->thumbnail) !!}');">
                              <div class="overlay"></div>
@@ -37,8 +69,7 @@
                              @endif
                          </div>
                      </div>
-                 @endforeach
-
+                 @endforeach --}}
              </div>
          </section>
 
