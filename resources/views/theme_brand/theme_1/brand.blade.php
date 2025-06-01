@@ -440,9 +440,7 @@
 
  @endsection
  @push('scripts')
-     <style>img[loading="lazy"] {
-     min-height: 200px; /* tùy theo ảnh thực tế */
-     }</style>
+     
      <script>
          jQuery(document).ready(function() {
              var bannerSlider = jQuery('.sliders-photo');
