@@ -126,7 +126,7 @@ async function getAllCrawlerDataBase(offset = 0) {
     });
 
     while (true) {
-        let arr_crawlers = await getAllCrawlerDataBase(200);
+        let arr_crawlers = await getAllCrawlerDataBase(600);
         if (arr_crawlers.length == 0) break;
         for (const element of arr_crawlers) {
             try {

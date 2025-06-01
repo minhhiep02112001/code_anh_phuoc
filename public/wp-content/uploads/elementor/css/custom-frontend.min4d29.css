@@ -2430,11 +2430,15 @@ body.rtl .e-con {
 .elementor-form .elementor-button.elementor-size-lg {
     min-height: 59px
 }
-
+.flex-warp{
+    flex-wrap: wrap;
+}
 .elementor-form .elementor-button.elementor-size-xl {
     min-height: 72px
 }
-
+.elementor-icon-box-wrappe{
+    padding: 5px 10px;
+}
 .elementor-element .elementor-widget-container,
 .elementor-element:not(:has(.elementor-widget-container)) {
     transition: background .3s, border .3s, border-radius .3s, box-shadow .3s, transform var(--e-transform-transition-duration, .4s)
@@ -2442,10 +2446,20 @@ body.rtl .e-con {
 
 .elementor-heading-title {
     line-height: 1;
-    margin: 0;
+    margin: 10px 0px;
     padding: 0
+
+}
+.d-flex{
+    display:flex ;
+}
+.justify-content-center{
+    justify-content: center;
 }
 
+.text-justify{
+    text-align: justify;
+}
 .elementor-button {
     background-color: #69727d;
     border-radius: 3px;

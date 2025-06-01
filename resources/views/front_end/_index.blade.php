@@ -1,5 +1,5 @@
 @php
-    $ver = 128;
+    $ver = 125;
     $config_website = getValueSetting('config_website');
     $config_seo = getValueSetting('config_seo');
     $config_social = getValueSetting('config_social');
@@ -7,8 +7,6 @@
 <!DOCTYPE html>
 <html lang="en-US">
 
-<!-- Mirrored from ishabeauty.com/ by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 15 Feb 2025 01:24:58 GMT -->
-<!-- Added by HTTrack -->
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
 
 <head>
@@ -92,30 +90,18 @@
     </noscript>
 
     {{-- Google Fonts preload + fallback --}}
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap"
-        as="style" onload="this.onload=null;this.rel='stylesheet'" />
-    <noscript>
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
-    </noscript>
-
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap"
+        as="style"  />
+     
     {{-- Các CSS chính preload + onload --}}
-    <link rel="preload" href="/assets/css/css_minified.css?ver=1.0.8" as="style"
-        onload="this.onload=null;this.rel='stylesheet'" />
-    <noscript>
-        <link href="/assets/css/css_minified.css?ver=1.0.8" rel="stylesheet" media="all" />
-    </noscript>
+    <link rel="stylesheet" href="/assets/css/css_minified.css?ver={{ $ver }}" as="style"  />
+     
 
-    <link rel="preload" href="/assets/css/theme_1.css?ver=1.0.8" as="style"
-        onload="this.onload=null;this.rel='stylesheet'" />
-    <noscript>
-        <link href="/assets/css/theme_1.css?ver=1.0.8" rel="stylesheet" media="all" />
-    </noscript>
+    <link rel="stylesheet" href="/assets/css/theme_1.css?ver={{ $ver }}" as="style"  />
+  
 
-    <link rel="preload" href="/assets/slick/slick/slick.css?ver=1.0.8" as="style"
-        onload="this.onload=null;this.rel='stylesheet'" />
-    <noscript>
-        <link href="/assets/slick/slick/slick.css?ver=1.0.8" rel="stylesheet" media="all" />
-    </noscript>
+    <link rel="stylesheet" href="/assets/slick/slick/slick.css?ver={{ $ver }}" as="style"/>
+   
 
     @include('front_end.block.config_seo_header')
 
@@ -153,8 +139,7 @@
     </style>
 
     {{-- Tải JS với defer để không chặn render --}}
-    <script type="text/javascript" src="wp-includes/js/jquery/jquery.minf43b.js?ver=3.7.1"></script>
-    <script type="text/javascript" src="/assets/js/slick.min.js?ver=3.7.1" defer></script>
+
 </head>
 
 <body
@@ -211,130 +196,8 @@
             </li>
         </ul>
     </div>
-    <style>
-        @media (min-width: 768px) {
-            .mobile-menu {
-                display: none !important;
-            }
-        }
-    </style>
-
-
-    <script type="text/javascript" src="/wp-content/plugins/elementor/assets/js/webpack.runtime.min3830.js?ver=3.27.4"
-        id="elementor-webpack-runtime-js"></script>
-    <script type="text/javascript" src="/wp-content/plugins/elementor/assets/js/frontend-modules.min3830.js?ver=3.27.4"
-        id="elementor-frontend-modules-js"></script>
-
-    <script type="text/javascript" src="/wp-content/plugins/elementor-pro/assets/js/frontend.min44b4.js?ver=3.24.3"
-        id="elementor-pro-frontend-js"></script>
-    <script type="text/javascript" src="wp-includes/js/jquery/ui/core.minb37e.js?ver=1.13.3" id="jquery-ui-core-js">
-    </script>
-    <script type="text/javascript" id="elementor-frontend-js-before">
-        /* <![CDATA[ */
-        var elementorFrontendConfig = {
-            "environmentMode": {
-                "edit": false,
-                "wpPreview": false,
-                "isScriptDebug": false
-            },
-            "i18n": {
-
-            },
-            "is_rtl": false,
-            "breakpoints": {
-                "xs": 0,
-                "sm": 480,
-                "md": 480,
-                "lg": 1025,
-                "xl": 1440,
-                "xxl": 1600
-            },
-            "responsive": {
-                "breakpoints": {
-                    "mobile": {
-                        "label": "Mobile Portrait",
-                        "value": 479,
-                        "default_value": 767,
-                        "direction": "max",
-                        "is_enabled": true
-                    },
-                    "mobile_extra": {
-                        "label": "Mobile Landscape",
-                        "value": 767,
-                        "default_value": 880,
-                        "direction": "max",
-                        "is_enabled": false
-                    },
-                    "tablet": {
-                        "label": "Tablet Portrait",
-                        "value": 1024,
-                        "default_value": 1024,
-                        "direction": "max",
-                        "is_enabled": true
-                    },
-                    "tablet_extra": {
-                        "label": "Tablet Landscape",
-                        "value": 1280,
-                        "default_value": 1200,
-                        "direction": "max",
-                        "is_enabled": false
-                    },
-                    "laptop": {
-                        "label": "Laptop",
-                        "value": 1540,
-                        "default_value": 1366,
-                        "direction": "max",
-                        "is_enabled": false
-                    },
-                    "widescreen": {
-                        "label": "Widescreen",
-                        "value": 2400,
-                        "default_value": 2400,
-                        "direction": "min",
-                        "is_enabled": false
-                    }
-                },
-                "hasCustomBreakpoints": true
-            },
-            "version": "3.27.4",
-            "is_static": false,
-            "experimentalFeatures": {
-                "e_font_icon_svg": true,
-                "additional_custom_breakpoints": true,
-                "container": true,
-                "e_swiper_latest": true,
-                "e_onboarding": true,
-                "theme_builder_v2": true,
-                "home_screen": true,
-                "landing-pages": true,
-                "nested-elements": true,
-                "editor_v2": true,
-                "e_element_cache": true,
-                "link-in-bio": true,
-                "floating-buttons": true,
-                "display-conditions": true,
-                "form-submissions": true,
-                "mega-menu": true
-            },
-            "urls": {
-                "assets": "/wp-content\/plugins\/elementor\/assets\/",
-            },
-            "nonces": {
-                "floatingButtonsClickTracking": "78ff9cb260"
-            },
-            "swiperClass": "swiper",
-            "settings": {
-                "page": [],
-                "editorPreferences": []
-            },
-
-        };
-        /* ]]> */
-    </script>
-    <script type="text/javascript" src="/wp-content/plugins/elementor/assets/js/frontend.min3830.js?ver=3.27.4"
-        id="elementor-frontend-js"></script>
-    {{-- <script type="text/javascript" src="/wp-content/plugins/elementor-pro/assets/js/elements-handlers.min44b4.js?ver=3.24.3"
-        id="pro-elements-handlers-js"></script> --}}
+    <script type="text/javascript" src="wp-includes/js/jquery/jquery.minf43b.js?ver=3.7.1"></script>
+    <script type="text/javascript" src="/assets/js/slick.min.js?ver=3.7.1" defer></script>
     <a id="back-to-top" href="#">
         <span id="back-to-top-hover"></span>
         <span class="back-to-top-icon"><i class="wdticon-angle-up"></i></span>

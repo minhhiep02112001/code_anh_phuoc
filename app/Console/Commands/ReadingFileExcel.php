@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Imports\CrawlerImport;
+use App\Imports\CrawlerDataImport;
 use Illuminate\Console\Command;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -39,7 +40,7 @@ class ReadingFileExcel extends Command
       
         try{
              echo "Reading";
-            Excel::import(new CrawlerImport, public_path($file));
+            Excel::import(new CrawlerDataImport, public_path($file));
         }catch(\Exception $e){
             dd($e);
         }

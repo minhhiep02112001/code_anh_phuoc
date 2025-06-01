@@ -610,22 +610,7 @@ async function getAllCrawlerDataBase(offset = 0) {
         args: ["--start-maximized", "--lang=en-US"], // Mở trình duyệt ở chế độ toàn màn hình
         defaultViewport: null, // Tắt viewport mặc định
     });
-    var page = await browser.newPage();
-
-    await page.setExtraHTTPHeaders({
-        "Accept-Language": "en-US,en;q=0.9,en-US;q=0.8,en;q=0.7",
-    });
-    // Đặt user-agent với thông tin ngôn ngữ tiếng Pháp
-    await page.setUserAgent(
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36 Accept-Language: en-US"
-    );
-
-    // Điều hướng đến URL
-    await page.goto(
-        "https://www.google.com/search?sca_esv=c28d7f4a7239b712&rlz=1C5CHFA_enVN998VN998&tbm=lcl&sxsrf=AE3TifMcvKSW9r8MuKSLt6jE7O2dMjsjKQ:1748455285726&q=Nails+in+Evansville&rflfq=1&num=10&sa=X&ved=2ahUKEwimmtjB38aNAxWPRCoJHT96DPoQjGp6BAgtEAE&biw=1919&bih=934&dpr=1#rlfi=hd:;si:;mv:[[38.030807599999996,-87.3847978],[37.944696,-87.64749169999999]];start:60",
-        { waitUntil: "networkidle2" }
-    );
-    return;
+    
     for (let element of list_data) {
         try {
             console.log("\n ===Start key: " + element.key_word);

@@ -1,50 +1,11 @@
 const puppeteer = require("puppeteer-extra");
-const randomUseragent = require("random-useragent");
 const Helper = require("./Helper/Function");
 const database = require("./Helper/database");
-const fs = require("fs");
-const WAIT_TIME_SHORT = 1000;
-const WAIT_TIME_LONG = 3000;
-
 function extractInParentheses(text) {
     const match = text.match(/\(([^)]+)\)/); // Tìm chuỗi bên trong dấu ()
     return match ? match[1] : null; // Nếu tìm thấy, trả về chuỗi; nếu không, trả về null
 }
 
-async function simulateHumanBehavior(page) {
-    const randomize = (min, max) =>
-        Math.floor(Math.random() * (max - min + 1)) + min;
-
-    await page.mouse.move(randomize(0, 100), randomize(0, 100));
-    await page.waitForTimeout(WAIT_TIME_SHORT);
-
-    await page.evaluate(() => {
-        window.scrollBy({
-            top: window.innerHeight / 2,
-            left: 0,
-            behavior: "smooth",
-        });
-    });
-    await page.waitForTimeout(WAIT_TIME_SHORT);
-}
-
-async function setupPage(page) {
-    await page.setExtraHTTPHeaders({
-        "Accept-Language": "en-US,en;q=0.9",
-        "Accept-Encoding": "gzip, deflate, br",
-    });
-
-    const userAgent = randomUseragent.getRandom();
-    await page.setUserAgent(userAgent);
-}
-
-async function initializeBrowser() {
-    return puppeteer.launch({
-        headless: false,
-        args: ["--start-maximized", "--lang=en-US"], // Mở trình duyệt ở chế độ toàn màn hình
-        defaultViewport: null, // Tắt viewport mặc định
-    });
-}
 function convertStr(str) {
     return str.replace(/'/g, "''");
 }
@@ -72,7 +33,7 @@ async function searchData(keyword, browser, crawler_id = 0) {
         delay: 100,
     });
     await page.keyboard.press("Enter");
-    await page.waitForTimeout(15000);
+    await page.waitForTimeout(20000);
     let datas = await page.evaluate(async () => {
         const restaurants = [];
         await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -86,17 +47,15 @@ async function searchData(keyword, browser, crawler_id = 0) {
                 targetElement = targetElement.querySelector('div[role="feed"]');
             }
             let totalHeight = 0;
-            const distance = 500;
+            const distance = 1000;
             let i = 0;
             while (i <= 100) {
                 targetElement.scrollTop += distance;
                 totalHeight += distance;
-                await new Promise((resolve) => setTimeout(resolve, 500));
+                await new Promise((resolve) => setTimeout(resolve, 700));
                 i++;
             }
-
-            await new Promise((resolve) => setTimeout(resolve, 1000));
-
+            await new Promise((resolve) => setTimeout(resolve, 500));
             const elements = targetElement.querySelectorAll(
                 ".fontBodyMedium .fontHeadlineSmall"
             );
@@ -140,8 +99,14 @@ async function searchData(keyword, browser, crawler_id = 0) {
                 crawler_id,
             };
             await database.handle_crawler_map(obj);
-            console.log("\n Success: " + element.title);
         }
+        console.log(`\n Success: ${crawler_id} - count: ${datas.length} !!!!`);
+        let updateStatusQuery = ` UPDATE crawler SET status = 1 WHERE id=${crawler_id}`;
+        await database.execute(updateStatusQuery);
+    } else {
+        let updateStatusQuery = ` UPDATE crawler SET status = 0 WHERE id=${crawler_id}`;
+        console.log(`\n => Error: ${crawler_id} - count: 0`);
+        await database.execute(updateStatusQuery);
     }
     return await page.close();
 }
@@ -153,7 +118,7 @@ async function getAllCrawlerDataBase(offset = 0) {
 
 (async () => {
     const browser = await puppeteer.launch({
-        headless: false, // Hiển thị trình duyệt
+        headless: true, // Hiển thị trình duyệt
         args: ["--start-maximized", "--lang=en-US"], // Mở trình duyệt ở chế độ toàn màn hình
         defaultViewport: null, // Tắt viewport mặc định
     });
@@ -163,11 +128,16 @@ async function getAllCrawlerDataBase(offset = 0) {
         if (arr_crawlers.length == 0) break;
         for (const element of arr_crawlers) {
             try {
-                console.log("\n Run --------------------" + element.keyword);
+                console.log(
+                    "\n Run --------------------" +
+                        element.keyword +
+                        " --- " +
+                        element.id
+                );
                 await searchData(element.keyword, browser, element.id);
-                let updateStatusQuery = ` UPDATE crawler SET status = 1 WHERE id=${element.id}`;
-                await database.execute(updateStatusQuery);
             } catch (e) {
+                console.log(e);
+
                 console.log("\n Run Error --------------------" + element.id);
                 let updateStatusQuery = ` UPDATE crawler SET status = 3 WHERE id=${element.id}`;
                 await database.execute(updateStatusQuery);
