@@ -55,6 +55,7 @@ module.exports = function (grunt) {
 
             css: {
                 src: [
+                    'public/assets/font-awesome-4.7/css/font-awesome.min.css',
                     'public/assets/css/fonts.css',
                     'public/wp-content/uploads/elementor/css/custom-frontend.min4d29.css',
                     'public/wp-content/plugins/elementor/assets/css/widget-heading.min3830.css',

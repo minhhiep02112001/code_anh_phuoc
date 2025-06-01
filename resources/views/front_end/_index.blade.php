@@ -79,19 +79,10 @@
             --wdtFontSize_Ext: 12px;
             --wdtLineHeight_Ext: 1.1;
         }
-    </style>
+    </style> 
 
-    {{-- FontAwesome preload --}}
-    <link rel="preload" href="{{ asset('admins/vendor/font-awesome-4.7/css/font-awesome.min.css') }}"
-        as="style" onload="this.onload=null;this.rel='stylesheet'" />
-    <noscript>
-        <link href="{{ asset('admins/vendor/font-awesome-4.7/css/font-awesome.min.css') }}" rel="stylesheet"
-            media="all" />
-    </noscript>
-
-
-    <link rel="stylesheet" href="{{ asset('/assets/css/fonts.css') }}?ver={{ $ver }}"
-        as="style" />
+    {{-- <link rel="stylesheet" href="{{ asset('/assets/css/fonts.css') }}?ver={{ $ver }}"
+        as="style" /> --}}
 
     {{-- Các CSS chính preload + onload --}}
     <link rel="stylesheet" href="{{ convertPathImage('/assets/css/css_minified.min.css') }}?ver={{ $ver }}"
