@@ -79,16 +79,27 @@
             --wdtFontSize_Ext: 12px;
             --wdtLineHeight_Ext: 1.1;
         }
-    </style> 
+    </style>
 
     {{-- <link rel="stylesheet" href="{{ asset('/assets/css/fonts.css') }}?ver={{ $ver }}"
         as="style" /> --}}
 
     {{-- Các CSS chính preload + onload --}}
-    <link rel="stylesheet" href="{{ convertPathImage('/assets/css/css_minified.min.css') }}?ver={{ $ver }}"
+
+    <link rel="preload" as="style" href="{{ convertPathImage('/assets/css/css_minified.min.css') }}?ver={{ $ver }}" onload="this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="{{ convertPathImage('/assets/css/css_minified.min.css') }}?ver={{ $ver }}">
+    </noscript>
+
+    <link rel="preload" as="style" href="{{ convertPathImage('/assets/css/theme_1.css') }}?ver={{ $ver }}" onload="this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="{{ convertPathImage('/assets/css/theme_1.css') }}?ver={{ $ver }}">
+    </noscript>
+
+    {{-- <link rel="stylesheet" href="{{ convertPathImage('/assets/css/css_minified.min.css') }}?ver={{ $ver }}"
         as="style" />
     <link rel="stylesheet" href="{{ convertPathImage('/assets/css/theme_1.css') }}?ver={{ $ver }}"
-        as="style" />
+        as="style" /> --}}
     @include('front_end.block.config_seo_header')
 
     {{-- Các style inline hiện tại giữ nguyên --}}
