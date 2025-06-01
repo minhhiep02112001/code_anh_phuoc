@@ -100,7 +100,7 @@
                  <div class="elementor-icon-box-wrapper p-2">
 
                      <div class="elementor-icon-box-icon">
-                         <img src="{{ asset('assets/images/icon_1.png') }}" loading="lazy" width="100px" height="100px"
+                         <img src="{{ asset('assets/images/icon_1.png') }}" loading="lazy" width="100" height="100"
                              alt=" New Consultation">
                      </div>
 
@@ -111,7 +111,7 @@
                  </div>
                  <div class="elementor-icon-box-wrapper p-2">
                      <div class="elementor-icon-box-icon">
-                         <img src="{{ asset('assets/images/icon_2.png') }}" loading="lazy" width="100px" height="100px"
+                         <img src="{{ asset('assets/images/icon_2.png') }}" loading="lazy" width="100" height="100"
                              alt=" All Services">
                      </div>
 
@@ -124,7 +124,7 @@
                  <div class="elementor-icon-box-wrapper p-2">
 
                      <div class="elementor-icon-box-icon">
-                         <img src="{{ asset('assets/images/icon_3.png') }}" loading="lazy" width="100px" height="100px"
+                         <img src="{{ asset('assets/images/icon_3.png') }}" loading="lazy" width="100" height="100"
                              alt="Book Appointments">
                      </div>
 
@@ -138,7 +138,7 @@
 
                      <div class="elementor-icon-box-icon">
                          <span class="elementor-icon">
-                             <img src="{{ asset('assets/images/icon_4.png') }}" loading="lazy" width="100px" height="100px"
+                             <img src="{{ asset('assets/images/icon_4.png') }}" loading="lazy" width="100" height="100"
                                  alt="Gift Cards ">
                          </span>
                      </div>
