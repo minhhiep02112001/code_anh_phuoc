@@ -408,8 +408,8 @@ header#header,
 
 .elementor-element.elementor-widget__width-auto.wdt-custom-menu-style.elementor-widget.elementor-widget-wdt-header-menu {
     position: absolute;
-    right: 10px;
-    top: 10px;
+    right: 5px;
+    top: 15px;
 }
 
 @media (max-width: 576px) {
@@ -471,7 +471,7 @@ header#header,
     }
 
     .elementor-element.elementor-widget__width-auto.wdt-custom-menu-style.elementor-widget.elementor-widget-wdt-header-menu {
-        width: auto;
+        width: 25px;
     }
 
     .box-show-image-photo {

@@ -99,7 +99,8 @@
                  <div class="elementor-icon-box-wrapper p-2">
 
                      <div class="elementor-icon-box-icon">
-                         <img src="{{ asset('assets/images/icon_1.png') }}" alt=" New Consultation">
+                         <img src="{{ asset('assets/images/icon_1.png') }}" lazyload width="100px" height="100px"
+                             alt=" New Consultation">
                      </div>
 
                      <div class="elementor-icon-box-content">
@@ -109,7 +110,8 @@
                  </div>
                  <div class="elementor-icon-box-wrapper p-2">
                      <div class="elementor-icon-box-icon">
-                         <img src="{{ asset('assets/images/icon_2.png') }}" alt=" All Services">
+                         <img src="{{ asset('assets/images/icon_2.png') }}" lazyload width="100px" height="100px"
+                             alt=" All Services">
                      </div>
 
                      <div class="elementor-icon-box-content">
@@ -121,7 +123,8 @@
                  <div class="elementor-icon-box-wrapper p-2">
 
                      <div class="elementor-icon-box-icon">
-                         <img src="{{ asset('assets/images/icon_3.png') }}" alt="Book Appointments">
+                         <img src="{{ asset('assets/images/icon_3.png') }}" lazyload width="100px" height="100px"
+                             alt="Book Appointments">
                      </div>
 
                      <div class="elementor-icon-box-content">
@@ -134,7 +137,8 @@
 
                      <div class="elementor-icon-box-icon">
                          <span class="elementor-icon">
-                             <img src="{{ asset('assets/images/icon_4.png') }}" alt="Gift Cards ">
+                             <img src="{{ asset('assets/images/icon_4.png') }}" lazyload width="100px" height="100px"
+                                 alt="Gift Cards ">
                          </span>
                      </div>
                      <div class="elementor-icon-box-content">
