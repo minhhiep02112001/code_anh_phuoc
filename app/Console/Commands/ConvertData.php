@@ -55,8 +55,7 @@ class ConvertData extends Command
 
         $datas = DB::table('crawler_map')->where([
             'is_crawler' => 1,
-            'is_status' => 2,
-            'relate_id' => 21548
+            'is_status' => 2
         ])->get();
 
         foreach ($datas as $data) {
