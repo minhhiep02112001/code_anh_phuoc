@@ -1,5 +1,5 @@
 @php
-    $ver = 13;
+    $ver = rand(1,100);
     $config_website = getValueSetting('config_website');
     $config_seo = getValueSetting('config_seo');
     $config_social = getValueSetting('config_social');

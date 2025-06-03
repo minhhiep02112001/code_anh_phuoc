@@ -669,7 +669,7 @@ h1 {
         padding: 10px 20px;
     }
 
- 
+
 
     .elementor-column-2 {
         order: 1 !important;
@@ -767,4 +767,9 @@ h1 {
     .elementor-col-50.ele-header {
         width: 80%;
     }
+}
+
+.elementor-icon {
+    width: 70px;
+    height: 70px;
 }
