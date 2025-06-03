@@ -11,9 +11,9 @@
                  @foreach ($banners as $k => $item)
                      <div class="block-item">
                          <div class="banner-box text-center">
-                             <img rel="preload" src="{{ getImageThumb($item->thumbnail, 1200, 400) }}" alt="Banner"
-                                 class="banner-img" width="100%" height="100%" height="auto" loading="eager"
-                                 fetchpriority="high" />
+
+
+                             {!! getThumbnail($item, 1200, 400, 'banner-img') !!}
                              <div class="overlay"></div>
                              @if (!empty($post->content_banner))
                                  <div class="banner-content">
@@ -29,10 +29,10 @@
          </section>
 
          <section id="about"
-             class="elementor-padding elementor-section elementor-top-section elementor-element elementor-section-full_width ">
+             class="elementor-padding elementor-section  ">
 
              <div class="elementor-column-gap-default">
-                 <h1 class="elementor-heading-title elementor-size-default text-center">
+                 <h1 class="elementor-heading-title  text-center">
                      {!! "Welcome To {$post->title}" !!}
                  </h1>
 
