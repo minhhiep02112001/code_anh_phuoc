@@ -1,5 +1,5 @@
 @php
-    $ver = 12;
+    $ver = 123;
     $config_website = getValueSetting('config_website');
     $config_seo = getValueSetting('config_seo');
     $config_social = getValueSetting('config_social');
@@ -117,7 +117,7 @@
         </div><!-- **Inner Wrapper - End** -->
 
     </div><!-- **Wrapper - End** -->
-    <div class="mobile-menu  ">
+    <div class="mobile-menu">
         <ul id="menu-new-menu-2" class="wdt-primary-nav " data-menu="62">
             <li class="close-nav"><a href="javascript:void(0);"></a></li>
             <li id="menu-item-2877"

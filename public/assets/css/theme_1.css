@@ -112,9 +112,6 @@ header#header,
         padding: 0px !important;
     }
 
-    header .elementor-column {
-        height: 50px !important;
-    }
 
     header.elementor-widget-container {
         text-align: justify !important;
@@ -606,11 +603,7 @@ img.ti-star {
 @media (max-width: 768px) {
 
     .logo {
-        height: 50px;
-    }
-
-    .mobile-menu {
-        display: none !important;
+        height: 60px;
     }
 
     #content_block_1 {
@@ -740,4 +733,40 @@ img.ti-star {
     max-height: 100%;
     max-width: 100%;
     width: 100%
+}
+
+h1 {
+    font-size: 50px;
+    margin: 10px 0px;
+}
+
+.slide-banners {
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.slide-banners.slick-initialized {
+    visibility: visible;
+    opacity: 1;
+}
+
+
+.banner-img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+.slick-slide img {
+    height: 100%;
+}
+
+.banner-box {
+    position: relative;
+    overflow: hidden;
 }

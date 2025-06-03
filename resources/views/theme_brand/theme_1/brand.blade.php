@@ -3,47 +3,7 @@
      $photos = !empty($medias['photo']) ? $medias['photo'] : [];
  @endphp
  @extends('front_end._index')
- @section('content')
-     <style>
-         h1 {
-             font-size: 50px;
-         }
-
-         .slide-banners {
-             visibility: hidden;
-             opacity: 0;
-             transition: opacity 0.3s ease;
-         }
-
-         .slide-banners.slick-initialized {
-             visibility: visible;
-             opacity: 1;
-         }
-
-         h1 {
-             margin: 10px 0px;
-         }
-
-         .banner-img {
-             width: 100%;
-             height: auto;
-             object-fit: cover;
-             position: absolute;
-             top: 0;
-             left: 0;
-             z-index: 0;
-         }
-
-         .slick-slide img {
-             height: 100%;
-         }
-
-         .banner-box {
-             position: relative;
-             overflow: hidden;
-         }
-     </style>
-
+ @section('content') 
      <div class="wdt-elementor-container-fluid elementor elementor-2632">
          <section class="elementor-section" data-id="35535b0" data-element_type="section">
              <div class="slide-banners slick-slider">
@@ -439,9 +399,7 @@
                  </div>
              </section>
          @endif
-
      </div>
-
  @endsection
  @push('scripts')
      <script>
@@ -460,7 +418,5 @@
              iframes.forEach(iframe => observer.observe(iframe));
          });
      </script>
-     <script>
-         
-     </script>
+     <script></script>
  @endpush
