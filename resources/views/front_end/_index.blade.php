@@ -14,9 +14,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    {{-- <script>
-        document.documentElement.className = document.documentElement.className + ' yes-js js_active js'
-    </script> --}}
+   
     @include('front_end.block.config_seo_header')
 
 
@@ -82,6 +80,7 @@
     </style>
 
   
+    <link rel="stylesheet" href="{{ convertPathImage('/assets/css/fonts.css') }}?ver={{ $ver }}">
     <link rel="stylesheet" href="{{ convertPathImage('/assets/css/css_minified.min.css') }}?ver={{ $ver }}">
     <link rel="stylesheet" href="{{ convertPathImage('/assets/css/theme_1.css') }}?ver={{ $ver }}"> 
  
