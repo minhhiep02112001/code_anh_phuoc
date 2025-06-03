@@ -1,5 +1,5 @@
 @php
-    $ver = 1.1;
+    $ver = 12;
     $config_website = getValueSetting('config_website');
     $config_seo = getValueSetting('config_seo');
     $config_social = getValueSetting('config_social');
@@ -82,16 +82,8 @@
     </style>
 
   
-
-    <link rel="preload" as="style" href="{{ convertPathImage('/assets/css/css_minified.min.css') }}?ver={{ $ver }}" onload="this.rel='stylesheet'">
-    <noscript>
-        <link rel="stylesheet" href="{{ convertPathImage('/assets/css/css_minified.min.css') }}?ver={{ $ver }}">
-    </noscript>
-
-    <link rel="preload" as="style" href="{{ convertPathImage('/assets/css/theme_1.css') }}?ver={{ $ver }}" onload="this.rel='stylesheet'">
-    <noscript>
-        <link rel="stylesheet" href="{{ convertPathImage('/assets/css/theme_1.css') }}?ver={{ $ver }}">
-    </noscript>
+    <link rel="stylesheet" href="{{ convertPathImage('/assets/css/css_minified.min.css') }}?ver={{ $ver }}">
+    <link rel="stylesheet" href="{{ convertPathImage('/assets/css/theme_1.css') }}?ver={{ $ver }}"> 
  
     @include('front_end.block.config_seo_header') 
 
