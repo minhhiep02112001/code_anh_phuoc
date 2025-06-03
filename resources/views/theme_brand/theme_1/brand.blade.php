@@ -10,9 +10,7 @@
                  {{-- <div class="slide-banners slick-slider"> --}}
                  @foreach ($banners as $k => $item)
                      <div class="block-item">
-                         <div class="banner-box text-center">
-
-
+                         <div class="banner-box text-center"> 
                              {!! getThumbnail($item, 1200, 400, 'banner-img') !!}
                              <div class="overlay"></div>
                              @if (!empty($post->content_banner))
@@ -44,9 +42,9 @@
                      </div>
 
                      <section class="elementor-inner-section elementor-section-full_width">
-                         <div class="markdown prose text-justify w-full break-words dark:prose-invert">
+                         <p class="markdown prose text-justify w-full break-words dark:prose-invert">
                              {!! $post->description !!}
-                         </div>
+                         </p>
                      </section>
 
                      <div class="elementor-widget-divider">

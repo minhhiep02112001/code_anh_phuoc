@@ -8,7 +8,7 @@
                 <section
                     class="elementor-section elementor-inner-section elementor-element elementor-element-6ee10e6 elementor-section-full_width elementor-section-content-middle elementor-section-height-default elementor-section-height-default">
                     <div class="elementor-container elementor-column-gap-no">
-                        <div class="elementor-col-50 elementor-inner-column elementor-element">
+                        <div class="elementor-col-50 ele-header elementor-inner-column elementor-element">
 
                             <div class="elementor-widget-container">
                                 <a href="{{ route('post', [$post->slug]) }}">
