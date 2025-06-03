@@ -36,7 +36,7 @@
                      {!! "Welcome To {$post->title}" !!}
                  </h1>
 
-                 <div style="max-width: 700px; margin: 0 auto;">
+                 <div style="">
                      <div class="elementor-widget-divider">
                          <div class="elementor-divider">
                              <span class="elementor-divider-separator"></span>
