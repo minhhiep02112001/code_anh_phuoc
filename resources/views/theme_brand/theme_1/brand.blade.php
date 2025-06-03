@@ -12,7 +12,7 @@
                      <div class="block-item">
                          <div class="banner-box text-center">
                              @if ($k == 0)
-                                 <img alt="{{ $k }}" class="banner-img" src="{{ getImageThumb($item, 1200, 400) }}"
+                                 <img alt="{{ $k }}" class="banner-img" src="{{ getImageThumb($item->thumbnail, 1200, 400) }}"
                                      width="1200" height="400">
                              @else
                                  {!! getThumbnail($item, 1200, 400, 'banner-img') !!}
