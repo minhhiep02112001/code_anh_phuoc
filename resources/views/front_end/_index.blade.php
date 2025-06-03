@@ -1,5 +1,5 @@
 @php
-    $ver = 1234;
+    $ver = 1.1;
     $config_website = getValueSetting('config_website');
     $config_seo = getValueSetting('config_seo');
     $config_social = getValueSetting('config_social');
@@ -81,10 +81,7 @@
         }
     </style>
 
-    {{-- <link rel="stylesheet" href="{{ asset('/assets/css/fonts.css') }}?ver={{ $ver }}"
-        as="style" /> --}}
-
-    {{-- Các CSS chính preload + onload --}}
+  
 
     <link rel="preload" as="style" href="{{ convertPathImage('/assets/css/css_minified.min.css') }}?ver={{ $ver }}" onload="this.rel='stylesheet'">
     <noscript>
@@ -96,42 +93,7 @@
         <link rel="stylesheet" href="{{ convertPathImage('/assets/css/theme_1.css') }}?ver={{ $ver }}">
     </noscript>
  
-    @include('front_end.block.config_seo_header')
-
-    {{-- Các style inline hiện tại giữ nguyên --}}
-    <style id='wp-emoji-styles-inline-css' type='text/css'>
-        img.wp-smiley,
-        img.emoji {
-            display: inline !important;
-            border: none !important;
-            box-shadow: none !important;
-            height: 1em !important;
-            width: 1em !important;
-            margin: 0 0.07em !important;
-            vertical-align: -0.1em !important;
-            background: none !important;
-            padding: 0 !important;
-        }
-    </style>
-    <style id='safe-svg-svg-icon-style-inline-css' type='text/css'>
-        .safe-svg-cover {
-            text-align: center
-        }
-
-        .safe-svg-cover .safe-svg-inside {
-            display: inline-block;
-            max-width: 100%
-        }
-
-        .safe-svg-cover svg {
-            height: 100%;
-            max-height: 100%;
-            max-width: 100%;
-            width: 100%
-        }
-    </style>
-
-    {{-- Tải JS với defer để không chặn render --}}
+    @include('front_end.block.config_seo_header') 
 
 </head>
 
@@ -194,91 +156,8 @@
         <span class="back-to-top-icon"><i class="wdticon-angle-up"></i></span>
     </a>
 
-    <script type="text/javascript"
-        src="{{ convertPathImage('/assets/js/jquery.min.js') }}?ver={{ $ver }}"></script>
-    <script type="text/javascript" src="{{ convertPathImage('/assets/js/slick.min.js') }}?ver={{ $ver }}" defer>
-    </script>
-   
-    <script>
-        jQuery(document).ready(function() {
-            // Khởi tạo Slick Slider
-            if (jQuery('.slide-banners').length > 0) {
-                jQuery('.slide-banners').slick({
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    dots: false,
-                    autoplay: true,
-                    autoplaySpeed: 5000, // Chuyển ảnh sau mỗi 2 giây
-                    arrows: true,
-                    infinite: true,
-                });
-            }
-
-            jQuery('.sliders').slick({
-                slidesToShow: 4,
-                slidesToScroll: 1,
-                dots: false,
-                autoplay: true,
-                autoplaySpeed: 2000, // Chuyển ảnh sau mỗi 2 giây
-                arrows: true,
-                infinite: true,
-                responsive: [{
-                        breakpoint: 800, // Khi màn hình nhỏ hơn hoặc bằng 1000px
-                        settings: {
-                            slidesToShow: 4, // Hiển thị 5 ảnh
-                        },
-                    },
-                    {
-                        breakpoint: 600, // Khi màn hình nhỏ hơn hoặc bằng 600px
-                        settings: {
-                            slidesToShow: 1, // Hiển thị 4 ảnh
-                        },
-                    },
-                    {
-                        breakpoint: 400, // Khi màn hình nhỏ hơn hoặc bằng 400px
-                        settings: {
-                            slidesToShow: 1, // Hiển thị 3 ảnh
-                        },
-                    },
-                ],
-            });
-            jQuery('.sliders-brands').slick({
-                slidesToShow: 5,
-                slidesToScroll: 2,
-                dots: false,
-                autoplay: true,
-                autoplaySpeed: 2000, // Chuyển ảnh sau mỗi 2 giây
-                arrows: true,
-                infinite: true,
-                responsive: [{
-                        breakpoint: 800, // Khi màn hình nhỏ hơn hoặc bằng 1000px
-                        settings: {
-                            slidesToShow: 4, // Hiển thị 5 ảnh
-                        },
-                    },
-                    {
-                        breakpoint: 600, // Khi màn hình nhỏ hơn hoặc bằng 600px
-                        settings: {
-                            slidesToShow: 2, // Hiển thị 4 ảnh
-                        },
-                    },
-                    {
-                        breakpoint: 400, // Khi màn hình nhỏ hơn hoặc bằng 400px
-                        settings: {
-                            slidesToShow: 1, // Hiển thị 3 ảnh
-                        },
-                    },
-                ],
-            });
-        });
-
-        jQuery(document).ready(function() {
-            jQuery("li.close-nav, .mobile-nav-offcanvas-right").on('click', function() {
-                jQuery('.mobile-menu').toggleClass('nav-is-visible')
-            })
-        });
-    </script>
-  
+    <script type="text/javascript" src="{{ convertPathImage('/assets/js/script_minified.js') }}?ver={{ $ver }}"></script>
+ 
     @stack('scripts')
 </body>
 

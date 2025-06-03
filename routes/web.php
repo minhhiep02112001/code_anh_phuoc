@@ -66,7 +66,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => [
     Route::get('category/product', [App\Http\Controllers\Admin\CategoryController::class, 'product']);
     Route::get('toplist', [App\Http\Controllers\Admin\PostController::class, 'topList'])->name('toplist');
     Route::resource('category', App\Http\Controllers\Admin\CategoryController::class);
-     Route::resource('banner', App\Http\Controllers\Admin\BannerController::class);
+    Route::resource('banner', App\Http\Controllers\Admin\BannerController::class);
     Route::resource('comment', App\Http\Controllers\Admin\CommentController::class);
     Route::resource('drag', App\Http\Controllers\Admin\DragController::class);
     Route::resource('crawler', App\Http\Controllers\Admin\CrawlerController::class);
@@ -90,7 +90,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => [
     Route::group(['prefix' => 'ajax', 'as' => 'ajax.'], function () {
         Route::post('/update-multiple-menu', [\App\Http\Controllers\Admin\MenuController::class, 'updateMultiple']);
         Route::get('/config_page', [App\Http\Controllers\Admin\ConfigPageController::class, 'ajax_load_data']);
-          Route::get('/crawler', [App\Http\Controllers\Admin\CrawlerController::class, 'ajax_load_data']);
+        Route::get('/crawler', [App\Http\Controllers\Admin\CrawlerController::class, 'ajax_load_data']);
         Route::get('/role', [App\Http\Controllers\Admin\RoleController::class, 'ajax_load_data']);
         Route::get('/banner', [App\Http\Controllers\Admin\BannerController::class, 'ajax_load_data']);
         Route::get('/category', [App\Http\Controllers\Admin\CategoryController::class, 'ajax_load_data']);
@@ -104,14 +104,15 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => [
     Route::get('logout', [App\Http\Controllers\Admin\AuthController::class, 'logout'])->name('logout');
 });
 
- 
+
 
 Route::get('/rss', [App\Http\Controllers\FeedController::class, 'feed_rss'])->name('google-news');
 Route::get('/feeds/pinterestxxx.xml', [App\Http\Controllers\FeedController::class, 'pinterestxxx'])->name('pinterestxxx');
 Route::get('/feeds/rssxxx.xml', [App\Http\Controllers\FeedController::class, 'rssxxx'])->name('rssxxx');
 
 Route::domain('{slug}.' . env('DOMAIN'))->group(function () {
-    Route::get('/', [\App\Http\Controllers\HomeController::class, 'post'])->name('post')->middleware('cacheResponse:600');
+    Route::get('/', [\App\Http\Controllers\HomeController::class, 'post'])->name('post');
+    // Route::get('/', [\App\Http\Controllers\HomeController::class, 'post'])->name('post')->middleware('cacheResponse:600');
     // Route::get('/menu.html', [\App\Http\Controllers\HomeController::class, 'menu'])->name('menu');
     Route::get('/site_map.xml', [\App\Http\Controllers\HomeController::class, 'sitemapBrand']);
 });
@@ -121,20 +122,7 @@ Route::group([
 ], function () {
     Route::get('/',  [App\Http\Controllers\HomeController::class, 'dashboard'])->name('home')->middleware('cacheResponse:300');
     // Route::get('/search', [App\Http\Controllers\HomeController::class, 'search'])->name('search');
-    //   Route::get('/{slug}-post.html', [App\Http\Controllers\HomeController::class, 'post'])->name('post')->where(['slug' => '[a-z0-9-_]+', 'id' => '[0-9]+']);
-    //   Route::get('/{slug}-menu.html', [App\Http\Controllers\HomeController::class, 'menu'])->name('menu')->where(['slug' => '[a-z0-9-_]+', 'id' => '[0-9]+']);
+    // Route::get('/{slug}-post.html', [App\Http\Controllers\HomeController::class, 'post'])->name('post')->where(['slug' => '[a-z0-9-_]+', 'id' => '[0-9]+']);
     Route::get('/{slug}.html', [App\Http\Controllers\HomeController::class, 'page'])->name('page')->where(['slug' => '[a-z0-9-_]+']);
-    // Route::get('/{slug}.html', [App\Http\Controllers\HomeController::class, 'page'])->name('page')->where(['slug' => '[a-z0-9-_]+'])->middleware('cacheResponse:2592000');
-    // Route::get('/{slug}.php', [App\Http\Controllers\HomeController::class, 'redirect301'])->name('redirect301')->where(['slug' => '[a-z0-9-_]+']);
     Route::get('{slug}', [App\Http\Controllers\HomeController::class, 'redirect301'])->name('redirect_301')->where(['slug' => '[a-z0-9-_]+']);
 });
-
-// <!-- Google tag (gtag.js) -->
-// <script async src="https://www.googletagmanager.com/gtag/js?id=G-DB1DK8FTX7"></script>
-// <script>
-//   window.dataLayer = window.dataLayer || [];
-//   function gtag(){dataLayer.push(arguments);}
-//   gtag('js', new Date());
-
-//   gtag('config', 'G-DB1DK8FTX7');
-// </script>
