@@ -10,8 +10,13 @@
                  {{-- <div class="slide-banners slick-slider"> --}}
                  @foreach ($banners as $k => $item)
                      <div class="block-item">
-                         <div class="banner-box text-center"> 
-                             {!! getThumbnail($item, 1200, 400, 'banner-img') !!}
+                         <div class="banner-box text-center">
+                             @if ($k == 0)
+                                 <img alt="{{ $k }}" class="banner-img" src="{{ getImageThumb($item, 1200, 400) }}"
+                                     width="1200" height="400">
+                             @else
+                                 {!! getThumbnail($item, 1200, 400, 'banner-img') !!}
+                             @endif
                              <div class="overlay"></div>
                              @if (!empty($post->content_banner))
                                  <div class="banner-content">
@@ -26,8 +31,7 @@
              </div>
          </section>
 
-         <section id="about"
-             class="elementor-padding elementor-section  ">
+         <section id="about" class="elementor-padding elementor-section  ">
 
              <div class="elementor-column-gap-default">
                  <h1 class="elementor-heading-title  text-center">
