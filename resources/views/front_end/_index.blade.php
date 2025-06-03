@@ -14,15 +14,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-   
+
     @include('front_end.block.config_seo_header')
 
 
     <style>
-        *{
+        * {
             margin: 0;
             padding: 0;
         }
+
         :root {
             --wdtPrimaryColor: #ecdec1;
             --wdtPrimaryColorRgb: 236, 222, 193;
@@ -83,17 +84,23 @@
         }
     </style>
 
-  
-    <link rel="stylesheet" href="{{ convertPathImage('/assets/css/fonts.css') }}?ver={{ $ver }}">
+    <link rel="preload" href="{{ convertPathImage('/assets/css/fonts.css') }}?ver={{ $ver }}" as="style"
+        onload="this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="{{ convertPathImage('/assets/css/fonts.css') }}?ver={{ $ver }}">
+    </noscript>
+
+
     <link rel="stylesheet" href="{{ convertPathImage('/assets/css/css_minified.min.css') }}?ver={{ $ver }}">
-    <link rel="stylesheet" href="{{ convertPathImage('/assets/css/theme_1.css') }}?ver={{ $ver }}"> 
- 
-    @include('front_end.block.config_seo_header') 
+    <link rel="stylesheet" href="{{ convertPathImage('/assets/css/theme_1.css') }}?ver={{ $ver }}">
+
+   
+
+    @include('front_end.block.config_seo_header')
 
 </head>
 
-<body
-    class="home page-template  ">
+<body class="home page-template  ">
 
     <!-- **Wrapper** -->
     <div class="wrapper">
@@ -151,8 +158,9 @@
         <span class="back-to-top-icon"><i class="wdticon-angle-up"></i></span>
     </a>
 
-    <script type="text/javascript" src="{{ convertPathImage('/assets/js/script_minified.js') }}?ver={{ $ver }}"></script>
- 
+    <script type="text/javascript" src="{{ convertPathImage('/assets/js/script_minified.js') }}?ver={{ $ver }}">
+    </script>
+
     @stack('scripts')
 </body>
 
