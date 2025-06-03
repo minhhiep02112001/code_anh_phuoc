@@ -5,16 +5,17 @@ use Intervention\Image\ImageManagerStatic as Image;
 if (!function_exists('getImageThumb')) {
      function getImageThumb($image = '', $width = '', $height = '', $crop = true)
      {
-          $img_default =  asset("assets/default.png");
-          // $_this = &get_instance();
+          $img_default = asset("assets/default.png");
+
           if (empty($image) || !file_exists(public_path($image))) {
                return $img_default;
           }
           if (empty($width) && empty($height)) {
                return convertPathImage($image);
           }
+
           $image = trim($image);
-          $imageOrigin =  public_path($image);
+          $imageOrigin = public_path($image);
           $sizeText = sprintf('-%dx%d', $width, $height);
 
           $ext = pathinfo($image, PATHINFO_EXTENSION);
@@ -26,27 +27,40 @@ if (!function_exists('getImageThumb')) {
           $pathThumb = public_path($newImage);
           $pathThumb = str_replace(['///', '//'], '/', $pathThumb);
 
-          if (!file_exists($pathThumb)) {
-               try {
+          $webpImage = preg_replace('/\.\w+$/', '.webp', $newImage);
+          $pathWebp = public_path($webpImage);
 
+          try {
+               if (!file_exists($pathThumb) && !file_exists($pathWebp)) {
                     if (!is_dir(dirname($pathThumb))) {
-                         mkdir(dirname($pathThumb), 0755, TRUE);
+                         mkdir(dirname($pathThumb), 0755, true);
                     }
 
-                    Image::configure(array('driver' => 'gd'));
+                    Image::configure(['driver' => 'gd']);
                     $intval_width = intval($width);
-                    $height_width = intval($height);
+                    $intval_height = intval($height);
 
-                    if ($intval_width > 0 && $height_width > 0) {
-                         $image = Image::make($imageOrigin)->fit(intval($width), intval($height));
+                    if ($intval_width > 0 && $intval_height > 0) {
+                         $imageObj = Image::make($imageOrigin)->fit($intval_width, $intval_height);
                     } else {
-                         $image = Image::make($imageOrigin);
+                         $imageObj = Image::make($imageOrigin);
                     }
-                    $image->save($pathThumb);
-               } catch (Exception $e) {
-                    return $img_default;
+
+                    // Lưu file gốc resized
+                    $imageObj->save($pathThumb, 85);
+
+                    // Lưu file WebP với chất lượng 80
+                    $imageObj->encode('webp', 80)->save($pathWebp);
                }
+          } catch (Exception $e) {
+               return $img_default;
           }
+
+          // Trả về ảnh WebP nếu tồn tại, nếu không thì trả ảnh resize gốc
+          if (file_exists($pathWebp)) {
+               return convertPathImage($webpImage);
+          }
+
           return convertPathImage($newImage);
      }
 }
