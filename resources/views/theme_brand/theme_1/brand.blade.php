@@ -3,10 +3,11 @@
      $photos = !empty($medias['photo']) ? $medias['photo'] : [];
  @endphp
  @extends('front_end._index')
- @section('content') 
+ @section('content')
      <div class="wdt-elementor-container-fluid elementor elementor-2632">
          <section class="elementor-section" data-id="35535b0" data-element_type="section">
-             <div class="slide-banners slick-slider">
+             <div class="homebanners ">
+                 {{-- <div class="slide-banners slick-slider"> --}}
                  @foreach ($banners as $k => $item)
                      <div class="block-item">
                          <div class="banner-box text-center">
@@ -28,8 +29,7 @@
          </section>
 
          <section id="about"
-             class="elementor-padding elementor-section elementor-top-section elementor-element elementor-section-full_width elementor-section-height-default"
-             style="min-height: 250px;">
+             class="elementor-padding elementor-section elementor-top-section elementor-element elementor-section-full_width ">
 
              <div class="elementor-column-gap-default">
                  <h1 class="elementor-heading-title elementor-size-default text-center">
@@ -418,5 +418,20 @@
              iframes.forEach(iframe => observer.observe(iframe));
          });
      </script>
-     <script></script>
+     <script>
+         jQuery(document).ready(function() {
+             // Khởi tạo Slick Slider
+             if (jQuery(".homebanners").length > 0) {
+                 jQuery(".homebanners").slick({
+                     slidesToShow: 1,
+                     slidesToScroll: 1,
+                     dots: false,
+                     autoplay: true,
+                     autoplaySpeed: 5000, // Chuyển ảnh sau mỗi 2 giây
+                     arrows: false,
+                     infinite: false,
+                 });
+             }
+         })
+     </script>
  @endpush

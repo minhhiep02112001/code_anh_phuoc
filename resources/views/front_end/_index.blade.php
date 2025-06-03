@@ -1,5 +1,5 @@
 @php
-    $ver = 112;
+    $ver = 1;
     $config_website = getValueSetting('config_website');
     $config_seo = getValueSetting('config_seo');
     $config_social = getValueSetting('config_social');
@@ -18,7 +18,11 @@
     @include('front_end.block.config_seo_header')
 
 
-    <style id='lilac-beauty-inline-css' type='text/css'>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
         :root {
             --wdtPrimaryColor: #ecdec1;
             --wdtPrimaryColorRgb: 236, 222, 193;
@@ -40,7 +44,7 @@
             --wdtBorderColorRgb: 183, 183, 183;
             --wdtAccentTxtColor: #ffffff;
             --wdtAccentTxtColorRgb: 255, 255, 255;
-            --wdtFontTypo_Base: "LaNunitoto", sans-serif;
+            --wdtFontTypo_Base: "Nunito", sans-serif;
             --wdtFontWeight_Base: 400;
             --wdtFontSize_Base: 16px;
             --wdtLineHeight_Base: 1.64;
@@ -89,7 +93,7 @@
 </head>
 
 <body
-    class="home page-template page-template-elementor_header_footer page page-id-2632 wp-custom-logo theme-lilac-beauty has-go-to-top lilacbeauty-plus-1.0.2 lilacbeauty-pro-1.0.0 woocommerce-no-js elementor-default elementor-template-full-width elementor-kit-11 elementor-page elementor-page-2632">
+    class="home page-template  ">
 
     <!-- **Wrapper** -->
     <div class="wrapper">

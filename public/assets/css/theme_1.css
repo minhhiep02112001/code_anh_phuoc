@@ -14,16 +14,7 @@
     /* Include padding and border in the size */
 }
 
-body,
-button,
-input,
-textarea,
-select,
-optgroup {
-    font-family: 'Nunito', sans-serif;
-}
-
-.elementor-element.elementor-element-ee89094 .elementor-heading-title {
+.elementor-heading-title {
     font-family: 'Nunito', sans-serif;
     font-weight: 600 !important;
 }
