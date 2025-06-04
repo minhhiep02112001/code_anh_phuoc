@@ -6,16 +6,16 @@
  @section('content')
      <div class="wdt-elementor-container-fluid elementor elementor-2632">
          <section class="elementor-section" data-id="35535b0" data-element_type="section">
-             <div class="homebanners ">
-                 {{-- <div class="slide-banners slick-slider"> --}}
+             <div class="homebanners">
                  @foreach ($banners as $k => $item)
                      <div class="block-item">
                          <div class="banner-box text-center">
                              @if ($k == 0)
-                                 <img alt="{{ $k }}" class="banner-img" src="{{ getImageThumb($item->thumbnail, 1200, 400) }}"
-                                     width="1200" height="400">
+                                 <img alt="{{ $k }}" class="banner-img"
+                                     src="{{ getImageThumb($item->thumbnail, 1200, 400) }}" width="1200" height="400">
                              @else
-                                 {!! getThumbnail($item, 1200, 400, 'banner-img') !!}
+                                 <img loading="lazy" alt="{{ $k }}" class="banner-img"
+                                     src="{{ getImageThumb($item->thumbnail, 1200, 400) }}" width="1200" height="400">
                              @endif
                              <div class="overlay"></div>
                              @if (!empty($post->content_banner))
@@ -30,6 +30,12 @@
                  @endforeach
              </div>
          </section>
+
+         {{-- Preload ảnh banner đầu tiên --}}
+         @once
+             <link rel="preload" as="image" href="{{ getImageThumb($banners[0]->thumbnail, 1200, 400) }}">
+         @endonce
+
 
          <section id="about" class="elementor-padding elementor-section  ">
 
