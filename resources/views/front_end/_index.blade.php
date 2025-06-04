@@ -1,5 +1,5 @@
 @php
-    $ver = 21;
+    $ver = 113;
     $config_website = getValueSetting('config_website');
     $config_seo = getValueSetting('config_seo');
     $config_social = getValueSetting('config_social');
@@ -17,6 +17,12 @@
 
     @include('front_end.block.config_seo_header')
 
+ <link href="{{ asset('assets/font-awesome-4.7/css/font-awesome.min.css') }}" rel="stylesheet" media="all">
+    <link rel="preload" href="{{ convertPathImage('/assets/css/fonts.css') }}?ver={{ $ver }}" as="style"
+        onload="this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="{{ convertPathImage('/assets/css/fonts.css') }}?ver={{ $ver }}">
+    </noscript>
 
     <style>
         * {
@@ -82,19 +88,13 @@
             --wdtFontSize_Ext: 12px;
             --wdtLineHeight_Ext: 1.1;
         }
-    </style>
-
-    <link rel="preload" href="{{ convertPathImage('/assets/css/fonts.css') }}?ver={{ $ver }}" as="style"
-        onload="this.rel='stylesheet'">
-    <noscript>
-        <link rel="stylesheet" href="{{ convertPathImage('/assets/css/fonts.css') }}?ver={{ $ver }}">
-    </noscript>
-
-
+    </style> 
+     
     <link rel="stylesheet" href="{{ convertPathImage('/assets/css/css_minified.min.css') }}?ver={{ $ver }}">
+    <link rel="stylesheet" href="{{ convertPathImage('/assets/slick/slick/slick.css') }}?ver={{ $ver }}">
     <link rel="stylesheet" href="{{ convertPathImage('/assets/css/theme_1.css') }}?ver={{ $ver }}">
 
-   
+
 
     @include('front_end.block.config_seo_header')
 

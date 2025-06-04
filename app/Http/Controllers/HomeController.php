@@ -65,7 +65,7 @@ class HomeController extends Controller
         $post = $this->postRepository->findByField('slug', $slug)->first();
         if (empty($post) || $post->is_status != 1) return abort(404);
         $medias = $post->media()->select(['position', 'type', 'thumbnail'])->get()->groupBy('type');
-        $promat = env('META_DES');
+       
         $SEO = [
             'title' => $post->meta_title,
             'meta_title' => $post->meta_title,

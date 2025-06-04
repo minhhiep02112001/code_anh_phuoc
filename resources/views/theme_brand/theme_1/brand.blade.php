@@ -34,24 +34,7 @@
                  @endforeach
              </div>
          </section>
-
-         {{-- Preload ảnh banner đầu tiên --}}
-         @once
-             @if (!empty($banners[0]))
-                 @php
-                     $preloadThumbs = getImageThumbsResponsive($banners[0]->thumbnail, [1200], 400, true);
-                 @endphp
-                 <link rel="preload" as="image" href="{{ $preloadThumbs[1200] ?? '' }}">
-             @endif
-         @endonce
-
-
-         {{-- Preload ảnh banner đầu tiên --}}
-         {{-- @once
-             <link rel="preload" as="image" href="{{ getImageThumb($banners[0]->thumbnail, 1200, 400) }}">
-         @endonce --}}
-
-
+ 
          <section id="about" class="elementor-padding elementor-section  ">
 
              <div class="elementor-column-gap-default">
@@ -82,7 +65,7 @@
          </section>
 
          <section
-             class="elementor-section elementor-inner-section elementor-element elementor-element-6d3b147 elementor-reverse-mobile   elementor-section-boxed elementor-section-height-default elementor-section-height-default">
+             class="elementor-section elementor-padding elementor-inner-section elementor-element elementor-element-6d3b147 elementor-reverse-mobile   elementor-section-boxed elementor-section-height-default elementor-section-height-default">
              <div class="elementor-widget-wrap elementor-element-populated d-flex justify-content-center flex-warp">
                  <div class="elementor-icon-box-wrapper p-2">
 
@@ -140,7 +123,7 @@
              <section id="content_block_1"
                  class="elementor-section elementor-inner-section elementor-element elementor-element-6533d6c4 elementor-reverse-tablet elementor-reverse-mobile elementor-section-height-min-height elementor-section-content-middle elementor-section-boxed elementor-section-height-default">
                  <div
-                     class="elementor-column elementor-column-1 elementor-col-50 elementor-inner-column elementor-element elementor-element-7ea6c594 animated-fast ">
+                     class="elementor-column elementor-column-1 elementor-padding elementor-col-50 elementor-inner-column elementor-element elementor-element-7ea6c594 animated-fast ">
                      <div class="elementor-widget-wrap elementor-element-populated">
                          <h2 class="elementor-heading-title elementor-size-default text-center d-block">
                              {!! $post?->title_block_1 !!}
@@ -153,7 +136,7 @@
                              </div>
                          </div>
                          <div
-                             class="elementor-element elementor-element-d02be1a elementor-widget elementor-widget-text-editor">
+                             class="elementor-element   elementor-element-d02be1a elementor-widget elementor-widget-text-editor">
                              <div class="elementor-widget-container justify">
                                  {!! $post->content_block_1 !!}
                              </div>
@@ -162,7 +145,7 @@
                  </div>
 
                  <div
-                     class="elementor-column elementor-column-2 elementor-col-50 elementor-inner-column elementor-element elementor-element-17aa2697 animated-fast ">
+                     class="elementor-column elementor-column-2 elementor-padding  elementor-col-50 elementor-inner-column elementor-element elementor-element-17aa2697 animated-fast ">
                      <div
                          class="elementor-element elementor-element-164478d animated-fast wdt-custom-hover-image-style elementor-hidden-tablet elementor-widget elementor-widget-image">
                          <div class="elementor-widget-container">
@@ -391,8 +374,8 @@
 
          @if (!empty($relates) && $relates->isNotEmpty())
              <section class="e18e99my1 css-1600jh ehep9uj0">
-                 <div class="e18e99my0 css-1iiv58m e1xmv6f40">
-                     <div class="auto-container">
+                 <div class="elementor-padding e18e99my0 css-1iiv58m e1xmv6f40">
+                    
                          <div class="sec-title ">
                              <h4>Recommend Brand</h4> <span class="divider"></span>
                          </div>
@@ -418,7 +401,7 @@
                                  </div>
                              @endforeach
                          </div>
-                     </div>
+                      
                  </div>
              </section>
          @endif

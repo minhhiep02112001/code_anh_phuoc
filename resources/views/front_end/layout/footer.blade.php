@@ -20,7 +20,7 @@
                     data-id="e8f5686" data-element_type="section"
                     data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
                     <div class="elementor-background-overlay"></div>
-                    <div class="elementor-container elementor-column-gap-no">
+                    <div class="elementor-container elementor-padding elementor-column-gap-no">
                         <div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-ae712bd"
                             data-id="ae712bd" data-element_type="column">
                             <div class="elementor-widget-wrap elementor-element-populated">
@@ -43,22 +43,7 @@
                                                             </a>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                {{-- <div class="elementor-element elementor-element-1e4b137 elementor-align-center elementor-widget elementor-widget-button"
-                                                    data-id="1e4b137" data-element_type="widget"
-                                                    data-widget_type="button.default">
-                                                    <div class="elementor-widget-container">
-                                                        <div class="elementor-button-wrapper">
-                                                            <a class="elementor-button elementor-button-link elementor-size-sm"
-                                                                href="#">
-                                                                <span class="elementor-button-content-wrapper">
-                                                                    <span class="elementor-button-text">Book
-                                                                        appointment</span>
-                                                                </span>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div> --}}
+                                                </div> 
                                                 <div class="elementor-element elementor-element-97c8152 elementor-align-center elementor-widget elementor-widget-button"
                                                     data-id="97c8152" data-element_type="widget"
                                                     data-widget_type="button.default">

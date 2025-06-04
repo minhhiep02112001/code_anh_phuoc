@@ -567,8 +567,8 @@ img.ti-star {
     font-family: "FontAwesome";
     font-size: 20px;
     position: absolute;
-    top: 6px;
-    left: 14px;
+    top: 3px;
+    left: 10px;
 }
 
 .slick-next::before {
@@ -577,8 +577,8 @@ img.ti-star {
     font-family: "FontAwesome";
     font-size: 20px;
     position: absolute;
-    top: 6px;
-    left: 18px;
+    top: 3px;
+    left: 10px;
 }
 
 /* Hiệu ứng khi hover */
