@@ -111,8 +111,7 @@ Route::get('/feeds/pinterestxxx.xml', [App\Http\Controllers\FeedController::clas
 Route::get('/feeds/rssxxx.xml', [App\Http\Controllers\FeedController::class, 'rssxxx'])->name('rssxxx');
 
 Route::domain('{slug}.' . env('DOMAIN'))->group(function () {
-    Route::get('/', [\App\Http\Controllers\HomeController::class, 'post'])->name('post');
-    // Route::get('/', [\App\Http\Controllers\HomeController::class, 'post'])->name('post')->middleware('cacheResponse:600');
+    Route::get('/', [\App\Http\Controllers\HomeController::class, 'post'])->name('post')->middleware('cacheResponse:600');
     // Route::get('/menu.html', [\App\Http\Controllers\HomeController::class, 'menu'])->name('menu');
     Route::get('/site_map.xml', [\App\Http\Controllers\HomeController::class, 'sitemapBrand']);
 });
