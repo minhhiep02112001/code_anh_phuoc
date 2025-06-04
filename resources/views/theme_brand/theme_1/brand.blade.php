@@ -20,7 +20,7 @@
                                  sizes="(max-width: 600px) 400px, (max-width: 900px) 800px, 1200px"
                                  alt="Banner {{ $k }}" width="1200" height="400" class="banner-img">
 
-                             {{-- <div class="overlay"></div>
+                             <div class="overlay"></div>
 
                              @if (!empty($post->content_banner))
                                  <div class="banner-content">
@@ -28,7 +28,7 @@
                                      <a href="#" class="cta-button btn btn-outline btn--bordered btn--white">BOOK
                                          NOW</a>
                                  </div>
-                             @endif --}}
+                             @endif
                          </div>
                      </div>
                  @endforeach
