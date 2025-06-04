@@ -1,5 +1,5 @@
 @php
-    $ver = 113;
+    $ver = 114;
     $config_website = getValueSetting('config_website');
     $config_seo = getValueSetting('config_seo');
     $config_social = getValueSetting('config_social');
@@ -24,73 +24,8 @@
         <link rel="stylesheet" href="{{ convertPathImage('/assets/css/fonts.css') }}?ver={{ $ver }}">
     </noscript>
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-        }
-
-        :root {
-            --wdtPrimaryColor: #ecdec1;
-            --wdtPrimaryColorRgb: 236, 222, 193;
-            --wdtSecondaryColor: #000000;
-            --wdtSecondaryColorRgb: 0, 0, 0;
-            --wdtTertiaryColor: #b6713e;
-            --wdtTertiaryColorRgb: 182, 113, 62;
-            --wdtBodyBGColor: #fcf7ee;
-            --wdtBodyBGColorRgb: 252, 247, 238;
-            --wdtBodyTxtColor: #202020;
-            --wdtBodyTxtColorRgb: 32, 32, 32;
-            --wdtHeadAltColor: #000000;
-            --wdtHeadAltColorRgb: 0, 0, 0;
-            --wdtLinkColor: #000000;
-            --wdtLinkColorRgb: 0, 0, 0;
-            --wdtLinkHoverColor: #b6713e;
-            --wdtLinkHoverColorRgb: 182, 113, 62;
-            --wdtBorderColor: #b7b7b7;
-            --wdtBorderColorRgb: 183, 183, 183;
-            --wdtAccentTxtColor: #ffffff;
-            --wdtAccentTxtColorRgb: 255, 255, 255;
-            --wdtFontTypo_Base: "Nunito", sans-serif;
-            --wdtFontWeight_Base: 400;
-            --wdtFontSize_Base: 16px;
-            --wdtLineHeight_Base: 1.64;
-            --wdtFontTypo_Alt: "Nunito", sans-serif;
-            --wdtFontWeight_Alt: 700;
-            --wdtFontSize_Alt: 60px;
-            --wdtLineHeight_Alt: 1.28;
-            --wdtFontTypo_H1: "Nunito", sans-serif;
-            --wdtFontWeight_H1: 700;
-            --wdtFontSize_H1: 60px;
-            --wdtLineHeight_H1: 1.28;
-            --wdtFontTypo_H2: "Nunito", sans-serif;
-            --wdtFontWeight_H2: 700;
-            --wdtFontSize_H2: 50px;
-            --wdtLineHeight_H2: 1.28;
-            --wdtFontTypo_H3: "Nunito", sans-serif;
-            --wdtFontWeight_H3: 500;
-            --wdtFontSize_H3: 44px;
-            --wdtLineHeight_H3: 1.28;
-            --wdtFontTypo_H4: "Nunito", sans-serif;
-            --wdtFontWeight_H4: 500;
-            --wdtFontSize_H4: 30px;
-            --wdtLineHeight_H4: 1.28;
-            --wdtFontTypo_H5: "Nunito", sans-serif;
-            --wdtFontWeight_H5: 500;
-            --wdtFontSize_H5: 26px;
-            --wdtLineHeight_H5: 1.28;
-            --wdtFontTypo_H6: "Nunito", sans-serif;
-            --wdtFontWeight_H6: 500;
-            --wdtFontSize_H6: 20px;
-            --wdtLineHeight_H6: 1.28;
-            --wdtFontTypo_Ext: "Nunito", cursive;
-            --wdtFontWeight_Ext: 600;
-            --wdtFontSize_Ext: 12px;
-            --wdtLineHeight_Ext: 1.1;
-        }
-    </style> 
-     
-    <link rel="stylesheet" href="{{ convertPathImage('/assets/css/css_minified.min.css') }}?ver={{ $ver }}">
+   
+    <link rel="stylesheet" href="{{ convertPathImage('/assets/css/brand_1.css') }}?ver={{ $ver }}"> 
     <link rel="stylesheet" href="{{ convertPathImage('/assets/slick/slick/slick.css') }}?ver={{ $ver }}">
     <link rel="stylesheet" href="{{ convertPathImage('/assets/css/theme_1.css') }}?ver={{ $ver }}">
 
