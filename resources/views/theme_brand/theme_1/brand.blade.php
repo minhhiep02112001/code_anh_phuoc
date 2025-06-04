@@ -8,16 +8,20 @@
          <section class="elementor-section" data-id="35535b0" data-element_type="section">
              <div class="homebanners">
                  @foreach ($banners as $k => $item)
+                     @php
+                         // Tạo mảng ảnh responsive 400, 800, 1200px, chiều cao 400 cố định, crop true
+                         $thumbs = getImageThumbsResponsive($item->thumbnail, [400, 800, 1200], 400, true);
+                     @endphp
+
                      <div class="block-item">
                          <div class="banner-box text-center">
-                             @if ($k == 0)
-                                 <img alt="{{ $k }}" class="banner-img"
-                                     src="{{ getImageThumb($item->thumbnail, 1200, 400) }}" width="1200" height="400">
-                             @else
-                                 <img loading="lazy" alt="{{ $k }}" class="banner-img"
-                                     src="{{ getImageThumb($item->thumbnail, 1200, 400) }}" width="1200" height="400">
-                             @endif
+                             <img src="{{ $thumbs[800] ?? ($thumbs[400] ?? asset('assets/default.png')) }}"
+                                 srcset="{{ $thumbs[400] ?? '' }} 400w, {{ $thumbs[800] ?? '' }} 800w, {{ $thumbs[1200] ?? '' }} 1200w"
+                                 sizes="(max-width: 600px) 400px, (max-width: 900px) 800px, 1200px"
+                                 alt="Banner {{ $k }}" width="1200" height="400" class="banner-img">
+
                              <div class="overlay"></div>
+
                              @if (!empty($post->content_banner))
                                  <div class="banner-content">
                                      <p class="text-center">{{ $post->content_banner }}</p>
@@ -33,8 +37,19 @@
 
          {{-- Preload ảnh banner đầu tiên --}}
          @once
-             <link rel="preload" as="image" href="{{ getImageThumb($banners[0]->thumbnail, 1200, 400) }}">
+             @if (!empty($banners[0]))
+                 @php
+                     $preloadThumbs = getImageThumbsResponsive($banners[0]->thumbnail, [1200], 400, true);
+                 @endphp
+                 <link rel="preload" as="image" href="{{ $preloadThumbs[1200] ?? '' }}">
+             @endif
          @endonce
+
+
+         {{-- Preload ảnh banner đầu tiên --}}
+         {{-- @once
+             <link rel="preload" as="image" href="{{ getImageThumb($banners[0]->thumbnail, 1200, 400) }}">
+         @endonce --}}
 
 
          <section id="about" class="elementor-padding elementor-section  ">
@@ -110,8 +125,8 @@
 
                      <div class="elementor-icon-box-icon">
                          <span class="elementor-icon">
-                             <img src="{{ asset('assets/images/icon_4.png') }}" loading="lazy" width="100" height="100"
-                                 alt="Gift Cards ">
+                             <img src="{{ asset('assets/images/icon_4.png') }}" loading="lazy" width="100"
+                                 height="100" alt="Gift Cards ">
                          </span>
                      </div>
                      <div class="elementor-icon-box-content">
