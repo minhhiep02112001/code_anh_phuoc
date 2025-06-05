@@ -246,7 +246,7 @@
 
 
         <script src="{{ asset('admins/js/data_table.js') }}"></script>
-        <script src="{{ asset('admins/js/index.js') }}"></script>
+        <script src="{{ asset('admins/js/index.js') }}?v=1"></script>
         <script src="{{ asset('admins/js/main.js') }}"></script>
         <script>
             const _status = @json(config('data.status'));

@@ -13,7 +13,23 @@ var win = $(window),
         selector: "textarea.tinymce",
         entity_encoding: "raw",
         setup: function (editor) {
-            editor.on("change", function () {
+            editor.on("change", function (e) {
+                var content = editor.getContent(); // Lấy nội dung hiện tại của TinyMCE
+                var iframeMatch = content.match(
+                    /&lt;iframe.*?&gt;&lt;\/iframe&gt;/
+                ); // Tìm iframe mã hóa trong nội dung
+
+                if (iframeMatch) {
+                    // Giải mã thực thể HTML và chèn iframe vào nội dung
+                    var decodedIframe = iframeMatch[0]
+                        .replace(/&lt;/g, "<")
+                        .replace(/&gt;/g, ">")
+                        .replace(/&quot;/g, '"');
+                    editor.setContent(
+                        content.replace(iframeMatch[0], decodedIframe)
+                    ); // Thay thế iframe mã hóa bằng iframe thực tế
+                }  
+                
                 editor.save();
             });
 
@@ -1459,16 +1475,15 @@ const AutoloadDataService = (function () {
         var __cache = [];
         parentDom.find(".select2_suggest").each(async function () {
             var self = $(this);
-            await loadSelectData(self); 
-            $(this).on("select2:unselect", function (e) { 
-                if(!$(this).prop("multiple")){
+            await loadSelectData(self);
+            $(this).on("select2:unselect", function (e) {
+                if (!$(this).prop("multiple")) {
                     $(this).val(null).trigger("change");
-                    console.log('select2:unselect set null');
+                    console.log("select2:unselect set null");
                 }
-                $(this).find(`option[value="${e.params.data.id}"]`).remove(); 
-                
+                $(this).find(`option[value="${e.params.data.id}"]`).remove();
             });
-            
+
             $(this).bind("change_select2", function (e) {
                 console.log($(this).val());
 
