@@ -57,7 +57,7 @@ class ConvertData extends Command
             'is_crawler' => 1,
             'is_status' => 2
         ])->get();
-
+           
         foreach ($datas as $data) {
 
             $post = Post::firstOrCreate(['slug' => $data->slug], ['title' => $data->key_word, 'slug' => $data->slug]);
