@@ -16,6 +16,7 @@ function convertStr(str) {
     return str.replace(/'/g, "''");
 }
 async function crawlerGoogleIframe(browser, record, retry = 5) {
+    
     let url = record.link_google_map;
     let crawler_id = record.id;
     var page = await browser.newPage();

@@ -9,8 +9,7 @@ class Crawler extends Model
 {
     use HasFactory;
     protected $table = 'crawler_map';
-    protected $fillable = [
-
+    protected $fillable = [ 
         'key_word',
         'slug',
         'link_google_map',
