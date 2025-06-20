@@ -790,15 +790,13 @@ h1 {
   vertical-align: top;
 }
 
-#content table thead {
-  background-color: #f9f9f9;
+#content table thead { 
   font-weight: 600;
 }
-
-#content table tbody tr:nth-child(even) {
-  background-color: #fdfdfd;
-}
-
+ 
 #content table td:nth-child(2) {
   white-space: nowrap;
+}
+#content ul, #content ol{
+padding-left: 20px;
 }
