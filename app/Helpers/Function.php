@@ -494,3 +494,8 @@ function getIframeSrcFromString($iframeString)
     $iframeString = preg_replace('/height="[^"]*"/', 'height="100%"', $iframeString);
     return $iframeString; // Trả về giá trị src hoặc null nếu không tìm thấy
 }
+
+function  replaceContent($content)
+{
+    return str_replace(['—'], ' ', $content);
+}

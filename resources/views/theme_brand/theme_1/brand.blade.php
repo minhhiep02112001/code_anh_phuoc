@@ -34,7 +34,7 @@
                  @endforeach
              </div>
          </section>
- 
+
          <section id="about" class="elementor-padding elementor-section  ">
 
              <div class="elementor-column-gap-default">
@@ -108,8 +108,8 @@
 
                      <div class="elementor-icon-box-icon">
                          <span class="elementor-icon">
-                             <img src="{{ asset('assets/images/icon_4.png') }}" loading="lazy" width="100"
-                                 height="100" alt="Gift Cards ">
+                             <img src="{{ asset('assets/images/icon_4.png') }}" loading="lazy" width="100" height="100"
+                                 alt="Gift Cards ">
                          </span>
                      </div>
                      <div class="elementor-icon-box-content">
@@ -138,7 +138,8 @@
                          <div
                              class="elementor-element   elementor-element-d02be1a elementor-widget elementor-widget-text-editor">
                              <div class="elementor-widget-container justify">
-                                 {!! $post->content_block_1 !!}
+
+                                 {!! replaceContent($post->content_block_1) !!}
                              </div>
                          </div>
                      </div>
@@ -368,40 +369,39 @@
              data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
 
              <div id="content" class="justify">
-                 {!! $post?->content !!}
+                 {!! replaceContent($post?->content) !!}
              </div>
          </section>
 
          @if (!empty($relates) && $relates->isNotEmpty())
              <section class="e18e99my1 css-1600jh ehep9uj0">
                  <div class="elementor-padding e18e99my0 css-1iiv58m e1xmv6f40">
-                    
-                         <div class="sec-title ">
-                             <h4>Recommend Brand</h4> <span class="divider"></span>
-                         </div>
-                         <div class="row" id="list-recomend">
-                             @foreach ($relates as $item)
-                                 <div class="listing-block col-lg-4 col-md-6 col-sm-12">
-                                     <div class="inner-box">
-                                         <a href="{{ route('post', ['slug' => $item->slug]) }}"
-                                             title="{{ $item->title }}">
-                                             <div class="image-box">
-                                                 <figure class="image" style="aspect-ratio: 3/2;">
-                                                     {!! getThumbnailImg($item->thumbnail, 600, 400, '', $item->title) !!}
-                                                 </figure>
-                                             </div>
-                                             <div class="lower-content">
-                                                 <a style="font-weight: bold; font-size:16px;"
-                                                     href="{{ route('post', ['slug' => $item->slug]) }}"
-                                                     title="{{ $item->title }}">{{ $item->title }}</a>
 
-                                             </div>
-                                         </a>
-                                     </div>
+                     <div class="sec-title ">
+                         <h4>Recommend Brand</h4> <span class="divider"></span>
+                     </div>
+                     <div class="row" id="list-recomend">
+                         @foreach ($relates as $item)
+                             <div class="listing-block col-lg-4 col-md-6 col-sm-12">
+                                 <div class="inner-box">
+                                     <a href="{{ route('post', ['slug' => $item->slug]) }}" title="{{ $item->title }}">
+                                         <div class="image-box">
+                                             <figure class="image" style="aspect-ratio: 3/2;">
+                                                 {!! getThumbnailImg($item->thumbnail, 600, 400, '', $item->title) !!}
+                                             </figure>
+                                         </div>
+                                         <div class="lower-content">
+                                             <a style="font-weight: bold; font-size:16px;"
+                                                 href="{{ route('post', ['slug' => $item->slug]) }}"
+                                                 title="{{ $item->title }}">{{ $item->title }}</a>
+
+                                         </div>
+                                     </a>
                                  </div>
-                             @endforeach
-                         </div>
-                      
+                             </div>
+                         @endforeach
+                     </div>
+
                  </div>
              </section>
          @endif
