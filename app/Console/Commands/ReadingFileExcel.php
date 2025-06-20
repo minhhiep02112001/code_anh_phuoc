@@ -39,10 +39,9 @@ class ReadingFileExcel extends Command
         }
       
         try{
-             echo "Reading";
+            echo "Reading file: \n";
             Excel::import(new CrawlerDataImport, public_path($file));
-        }catch(\Exception $e){
-            dd($e);
+        }catch(\Exception $e){ 
         }
 
         $this->info('File imported successfully.');
