@@ -43,7 +43,7 @@
                                                             </a>
                                                         </div>
                                                     </div>
-                                                </div> 
+                                                </div>
                                                 <div class="elementor-element elementor-element-97c8152 elementor-align-center elementor-widget elementor-widget-button"
                                                     data-id="97c8152" data-element_type="widget"
                                                     data-widget_type="button.default">
@@ -64,7 +64,8 @@
                                         <div class="elementor-column elementor-col-33 elementor-inner-column elementor-element elementor-element-d6b5a38"
                                             data-id="d6b5a38" data-element_type="column">
 
-                                            <div style="margin-top: 15px;" class="flex w-full flex-col gap-1 empty:hidden first:pt-[3px]">
+                                            <div style="margin-top: 15px;"
+                                                class="flex w-full flex-col gap-1 empty:hidden first:pt-[3px]">
                                                 <div class="markdown prose w-full break-words dark:prose-invert dark">
                                                     <div class="flex-shrink-0 flex flex-col relative items-end">
                                                         <div>
@@ -90,7 +91,7 @@
                                                                         class="flex w-full flex-col gap-1 empty:hidden first:pt-[3px]">
                                                                         <div
                                                                             class="markdown prose w-full break-words dark:prose-invert dark">
-                                                                            {!! $post->content_footer ?? '' !!}
+                                                                            {!! replaceContent($post->content_footer ?? '') !!}
                                                                         </div>
                                                                     </div>
                                                                 </div>

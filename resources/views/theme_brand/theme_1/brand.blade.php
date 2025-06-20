@@ -51,7 +51,7 @@
 
                      <section class="elementor-inner-section elementor-section-full_width">
                          <p class="markdown prose text-justify w-full break-words dark:prose-invert">
-                             {!! $post->description !!}
+                             {!! replaceContent($post->description) !!}
                          </p>
                      </section>
 
