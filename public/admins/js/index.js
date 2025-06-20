@@ -115,6 +115,8 @@ var win = $(window),
             { title: "Table row 1", selector: "tr", classes: "tablerow1" },
         ],
         file_browser_callback: function (field_name, url, type, win) {
+            console.log(field_name);
+            
             var x =
                 window.innerWidth ||
                 document.documentElement.clientWidth ||
