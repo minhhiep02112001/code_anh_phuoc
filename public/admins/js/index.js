@@ -125,9 +125,7 @@ var win = $(window),
                 document.getElementsByTagName("body")[0].clientHeight;
 
             var cmsURL =
-                window.APP_URL +
-                "/admin/filemanager?field_name=" +
-                field_name;
+            `${window.SERVICE_FILEMANAGER}?field_name=${field_name}`;
 
             if (type === "image") {
                 cmsURL += "&type=Images";
