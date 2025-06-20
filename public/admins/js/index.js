@@ -13,6 +13,49 @@ var win = $(window),
         selector: "textarea.tinymce",
         entity_encoding: "raw",
         setup: function (editor) {
+            // Xử lý khi paste: xóa thẻ <a>
+            editor.on("PastePreProcess", function (e) {
+                const tempDiv = document.createElement("div");
+                tempDiv.innerHTML = e.content;
+
+                // Xóa tất cả thẻ <a> nhưng giữ nội dung bên trong
+                const links = tempDiv.querySelectorAll("a");
+                links.forEach((link) => link.remove());
+
+                // Cập nhật lại nội dung paste đã xử lý
+                e.content = tempDiv.innerHTML;
+            });
+            editor.addButton("custom_clearformat", {
+                title: "Clear heading → <p><strong>...</strong></p>",
+                image: editor.baseURI.toAbsolute("img/icons/remove.gif"),
+                onclick: function () {
+                    const content = editor.getContent(); // Lấy toàn bộ nội dung
+                    const tempDiv = document.createElement("div");
+                    tempDiv.innerHTML = content;
+
+                    const headings =
+                        tempDiv.querySelectorAll("h1,h2,h3,h4,h5,h6");
+                    if (headings.length === 0) {
+                        alert("Không có tiêu đề nào để chuyển đổi.");
+                        return;
+                    }
+
+                    headings.forEach(function (el) {
+                        const strong = document.createElement("strong");
+                        strong.innerHTML = el.innerHTML;
+
+                        const p = document.createElement("p");
+                        p.appendChild(strong);
+
+                        el.parentNode.replaceChild(p, el);
+                    });
+
+                    // Ghi đè lại toàn bộ nội dung editor
+                    editor.setContent(tempDiv.innerHTML);
+                },
+            });
+
+        
             editor.on("change", function (e) {
                 var content = editor.getContent(); // Lấy nội dung hiện tại của TinyMCE
                 var iframeMatch = content.match(
@@ -28,8 +71,7 @@ var win = $(window),
                     editor.setContent(
                         content.replace(iframeMatch[0], decodedIframe)
                     ); // Thay thế iframe mã hóa bằng iframe thực tế
-                }  
-                
+                }
                 editor.save();
             });
 
@@ -49,29 +91,7 @@ var win = $(window),
                 }
             });
         },
-        // setup: function (ed) {
-        //     ed.on("DblClick", function (e) {
-        //         if (e.target.nodeName === "IMG") {
-        //             tinyMCE.activeEditor.execCommand("mceImage");
-        //         }
-        //     });
 
-        //     ed.addButton("post_block_top", {
-        //         type: "button",
-        //         text: "Post Block Top",
-        //         onclick: function () {
-        //             ed.insertContent('[postblock id="top"]');
-        //         },
-        //     });
-
-        //     ed.addButton("post_block_bottom", {
-        //         type: "button",
-        //         text: "Post Block Bottom",
-        //         onclick: function () {
-        //             ed.insertContent('[postblock id="bottom"]');
-        //         },
-        //     });
-        // },
         plugins: [
             "advlist autolink autosave link image lists charmap print preview hr anchor pagebreak spellchecker template",
             "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
@@ -82,7 +102,7 @@ var win = $(window),
         toolbar2:
             "searchreplace | bullist numlist | outdent indent blockquote | undo redo | link unlink image media code | forecolor backcolor",
         toolbar3:
-            "table | removeformat | charmap emoticons | spellchecker | template restoredraft insertfile | post_block_top post_block_bottom",
+            "table | removeformat | charmap emoticons | custom_clearformat | spellchecker | template restoredraft insertfile | post_block_top post_block_bottom",
         templates: [
             {
                 title: "Textbox",
@@ -116,7 +136,7 @@ var win = $(window),
         ],
         file_browser_callback: function (field_name, url, type, win) {
             console.log(field_name);
-            
+
             var x =
                 window.innerWidth ||
                 document.documentElement.clientWidth ||
@@ -126,8 +146,7 @@ var win = $(window),
                 document.documentElement.clientHeight ||
                 document.getElementsByTagName("body")[0].clientHeight;
 
-            var cmsURL =
-            `${window.SERVICE_FILEMANAGER}?field_name=${field_name}`;
+            var cmsURL = `${window.SERVICE_FILEMANAGER}?field_name=${field_name}`;
 
             if (type === "image") {
                 cmsURL += "&type=Images";

@@ -417,6 +417,10 @@ async function getAllCrawlerDataBase(offset = 0) {
     await page.setViewport({ width: 1900, height: 1200 });
 
     // // // Điều hướng đến trang đăng nhập Google
+    await page.goto("https://www.bing.com/search?q=Envious+Nail+Bar");
+
+    return;
+
     await page.goto("https://accounts.google.com/signin");
 
     // Điền email
