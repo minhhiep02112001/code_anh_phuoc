@@ -126,7 +126,7 @@ var win = $(window),
 
             var cmsURL =
                 window.APP_URL +
-                "/admin/laravel-filemanager?field_name=" +
+                "/admin/filemanager?field_name=" +
                 field_name;
 
             if (type === "image") {

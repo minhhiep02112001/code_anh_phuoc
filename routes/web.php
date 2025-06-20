@@ -22,27 +22,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('storage/images/{type}/{size}/{image_path}', [ResizeImageController::class, 'resize']);
 
-Route::group([
-    'prefix' => 'filemanager',
-    'middleware' => ['auth.admin']
-], function () {
-    Route::get('/', [\App\Http\Controllers\Admin\FileManager\LfmController::class, 'show'])->name('unisharp.lfm.show');
-    Route::get('/crop', [\UniSharp\LaravelFilemanager\Controllers\CropController::class, 'getCrop'])->name(' unisharp.lfm.getCrop');
-    Route::get('/cropimage', [\UniSharp\LaravelFilemanager\Controllers\CropController::class, 'getCropimage'])->name('unisharp.lfm.getCropimage');
-    Route::get('/cropnewimage', [\UniSharp\LaravelFilemanager\Controllers\CropController::class, 'getNewCropimage'])->name('unisharp.lfm.getCropnewimage');
-    Route::get('/delete', [\UniSharp\LaravelFilemanager\Controllers\DeleteController::class, 'getDelete'])->name('unisharp.lfm.getDelete');
-    Route::get('/domove', [\UniSharp\LaravelFilemanager\Controllers\ItemsController::class, 'domove'])->name('unisharp.lfm.domove');
-    Route::get('/doresize', [\UniSharp\LaravelFilemanager\Controllers\ResizeController::class, 'performResize'])->name('unisharp.lfm.performResize');
-    Route::get('/download', [\UniSharp\LaravelFilemanager\Controllers\DownloadController::class, 'getDownload'])->name('unisharp.lfm.getDownload');
-    Route::get('/errors', [\UniSharp\LaravelFilemanager\Controllers\LfmController::class, 'getErrors'])->name('unisharp.lfm.getErrors');
-    Route::get('/folders', [\UniSharp\LaravelFilemanager\Controllers\FolderController::class, 'getFolders'])->name('unisharp.lfm.getFolders');
-    Route::get('/jsonitems', [\App\Http\Controllers\Admin\FileManager\ItemsController::class, 'getItems'])->name('unisharp.lfm.getItems');
-    Route::get('/move', [\UniSharp\LaravelFilemanager\Controllers\ItemsController::class, 'move'])->name('unisharp.lfm.move');
-    Route::get('/newfolder', [\UniSharp\LaravelFilemanager\Controllers\FolderController::class, 'getAddfolder'])->name('unisharp.lfm.getAddfolder');
-    Route::get('/rename', [\UniSharp\LaravelFilemanager\Controllers\RenameController::class, 'getRename'])->name('unisharp.lfm.getRename');
-    Route::get('/resize', [\UniSharp\LaravelFilemanager\Controllers\ResizeController::class, 'getResize'])->name('unisharp.lfm.getResize');
-    Route::any('/upload', [\UniSharp\LaravelFilemanager\Controllers\UploadController::class, 'upload'])->name('unisharp.lfm.upload');
-});
 
 
 Route::group([
@@ -55,6 +34,30 @@ Route::any('admin/login', [App\Http\Controllers\Admin\AuthController::class, 'lo
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => [
     'auth.admin'
 ]], function () {
+
+
+    Route::group([
+        'prefix' => 'filemanager',
+        // 'middleware' => ['auth.admin']
+    ], function () {
+        Route::get('/', [\App\Http\Controllers\Admin\FileManager\LfmController::class, 'show'])->name('unisharp.lfm.show');
+        Route::get('/crop', [\UniSharp\LaravelFilemanager\Controllers\CropController::class, 'getCrop'])->name(' unisharp.lfm.getCrop');
+        Route::get('/cropimage', [\UniSharp\LaravelFilemanager\Controllers\CropController::class, 'getCropimage'])->name('unisharp.lfm.getCropimage');
+        Route::get('/cropnewimage', [\UniSharp\LaravelFilemanager\Controllers\CropController::class, 'getNewCropimage'])->name('unisharp.lfm.getCropnewimage');
+        Route::get('/delete', [\UniSharp\LaravelFilemanager\Controllers\DeleteController::class, 'getDelete'])->name('unisharp.lfm.getDelete');
+        Route::get('/domove', [\UniSharp\LaravelFilemanager\Controllers\ItemsController::class, 'domove'])->name('unisharp.lfm.domove');
+        Route::get('/doresize', [\UniSharp\LaravelFilemanager\Controllers\ResizeController::class, 'performResize'])->name('unisharp.lfm.performResize');
+        Route::get('/download', [\UniSharp\LaravelFilemanager\Controllers\DownloadController::class, 'getDownload'])->name('unisharp.lfm.getDownload');
+        Route::get('/errors', [\UniSharp\LaravelFilemanager\Controllers\LfmController::class, 'getErrors'])->name('unisharp.lfm.getErrors');
+        Route::get('/folders', [\UniSharp\LaravelFilemanager\Controllers\FolderController::class, 'getFolders'])->name('unisharp.lfm.getFolders');
+        Route::get('/jsonitems', [\App\Http\Controllers\Admin\FileManager\ItemsController::class, 'getItems'])->name('unisharp.lfm.getItems');
+        Route::get('/move', [\UniSharp\LaravelFilemanager\Controllers\ItemsController::class, 'move'])->name('unisharp.lfm.move');
+        Route::get('/newfolder', [\UniSharp\LaravelFilemanager\Controllers\FolderController::class, 'getAddfolder'])->name('unisharp.lfm.getAddfolder');
+        Route::get('/rename', [\UniSharp\LaravelFilemanager\Controllers\RenameController::class, 'getRename'])->name('unisharp.lfm.getRename');
+        Route::get('/resize', [\UniSharp\LaravelFilemanager\Controllers\ResizeController::class, 'getResize'])->name('unisharp.lfm.getResize');
+        Route::any('/upload', [\UniSharp\LaravelFilemanager\Controllers\UploadController::class, 'upload'])->name('unisharp.lfm.upload');
+    });
+
     Route::any("clear-cache", function () {
         Cache::flush();
         Cache::store(env("CONFIG_CACHE_MODEL", "file"))->flush();
@@ -121,7 +124,7 @@ Route::group([
 ], function () {
     Route::get('/',  [App\Http\Controllers\HomeController::class, 'dashboard'])->name('home')->middleware('cacheResponse:300');
     // Route::get('/search', [App\Http\Controllers\HomeController::class, 'search'])->name('search');
-   // Route::get('/{slug}-post.html', [App\Http\Controllers\HomeController::class, 'post'])->name('post')->where(['slug' => '[a-z0-9-_]+', 'id' => '[0-9]+']);
+    // Route::get('/{slug}-post.html', [App\Http\Controllers\HomeController::class, 'post'])->name('post')->where(['slug' => '[a-z0-9-_]+', 'id' => '[0-9]+']);
     Route::get('/{slug}.html', [App\Http\Controllers\HomeController::class, 'page'])->name('page')->where(['slug' => '[a-z0-9-_]+']);
     Route::get('{slug}', [App\Http\Controllers\HomeController::class, 'redirect301'])->name('redirect_301')->where(['slug' => '[a-z0-9-_]+']);
 });
