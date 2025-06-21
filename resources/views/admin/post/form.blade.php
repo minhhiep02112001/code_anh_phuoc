@@ -41,12 +41,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <div class="form-group">
                                     <label>Tiêu đề H2</label>
                                     <input name="title_block_1" class="form-control" type="text" />
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="form-group">
                                 <label>Nội dung</label>
                                 <textarea name="content_block_1" id="content_block_1" rows="10" class="form-control tinymce"

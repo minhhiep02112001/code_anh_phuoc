@@ -120,15 +120,15 @@
                  </div>
              </div>
          </section>
-         @if (!empty($post->content_block_1) && !empty($post->image_block_1))
+         @if (  !empty($post->image_block_1))
              <section id="content_block_1"
                  class="elementor-section elementor-inner-section elementor-element elementor-element-6533d6c4 elementor-reverse-tablet elementor-reverse-mobile elementor-section-height-min-height elementor-section-content-middle elementor-section-boxed elementor-section-height-default">
                  <div
                      class="elementor-column elementor-column-1 elementor-padding elementor-col-50 elementor-inner-column elementor-element elementor-element-7ea6c594 animated-fast ">
                      <div class="elementor-widget-wrap elementor-element-populated">
-                         <h2 class="elementor-heading-title elementor-size-default text-center d-block">
+                         {{-- <h2 class="elementor-heading-title elementor-size-default text-center d-block">
                              {!! $post?->title_block_1 !!}
-                         </h2>
+                         </h2> --}}
                          <div class="elementor-element elementor-element-7b2894d elementor-widget-divider--view-line elementor-widget elementor-widget-divider"
                              data-id="7b2894d" data-element_type="widget" data-widget_type="divider.default">
                              <div class="elementor-widget-container">
@@ -392,10 +392,13 @@
                                              </figure>
                                          </div>
                                          <div class="lower-content">
-                                             <a style="font-weight: bold; font-size:16px;"
-                                                 href="{{ route('post', ['slug' => $item->slug]) }}"
-                                                 title="{{ $item->title }}">{{ $item->title }}</a>
-
+                                            <h4>
+                                                
+                                                <a style="font-weight: bold; font-size:16px;"
+                                                href="{{ route('post', ['slug' => $item->slug]) }}"
+                                                title="{{ $item->title }}">{{ $item->title }}</a>
+                                                
+                                            </h4>
                                          </div>
                                      </a>
                                  </div>
