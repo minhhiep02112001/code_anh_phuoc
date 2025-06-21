@@ -10,6 +10,6 @@ class Media extends Model
     use HasFactory;
 
     protected $table = 'st_post_images';
-    protected $fillable = [  'thumbnail', 'post_id', 'position' ];
- 
+    protected $fillable = [  'thumbnail', 'post_id', 'position', 'type' ];
+    public $timestamps = false;
 }
