@@ -23,12 +23,12 @@
                              <div class="overlay"></div>
 
                              {{-- @if (!empty($post->content_banner)) --}}
-                                 <div class="banner-content">
-                                     <h2 class="text-center">{{ replaceContentBanner($post)}}</h2>
-                                     {{-- <p class="text-center">{{ $post->content_banner }}</p> --}}
-                                     <a href="#" class="cta-button btn btn-outline btn--bordered btn--white">BOOK
-                                         NOW</a>
-                                 </div>
+                             <div class="banner-content">
+                                 <h2 class="text-center">{{ replaceContentBanner($post) }}</h2>
+                                 {{-- <p class="text-center">{{ $post->content_banner }}</p> --}}
+                                 <a href="#" class="cta-button btn btn-outline btn--bordered btn--white">BOOK
+                                     NOW</a>
+                             </div>
                              {{-- @endif --}}
                          </div>
                      </div>
@@ -120,7 +120,7 @@
                  </div>
              </div>
          </section>
-         @if (  !empty($post->image_block_1))
+         @if (!empty($post->image_block_1))
              <section id="content_block_1"
                  class="elementor-section elementor-inner-section elementor-element elementor-element-6533d6c4 elementor-reverse-tablet elementor-reverse-mobile elementor-section-height-min-height elementor-section-content-middle elementor-section-boxed elementor-section-height-default">
                  <div
@@ -392,13 +392,11 @@
                                              </figure>
                                          </div>
                                          <div class="lower-content">
-                                            <h4>
-                                                
-                                                <a style="font-weight: bold; font-size:16px;"
-                                                href="{{ route('post', ['slug' => $item->slug]) }}"
-                                                title="{{ $item->title }}">{{ $item->title }}</a>
-                                                
-                                            </h4>
+                                             <a style="font-weight: bold; font-size:16px;"
+                                                 href="{{ route('post', ['slug' => $item->slug]) }}"
+                                                 title="{{ $item->title }}">
+                                                 <h4 style="font-weight: bold; font-size:16px;">{{ $item->title }} </h4>
+                                             </a>
                                          </div>
                                      </a>
                                  </div>
