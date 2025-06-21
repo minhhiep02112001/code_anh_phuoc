@@ -502,5 +502,9 @@ function  replaceContent($content)
 
 function  replaceContentBanner($post)
 {
-    return $post->title . ' ' . $post->address;
+    return $post->title . ' ' . replaceAddress($post->address);
+}
+
+function replaceAddress($addr) {
+    return preg_replace('/\s\d{5}(?:-\d{4})?, United States$/', '', $addr);
 }
