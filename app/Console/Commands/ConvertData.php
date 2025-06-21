@@ -112,7 +112,7 @@ class ConvertData extends Command
                 DB::table('st_post')->where('id', $post->id)->update($data_update);
                 DB::table('crawler_map')->where('id', $data->id)->update(['relate_id' => $post->id]);
                 DB::table('st_post_images')->where('crawler_id', $data->id)->update(['post_id' => $post->id]);
-                echo "\n Done $post->id";
+                echo "\n Done {$post->id} status {$post->is_status}";
             }
         }
         die("Done All");
