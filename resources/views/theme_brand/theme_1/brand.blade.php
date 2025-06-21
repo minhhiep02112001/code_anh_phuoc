@@ -379,7 +379,7 @@
                  <div class="elementor-padding e18e99my0 css-1iiv58m e1xmv6f40">
 
                      <div class="sec-title ">
-                         <h3>Recommend Brand</h3> <span class="divider"></span>
+                         <h3 class="title-h3">Recommend Brand</h3> <span class="divider"></span>
                      </div>
                      <div class="row" id="list-recomend">
                          @foreach ($relates as $item)
