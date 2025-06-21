@@ -62,6 +62,11 @@ async function crawlerGoogleIframe(browser, record, retry = 5) {
                 'button[data-tooltip="Copy phone number"]'
             );
 
+  let phoneButton = document.querySelector(
+                'button[data-tooltip="Copy phone number"]'
+            );
+
+
             obj.phone = phoneButton
                 ? phoneButton.getAttribute("aria-label")
                 : "";

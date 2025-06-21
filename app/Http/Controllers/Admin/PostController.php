@@ -171,7 +171,6 @@ class PostController extends Controller
         $story = $this->_repository->find($id);
         if (empty($story)) return response()->json(['status' => 'error'], 500);
         $story['url'] = route('post', ['slug' => $story->slug]);
-
         $story['banners'] = $story->media()->where('type', 'banner')->get();
         $story['thumbnails'] = $story->media()->where('type', 'photo')->get();
         if (!empty($story->config_social)) {

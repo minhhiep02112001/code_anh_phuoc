@@ -322,7 +322,7 @@
                 </div>
             </div>
             <!-- /#ion-icons -->
-            <div class="tab-pane" id="tab_page">
+            {{-- <div class="tab-pane" id="tab_page">
                 <div class="row">
                     <div class=" col-12">
                         <fieldset>
@@ -351,7 +351,7 @@
                         </fieldset>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
         <!-- /.tab-content -->
     </div>
