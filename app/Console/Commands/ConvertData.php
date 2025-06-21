@@ -60,13 +60,13 @@ class ConvertData extends Command
                 'is_thumbnail' => 1
             ];
             $thumnail_post = str_replace(['storage', '//'], '', trim($post->thumbnail ?? '', '/'));
-
-            if ((empty($thumnail_post) || !Storage::exists($thumnail_post)) && !empty($data->thumbnail)) { // download_image
+            
+            if ((empty($thumnail_post) || !Storage::disk('public')->exists($thumnail_post)) && !empty($data->thumbnail)) { // download_image
                 $data_update['thumbnail'] = saveImageUrlStorage($data->thumbnail, "photos/nails/{$post->slug}",   "thumbnail.jpg");
                 $thumnail_post = str_replace(['storage', '//'], '', trim($data_update['thumbnail'], '/'));
             }
 
-            if (!Storage::exists($thumnail_post))  $data_update['is_thumbnail'] = 0;
+            if (Storage::disk('public')->exists($thumnail_post))  $data_update['is_thumbnail'] = 0;
 
             $thumbs = Media::where('post_id', $post->id)->orderBy('id', 'asc')->get();
             if ($thumbs->isNotEmpty()) {
@@ -83,7 +83,7 @@ class ConvertData extends Command
                     $data_update['image_block_1'] = $imgBlock->thumbnail ?? '';
                     $data_update['is_thumb_block_1'] = 0;
                 }
-            } 
+            }  
             // if (!empty($data->address)) {
             //     $_address = str_replace(['Address:', '\u{A0}', ':'], '', $data->address);
             //     $data_update['address'] = trim(str_replace('  ', ' ', $_address));
