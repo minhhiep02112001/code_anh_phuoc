@@ -34,7 +34,7 @@ var win = $(window),
                     tempDiv.innerHTML = content;
 
                     const headings =
-                        tempDiv.querySelectorAll("h1,h2,h3,h4,h5,h6"); 
+                        tempDiv.querySelectorAll("h1,h2,h3,h4,h5,h6");
 
                     // Xóa tất cả thẻ <a> nhưng giữ nội dung bên trong
                     const links = tempDiv.querySelectorAll("a");
@@ -48,6 +48,23 @@ var win = $(window),
                         p.appendChild(strong);
 
                         el.parentNode.replaceChild(p, el);
+                    });
+
+                    // 2. XÓA các thẻ rỗng không nội dung thực
+                    tempDiv.querySelectorAll("*").forEach(function (el) {
+                        if (
+                            el.textContent.trim() === "" &&
+                            el.childNodes.length === 0
+                        ) {
+                            el.remove();
+                        }
+                    });
+
+                    // 3. XÓA TOÀN BỘ ATTRIBUTES khỏi tất cả các thẻ
+                    tempDiv.querySelectorAll("*").forEach(function (el) {
+                        while (el.attributes.length > 0) {
+                            el.removeAttribute(el.attributes[0].name);
+                        }
                     });
 
                     // Ghi đè lại toàn bộ nội dung editor
