@@ -7,6 +7,7 @@ use App\Models\Post;
 use App\Repositories\Eloquent\PostRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -23,7 +24,7 @@ class PostController extends Controller
      */
     public function topList($type = 'brand')
     {
-       return $this->index('top_list');
+        return $this->index('top_list');
     }
 
     public function index($type = 'brand')
@@ -64,6 +65,8 @@ class PostController extends Controller
             $row['parent_id'] = $item->parent_id;
             $row['is_status']    = $item->is_status;
             $row['is_robot']    = $item->is_robot;
+            $row['is_thumbnail']    = $item->is_thumbnail;
+            $row['is_thumb_block_1']    = $item->is_thumb_block_1;
             $row['thumbnail']    = getThumbnail($item, 100, 100);
             $row['address']     = $item->address;
             $row['link_map']     = $item->link_map;
@@ -122,7 +125,10 @@ class PostController extends Controller
             $index = array_rand($arr_theme);
             $input['theme'] = $arr_theme[$index];
         }
-       
+
+        $input['is_thumbnail'] =  (empty($input['thumbnail']) || !Storage::disk('public')->exists($input['thumbnail']))  ? 1 : 0;
+        $input['is_thumb_block_1'] =  (empty($input['image_block_1']) || !Storage::disk('public')->exists($input['image_block_1']))  ? 1 : 0;
+
         try {
             DB::beginTransaction();
             $story = $this->_repository->create($input);
@@ -228,6 +234,9 @@ class PostController extends Controller
         if (!empty($input['config_social'])) {
             $input['config_social'] = json_encode($input['config_social']);
         }
+
+        $input['is_thumbnail'] =  (empty($input['thumbnail']) || !Storage::disk('public')->exists($input['thumbnail']))  ? 1 : 0;
+        $input['is_thumb_block_1'] =  (empty($input['image_block_1']) || !Storage::disk('public')->exists($input['image_block_1']))  ? 1 : 0;
 
         try {
             DB::beginTransaction();

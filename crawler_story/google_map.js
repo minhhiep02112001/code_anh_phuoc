@@ -288,7 +288,7 @@ async function crawler_images(page, record ) {
             let totalHeight = 0;
             const distance = 500;
             let i = 0;
-            while (i <= 40) {
+            while (i <= 30) {
                 targetElement.scrollTop += distance;
                 totalHeight += distance;
                 await new Promise((resolve) => setTimeout(resolve, 300));
@@ -329,8 +329,6 @@ async function crawler_images(page, record ) {
                 ? button.textContent.trim().toLowerCase()
                 : "";
             return (
-                text === "menu" ||
-                text === "Menu" ||
                 text === "Nail" ||
                 text === "nail"
             );
@@ -352,7 +350,7 @@ async function crawler_images(page, record ) {
             let totalHeight = 0;
             const distance = 300;
             let i = 0;
-            while (i <= 30) {
+            while (i <= 20) {
                 targetElement.scrollTop += distance;
                 totalHeight += distance;
                 await new Promise((resolve) => setTimeout(resolve, 700));
@@ -380,11 +378,12 @@ async function crawler_images(page, record ) {
         }
         return images;
     });
+ 
     if (thumbnails.length > 0) {
         await downloadFile(thumbnails, "photo", record);
     }
     if (menus.length > 0) {
-        await downloadFile(menus, "menu", record);
+        await downloadFile(menus, "photo", record);
     }
 
     console.error("Success download ", thumbnails.length, menus.length);
@@ -608,7 +607,7 @@ async function searchData(keyword, browser, record) {
 }
 
 async function getAllCrawlerDataBase(offset = 0) {
-    const query = ` SELECT crawler_map.* FROM crawler_map join st_post on crawler_map.relate_id = st_post.id WHERE crawler_map.is_crawler = 0 and crawler_map.is_status = 2 ORDER BY st_post.is_status DESC LIMIT 500 offset ${offset}`;
+    const query = ` SELECT crawler_map.* FROM crawler_map join st_post on crawler_map.relate_id = st_post.id WHERE crawler_map.is_crawler = 0 and crawler_map.is_status = 2 ORDER BY st_post.id asc LIMIT 500 offset ${offset}`;
     // const query = ` SELECT * FROM crawler_map WHERE is_crawler = 0 and is_status = 2 ORDER BY id ASC LIMIT 500 offset ${offset}`;
     return database.query(query);
 }
@@ -661,3 +660,16 @@ async function downloadFile(results = [], _type = "photo", record, is_new = 1) {
             ` crawler_id = ${record.id} `
     );
 }
+
+
+// WITH low_image_crawlers AS (
+//   SELECT cd.id
+//   FROM crawler_map cd
+//   LEFT JOIN st_post_images pi ON pi.crawler_id = cd.id
+//   WHERE cd.is_crawler = 1 AND pi.is_new = 1
+//   GROUP BY cd.id
+//   HAVING COUNT(pi.id) < 10
+// )
+// UPDATE crawler_map
+// SET is_crawler = 0
+// WHERE id IN (SELECT id FROM low_image_crawlers); 
