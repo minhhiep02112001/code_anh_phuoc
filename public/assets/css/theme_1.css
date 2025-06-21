@@ -156,6 +156,10 @@ header#header,
     color: black;
 }
 
+.banner-content h2 {
+    font-size: 40px;
+}
+
 .btn--bordered.btn--white {
     border-color: #fff;
     color: #fff;
@@ -657,6 +661,10 @@ h1 {
 
 
 @media (max-width: 768px) {
+    .banner-content h2 {
+        font-size: 30px;
+    }
+
     .logo {
         height: 60px;
     }
@@ -776,31 +784,30 @@ h1 {
 }
 
 #content table {
-  width: 100%;
-  border-collapse: collapse;
-  font-family: system-ui, sans-serif;
-  font-size: 16px;
-  color: #333;
+    width: 100%;
+    border-collapse: collapse;
+    font-family: system-ui, sans-serif;
+    font-size: 16px;
+    color: #333;
 }
 
 #content table th,
 #content table td {
-  border: 1px solid #989898;
-  padding: 12px;
-  text-align: left;
-  vertical-align: top;
+    border: 1px solid #989898;
+    padding: 12px;
+    text-align: left;
+    vertical-align: top;
 }
 
-#content table thead { 
-  font-weight: 600;
+#content table thead {
+    font-weight: 600;
 }
- 
+
 #content table td:nth-child(2) {
-  white-space: nowrap;
+    white-space: nowrap;
 }
-#content ul, #content ol{
-padding-left: 20px;
-}
-.banner-content h2 {
-    font-size: 30px;
+
+#content ul,
+#content ol {
+    padding-left: 20px;
 }
