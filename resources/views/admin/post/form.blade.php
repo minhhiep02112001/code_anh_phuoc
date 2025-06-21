@@ -40,33 +40,38 @@
                         </div>
 
 
-                        
-                            <fieldset>
-                                <legend class="w-auto ">Content block 1:</legend>
-                                <div class="form-group">
-                                    <label for="image_block_1">Ảnh </label>
-                                    <!-- Single File Upload -->
-                                    <div class="upload-container" data-field-name="image_block_1" is_multiple="false">
-                                        <div class="upload-box">
-                                            <span>+</span>
-                                            <img class="preview-image" alt="Preview">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="form-group">
-                                        <label>Tiêu đề H2</label>
-                                        <input name="title_block_1" class="form-control" type="text" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label>Nội dung</label>
-                                    <textarea name="content_block_1" id="content_block_1" rows="10" class="form-control tinymce"
-                                        placeholder="Meta description"></textarea>
-                                </div>
-                            </fieldset>
-                        
 
+                        <fieldset>
+                            <legend class="w-auto ">Content block 1:</legend>
+                            <div class="form-group">
+                                <label for="image_block_1">Ảnh </label>
+                                <!-- Single File Upload -->
+                                <div class="upload-container" data-field-name="image_block_1" is_multiple="false">
+                                    <div class="upload-box">
+                                        <span>+</span>
+                                        <img class="preview-image" alt="Preview">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <label>Tiêu đề H2</label>
+                                    <input name="title_block_1" class="form-control" type="text" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Nội dung</label>
+                                <textarea name="content_block_1" id="content_block_1" rows="10" class="form-control tinymce"
+                                    placeholder="Meta description"></textarea>
+                            </div>
+                        </fieldset>
+
+                        <fieldset>
+                            <legend class="w-auto ">Content footer:</legend>
+                            <div class="form-group">
+                                <textarea name="content_footer" rows="10" class="form-control" placeholder=""></textarea>
+                            </div>
+                        </fieldset>
                     </div>
                     <div class="col-sm-4 col-xs-12">
                         <div class="form-group">
@@ -191,14 +196,14 @@
                         </fieldset>
 
                     </div>
-                    <div class="col-lg-6 col-12">
+                    {{-- <div class="col-lg-6 col-12">
                         <fieldset>
                             <legend class="w-auto ">Content footer:</legend>
                             <div class="form-group">
                                 <textarea name="content_footer" rows="10" class="form-control" placeholder=""></textarea>
                             </div>
                         </fieldset>
-                    </div>
+                    </div> --}}
                     {{-- <div class="col-lg-6 col-12">
                         <fieldset>
                             <legend class="w-auto ">Content timeopen:</legend>
