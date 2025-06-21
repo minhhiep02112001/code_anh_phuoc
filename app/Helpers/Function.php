@@ -499,3 +499,8 @@ function  replaceContent($content)
 {
     return str_replace(['—'], ' ', $content);
 }
+
+function  replaceContentBanner($post)
+{
+    return $post->title . ' ' . $post->address;
+}

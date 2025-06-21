@@ -22,13 +22,14 @@
 
                              <div class="overlay"></div>
 
-                             @if (!empty($post->content_banner))
+                             {{-- @if (!empty($post->content_banner)) --}}
                                  <div class="banner-content">
-                                     <p class="text-center">{{ $post->content_banner }}</p>
+                                     <p class="text-center">{{ $post->title . ' ' . $post->address }}</p>
+                                     {{-- <p class="text-center">{{ $post->content_banner }}</p> --}}
                                      <a href="#" class="cta-button btn btn-outline btn--bordered btn--white">BOOK
                                          NOW</a>
                                  </div>
-                             @endif
+                             {{-- @endif --}}
                          </div>
                      </div>
                  @endforeach

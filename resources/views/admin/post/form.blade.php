@@ -12,8 +12,8 @@
             <a class="nav-item nav-link" id="nav-social-tab" data-toggle="tab" href="#tab_social" role="tab"
                 aria-controls="nav-social" aria-selected="true">Cấu hình Social</a>
 
-            <a class="nav-item nav-link" id="nav-page-tab" data-toggle="tab" href="#tab_page" role="tab"
-                aria-controls="nav-page" aria-selected="true">Cấu hình Page</a>
+            {{-- <a class="nav-item nav-link" id="nav-page-tab" data-toggle="tab" href="#tab_page" role="tab"
+                aria-controls="nav-page" aria-selected="true">Cấu hình Page</a> --}}
         </div>
         <div class="tab-content pt-3">
             <!-- Font Awesome Icons -->
@@ -24,36 +24,49 @@
                             <label>Tiêu đề</label>
                             <input name="title" placeholder="Tiêu đề" class="form-control" type="text" />
                         </div>
-                        <div class="form-group">
-                            <label>Trạng thái:</label>
-                            <select class="form-control m-input m-input--square" name="is_status">
-                                @foreach (config('data.status') as $key => $item)
-                                    <option value="{{ $key }}">{{ $item['title'] }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Google index:</label>
-                            <select class="form-control m-input m-input--square" name="is_robot">
-                                <option value="1">Index</option>
-                                <option value="0">Không Index</option>
-                            </select>
-                        </div>
 
                         <div class="form-group">
                             <label>Tóm tắt</label>
                             <textarea name="description" id="description" placeholder="Tóm tắt" class="form-control" rows="5"></textarea>
                         </div>
-                        
-                        <div class="form-group">
+
+                        {{-- <div class="form-group">
                             <label>Nội dung Banner</label>
-                            <textarea name="content_banner" id="description"  class="form-control" rows="5"></textarea>
-                        </div>
+                            <textarea name="content_banner" id="description" class="form-control" rows="5"></textarea>
+                        </div> --}}
                         <div class="form-group">
                             <label>Nội dung</label>
                             <textarea name="content" id="content" placeholder="Nội dung" class="form-control tinymce" rows="5"></textarea>
                         </div>
+
+
+                        
+                            <fieldset>
+                                <legend class="w-auto ">Content block 1:</legend>
+                                <div class="form-group">
+                                    <label for="image_block_1">Ảnh </label>
+                                    <!-- Single File Upload -->
+                                    <div class="upload-container" data-field-name="image_block_1" is_multiple="false">
+                                        <div class="upload-box">
+                                            <span>+</span>
+                                            <img class="preview-image" alt="Preview">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label>Tiêu đề H2</label>
+                                        <input name="title_block_1" class="form-control" type="text" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Nội dung</label>
+                                    <textarea name="content_block_1" id="content_block_1" rows="10" class="form-control tinymce"
+                                        placeholder="Meta description"></textarea>
+                                </div>
+                            </fieldset>
+                        
+
                     </div>
                     <div class="col-sm-4 col-xs-12">
                         <div class="form-group">
@@ -78,7 +91,22 @@
                         </div>
                         @include('admin._layout.section.seo')
 
+                        <div class="form-group">
+                            <label>Trạng thái:</label>
+                            <select class="form-control m-input m-input--square" name="is_status">
+                                @foreach (config('data.status') as $key => $item)
+                                    <option value="{{ $key }}">{{ $item['title'] }}</option>
+                                @endforeach
+                            </select>
+                        </div>
 
+                        <div class="form-group">
+                            <label>Google index:</label>
+                            <select class="form-control m-input m-input--square" name="is_robot">
+                                <option value="1">Index</option>
+                                <option value="0">Không Index</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -89,8 +117,8 @@
                     <div class="col-lg-6 col-12">
                         <div class="form-group">
                             <label>Danh mục cha:</label>
-                            <select class="form-control select2_suggest em-category" data-query-type="home" id="category_id"
-                                name="category_id" data-module="category" style="width: 100%;">
+                            <select class="form-control select2_suggest em-category" data-query-type="home"
+                                id="category_id" name="category_id" data-module="category" style="width: 100%;">
                             </select>
                         </div>
 
@@ -184,7 +212,7 @@
             <!-- glyphicons-->
             <div class="tab-pane" id="tab_social">
                 <div class="row">
-                    <div class="  col-12">
+                    <div class=" col-12">
                         <div class="form-group mb-1 form-group-sm row">
                             <label class="col-sm-3 col-form-label-sm">Facebook:</label>
                             <div class="col-sm-9">
