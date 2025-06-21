@@ -118,7 +118,7 @@
                                                     data-widget_type="text-editor.default">
                                                     <div class="elementor-widget-container">
                                                         <ul>
-                                                            {!! !empty($post->address) ? "<li>$post->address</li>" : '' !!}
+                                                            {!! !empty($post->address) ? '<li>' . replaceAddress($post->address) . '</li>' : '' !!}
                                                         </ul>
                                                     </div>
                                                 </div>

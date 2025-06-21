@@ -2534,7 +2534,8 @@
 
 
                                                     <div class="text" style="font-size:13px;">
-                                                        <i class="fa fa-map-marker"></i> {{ $item->address }}
+                                                        <i class="fa fa-map-marker"></i>
+                                                        {{ replaceAddress($item->address) }}
                                                     </div>
                                                 </div>
                                             </div>
@@ -2549,7 +2550,7 @@
             <footer id="footer" class="e18e99my1 css-126zv25 ehep9uj0">
                 <div class="e18e99my0 css-1iiv58m e1xmv6f40">
                     <div class="css-jo2aaq elovojj0">
- 
+
                         <div class="FooterLinks_innerContent__8anC0 row">
                             <div class="col col-12 col-lg-2">
                                 <a href="/"

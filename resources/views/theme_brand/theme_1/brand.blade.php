@@ -24,7 +24,7 @@
 
                              {{-- @if (!empty($post->content_banner)) --}}
                                  <div class="banner-content">
-                                     <p class="text-center">{{ $post->title . ' ' . $post->address }}</p>
+                                     <p class="text-center">{{ replaceContentBanner($post)}}</p>
                                      {{-- <p class="text-center">{{ $post->content_banner }}</p> --}}
                                      <a href="#" class="cta-button btn btn-outline btn--bordered btn--white">BOOK
                                          NOW</a>
@@ -350,7 +350,7 @@
                                  <strong
                                      class="inline-block text-xl md:text-2xl font-semibold mb-6 cursor-pointer transition-colors duration-300 text-accent">{{ $post->title }}</strong>
                                  <div class="flex flex-col gap-1">
-                                     <span>Address: {{ $post->address }}</span>
+                                     <span>Address: {{ replaceAddress($post->address) }}</span>
                                      <span>Tel: {{ $post->phone ?? '' }} </span>
                                      @if (!empty($post->email))
                                          <span>Email: {{ $post->email }} </span>
