@@ -60,10 +60,13 @@ var win = $(window),
                         }
                     });
 
-                    // 3. XÓA TOÀN BỘ ATTRIBUTES khỏi tất cả các thẻ
+                    // 3. XÓA attributes, TRỪ img / iframe / video
                     tempDiv.querySelectorAll("*").forEach(function (el) {
-                        while (el.attributes.length > 0) {
-                            el.removeAttribute(el.attributes[0].name);
+                        const tagName = el.tagName.toLowerCase();
+                        if (!["img", "iframe", "video"].includes(tagName)) {
+                            while (el.attributes.length > 0) {
+                                el.removeAttribute(el.attributes[0].name);
+                            }
                         }
                     });
 
