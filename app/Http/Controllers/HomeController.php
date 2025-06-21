@@ -42,11 +42,10 @@ class HomeController extends Controller
         ], [
             'order_by' => ['publish_at', 'desc'],
             'with' => ['category'],
-            'limit' => 28,
+            'limit' => 30,
             'pagination' => $page,
             'select' => ['id', 'title', 'slug', 'thumbnail', 'category_id', 'address', 'email', 'phone', 'description', 'publish_at'],
-        ]);
-
+        ]); 
         $data['categories']  = $this->categoryRepository->getAll([
             'is_status' => 1,
             'type' => 'home'
