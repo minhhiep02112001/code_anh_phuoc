@@ -34,11 +34,7 @@ var win = $(window),
                     tempDiv.innerHTML = content;
 
                     const headings =
-                        tempDiv.querySelectorAll("h1,h2,h3,h4,h5,h6");
-                    if (headings.length === 0) {
-                        alert("Không có tiêu đề nào để chuyển đổi.");
-                        return;
-                    }
+                        tempDiv.querySelectorAll("h1,h2,h3,h4,h5,h6"); 
 
                     // Xóa tất cả thẻ <a> nhưng giữ nội dung bên trong
                     const links = tempDiv.querySelectorAll("a");
