@@ -63,7 +63,6 @@ class ConvertData extends Command
 
             if ((empty($thumnail_post) || !Storage::exists($thumnail_post)) && !empty($data->thumbnail)) { // download_image
                 $data_update['thumbnail'] = saveImageUrlStorage($data->thumbnail, "photos/nails/{$post->slug}",   "thumbnail.jpg");
-                dd($data_update);
                 $thumnail_post = str_replace(['storage', '//'], '', trim($data_update['thumbnail'], '/'));
             }
 
@@ -84,8 +83,7 @@ class ConvertData extends Command
                     $data_update['image_block_1'] = $imgBlock->thumbnail ?? '';
                     $data_update['is_thumb_block_1'] = 0;
                 }
-            }
-            dd($data_update,  $post->id);
+            } 
             if (!empty($data->address)) {
                 $_address = str_replace(['Address:', '\u{A0}', ':'], '', $data->address);
                 $data_update['address'] = trim(str_replace('  ', ' ', $_address));
