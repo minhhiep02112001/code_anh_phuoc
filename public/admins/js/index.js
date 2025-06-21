@@ -40,6 +40,10 @@ var win = $(window),
                         return;
                     }
 
+                    // Xóa tất cả thẻ <a> nhưng giữ nội dung bên trong
+                    const links = tempDiv.querySelectorAll("a");
+                    links.forEach((link) => link.remove());
+
                     headings.forEach(function (el) {
                         const strong = document.createElement("strong");
                         strong.innerHTML = el.innerHTML;
@@ -55,7 +59,6 @@ var win = $(window),
                 },
             });
 
-        
             editor.on("change", function (e) {
                 var content = editor.getContent(); // Lấy nội dung hiện tại của TinyMCE
                 var iframeMatch = content.match(
