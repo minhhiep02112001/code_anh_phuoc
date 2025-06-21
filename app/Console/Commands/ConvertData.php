@@ -54,7 +54,7 @@ class ConvertData extends Command
         foreach ($datas as $data) {
 
             $post = Post::firstOrCreate(['slug' => $data->slug], ['title' => $data->key_word, 'slug' => $data->slug]);
-            if (!empty($post->is_status)) continue;
+            // if (!empty($post->is_status)) continue;
             $data_update = [
                 'is_thumb_block_1' => 1,
                 'is_thumbnail' => 1
@@ -84,28 +84,28 @@ class ConvertData extends Command
                     $data_update['is_thumb_block_1'] = 0;
                 }
             } 
-            if (!empty($data->address)) {
-                $_address = str_replace(['Address:', '\u{A0}', ':'], '', $data->address);
-                $data_update['address'] = trim(str_replace('  ', ' ', $_address));
-            }
+            // if (!empty($data->address)) {
+            //     $_address = str_replace(['Address:', '\u{A0}', ':'], '', $data->address);
+            //     $data_update['address'] = trim(str_replace('  ', ' ', $_address));
+            // }
 
-            if (!empty($data->google_review)) {
-                $data_update['review_google'] = trim(str_replace(['avis Google', ' ', '\u{A0}',], '', $data->google_review));
-                $data_update['review_google'] = (int) $data_update['review_google'];
-            }
+            // if (!empty($data->google_review)) {
+            //     $data_update['review_google'] = trim(str_replace(['avis Google', ' ', '\u{A0}',], '', $data->google_review));
+            //     $data_update['review_google'] = (int) $data_update['review_google'];
+            // }
 
-            if (!empty($data->phone)) {
-                $data_update['phone'] = str_replace(['Phone: ', ':', '\u{A0}',], '', $data->phone);
-                $data_update['phone'] = trim(str_replace('  ', ' ', $data_update['phone']));
-            }
+            // if (!empty($data->phone)) {
+            //     $data_update['phone'] = str_replace(['Phone: ', ':', '\u{A0}',], '', $data->phone);
+            //     $data_update['phone'] = trim(str_replace('  ', ' ', $data_update['phone']));
+            // }
 
-            if (!empty($data->link_google_map)) {
-                $data_update['link_map'] =  $data->link_google_map;
-            }
+            // if (!empty($data->link_google_map)) {
+            //     $data_update['link_map'] =  $data->link_google_map;
+            // }
 
-            if (!empty($data->iframe_map)) {
-                $data_update['iframe_map'] =  $data->iframe_map;
-            }
+            // if (!empty($data->iframe_map)) {
+            //     $data_update['iframe_map'] =  $data->iframe_map;
+            // }
 
             if (!empty($data_update)) {
                 // $data_update['is_status'] = 0;
