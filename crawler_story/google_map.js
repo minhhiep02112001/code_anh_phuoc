@@ -16,7 +16,6 @@ function convertStr(str) {
     return str.replace(/'/g, "''");
 }
 async function crawlerGoogleIframe(browser, record, retry = 5) {
-    
     let url = record.link_google_map;
     let crawler_id = record.id;
     var page = await browser.newPage();
@@ -62,7 +61,16 @@ async function crawlerGoogleIframe(browser, record, retry = 5) {
                 'button[data-tooltip="Copy phone number"]'
             );
 
-            
+            // Lấy giờ mở cửa (ví dụ: "Closed · Opens 10AM")
+            const openHoursEl = document.querySelector(
+                'div[data-hide-tooltip-on-mouse-move="true"][role="button"]'
+            ); 
+            if (openHoursEl) {
+                openHoursEl.closest("div").click(); 
+                const table = openHoursEl.parentNode.querySelector("table");
+                obj.time_open = table ? table.outerHTML : null; 
+            }
+
             obj.phone = phoneButton
                 ? phoneButton.getAttribute("aria-label")
                 : "";
@@ -76,8 +84,7 @@ async function crawlerGoogleIframe(browser, record, retry = 5) {
                 : "";
 
             return obj; // Không tìm thấy nút để click
-        });
-
+        }); 
         // Sử dụng Puppeteer để kiểm tra và click nếu nút tồn tại
         const buttonClicked = await page.evaluate(async () => {
             await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -142,16 +149,17 @@ async function crawlerGoogleIframe(browser, record, retry = 5) {
         data_update.email = convertStr(data_update.email ?? "");
         data_update.thumbnail = convertStr(data_update.thumbnail ?? "");
         data_update.phone = convertStr(data_update.phone ?? "");
+        data_update.time_open = data_update.time_open ? convertStr(data_update.time_open ?? "") : '';
         data_update.google_review = convertStr(data_update.google_review ?? "");
         data_update.is_crawler_iframe_map = data_update.iframe_map ? 1 : 0;
         data_update.is_convert = 1;
         data_update.is_crawler = 1;
         data_update.is_error = 0;
-
+        
         await database.update_crawler_map(crawler_id, data_update, 2);
 
-        await crawler_about(page, record);
-        await crawler_comment(page, record);
+        // await crawler_about(page, record);
+        // await crawler_comment(page, record);
         await crawler_images(page, record);
         // get ảnh thumbnail
         await page.close();
@@ -246,14 +254,14 @@ async function crawler_about(page, record) {
             }
         }
 
-        console.error("Success download about");
+        console.log("Success download about");
     }
     return;
 }
 
-async function crawler_images(page, record) {
+async function crawler_images(page, record ) {
     await page.waitForTimeout(WAIT_TIME_SHORT);
-    let click = await page.evaluate(async () => {
+    await page.evaluate(async () => {
         await new Promise((resolve) => setTimeout(resolve, 2000));
         let allButtons = Array.from(
             document.querySelectorAll(
@@ -280,7 +288,7 @@ async function crawler_images(page, record) {
             let totalHeight = 0;
             const distance = 500;
             let i = 0;
-            while (i <= 15) {
+            while (i <= 40) {
                 targetElement.scrollTop += distance;
                 totalHeight += distance;
                 await new Promise((resolve) => setTimeout(resolve, 300));
@@ -344,7 +352,7 @@ async function crawler_images(page, record) {
             let totalHeight = 0;
             const distance = 300;
             let i = 0;
-            while (i <= 15) {
+            while (i <= 30) {
                 targetElement.scrollTop += distance;
                 totalHeight += distance;
                 await new Promise((resolve) => setTimeout(resolve, 700));
@@ -372,14 +380,14 @@ async function crawler_images(page, record) {
         }
         return images;
     });
-
     if (thumbnails.length > 0) {
         await downloadFile(thumbnails, "photo", record);
     }
     if (menus.length > 0) {
         await downloadFile(menus, "menu", record);
     }
-    console.error("Success download ");
+
+    console.error("Success download ", thumbnails.length, menus.length);
     return;
 }
 async function crawler_comment(page, record) {
@@ -600,7 +608,8 @@ async function searchData(keyword, browser, record) {
 }
 
 async function getAllCrawlerDataBase(offset = 0) {
-    const query = ` SELECT * FROM crawler_map WHERE is_crawler = 0 and is_status = 2 ORDER BY id ASC LIMIT 500 offset ${offset}`;
+    const query = ` SELECT crawler_map.* FROM crawler_map join st_post on crawler_map.relate_id = st_post.id WHERE crawler_map.is_crawler = 0 and crawler_map.is_status = 2 ORDER BY st_post.is_status DESC LIMIT 500 offset ${offset}`;
+    // const query = ` SELECT * FROM crawler_map WHERE is_crawler = 0 and is_status = 2 ORDER BY id ASC LIMIT 500 offset ${offset}`;
     return database.query(query);
 }
 
@@ -612,11 +621,11 @@ async function getAllCrawlerDataBase(offset = 0) {
         args: ["--start-maximized", "--lang=en-US"], // Mở trình duyệt ở chế độ toàn màn hình
         defaultViewport: null, // Tắt viewport mặc định
     });
-    
+
     for (let element of list_data) {
         try {
             console.log("\n ===Start key: " + element.key_word);
-            await crawlerGoogleIframe(browser, element);
+            await crawlerGoogleIframe(browser, element); 
             console.log("Crawler_success key: " + element.key_word);
         } catch (e) {
             console.error("\nCrawler_error: " + element.id + e);
@@ -628,14 +637,14 @@ async function getAllCrawlerDataBase(offset = 0) {
     console.log("Done All");
 })();
 
-async function downloadFile(results = [], _type = "photo", record) {
+async function downloadFile(results = [], _type = "photo", record, is_new = 1) {
     //crawler_href
     await Helper.sleep(10000);
     let values = results.map((element, index) => {
         let path = `${folder_path}/${record.slug}/${record.slug}-${_type}-${index}.jpg`;
         return `('${index}', '${path}', '${element}', ${
             record.relate_id ?? 0
-        }, ${record.id}, '${_type}')`;
+        }, ${record.id}, '${_type}', ${is_new})`;
     });
 
     let _delete = `DELETE
@@ -643,7 +652,12 @@ async function downloadFile(results = [], _type = "photo", record) {
     WHERE crawler_id = ${record.id} and type='${_type}';`;
     await database.execute(_delete);
 
-    let _insert = `INSERT INTO st_post_images (position, thumbnail, crawler_href, post_id , crawler_id, type)
+    let _insert = `INSERT INTO st_post_images (position, thumbnail, crawler_href, post_id , crawler_id, type, is_new)
     VALUES ${values.join(", ")};`;
     await database.execute(_insert);
+    console.log(
+        "Insert success image : " +
+            results.length +
+            ` crawler_id = ${record.id} `
+    );
 }

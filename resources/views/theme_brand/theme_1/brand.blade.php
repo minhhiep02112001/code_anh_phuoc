@@ -24,7 +24,7 @@
 
                              {{-- @if (!empty($post->content_banner)) --}}
                                  <div class="banner-content">
-                                     <p class="text-center">{{ replaceContentBanner($post)}}</p>
+                                     <h2 class="text-center">{{ replaceContentBanner($post)}}</h2>
                                      {{-- <p class="text-center">{{ $post->content_banner }}</p> --}}
                                      <a href="#" class="cta-button btn btn-outline btn--bordered btn--white">BOOK
                                          NOW</a>
@@ -379,7 +379,7 @@
                  <div class="elementor-padding e18e99my0 css-1iiv58m e1xmv6f40">
 
                      <div class="sec-title ">
-                         <h4>Recommend Brand</h4> <span class="divider"></span>
+                         <h3>Recommend Brand</h3> <span class="divider"></span>
                      </div>
                      <div class="row" id="list-recomend">
                          @foreach ($relates as $item)
