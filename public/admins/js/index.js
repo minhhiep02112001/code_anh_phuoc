@@ -69,9 +69,10 @@ var win = $(window),
                             }
                         }
                     });
-
+                    let cleaned = tempDiv.innerHTML;
+                    cleaned = cleaned.replaceAll(/&amp;/g, "");
                     // Ghi đè lại toàn bộ nội dung editor
-                    editor.setContent(tempDiv.innerHTML);
+                    editor.setContent(cleaned);
                 },
             });
 

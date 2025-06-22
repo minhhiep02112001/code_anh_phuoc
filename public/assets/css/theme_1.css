@@ -160,9 +160,11 @@ header#header,
     color: #fff;
     font-size: 40px;
 }
+
 .title-h3 {
     font-size: 28px;
 }
+
 .btn--bordered.btn--white {
     border-color: #fff;
     color: #fff;
@@ -662,6 +664,23 @@ h1 {
     overflow: hidden;
 }
 
+#time_open table {
+    width: 100%;
+}
+
+#time_open table ul {
+    margin-left: 20px;
+}
+
+#time_open h3{
+    margin-top: 20px;
+    font-size: 20px;
+    text-align: center;
+}
+
+#time_open table ul li {
+    white-space: nowrap;
+}
 
 @media (max-width: 768px) {
     .banner-content h2 {
@@ -681,7 +700,19 @@ h1 {
         padding: 10px 20px;
     }
 
+    #header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 999999;
+        background: #fff;
+        /* hoặc màu nền phù hợp */
+    }
 
+    .homebanners {
+        margin-top: 60px;
+    }
 
     .elementor-column-2 {
         order: 1 !important;

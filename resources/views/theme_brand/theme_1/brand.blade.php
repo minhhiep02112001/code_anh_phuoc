@@ -355,8 +355,13 @@
                                      @if (!empty($post->email))
                                          <span>Email: {{ $post->email }} </span>
                                      @endif
-
                                  </div>
+                                 @if (!empty($post->time_open))
+                                     <div id="time_open">
+                                         <h3>Time:</h3>  
+                                         {!! $post->time_open !!}
+                                     </div>
+                                 @endif
                              </div>
                          </div>
                      </div>

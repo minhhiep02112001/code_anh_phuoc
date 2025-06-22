@@ -508,3 +508,9 @@ function  replaceContentBanner($post)
 function replaceAddress($addr) {
     return preg_replace('/\s\d{5}(?:-\d{4})?, United States$/', '', $addr);
 }
+
+function convertTimeOpen($timeOpen) {
+    $timeOpen = preg_replace('/<button\b[^>]*>.*?<\/button>/is', '', $timeOpen);
+    $timeOpen = str_replace("\u{202F}", ' ', $timeOpen); 
+    return  $timeOpen;
+}
