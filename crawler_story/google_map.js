@@ -607,8 +607,8 @@ async function searchData(keyword, browser, record) {
 }
 
 async function getAllCrawlerDataBase(offset = 0) {
-    const query = ` SELECT crawler_map.* FROM crawler_map join st_post on crawler_map.relate_id = st_post.id WHERE crawler_map.is_crawler = 0 and crawler_map.is_status = 2 ORDER BY st_post.id asc LIMIT 500 offset ${offset}`;
-    // const query = ` SELECT * FROM crawler_map WHERE is_crawler = 0 and is_status = 2 ORDER BY id ASC LIMIT 500 offset ${offset}`;
+    // const query = ` SELECT crawler_map.* FROM crawler_map join st_post on crawler_map.relate_id = st_post.id WHERE crawler_map.is_crawler = 0 and crawler_map.is_status = 2 ORDER BY st_post.id asc LIMIT 500 offset ${offset}`;
+    const query = ` SELECT * FROM crawler_map WHERE is_crawler = 0 and is_status = 2 ORDER BY id ASC LIMIT 500 offset ${offset}`;
     return database.query(query);
 }
 

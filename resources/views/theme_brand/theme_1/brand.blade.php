@@ -358,7 +358,7 @@
                                  </div>
                                  @if (!empty($post->time_open))
                                      <div id="time_open">
-                                         <h3>Time:</h3>  
+                                         <h2 style="font-size: 20px;" class="text-center">Hour:</h2>  
                                          {!! $post->time_open !!}
                                      </div>
                                  @endif

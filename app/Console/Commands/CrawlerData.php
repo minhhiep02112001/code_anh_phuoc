@@ -65,7 +65,7 @@ class CrawlerData extends Command
         }
  
     }
-    // php artisan crawler:data --function=crawler_images
+    // php artisan crawler:data --function=deleteImage
     public function deleteImage()
     {
         $datas = DB::table('st_post_images')->join('st_post', 'st_post_images.post_id', '=', 'st_post.id')->select(['st_post_images.*', 'st_post.slug'])->where('is_crawler', 0)->get();
