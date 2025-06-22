@@ -54,7 +54,7 @@ class ConvertData extends Command
         foreach ($datas as $data) {
 
             $post = Post::firstOrCreate(['slug' => $data->slug], ['title' => $data->key_word, 'slug' => $data->slug]);
-            if (!empty($post->is_status)) continue;
+            // if (!empty($post->is_status)) continue;
             $data_update = [
                 'is_thumb_block_1' => 1,
                 'is_thumbnail' => 1
