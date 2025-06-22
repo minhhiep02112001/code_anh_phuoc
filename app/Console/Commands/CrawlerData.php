@@ -48,7 +48,10 @@ class CrawlerData extends Command
     // php artisan crawler:data --function=crawler_images
     public function crawler_images()
     {
-        $datas = DB::table('st_post_images')->join('st_post', 'st_post_images.post_id', '=', 'st_post.id')->select(['st_post_images.*', 'st_post.slug'])->where('is_crawler', 0)->get();
+        $datas = DB::table('st_post_images')->join('st_post', 'st_post_images.post_id', '=', 'st_post.id')
+        ->select(['st_post_images.*', 'st_post.slug'])
+        ->where('st_post_images.is_crawler', 0)->get();
+        
         foreach ($datas->groupBy('post_id')->toArray() as $post_id => $data) {
             foreach (array_values($data) as $k => $item) {
                 $thumb = $item->crawler_href;
@@ -61,6 +64,8 @@ class CrawlerData extends Command
                     ]);
                     echo "\n Done {$item->id} {$path}";
                 }
+
+                echo "\n Done  Post_id {$post_id}";
             }
         }
  
