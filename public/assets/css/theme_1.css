@@ -672,7 +672,7 @@ h1 {
     margin-left: 20px;
 }
 
-#time_open h3{
+#time_open h3 {
     margin-top: 20px;
     font-size: 20px;
     text-align: center;
@@ -705,7 +705,7 @@ h1 {
         top: 0;
         left: 0;
         right: 0;
-        z-index: 999999;
+        z-index: 999;
         background: #fff;
         /* hoặc màu nền phù hợp */
     }
@@ -810,6 +810,25 @@ h1 {
     .elementor-col-50.ele-header {
         width: 80%;
     }
+}
+
+.show_mobi {
+    display: none;
+}
+
+@media screen and (max-width: 768px) {
+    .show_mobi.show {
+        display: block;
+    }
+    .container-mobile , .container-mobile a{
+        height: 60px;
+    }
+}
+
+.mobile-menu.nav-is-visible {
+    display: block;
+    opacity: 1;
+    left: -25% !important;
 }
 
 .elementor-icon {

@@ -1,5 +1,5 @@
 @php
-    $ver = 12368;
+    $ver = 111112368;
     $config_website = getValueSetting('config_website');
     $config_seo = getValueSetting('config_seo');
     $config_social = getValueSetting('config_social');

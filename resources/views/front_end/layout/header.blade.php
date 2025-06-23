@@ -1,6 +1,7 @@
 @php
     $menus_header = getMenuParent(0, 0);
 @endphp
+
 <header id="header">
     <div class="wdt-elementor-container-fluid">
         <div id="header-16" class="wdt-header-tpl header-16">
@@ -10,11 +11,15 @@
                     <div class="elementor-container elementor-column-gap-no">
                         <div class="elementor-col-50 ele-header elementor-inner-column elementor-element">
 
-                            <div class="elementor-widget-container">
-                                <a href="{{ route('post', [$post->slug]) }}">
+                            <div class="elementor-widget-container container-mobile">
+                                <a href="{{ route('post', [$post->slug]) }}" class="show hide-scroll">
                                     <div class="logo">{{ $post->title }}</div>
                                 </a>
 
+                                <a href="{{ url('/') }}" class="show_mobi  show-scroll">
+                                    <img style="max-height: 60px;" src="{!! getImageThumb($config_website?->logo) !!}" id="logo"
+                                        alt="{{ $config_website?->website }}">
+                                </a>
                             </div>
                         </div>
                         <div class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-c3bec27"
@@ -57,7 +62,7 @@
                                             <div class="mobile-nav-container mobile-nav-offcanvas-right" data-menu="62">
                                                 <a href="#" class="menu-trigger menu-trigger-icon"
                                                     data-menu="62"><i></i><span>Menu</span></a>
-                                               
+
                                             </div>
                                         </div>
                                     </div>
@@ -70,3 +75,35 @@
         </div>
     </div>
 </header>
+
+<script>
+    function scrollShowHide() {
+        var showScrollElements = document.querySelector('.show-scroll');
+        var hideScrollElements = document.querySelector('.hide-scroll');
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+        const maxWidth = window.innerWidth;
+
+        // Chỉ áp dụng nếu màn hình nhỏ hơn hoặc bằng 760px
+        if (maxWidth <= 760) {
+            if (scrollTop > 60) {
+                if (showScrollElements) showScrollElements.style.display = 'block';
+                if (hideScrollElements) hideScrollElements.style.display = 'none';
+            } else {
+                if (showScrollElements) showScrollElements.style.display = 'none';
+                if (hideScrollElements) hideScrollElements.style.display = 'block';
+            }
+        } else {
+            // Ở desktop thì hiển thị mặc định
+            if (showScrollElements) showScrollElements.style.display = 'none';
+            if (hideScrollElements) hideScrollElements.style.display = 'block';
+        }
+    }
+    window.addEventListener('scroll', function() {
+        scrollShowHide();
+    });
+
+    // Ẩn ban đầu nếu cần
+    document.addEventListener('DOMContentLoaded', function() {
+        scrollShowHide()
+    });
+</script>
