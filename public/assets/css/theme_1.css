@@ -820,8 +820,16 @@ h1 {
     .show_mobi.show {
         display: block;
     }
-    .container-mobile , .container-mobile a{
+
+    .container-mobile,
+    .container-mobile a {
         height: 60px;
+    }
+
+    a.show_mobi.show-scroll {
+        display: flex;
+        align-content: center;
+        padding-left: 10px;
     }
 }
 
