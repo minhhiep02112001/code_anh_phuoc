@@ -99,10 +99,8 @@ async function searchData(keyword, browser, crawler_id = 0) {
                 crawler_id,
             };
             await database.handle_crawler_map(obj);
-            console.log(
-                `\n Success: ${element.title} - count: ${datas.length} !!!!`
-            );
         }
+        console.log(`\n Success: ${crawler_id} - count: ${datas.length} !!!!`);
         let updateStatusQuery = ` UPDATE crawler SET status = 1 WHERE id=${crawler_id}`;
         await database.execute(updateStatusQuery);
     } else {
@@ -126,7 +124,7 @@ async function getAllCrawlerDataBase(offset = 0) {
     });
 
     while (true) {
-        let arr_crawlers = await getAllCrawlerDataBase(600);
+        let arr_crawlers = await getAllCrawlerDataBase(300);
         if (arr_crawlers.length == 0) break;
         for (const element of arr_crawlers) {
             try {
@@ -139,7 +137,7 @@ async function getAllCrawlerDataBase(offset = 0) {
                 await searchData(element.keyword, browser, element.id);
             } catch (e) {
                 console.log(e);
-                
+
                 console.log("\n Run Error --------------------" + element.id);
                 let updateStatusQuery = ` UPDATE crawler SET status = 3 WHERE id=${element.id}`;
                 await database.execute(updateStatusQuery);

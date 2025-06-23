@@ -2299,12 +2299,22 @@
             }
 
             #banner {
+                margin-top: 80px;
                 background-image: url('{{ asset('/images/beyout-banner-mb.jpg') }}');
             }
 
             footer .col {
                 width: 100%;
                 flex: auto;
+            }
+
+            header {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 999999;
+                background: #fff;
             }
         }
 
