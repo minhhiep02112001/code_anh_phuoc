@@ -16,7 +16,7 @@
                                     <div class="logo">{{ $post->title }}</div>
                                 </a>
 
-                                <a href="{{ url('/') }}" class="show_mobi  show-scroll">
+                                <a href="https://beyout.net" class="show_mobi  show-scroll">
                                     <img style="max-height: 60px;" src="{!! getImageThumb($config_website?->logo) !!}" id="logo"
                                         alt="{{ $config_website?->website }}">
                                 </a>
