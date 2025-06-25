@@ -36,131 +36,131 @@ async function crawlerGoogleIframe(browser, record, retry = 5) {
         // Điều hướng đến URL
         await page.goto(url, { waitUntil: "networkidle2" });
         await page.waitForTimeout(WAIT_TIME_SHORT);
+         await crawler_images(page, record);
+        // await simulateHumanBehavior(page);
 
-        await simulateHumanBehavior(page);
+        // // Chờ đợi cho nội dung tải xong
+        // await page.waitForTimeout(WAIT_TIME_SHORTLONG);
+        // var link_google_map = await page.url();
 
-        // Chờ đợi cho nội dung tải xong
-        await page.waitForTimeout(WAIT_TIME_SHORTLONG);
-        var link_google_map = await page.url();
+        // const data_update = await page.evaluate(async () => {
+        //     await new Promise((resolve) => setTimeout(resolve, 2000));
+        //     let obj = {};
+        //     // Tìm tất cả các nút
+        //     obj.google_review =
+        //         document.querySelector("h1").parentNode.parentNode.textContent;
 
-        const data_update = await page.evaluate(async () => {
-            await new Promise((resolve) => setTimeout(resolve, 2000));
-            let obj = {};
-            // Tìm tất cả các nút
-            obj.google_review =
-                document.querySelector("h1").parentNode.parentNode.textContent;
+        //     let buttonImage = document.querySelectorAll(
+        //         'button img[decoding="async"]'
+        //     );
 
-            let buttonImage = document.querySelectorAll(
-                'button img[decoding="async"]'
-            );
+        //     let addressButton = document.querySelector(
+        //         'button[data-item-id="address"]'
+        //     );
+        //     let phoneButton = document.querySelector(
+        //         'button[data-tooltip="Copy phone number"]'
+        //     );
 
-            let addressButton = document.querySelector(
-                'button[data-item-id="address"]'
-            );
-            let phoneButton = document.querySelector(
-                'button[data-tooltip="Copy phone number"]'
-            );
+        //     // Lấy giờ mở cửa (ví dụ: "Closed · Opens 10AM")
+        //     const openHoursEl = document.querySelector(
+        //         'div[data-hide-tooltip-on-mouse-move="true"][role="button"]'
+        //     ); 
+        //     if (openHoursEl) {
+        //         openHoursEl.closest("div").click(); 
+        //         const table = openHoursEl.parentNode.querySelector("table");
+        //         obj.time_open = table ? table.outerHTML : null; 
+        //     }
 
-            // Lấy giờ mở cửa (ví dụ: "Closed · Opens 10AM")
-            const openHoursEl = document.querySelector(
-                'div[data-hide-tooltip-on-mouse-move="true"][role="button"]'
-            ); 
-            if (openHoursEl) {
-                openHoursEl.closest("div").click(); 
-                const table = openHoursEl.parentNode.querySelector("table");
-                obj.time_open = table ? table.outerHTML : null; 
-            }
+        //     obj.phone = phoneButton
+        //         ? phoneButton.getAttribute("aria-label")
+        //         : "";
 
-            obj.phone = phoneButton
-                ? phoneButton.getAttribute("aria-label")
-                : "";
+        //     obj.address = addressButton
+        //         ? addressButton.getAttribute("aria-label")
+        //         : "";
 
-            obj.address = addressButton
-                ? addressButton.getAttribute("aria-label")
-                : "";
+        //     obj.thumbnail = buttonImage[0]
+        //         ? buttonImage[0].getAttribute("src")
+        //         : "";
 
-            obj.thumbnail = buttonImage[0]
-                ? buttonImage[0].getAttribute("src")
-                : "";
+        //     return obj; // Không tìm thấy nút để click
+        // }); 
+        // // Sử dụng Puppeteer để kiểm tra và click nếu nút tồn tại
+        // const buttonClicked = await page.evaluate(async () => {
+        //     await new Promise((resolve) => setTimeout(resolve, 1000));
+        //     const button = document.querySelector('button[data-value="Share"]');
 
-            return obj; // Không tìm thấy nút để click
-        }); 
-        // Sử dụng Puppeteer để kiểm tra và click nếu nút tồn tại
-        const buttonClicked = await page.evaluate(async () => {
-            await new Promise((resolve) => setTimeout(resolve, 1000));
-            const button = document.querySelector('button[data-value="Share"]');
+        //     // Click vào nút nếu tồn tại
+        //     if (button) {
+        //         button.click();
+        //         return true; // Đánh dấu đã click
+        //     }
+        //     return false; // Không tìm thấy nút để click
+        // });
+        // if (!buttonClicked) {
+        //     await page.close();
+        //     console.log("Button not found.");
+        //     if (retry > 0) {
+        //         console.warn(
+        //             `Warning: No title found, retrying... (Retry count: ${retry})`
+        //         );
+        //         return await crawlerGoogleIframe(browser, record, retry - 1);
+        //     }
+        //     return;
+        // }
 
-            // Click vào nút nếu tồn tại
-            if (button) {
-                button.click();
-                return true; // Đánh dấu đã click
-            }
-            return false; // Không tìm thấy nút để click
-        });
-        if (!buttonClicked) {
-            await page.close();
-            console.log("Button not found.");
-            if (retry > 0) {
-                console.warn(
-                    `Warning: No title found, retrying... (Retry count: ${retry})`
-                );
-                return await crawlerGoogleIframe(browser, record, retry - 1);
-            }
-            return;
-        }
+        // await page.waitForTimeout(WAIT_TIME_SHORT);
+        // // get image menus
+        // data_update.link_google_map = link_google_map;
+        // data_update.iframe_map = await page.evaluate(async () => {
+        //     await new Promise((resolve) => setTimeout(resolve, 1000));
+        //     let tabs = document.querySelectorAll(
+        //         'button[data-tooltip-only-on-overflow="true"]'
+        //     );
+        //     await new Promise((resolve) => setTimeout(resolve, 1000));
+        //     if (tabs.length) {
+        //         tabs[1].click(); // Click vào phần tử cha bậc 2
+        //     }
+        //     await new Promise((resolve) => setTimeout(resolve, 2000));
 
-        await page.waitForTimeout(WAIT_TIME_SHORT);
-        // get image menus
-        data_update.link_google_map = link_google_map;
-        data_update.iframe_map = await page.evaluate(async () => {
-            await new Promise((resolve) => setTimeout(resolve, 1000));
-            let tabs = document.querySelectorAll(
-                'button[data-tooltip-only-on-overflow="true"]'
-            );
-            await new Promise((resolve) => setTimeout(resolve, 1000));
-            if (tabs.length) {
-                tabs[1].click(); // Click vào phần tử cha bậc 2
-            }
-            await new Promise((resolve) => setTimeout(resolve, 2000));
+        //     let elements = document.querySelector(
+        //         'input[jsaction="pane.embedMap.clickInput"]'
+        //     );
+        //     if (elements) {
+        //         // Click vào phần tử cha bậc 2
+        //         return elements.getAttribute("value");
+        //     }
 
-            let elements = document.querySelector(
-                'input[jsaction="pane.embedMap.clickInput"]'
-            );
-            if (elements) {
-                // Click vào phần tử cha bậc 2
-                return elements.getAttribute("value");
-            }
+        //     return "";
+        // });
 
-            return "";
-        });
+        // await page.evaluate(() => {
+        //     const modal = document.getElementById("modal-dialog"); // Lấy phần tử modal
+        //     if (modal) {
+        //         modal.remove(); // Xóa phần tử modal khỏi DOM
+        //     }
+        // });
 
-        await page.evaluate(() => {
-            const modal = document.getElementById("modal-dialog"); // Lấy phần tử modal
-            if (modal) {
-                modal.remove(); // Xóa phần tử modal khỏi DOM
-            }
-        });
-
-        data_update.google_review = extractInParentheses(
-            data_update.google_review
-        );
-        data_update.iframe_map = convertStr(data_update.iframe_map);
-        data_update.address = convertStr(data_update.address ?? "");
-        data_update.email = convertStr(data_update.email ?? "");
-        data_update.thumbnail = convertStr(data_update.thumbnail ?? "");
-        data_update.phone = convertStr(data_update.phone ?? "");
-        data_update.time_open = data_update.time_open ? convertStr(data_update.time_open ?? "") : '';
-        data_update.google_review = convertStr(data_update.google_review ?? "");
-        data_update.is_crawler_iframe_map = data_update.iframe_map ? 1 : 0;
-        data_update.is_convert = 1;
-        data_update.is_crawler = 1;
-        data_update.is_error = 0;
+        // data_update.google_review = extractInParentheses(
+        //     data_update.google_review
+        // );
+        // data_update.iframe_map = convertStr(data_update.iframe_map);
+        // data_update.address = convertStr(data_update.address ?? "");
+        // data_update.email = convertStr(data_update.email ?? "");
+        // data_update.thumbnail = convertStr(data_update.thumbnail ?? "");
+        // data_update.phone = convertStr(data_update.phone ?? "");
+        // data_update.time_open = data_update.time_open ? convertStr(data_update.time_open ?? "") : '';
+        // data_update.google_review = convertStr(data_update.google_review ?? "");
+        // data_update.is_crawler_iframe_map = data_update.iframe_map ? 1 : 0;
+        // data_update.is_convert = 1;
+        // data_update.is_crawler = 1;
+        // data_update.is_error = 0;
         
-        await database.update_crawler_map(crawler_id, data_update, 2);
+        // await database.update_crawler_map(crawler_id, data_update, 2);
 
-        // await crawler_about(page, record);
-        // await crawler_comment(page, record);
-        await crawler_images(page, record);
+        // // await crawler_about(page, record);
+        // // await crawler_comment(page, record);
+        // await crawler_images(page, record);
         // get ảnh thumbnail
         await page.close();
         return;

@@ -50,7 +50,7 @@ class CrawlerData extends Command
     {
         $datas = DB::table('st_post_images')->join('st_post', 'st_post_images.post_id', '=', 'st_post.id')
         ->select(['st_post_images.*', 'st_post.slug'])
-        ->where('st_post_images.is_crawler', 0)->get();
+        ->where('st_post_images.is_crawler', 0)->whereNotNull('st_post_images.crawler_href')->get();
         
         foreach ($datas->groupBy('post_id')->toArray() as $post_id => $data) {
             foreach (array_values($data) as $k => $item) {
@@ -73,7 +73,7 @@ class CrawlerData extends Command
     // php artisan crawler:data --function=deleteImage
     public function deleteImage()
     {
-        $datas = DB::table('st_post_images')->join('st_post', 'st_post_images.post_id', '=', 'st_post.id')->select(['st_post_images.*', 'st_post.slug'])->where('is_crawler', 0)->get();
+        $datas = DB::table('st_post_images')->join('st_post', 'st_post_images.post_id', '=', 'st_post.id')->select(['st_post_images.*', 'st_post.slug'])->where('is_crawler', 0)->where('st_post.is_status' , 0)->get();
         foreach ($datas->groupBy('post_id')->toArray() as $post_id => $data) {
             echo "\n start {$post_id}";
             if (count($data) < 20) continue;
