@@ -69,8 +69,20 @@ var win = $(window),
                             }
                         }
                     });
+
+                    // XÓA tất cả <span> trong <p> nhưng giữ nội dung bên trong
+                    tempDiv.querySelectorAll("p span").forEach(function (span) {
+                        const parent = span.parentNode;
+                        while (span.firstChild) {
+                            parent.insertBefore(span.firstChild, span);
+                        }
+                        span.remove();
+                    });
+
                     let cleaned = tempDiv.innerHTML;
                     cleaned = cleaned.replaceAll(/&amp;/g, "");
+                    // XÓA khoảng trắng trước dấu chấm
+                    cleaned = cleaned.replace(/\s+([.,!?;:])/g, "$1");
                     // Ghi đè lại toàn bộ nội dung editor
                     editor.setContent(cleaned);
                 },
