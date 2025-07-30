@@ -13,7 +13,7 @@ const path = require("path");
 puppeteer.use(StealthPlugin());
 
 const config_mails = [
-    { email: "co.bbidella54@gmail.com", password: "Kingseo127@123#" },
+    { email: "chuminhhiep02112001@gmail.com", password: "minhhiep0211" },
     // { email: "lancas.terjaney53@gmail.com", password: "wFWvdSQWCDA" },
     // { email: "gotoiceland9@gmail.com", password: "GY2BJyixydbeU61" },
 ];
@@ -396,30 +396,34 @@ async function crawler_detail_search(record, browser, href = "") {
     return;
 }
 
-async function getAllCrawlerDataBase(offset = 0) {
-    const query = ` SELECT * FROM crawler_map WHERE is_crawler = 0 ORDER BY id ASC LIMIT 500 offset ${offset}`;
+async function getPostSubmitBing(offset = 0) {
+    const query = ` SELECT * FROM st_post WHERE is_status = 1 and is_submit_bing = 0 ORDER BY id ASC LIMIT 500 offset ${offset}`;
     return database.query(query);
 }
 
 (async () => {
-    var list_data = await getAllCrawlerDataBase();
+    var list_data = await getPostSubmitBing();
 
     let mail_login =
         config_mails[Math.floor(Math.random() * config_mails.length)];
 
     const browser = await puppeteer.launch({
         headless: false, // Hiển thị trình duyệt
-        args: ["--start-maximized", "--lang=fr-FR"], // Mở trình duyệt ở chế độ toàn màn hình
+        args: ["--start-maximized", "--lang=en-US"], // Mở trình duyệt ở chế độ toàn màn hình
         defaultViewport: null, // Tắt viewport mặc định
     });
 
     const page = await browser.newPage();
+
+    await page.setExtraHTTPHeaders({
+        "Accept-Language": "en-US,en;q=0.9,en-US;q=0.8,en;q=0.7",
+    });
+    // Đặt user-agent với thông tin ngôn ngữ tiếng Pháp
+    await page.setUserAgent(
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36 Accept-Language: en-US"
+    );
+
     await page.setViewport({ width: 1900, height: 1200 });
-
-    // // // Điều hướng đến trang đăng nhập Google
-    await page.goto("https://www.bing.com/search?q=Envious+Nail+Bar");
-
-    return;
 
     await page.goto("https://accounts.google.com/signin");
 
@@ -434,74 +438,91 @@ async function getAllCrawlerDataBase(offset = 0) {
     await page.keyboard.press("Enter");
     // Chờ đăng nhập thành công
     await page.waitForNavigation();
-    return;
+    // // // Điều hướng đến trang đăng nhập Google
+
     for (let index = 0; index < list_data.length; index++) {
         let element = list_data[index];
-        await crawler_detail_search(element, browser); // crawler link google map
+        await submitBing(page, element);
     }
     await browser.close();
     console.log("Done All");
 })();
+async function submitBing(page, element) {
 
-async function downloadFile(results = [], _type = "photo", record) {
-    let relate_thumbs = [];
-    let _folder = `${folder}/restaurant/${record.slug}`;
-    await fs.mkdir(_folder, { recursive: true }, (err) => {});
-    //crawler_href
-    results.forEach(async function (element, index) {
-        let _path = `${_folder}/${record.slug}-${_type}-${index}.jpg`.replace(
-            "//",
-            "/"
-        );
-        relate_thumbs.push({
-            path: `${folder_path}/${record.slug}/${record.slug}-${_type}-${index}.jpg`,
-            crawler_href: element,
-        });
-        await Helper.downloadImage(_path, element);
-    });
-    await Helper.sleep(10000);
-    let values = relate_thumbs.map(
-        (element, index) =>
-            `('${index}', '${element.path}', '${element.crawler_href}', ${record.relate_id}, '${_type}')`
-    );
 
-    let _delete = `DELETE
-    FROM st_post_images
-    WHERE post_id = ${record.relate_id} and type='${_type}';`;
-    await database.execute(_delete);
+    let keyword = `${element.title} ${element.address}`;
+    keyword = keyword.replaceAll(" ", "+");
+    let url = `https://${element.slug}.beyout.net/`;
+    await page.goto("https://www.bing.com/search?q=" + keyword);
 
-    let _insert = `INSERT INTO st_post_images (position, thumbnail, crawler_href, post_id , type)
-    VALUES ${values.join(", ")};`;
-    await database.execute(_insert);
-}
+    await page.waitForSelector('a[role="button"]');
+    const links = await page.$$('a[role="button"]');
 
-async function uploadAllFilesAndFoldersInDirectory(
-    rootFolderPath,
-    targetFolder
-) {
-    try {
-        const files = fs.readdirSync(rootFolderPath);
+    var is_check = 0;
+    var is_submit = 2;
+    for (const link of links) {
+        const text = await page.evaluate((el) => el.textContent.trim(), link);
+        if (text === "Add website") {
+            is_check = 1;
+            // Scroll vào phần tử
+            await page.evaluate(
+                (el) =>
+                    el.scrollIntoView({
+                        behavior: "smooth",
+                        block: "center",
+                    }),
+                link
+            );
 
-        for (const file of files) {
-            const filePath = path.join(rootFolderPath, file);
+            // Đợi một chút cho animation scroll
+            await page.waitForTimeout(1500);
+            // Hover để đảm bảo các listeners như `mouseenter` hoạt động
+            await link.hover();
 
-            if (fs.lstatSync(filePath).isFile()) {
-                let formData = new FormData();
-                formData.append("files[]", fs.createReadStream(filePath), file);
-                formData.append("folder", targetFolder);
-
-                await axios.post("https://resde.org/api/upload", formData, {
-                    headers: {
-                        ...formData.getHeaders(),
-                        Authorization: `Bearer ${bearerToken}`,
-                    },
+            // Thực hiện tổ hợp sự kiện click giống người dùng
+            await page.evaluate((el) => {
+                const down = new MouseEvent("mousedown", {
+                    bubbles: true,
+                    cancelable: true,
+                    view: window,
                 });
-            }
-            await Helper.sleep(500);
+                const up = new MouseEvent("mouseup", {
+                    bubbles: true,
+                    cancelable: true,
+                    view: window,
+                });
+                const click = new MouseEvent("click", {
+                    bubbles: true,
+                    cancelable: true,
+                    view: window,
+                });
+
+                el.dispatchEvent(down);
+                el.dispatchEvent(up);
+                el.dispatchEvent(click);
+            }, link);
+            await page.waitForTimeout(2000);
+            break;
         }
- 
-        console.log("Upload success folders:" + targetFolder);
-    } catch (error) {
-        console.error("Error uploading files and folders:", error.message);
     }
+    if (is_check) {
+        await page.waitForSelector("input.b_se_website");
+
+        const websiteInput = await page.$("input.b_se_website");
+        const submitButton = await page.$("a#b_se_bd_submit.b_se_submit");
+        await page.evaluate((el) => {
+            el.scrollIntoView({ behavior: "smooth", block: "center" });
+        }, websiteInput);
+        await page.waitForTimeout(500);
+        await websiteInput.click();
+        await websiteInput.type(url, { delay: 30 });
+        await page.waitForTimeout(500);
+        await submitButton.click();
+        is_submit = 1;
+    }
+    let sql = `update st_post set is_submit_bing=${is_submit} where id=${element.id}`;
+    await database.query(sql);
+    if (is_submit == 1) console.log(`Đã submit website title: ${element.title}`);
+    else console.log(`Website exists: ${element.title}`);
+    return;
 }

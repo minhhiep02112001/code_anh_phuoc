@@ -26,10 +26,9 @@ class CrawlerDataImport implements ToCollection, WithChunkReading, WithHeadingRo
 
     public function collection(Collection $rows)
     {
-       
         DB::beginTransaction();
         try { 
-            foreach ($rows as $row) {  
+            foreach ($rows as $row) {   
                 if (!empty($row['key_word'])) {
                     $key_word = $row['key_word']; 
                     if (empty($key_word)) continue;
@@ -38,6 +37,7 @@ class CrawlerDataImport implements ToCollection, WithChunkReading, WithHeadingRo
                         'key_word' => $key_word,
                         'slug' => $slug,
                         'is_status' => 2,
+                        'is_crawler' => 0,
                         'link_google_map' => $row['link_google_map'] ?? ''
                     ]); 
                     echo "\n Update {$key_word} - {$item->id} " . $this->importedCount; 
@@ -55,7 +55,7 @@ class CrawlerDataImport implements ToCollection, WithChunkReading, WithHeadingRo
 
     public function chunkSize(): int
     {
-        return 50; // xử lý 100 dòng mỗi chunk
+        return 10; // xử lý 100 dòng mỗi chunk
     }
 
     public function getImportResults()

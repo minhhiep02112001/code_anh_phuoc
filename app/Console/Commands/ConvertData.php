@@ -52,7 +52,7 @@ class ConvertData extends Command
         ])->get();
 
         foreach ($datas as $data) {
-
+            if (empty($data->slug))  $data->slug = \Str::slug($data->key_word);
             $post = Post::firstOrCreate(['slug' => $data->slug], ['title' => $data->key_word, 'slug' => $data->slug]);
             if (!empty($post->is_status)) continue;
             $data_update = [
@@ -60,7 +60,7 @@ class ConvertData extends Command
                 'is_thumbnail' => 1
             ];
             $thumnail_post = str_replace(['storage', '//'], '', trim($post->thumbnail ?? '', '/'));
-            
+
             if ((empty($thumnail_post) || !Storage::disk('public')->exists($thumnail_post)) && !empty($data->thumbnail)) { // download_image
                 $data_update['thumbnail'] = saveImageUrlStorage($data->thumbnail, "photos/nails/{$post->slug}",   "thumbnail.jpg");
                 $thumnail_post = str_replace(['storage', '//'], '', trim($data_update['thumbnail'], '/'));
@@ -83,11 +83,11 @@ class ConvertData extends Command
                     $data_update['image_block_1'] = $imgBlock->thumbnail ?? '';
                     $data_update['is_thumb_block_1'] = 0;
                 }
-            }  
+            }
 
-           
+
             if (!empty($data->time_open)) {
-              $data_update['time_open']  = convertTimeOpen($data->time_open);
+                $data_update['time_open']  = convertTimeOpen($data->time_open);
             }
 
             if (!empty($data->address)) {
@@ -112,9 +112,9 @@ class ConvertData extends Command
             if (!empty($data->iframe_map)) {
                 $data_update['iframe_map'] =  $data->iframe_map;
             }
-          
+
             if (!empty($data_update)) {
-            //     // $data_update['is_status'] = 0;
+                //     // $data_update['is_status'] = 0;
                 DB::table('st_post')->where('id', $post->id)->update($data_update);
                 DB::table('crawler_map')->where('id', $data->id)->update(['relate_id' => $post->id]);
                 DB::table('st_post_images')->where('crawler_id', $data->id)->update(['post_id' => $post->id]);
@@ -134,6 +134,5 @@ class ConvertData extends Command
 
         // Lấy ngẫu nhiên một phần tử trong mảng
         return $arr[array_rand($arr)];
-    } 
-  
+    }
 }

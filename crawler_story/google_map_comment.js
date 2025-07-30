@@ -1,7 +1,8 @@
 const puppeteer = require("puppeteer-extra");
 const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 puppeteer.use(StealthPlugin());
-
+const path = require("path");
+const { isArray } = require("lodash");
 const config_mails = [
     { email: "gotoiceland9@gmail.com", password: "GY2BJyixydbeU61" },
 ];
@@ -22,50 +23,78 @@ const configWaitSleep = {
     long: 5000,
 };
 
-async function commentBrand(page, params = {}) {
-    const { content = "" } = params;
-
+async function commentBrandIframe(page, params = {}) {
+    const iframeHandle = await page.waitForSelector(
+        "iframe.goog-reviews-write-widget"
+    );
+    const { content = "", images = [] } = params;
     try {
-        let text = await page.evaluate(async () => {
-            return document.querySelector("textarea#c2");
-        });
-        console.log(text);
-        return;
+        // 2. Lấy nội dung bên trong iframe
+        const frame = await iframeHandle.contentFrame();
+        const rating = Math.random() < 0.5 ? 4 : 5;
+        // 3. Chờ ngôi sao rating xuất hiện và click
+        await frame.waitForSelector(`div[data-rating="${rating}"]`);
+        await frame.$eval(`div[data-rating="${rating}"]`, (el) => el.click());
 
-        // Cuộn tới nút đánh giá và nhấp vào nút đánh giá
-        //    await page.evaluate((buttonClickRating) => {
-        //        const buttons = document.querySelectorAll(buttonClickRating);
-        //        buttons.forEach((element) => {
-        //            if (element) {
-        //                element.scrollIntoView({
-        //                    behavior: "smooth",
-        //                    block: "center",
-        //                });
-        //                element.click();
-        //            }
-        //        });
-        //    }, config.buttonClickRating); // Truyền config vào
-        //    await page.waitForSelector('div[role="main"] div[data-rating="5"]', {
-        //        timeout: 15000,
-        //    });
-        //    await page.$eval('div[role="main"] div[data-rating="5"]', (el) =>
-        //        el.click()
-        //    );
-
-        // Đợi một chút để trang tải các yếu tố
+        // Đợi một chút để cuộn xong
         await page.waitForTimeout(configWaitSleep.shortLong);
-
-        await page.waitForSelector("textarea#c2");
-        await page.type("textarea#c2", content);
-
-        console.log("INput success:");
-        // Đợi thêm một chút để nội dung được nhập vào
-        await page.waitForTimeout(configWaitSleep.short);
+        // 4. Optional: điền mô tả đánh giá
+        await frame.type("textarea", content);
+        if (isArray(images) && images.length > 0) {
+            const [addPhotoBtn] = await frame.$x(
+                "//span[contains(text(), 'Add photos & videos')]"
+            );
+            for (const element of images) {
+                await uploadBrandImage(frame, addPhotoBtn, element);
+                console.log("Upload image iframe ", element);
+                await frame.waitForTimeout(configWaitSleep.shortLong);
+            }
+        }
+        // Submit review bằng cách click nút "Post"
+        const [buttonSubmit] = await frame.$x(
+            "//span[contains(text(), 'Post')]/ancestor::button"
+        );
+        if (buttonSubmit) {
+            await buttonSubmit.click();
+            console.log("Đã nhấn Post để gửi đánh giá.");
+            await page.waitForTimeout(configWaitSleep.long);
+            return true;
+        }
+        return false;
     } catch (error) {
         console.error("Error during commenting process:", error);
+        return false;
     }
 }
 
+async function uploadBrandImage(frame, addPhotoBtn, image = "") {
+    if (addPhotoBtn) await addPhotoBtn.click();
+
+    await frame.waitForTimeout(configWaitSleep.shortLong);
+
+    await frame.waitForSelector('div[data-is-adaptive="true"] iframe', {
+        visible: true,
+    });
+    const pickerIframeHandle = await frame.$(
+        'div[data-is-adaptive="true"] iframe'
+    );
+    var pickerFrame = await pickerIframeHandle.contentFrame();
+
+    await pickerFrame.waitForSelector('button[role="tab"]'); // hoặc refine bằng innerText
+    const uploadTabs = await pickerFrame.$$('button[role="tab"]');
+    await uploadTabs[1].click(); // Tab thứ 2 là “Upload”
+
+    await pickerFrame.waitForTimeout(configWaitSleep.short);
+
+    // Upload ảnh
+    const filePath = path.resolve(__dirname, image);
+    const inputUploadHandle = await pickerFrame.$('input[type="file"]');
+    if (inputUploadHandle) {
+        await inputUploadHandle.uploadFile(filePath);
+        await pickerFrame.waitForTimeout(configWaitSleep.shortLong);
+    }
+    return;
+}
 async function redirectMap(record = {}, page, href = "") {
     //     let page = await browser.newPage();
     try {
@@ -97,24 +126,14 @@ async function redirectMap(record = {}, page, href = "") {
         await page.waitForTimeout(configWaitSleep.long);
 
         // 1. Đợi iframe xuất hiện
-        const iframeHandle = await page.waitForSelector(
-            "iframe.goog-reviews-write-widget"
-        );
 
-        // 2. Lấy nội dung bên trong iframe
-        const frame = await iframeHandle.contentFrame();
-
-        const rating = Math.random() < 0.5 ? 4 : 5;
-
-        // 3. Chờ ngôi sao rating xuất hiện và click
-        await frame.waitForSelector(`div[data-rating="${rating}"]`);
-        await frame.$eval(`div[data-rating="${rating}"]`, (el) => el.click());
-
-        // 4. Optional: điền mô tả đánh giá
-        await frame.type("textarea", "Đánh giá thử nghiệm từ");
-
-        
-        console.log(text);
+        await commentBrandIframe(page, {
+            content: "Đánh giá thử nghiệm từ",
+            images: [
+                "../public/images/beyout-banner-mb.jpg",
+                "../public/images/beyout-banner-pc.jpg",
+            ],
+        });
 
         // Chờ thêm nếu cần
     } catch (error) {
@@ -126,13 +145,26 @@ async function redirectMap(record = {}, page, href = "") {
     }
 }
 
+async function crawlerCommentYelp(browser, record_id = 0, url = "", page = 1) {
+    let start = (page - 1) * 10;
+    let newPage = await browser.newPage();
+    await newPage.setExtraHTTPHeaders(config.setExtraHTTPHeaders);
+    await newPage.setUserAgent(config.setUserAgent);
+    await newPage.goto(`${url}?start=${start}`);
+    return;
+}
+
 (async () => {
     let mail_login =
         config_mails[Math.floor(Math.random() * config_mails.length)];
 
     const browser = await puppeteer.launch({
         headless: false, // Hiển thị trình duyệt
-        args: ["--start-maximized", "--lang=en-US"], // Mở trình duyệt ở chế độ toàn màn hình với lang=en-US
+        args: [
+            "--start-maximized",
+            "--no-sandbox",
+            "--disable-blink-features=AutomationControlled",
+        ],
         defaultViewport: null, // Tắt viewport mặc định
     });
 
@@ -155,6 +187,21 @@ async function redirectMap(record = {}, page, href = "") {
 
         // Chờ đăng nhập thành công
         await page.waitForNavigation();
+        await page.waitForTimeout(configWaitSleep.long);
+
+        await page.goto("https://www.yelp.com/", { waitUntil: "networkidle2" });
+        await page.waitForTimeout(3000 + Math.random() * 1000);
+
+        await page.goto("https://www.yelp.com/biz/mumu-hot-pot-sunnyvale-2", {
+            waitUntil: "domcontentloaded",
+        });
+
+        // await crawlerCommentYelp(
+        //     browser,
+        //     0,
+        //     "https://www.yelp.com/biz/mumu-hot-pot-sunnyvale-2"
+        // );
+        return;
 
         // Chuyển hướng đến Google Maps và thực hiện các thao tác
         await redirectMap(
