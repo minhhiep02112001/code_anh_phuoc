@@ -95,7 +95,7 @@ class SiteMap extends Command
         foreach ($categories as $key => $data) {
             $sitemap->add(Url::create(route('category', ['slug' => $data->slug, 'id' => $data->id]))
                 ->setLastModificationDate($data->updated_at)
-                ->setChangeFrequency(Url::CHANGE_FREQUENCY_ALWAYS)
+                ->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY)
                 ->setPriority(0.9));
         }
         $sitemap->writeToFile(public_path('sitemap_category.xml'));
@@ -109,7 +109,7 @@ class SiteMap extends Command
         $sitemap = SitemapGenerator::create('/')->getSitemap();
         $sitemap->add(Url::create('/')
             ->setLastModificationDate(Carbon::yesterday())
-            ->setChangeFrequency(Url::CHANGE_FREQUENCY_ALWAYS)
+            ->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY)
             ->setPriority(1.0));
 
         $categories = Page::where([
@@ -126,14 +126,14 @@ class SiteMap extends Command
         foreach ($categories as $key => $data) {
             $sitemap->add(Url::create(route('page', ['slug' => $data->slug]))
                 ->setLastModificationDate($data->updated_at)
-                ->setChangeFrequency(Url::CHANGE_FREQUENCY_ALWAYS)
+                ->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY)
                 ->setPriority(0.8));
         } 
         foreach ($posts as $post) {
             $time = Carbon::parse($post->publish_at);
             $sitemap->add(Url::create(route('post', ['slug' => $post->slug]))
                 ->setLastModificationDate($time)
-                ->setChangeFrequency(Url::CHANGE_FREQUENCY_ALWAYS)
+                ->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY)
                 ->setPriority(0.8));
         }
 
@@ -163,7 +163,7 @@ class SiteMap extends Command
                 $time = Carbon::parse($post->publish_at);
                 $sitemap->add(Url::create(route('post', ['slug' => $post->slug]))
                     ->setLastModificationDate($time)
-                    ->setChangeFrequency(Url::CHANGE_FREQUENCY_ALWAYS)
+                    ->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY)
                     ->setPriority(0.8));
             }
             if (!empty($data)) {
