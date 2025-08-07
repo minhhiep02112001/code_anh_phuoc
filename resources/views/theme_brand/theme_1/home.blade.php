@@ -2383,12 +2383,11 @@
                             <div class="e18e99my0 css-1iiv58m e1xmv6f40">
                                 <div class="css-w8wg2g elovojj0">
                                     <h6 class="css-tvdhho eh0fvrz0">
-                                        <div>Discover<span class="css-1tzeee1 e1xmv6f40">.</span></div>
-                                        <div>Reserve<span class="css-1tzeee1 e1xmv6f40">.</span></div>
-                                        <div>Relax<span class="css-1tzeee1 e1xmv6f40">.</span></div>
+                                        <div>Explore<span class="css-1tzeee1 e1xmv6f40">.</span></div>
+                                        <div>Book<span class="css-1tzeee1 e1xmv6f40">.</span></div>
+                                        <div>Unwind<span class="css-1tzeee1 e1xmv6f40">.</span></div>
                                     </h6>
-                                    <h1 class="css-1y5e797 eh0fvrz0">Instant booking for beauty, haircuts, and
-                                        relaxation</h1>
+                                    <h1 class="css-1y5e797 eh0fvrz0">Quick reservations for beauty, haircuts, and relaxation services.</h1>
                                 </div>
                                 {{-- <picture transform="translate(-50%, 0)" class="css-1tz8ogm ehep9uj0">
                                     <source
@@ -2450,9 +2449,9 @@
                                 <div class="css-qh9ukh elovojj0">
                                     <img style="max-height: 50px;" src="{!! asset('images/discover.png') !!}">
                                     <div class="css-1g1q0hs eh0fvrz0"><strong
-                                            class="ejmi5p50 css-19v4aip eh0fvrz0">Discover</strong></div>
+                                            class="ejmi5p50 css-19v4aip eh0fvrz0">Explore</strong></div>
                                 </div>
-                                <div class="css-1o52x4a eh0fvrz0">Uncover the best nearby beauty & wellness places.
+                                <div class="css-1o52x4a eh0fvrz0">Find the top beauty & wellness spots near you.
                                 </div>
                             </div>
                             <div class="css-bk7e3w e1xmv6f40">
@@ -2460,19 +2459,18 @@
                                     <div class="css-qh9ukh elovojj0">
                                         <img style="max-height: 50px;" src="{!! asset('images/reserve.png') !!}">
                                         <div class="css-1g1q0hs eh0fvrz0"><strong
-                                                class="ejmi5p50 css-19v4aip eh0fvrz0">Reserve</strong></div>
+                                                class="ejmi5p50 css-19v4aip eh0fvrz0">Book</strong></div>
                                     </div>
-                                    <div class="css-1o52x4a eh0fvrz0">Effortless online reservations – anytime,
-                                        anywhere.</div>
+                                    <div class="css-1o52x4a eh0fvrz0">Make your reservation easily, wherever you are.</div>
                                 </div>
                             </div>
                             <div class="css-n7e2yo elovojj0">
                                 <div class="css-qh9ukh elovojj0"> <img style="max-height: 50px;"
                                         src="{!! asset('images/relax.png') !!}">
                                     <div class="css-1g1q0hs eh0fvrz0"><strong
-                                            class="ejmi5p50 css-19v4aip eh0fvrz0">Relax</strong></div>
+                                            class="ejmi5p50 css-19v4aip eh0fvrz0">Unwind</strong></div>
                                 </div>
-                                <div class="css-1o52x4a eh0fvrz0">Sit back and relax, we’ll take care of the rest
+                                <div class="css-1o52x4a eh0fvrz0">Sit back and relax, we’ve got everything covered for you.
                                 </div>
                             </div>
                         </div>
@@ -2574,7 +2572,7 @@
                                 <ul
                                     class="_5zC0N5 gap-default-150 direction-default-vertical display-default-inline-flex FooterLinks_gridItem__SwRrK">
                                     <li class="p_ehs5 title">
-                                        <p class="_-wKyRQ rfrdHQ font-default-body-m-semibold">About Beyout</p>
+                                        <p class="_-wKyRQ rfrdHQ font-default-body-m-semibold">About Blynz</p>
                                     </li>
                                     <li class="p_ehs5">
                                         <p class="_-wKyRQ rfrdHQ font-default-body-s-regular"><a href="#"

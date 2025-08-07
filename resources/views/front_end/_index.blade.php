@@ -28,11 +28,7 @@
     <link rel="stylesheet" href="{{ convertPathImage('/assets/css/brand_1.css') }}?ver={{ $ver }}"> 
     <link rel="stylesheet" href="{{ convertPathImage('/assets/slick/slick/slick.css') }}?ver={{ $ver }}">
     <link rel="stylesheet" href="{{ convertPathImage('/assets/css/theme_1.css') }}?ver={{ $ver }}">
-
-
-
-    @include('front_end.block.config_seo_header')
-
+  
 </head>
 
 <body class="home page-template  ">

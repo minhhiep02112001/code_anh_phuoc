@@ -505,12 +505,31 @@ function  replaceContentBanner($post)
     return $post->title . ' ' . replaceAddress($post->address);
 }
 
-function replaceAddress($addr) {
+function replaceAddress($addr)
+{
     return preg_replace('/\s\d{5}(?:-\d{4})?, United States$/', '', $addr);
 }
 
-function convertTimeOpen($timeOpen) {
+function convertTimeOpen($timeOpen)
+{
     $timeOpen = preg_replace('/<button\b[^>]*>.*?<\/button>/is', '', $timeOpen);
-    $timeOpen = str_replace("\u{202F}", ' ', $timeOpen); 
+    $timeOpen = str_replace("\u{202F}", ' ', $timeOpen);
     return  $timeOpen;
+}
+
+
+function exportTimeOpen($html)
+{
+    $pattern = '/<tr[^>]*>\s*<td[^>]*>\s*<div>(.*?)<\/div>\s*<\/td>\s*<td[^>]*>\s*<ul[^>]*>\s*<li[^>]*>(.*?)<\/li>/';
+
+    preg_match_all($pattern, $html, $matches);
+
+    $schedule = [];
+    for ($i = 0; $i < count($matches[1]); $i++) {
+        $schedule[] = [
+            'day' => $matches[1][$i],
+            'hours' => $matches[2][$i]
+        ];
+    }
+    return $schedule;
 }

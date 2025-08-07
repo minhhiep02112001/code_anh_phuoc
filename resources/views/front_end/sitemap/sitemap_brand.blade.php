@@ -2,19 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
     @foreach ($datas as $item)
         @php
-            $time = \Carbon\Carbon::parse($item['publish_at']);
+            $time = \Carbon\Carbon::parse($item['public_at']);
         @endphp
         <url>
             <loc>{{ $item['url'] }}</loc>
-            <news:news>
-                <news:publication>
-                    <news:name>{{ env('APP_NAME') }}</news:name>
-                    <news:language>{{ app()->getLocale() }}</news:language>
-                </news:publication>
-                <news:geo_locations>{{ env('APP_LOCATION') }}</news:geo_locations>
-                <news:publication_date>{{ $time->format('Y-m-d\TH:i:sP') }}</news:publication_date>
-                <news:title>{{ $item['title'] }}</news:title>
-            </news:news>
+            <lastmod>{{ $time->format('Y-m-d\TH:i:sP') }}</lastmod>
+            <changefreq>always</changefreq>
+            <priority>1.0</priority>
         </url>
     @endforeach
 </urlset>

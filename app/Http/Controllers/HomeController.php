@@ -136,6 +136,7 @@ class HomeController extends Controller
         return view('theme_2.menu', $data);
     }
 
+    
     public function sitemapBrand($slug)
     {
         $post = $this->postRepository->findByField('slug', $slug)->first();
@@ -146,13 +147,8 @@ class HomeController extends Controller
             [
                 'url' => route('post', [$post->slug]),
                 'title' => $post->title,
-                'public_at' => $post->updated_at,
+                'public_at' => $post->publish_at ?? $post->updated_at,
             ],
-            // [
-            //     'url' => route('menu', [$post->slug]),
-            //     'title' => __('config_data.pages.menus.menu') . ' ' . $post->title,
-            //     'public_at' => $post->updated_at,
-            // ]
         ];
         $data = [
             'datas' => $datas
@@ -161,6 +157,8 @@ class HomeController extends Controller
             ->view('front_end.sitemap.sitemap_brand', $data)
             ->header('Content-Type', 'text/xml');
     }
+
+     
     public function search(Request $request)
     {
         $search = $request->key ?? '';
