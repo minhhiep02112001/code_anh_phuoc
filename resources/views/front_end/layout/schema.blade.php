@@ -28,17 +28,17 @@
   "priceRange": "$$",
   "servesCuisine": "{{ $post->title }} nail",
   "openingHoursSpecification": [
-    @foreach ($timeopen as $val)
+    @foreach ($timeopen as $k => $val)
         {
             "@type": "OpeningHoursSpecification",
             "dayOfWeek": "{{ $val['day'] ?? '' }}",
             @if(!empty($val['hours']) && strtolower($val['hours']) == 'closed')
-                "status": "closed"
+                "opens": "closed"
             @else
-                "opens": "{{ date('Y-m-d') }} {{ $val['hours'] }}",
+                "opens": "{{ date('Y-m-d') }} {{ $val['hours'] }}"
             @endif 
-        },
-    @endforeach 
+        } {{ $k < count($timeopen) - 1 ? ',' : '' }}
+    @endforeach
   ]
 }
 </script>
