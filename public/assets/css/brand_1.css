@@ -1287,10 +1287,7 @@ h1.entry-title {
 .elementor-2632 .elementor-element.elementor-element-41f81f7 .elementor-button:hover svg {
     fill: #fff
 }
-
-.elementor-2632 .elementor-element.elementor-element-df4d261:not(.elementor-motion-effects-element-type-background) {
-    background-color: #e6dcc5
-}
+ 
 
 .elementor-2632 .elementor-element.elementor-element-df4d261 {
     transition: background .3s, border .3s, border-radius .3s, box-shadow .3s;
@@ -1568,7 +1565,7 @@ h1.entry-title {
 }
 
 .elementor-2632 .elementor-element.elementor-element-1694bb2:not(.elementor-motion-effects-element-type-background) {
-    background-color: #e6dcc5;
+    
     background-image: url(https://public.beyout.net/uploads/2023/06/product-list-bg.png)
 }
 
@@ -1659,10 +1656,7 @@ h1.entry-title {
     font-family: Montserrat, Sans-serif;
     font-weight: 400
 }
-
-.elementor-2632 .elementor-element.elementor-element-37adf8a:not(.elementor-motion-effects-element-type-background) {
-    background-color: #e6dcc5
-}
+ 
 
 .elementor-2632 .elementor-element.elementor-element-37adf8a>.elementor-container {
     min-height: 289px
@@ -3904,7 +3898,7 @@ h6 a:hover {
 }
 
 .elementor-1265 .elementor-element.elementor-element-e8f5686:not(.elementor-motion-effects-element-type-background) {
-    background-color: #e6dcc5;
+ 
     background-position: top left;
     background-repeat: no-repeat;
     background-size: cover
@@ -3929,11 +3923,7 @@ h6 a:hover {
     align-content: center;
     align-items: center
 }
-
-.elementor-1265 .elementor-element.elementor-element-56d0b69:not(.elementor-motion-effects-element-type-background) {
-    background-color: #e6dcc5
-}
-
+ 
 .elementor-1265 .elementor-element.elementor-element-56d0b69 {
     transition: background .3s, border .3s, border-radius .3s, box-shadow .3s;
     margin-top: 0;

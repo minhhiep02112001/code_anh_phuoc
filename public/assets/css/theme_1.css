@@ -63,10 +63,8 @@
     overflow: hidden;
 }
 
-#main,
-header#header,
-#footer {
-    background: #E6DCC5;
+body {
+    background: linear-gradient(0deg, #e8a6af, #ffdde1);
 }
 
 .text-center {

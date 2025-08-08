@@ -2253,7 +2253,7 @@
         }
 
         #banner {
-            background-image: url('{{ asset('/images/beyout-banner-pc.jpg') }}');
+
             background-repeat: no-repeat;
             background-size: cover;
             /* tùy chọn */
@@ -2300,7 +2300,7 @@
 
             #banner {
                 margin-top: 80px;
-                background-image: url('{{ asset('/images/beyout-banner-mb.jpg') }}');
+
             }
 
             footer .col {
@@ -2348,56 +2348,33 @@
                 </div>
             </header>
 
-            {{-- 
-
-            <section id="main-menu" class="css-uiw85g e1ia6iam0">
-                <div class="ee94ukk1 css-zmt40d ehep9uj0">
-                    <div class="css-9g0g4r ehep9uj0"><button class=" e46r4ae0 css-mnebl eqqze3d0" title="Close"><svg
-                                viewBox="0 0 24 24" class="css-3o0h5k e1jjwqut0">
-                                <rect x="2.10059" y="4.92871" width="4" height="24"
-                                    transform="rotate(-45 2.10059 4.92871)" fill="currentColor"></rect>
-                                <rect x="19.0713" y="2.10059" width="4" height="24"
-                                    transform="rotate(45 19.0713 2.10059)" fill="currentColor"></rect>
-                            </svg> </button></div>
-                    <div class="ee94ukk0 css-jazq28 e1xmv6f40">
-                        <nav>
-                            <ul class="css-h3oydn eq3vq2v1">
-                                @if (!empty($menus_header))
-                                    @foreach ($menus_header as $item)
-                                        <li><a href="{{ $item->link }}"
-                                                class="e1g407rp0 css-ie1780 eh0fvrz0">{{ $item->title }}</a>
-                                        </li>
-                                    @endforeach
-                                @endif
-
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-            </section> --}}
             <div class="css-mkkf9p e15axdxf0">
 
                 <section class="e18e99my1 css-1i7dxix ehep9uj0" id="banner">
                     @if (!empty($banners))
-                        @foreach ($banners as $banner)
-                            <div class="e18e99my0 css-1iiv58m e1xmv6f40">
-                                <div class="css-w8wg2g elovojj0">
-                                    <h6 class="css-tvdhho eh0fvrz0">
-                                        <div>Explore<span class="css-1tzeee1 e1xmv6f40">.</span></div>
-                                        <div>Book<span class="css-1tzeee1 e1xmv6f40">.</span></div>
-                                        <div>Unwind<span class="css-1tzeee1 e1xmv6f40">.</span></div>
-                                    </h6>
-                                    <h1 class="css-1y5e797 eh0fvrz0">Quick reservations for beauty, haircuts, and relaxation services.</h1>
-                                </div>
-                                {{-- <picture transform="translate(-50%, 0)" class="css-1tz8ogm ehep9uj0">
-                                    <source
-                                        srcSet="{{ asset('/images/beyout-banner-pc.jpg') }} 2x, {{ asset('/images/beyout-banner-pc.jpg') }} 1x"
-                                        type="image/webp" />
-                                    <source srcSet="{{ asset('/images/beyout-banner-pc.jpg') }} 2x, {{ asset('/images/beyout-banner-pc.jpg') }} 1x"
-                                        type="image/png" /><img src="{{ asset('/images/beyout-banner-pc.jpg') }}" alt="" />
-                                </picture>
-                                <div transform="translate(-50%,-50%)" class="ep2hkag0 css-1lnpsqz e1xmv6f40"></div> --}}
-                            </div>
+                        @foreach ($banners as $k => $banner) 
+                                <div class="e18e99my0 css-1iiv58m e1xmv6f40 ">
+                                    <div class="css-w8wg2g elovojj0">
+                                        <h6 class="css-tvdhho eh0fvrz0">
+                                            <div>Explore<span class="css-1tzeee1 e1xmv6f40">.</span></div>
+                                            <div>Book<span class="css-1tzeee1 e1xmv6f40">.</span></div>
+                                            <div>Unwind<span class="css-1tzeee1 e1xmv6f40">.</span></div>
+                                        </h6>
+                                        <h1 class="css-1y5e797 eh0fvrz0">Quick reservations for beauty, haircuts, and
+                                            relaxation services.</h1>
+                                    </div> 
+                                </div> 
+                            <style>
+                                #banner {
+                                    background: url('{{ convertPathImage($banner->thumbnail) }}')
+                                }
+
+                                @media screen and (max-width: 768px) {
+                                    #banner {
+                                        background: url('{{ convertPathImage($banner->thumbnail_mobile) }}')
+                                    }
+                                }
+                            </style>
                         @endforeach
                     @endif
                 </section>
@@ -2461,7 +2438,8 @@
                                         <div class="css-1g1q0hs eh0fvrz0"><strong
                                                 class="ejmi5p50 css-19v4aip eh0fvrz0">Book</strong></div>
                                     </div>
-                                    <div class="css-1o52x4a eh0fvrz0">Make your reservation easily, wherever you are.</div>
+                                    <div class="css-1o52x4a eh0fvrz0">Make your reservation easily, wherever you are.
+                                    </div>
                                 </div>
                             </div>
                             <div class="css-n7e2yo elovojj0">
@@ -2470,7 +2448,8 @@
                                     <div class="css-1g1q0hs eh0fvrz0"><strong
                                             class="ejmi5p50 css-19v4aip eh0fvrz0">Unwind</strong></div>
                                 </div>
-                                <div class="css-1o52x4a eh0fvrz0">Sit back and relax, we’ve got everything covered for you.
+                                <div class="css-1o52x4a eh0fvrz0">Sit back and relax, we’ve got everything covered for
+                                    you.
                                 </div>
                             </div>
                         </div>
