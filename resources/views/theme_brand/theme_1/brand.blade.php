@@ -27,7 +27,7 @@
                                 @if($k == 0)
                                     <h1 class="text-center title_banner">{{ replaceContentBanner($post) }}</h1>
                                     @else
-                                    <h2 class="text-center title_banner">{{ replaceContentBanner($post) }}</h2>
+                                    <div class="text-center title_banner">{{ replaceContentBanner($post) }}</div>
 
                                     @endif 
                                  <a href="#" class="cta-button btn btn-outline btn--bordered btn--white">BOOK

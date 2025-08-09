@@ -154,9 +154,10 @@ body {
     color: black;
 }
 
-.banner-content h2 , .banner-content h1{
+.banner-content h2 , .banner-content h1, .banner-content .title_banner{
     color: #fff;
     font-size: 40px;
+    font-weight: 700;
 }
 
 .title-h3 {
