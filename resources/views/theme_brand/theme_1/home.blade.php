@@ -2375,6 +2375,10 @@
             transform: rotate(-45deg);
             width: 20px;
         }
+
+        .inner-box h4{
+            color:#fff;
+        }
     </style>
 </head>
 
@@ -2401,11 +2405,11 @@
                         @foreach ($banners as $k => $banner)
                             <div class="e18e99my0 css-1iiv58m e1xmv6f40 ">
                                 <div class="css-w8wg2g elovojj0">
-                                    <h6 class="css-tvdhho eh0fvrz0">
+                                    <div class="css-tvdhho eh0fvrz0">
                                         <div>Explore<span class="css-1tzeee1 e1xmv6f40">.</span></div>
                                         <div>Book<span class="css-1tzeee1 e1xmv6f40">.</span></div>
                                         <div>Unwind<span class="css-1tzeee1 e1xmv6f40">.</span></div>
-                                    </h6>
+                                    </div>
                                     <h2 class="css-1y5e797 eh0fvrz0">Quick reservations for beauty, haircuts, and
                                         relaxation services.</h2>
                                 </div>
