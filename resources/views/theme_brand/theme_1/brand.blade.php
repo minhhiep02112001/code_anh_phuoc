@@ -404,7 +404,7 @@
                                              <a style="font-weight: bold; font-size:16px;"
                                                  href="{{ route('post', ['slug' => $item->slug]) }}"
                                                  title="{{ $item->title }}">
-                                                 <h3 style="font-weight: bold; font-size:16px;">{{ $item->title }} </h3>
+                                                 <h4 style="font-weight: bold; font-size:17px;">{{ $item->title }} </h4>
                                              </a>
                                          </div>
                                      </a>
