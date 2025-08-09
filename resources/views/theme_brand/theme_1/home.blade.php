@@ -2521,7 +2521,7 @@
                                             </figure>
                                             <div class="overlay-box">
                                                 <div class="content">
-                                                    <h3>{{ $item->title }}</h3><a href="#" class="overlay-link"></a>
+                                                    <h4>{{ $item->title }}</h4><a href="#" class="overlay-link"></a>
                                                 </div>
                                             </div>
                                         </div>
