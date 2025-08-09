@@ -24,8 +24,12 @@
 
                              {{-- @if (!empty($post->content_banner)) --}}
                              <div class="banner-content">
-                                 <h2 class="text-center">{{ replaceContentBanner($post) }}</h2>
-                                 {{-- <p class="text-center">{{ $post->content_banner }}</p> --}}
+                                @if($k == 0)
+                                    <h1 class="text-center title_banner">{{ replaceContentBanner($post) }}</h1>
+                                    @else
+                                    <h2 class="text-center title_banner">{{ replaceContentBanner($post) }}</h2>
+
+                                    @endif 
                                  <a href="#" class="cta-button btn btn-outline btn--bordered btn--white">BOOK
                                      NOW</a>
                              </div>
@@ -39,9 +43,9 @@
          <section id="about" class="elementor-padding elementor-section  ">
 
              <div class="elementor-column-gap-default">
-                 <h1 class="elementor-heading-title  text-center">
+                 <h2 class="elementor-heading-title  text-center">
                      {!! "Welcome To {$post->title}" !!}
-                 </h1>
+                 </h2>
 
                  <div style="">
                      <div class="elementor-widget-divider">
@@ -400,7 +404,7 @@
                                              <a style="font-weight: bold; font-size:16px;"
                                                  href="{{ route('post', ['slug' => $item->slug]) }}"
                                                  title="{{ $item->title }}">
-                                                 <h4 style="font-weight: bold; font-size:16px;">{{ $item->title }} </h4>
+                                                 <h3 style="font-weight: bold; font-size:16px;">{{ $item->title }} </h3>
                                              </a>
                                          </div>
                                      </a>
