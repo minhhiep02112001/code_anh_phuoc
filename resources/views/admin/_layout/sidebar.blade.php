@@ -12,7 +12,7 @@
                         <i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a>
 
                 </li> --}}
-                 
+
                 <li class="{{ \Request::route()->getName() == 'admin.banner.index' ? 'active' : '' }}">
                     <a href="{{ route('admin.banner.index') }}" title="Quản lý banner"> <i
                             class="fas fa-table"></i><span>Quản lý
@@ -24,7 +24,7 @@
                             mục</span></a>
                 </li>
 
-                   <li class="{{ \Request::route()->getName() == 'admin.toplist' ? 'active' : '' }}">
+                <li class="{{ \Request::route()->getName() == 'admin.toplist' ? 'active' : '' }}">
                     <a href="{{ route('admin.toplist') }}" title="Quản lý danh mục"> <i
                             class="fas fa-table"></i><span>Quản lý top list</span></a>
                 </li>
@@ -59,6 +59,21 @@
                         </li>
                         <li class="m-menu__item--active">
                             <a href="{{ route('admin.menu.index') }}">Cài đặt menu</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="has-sub">
+                    <a class="js-arrow" href="#">
+                        <i class="fas fa-arrow-down"></i><span>Crawler</span></a>
+                    <ul class="list-unstyled navbar__sub-list js-sub-list">
+                        <li class="{{ \Request::route()->getName() == 'admin.keyword.index' ? 'active' : '' }}">
+                            <a href="{{ route('admin.keyword.index') }}" title="Quản lý page"> <i
+                                    class="fas fa-table"></i><span>Keyword</span></a>
+                        </li>
+
+                        <li class="{{ \Request::route()->getName() == 'admin.crawler.index' ? 'active' : '' }}">
+                            <a href="{{ route('admin.crawler.index') }}" title="Quản lý page"> <i
+                                    class="fas fa-table"></i><span>Data Crawler</span></a>
                         </li>
                     </ul>
                 </li>

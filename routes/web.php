@@ -62,10 +62,15 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => [
         return redirect()->back();
     })->name('clear.cache');
 
+   Route::post('keyword/import', [App\Http\Controllers\Admin\KeywordController::class, 'import'])->name('keyword.import');
+    Route::post('crawler/import', [App\Http\Controllers\Admin\CrawlerController::class, 'import'])->name('crawler.import');
+    Route::get('crawler/export', [App\Http\Controllers\Admin\CrawlerController::class, 'export'])->name('crawler.export'); 
+  
     Route::get('/', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
     Route::get('category/product', [App\Http\Controllers\Admin\CategoryController::class, 'product']);
     Route::get('toplist', [App\Http\Controllers\Admin\PostController::class, 'topList'])->name('toplist');
     Route::resource('category', App\Http\Controllers\Admin\CategoryController::class);
+    Route::resource('keyword', App\Http\Controllers\Admin\KeywordController::class);
     Route::resource('banner', App\Http\Controllers\Admin\BannerController::class);
     Route::resource('comment', App\Http\Controllers\Admin\CommentController::class);
     Route::resource('drag', App\Http\Controllers\Admin\DragController::class);
@@ -83,13 +88,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => [
     Route::put('config-page-detail/{id}', [App\Http\Controllers\Admin\ConfigPageController::class, 'update_detail'])->name('config-page-detail.update');
     Route::delete('config-page-detail/{id}', [App\Http\Controllers\Admin\ConfigPageController::class, 'delete_detail'])->name('config-page-detail.delete');
 
-    Route::post('crawler/import', [App\Http\Controllers\Admin\CrawlerController::class, 'import'])->name('crawler.import');
-
 
     Route::any('setting', [App\Http\Controllers\Admin\SettingController::class, 'setting'])->name('setting');
     Route::group(['prefix' => 'ajax', 'as' => 'ajax.'], function () {
         Route::post('/update-multiple-menu', [\App\Http\Controllers\Admin\MenuController::class, 'updateMultiple']);
         Route::get('/config_page', [App\Http\Controllers\Admin\ConfigPageController::class, 'ajax_load_data']);
+        Route::get('/keyword', [App\Http\Controllers\Admin\KeywordController::class, 'ajax_load_data']);
         Route::get('/crawler', [App\Http\Controllers\Admin\CrawlerController::class, 'ajax_load_data']);
         Route::get('/role', [App\Http\Controllers\Admin\RoleController::class, 'ajax_load_data']);
         Route::get('/banner', [App\Http\Controllers\Admin\BannerController::class, 'ajax_load_data']);

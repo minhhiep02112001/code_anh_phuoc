@@ -56,84 +56,42 @@ var DatatablesServerSide = (function () {
 
         // Re-init functions on every table re-draw -- more info: https://datatables.net/reference/event/draw
         dt.on("draw", function () {
-            initToggleToolbar();
-            // toggleToolbars();
-            // handleDeleteRows();
-            // KTMenu.createInstances();
+            initToggleToolbar(); 
+            AutoloadDataService.init($("#datatable")); 
         });
-
-        function generateTableManagement(d, settings) {
-            var api = new $.fn.dataTable.Api(settings);
-            var values = {};
-            values.first_row = getFristRowTable("ma_base_tab");
-            values.last_row = getLastRowTable("ma_base_tab");
-            values.direction = "prev";
-            if (d.start < api.page.info.start) {
-                //not working they are ===
-                values.direction = "next";
-            }
-            return values;
-        }
     };
 
     // Search Datatable --- official docs reference: https://datatables.net/reference/api/search()
+
     var handleSearchDatatable = function () {
-        $("#form-filter-data").off("submit").on("submit", function (e) {
+        $("#form-filter-data").on("submit", function (e) {
             e.preventDefault();
             let formData = $(this).serializeArray();
             let extraSearchData = {};
 
             // Chuyển đổi dữ liệu form thành đối tượng key-value
             formData.forEach(function (item) {
-                extraSearchData[item.name] = item.value;
+                if (item.name.includes("[]")) {
+                    // Nếu name có [] (multiple), đảm bảo dữ liệu được đẩy vào mảng
+                    if (extraSearchData[item.name]) {
+                        extraSearchData[item.name].push(item.value);
+                    } else {
+                        extraSearchData[item.name] = [item.value];
+                    }
+                } else {
+                    extraSearchData[item.name] = item.value;
+                }
             });
 
             // Thiết lập dữ liệu tìm kiếm cho DataTable và vẽ lại
             dt.on("preXhr.dt", function (e, settings, data) {
                 // Bổ sung dữ liệu tìm kiếm vào dữ liệu yêu cầu
-                formData.forEach(function (item) {
-                    data[item.name] = item.value;
+                Object.keys(extraSearchData).forEach(function (key) {
+                    data[key] = extraSearchData[key];
                 });
             });
+
             dt.ajax.reload(); // Tải lại dữ liệu
-        });
-        // var filterSearch = document.querySelector('input[name="table_search"]');
-        // if (filterSearch) {
-        //     filterSearch.addEventListener("keyup", function (e) {
-        //         dt.search(e.target.value).draw();
-        //     });
-        // }
-    };
-
-    // Filter Datatable
-    var handleFilterDatatable = () => {
-        // Select filter options
-        filterPayment = document.querySelectorAll(
-            '[data-kt-docs-table-filter="payment_type"] [name="payment_type"]'
-        );
-        const filterButton = document.querySelector(
-            '[data-kt-docs-table-filter="filter"]'
-        );
-
-        // Filter datatable on submit
-        filterButton.addEventListener("click", function () {
-            // Get filter values
-            let paymentValue = "";
-
-            // Get payment value
-            filterPayment.forEach((r) => {
-                if (r.checked) {
-                    paymentValue = r.value;
-                }
-
-                // Reset payment value if "All" is selected
-                if (paymentValue === "all") {
-                    paymentValue = "";
-                }
-            });
-
-            // Filter datatable --- official docs reference: https://datatables.net/reference/api/search()
-            dt.search(paymentValue).draw();
         });
     };
 
@@ -207,23 +165,6 @@ var DatatablesServerSide = (function () {
         });
     };
 
-    // Reset Filter
-    var handleResetForm = () => {
-        // Select reset button
-        const resetButton = document.querySelector(
-            '[data-kt-docs-table-filter="reset"]'
-        );
-
-        // Reset datatable
-        resetButton.addEventListener("click", function () {
-            // Reset payment type
-            filterPayment[0].checked = true;
-
-            // Reset datatable --- official docs reference: https://datatables.net/reference/api/search()
-            dt.search("").draw();
-        });
-    };
-
     // Init toggle toolbar
     var initToggleToolbar = function () {
         // Toggle selected action toolbar
@@ -239,7 +180,7 @@ var DatatablesServerSide = (function () {
         //     });
         // });
 
-        $(document).off("submit", '.btnDelete').on("click", ".btnDelete", function (ev) {
+        $(document).on("click", ".btnDelete", function (ev) {
             ev.preventDefault();
             let id = $(this).closest("tr").find('input[type="checkbox"]').val();
 
@@ -298,7 +239,7 @@ var DatatablesServerSide = (function () {
             });
         });
 
-        $(document).off("submit", '.btnUpdateField').on("click", ".btnUpdateField", function (ev) {
+        $(document).on("click", ".btnUpdateField", function (ev) {
             ev.preventDefault();
             let id = $(this).closest("tr").find('input[type="checkbox"]').val();
             let field = $(this).data("field");
@@ -336,59 +277,41 @@ var DatatablesServerSide = (function () {
                 },
             });
         });
+
+        $(document)
+            .off("click", ".btnExport")
+            .on("click", ".btnExport", function (e) {
+                e.preventDefault();
+                const action = $(this).data("action"); // ví dụ /export
+                const query = $("#form-filter-data").serialize(); // biến form thành query string
+                Swal.fire({
+                    title: "Bạn có chắc export những bản ghi này ?",
+                    text: "Export những bản ghi theo bộ lọc hiện tại!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    buttonsStyling: false,
+                    confirmButtonText: "Yes, export!",
+                    cancelButtonText: "No, cancel",
+                    customClass: {
+                        confirmButton: "btn fw-bold btn-danger",
+                        cancelButton: "btn fw-bold btn-active-light-primary",
+                    },
+                }).then(function (result) {
+                    if (result.value)
+                        window.open(action + "?" + query, "_blank");
+                });
+            });
     };
 
-    // Toggle toolbars
-    var toggleToolbars = function () {
-        // Define variables
-        const container = document.querySelector("#kt_datatable_example_1");
-        const toolbarBase = document.querySelector(
-            '[data-kt-docs-table-toolbar="base"]'
-        );
-        const toolbarSelected = document.querySelector(
-            '[data-kt-docs-table-toolbar="selected"]'
-        );
-        const selectedCount = document.querySelector(
-            '[data-kt-docs-table-select="selected_count"]'
-        );
-
-        // Select refreshed checkbox DOM elements
-        const allCheckboxes = container.querySelectorAll(
-            'tbody [type="checkbox"]'
-        );
-
-        // Detect checkboxes state & count
-        let checkedState = false;
-        let count = 0;
-
-        // Count checked boxes
-        allCheckboxes.forEach((c) => {
-            if (c.checked) {
-                checkedState = true;
-                count++;
-            }
-        });
-
-        // Toggle toolbars
-        if (checkedState) {
-            selectedCount.innerHTML = count;
-            toolbarBase.classList.add("d-none");
-            toolbarSelected.classList.remove("d-none");
-        } else {
-            toolbarBase.classList.remove("d-none");
-            toolbarSelected.classList.add("d-none");
-        }
-    };
-
-    var initReloadDataTable = function () { 
+    var initReloadDataTable = function () {
         $("#form-filter-data").closest(".box-body").hide();
-        $("#form-filter-data").closest(".box").addClass('collapsed-box');
+        $("#form-filter-data").closest(".box").addClass("collapsed-box");
         // Reload the DataTables with the modified settings
         dt.ajax.reload(null, false);
     };
-    
-    var initReloadDataTableDeleteSearch = function () { 
-        $("#form-filter-data").find("input, select, textarea").val(""); 
+
+    var initReloadDataTableDeleteSearch = function () {
+        $("#form-filter-data").find("input, select, textarea").val("");
         document.getElementById("form-filter-data").reset();
         // Attach event handler to modify request data before it is sent
         dt.on("preXhr.dt", function (e, settings, data) {
@@ -407,7 +330,7 @@ var DatatablesServerSide = (function () {
             // Log the data object after modification
         });
         $("#form-filter-data").closest(".box-body").hide();
-        $("#form-filter-data").closest(".box").addClass('collapsed-box');
+        $("#form-filter-data").closest(".box").addClass("collapsed-box");
         // Reload the DataTables with the modified settings
         dt.ajax.reload(null, false);
     };
@@ -420,15 +343,11 @@ var DatatablesServerSide = (function () {
             $(document).on("click", ".btnReload", function () {
                 DatatablesServerSide.initReloadSearch();
             });
-            // initToggleToolbar();
-            // handleFilterDatatable();
-            // handleDeleteRows();
-            // handleResetForm();
         },
         initReload: function () {
             initReloadDataTable();
         },
-         initReloadSearch: function () {
+        initReloadSearch: function () {
             initReloadDataTableDeleteSearch();
         },
     };

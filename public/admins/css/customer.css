@@ -46,32 +46,7 @@ body>.ui-pnotify {
     margin-right: 5px;
 }
 
-.upload_box_item {
-    padding: 5px;
-    width: 110px;
-    border: 1px solid;
-    border-radius: 5px;
-    position: relative;
-}
-
-.gallery-list {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-span.fa.fa-times.removeInputImages {
-    position: absolute;
-    top: 0;
-    right: 0;
-}
-
-.upload_box_item input[type="number"] {
-    border: 0.5px solid !important;
-    margin-top: 2px;
-}
-
-.upload-box,
-.upload-box-gallery {
+.upload-box {
     width: 100px;
     height: 100px;
     border: 2px dashed #ccc;
@@ -99,7 +74,7 @@ span.fa.fa-times.removeInputImages {
 
 .upload-box span {
     position: absolute;
-     font-size: 24px;
+    font-size: 24px;
     color: #aaa;
 }
 
@@ -6551,10 +6526,130 @@ span.badge {
     font-weight: normal;
 }
 
-.dd3-handle:hover{
+.dd3-handle:hover {
     background: #ddd;
 }
 
-header#header ,#footer {
-    background: #E6DCC5;
+table th {
+    white-space: pre !important;
+}
+
+.modal-open .modal {
+    overflow-y: hidden;
+    max-height: 100vh;
+}
+
+.modal-open .modal-dialog {
+    overflow: auto;
+    max-height: calc(100% - 1.75rem * 2);
+}
+
+/* Chỉ áp dụng cho thanh cuộn bên trong .modal */
+.modal-open .modal-dialog::-webkit-scrollbar {
+    width: 3px;
+}
+
+.modal-open .modal-dialog::-webkit-scrollbar-track {
+    background: #eee;
+    border-radius: 10px;
+}
+
+.modal-open .modal-dialog::-webkit-scrollbar-thumb {
+    background: #666;
+    border-radius: 10px;
+}
+
+
+body,
+.table-data3 tbody td {
+    color: black !important;
+}
+
+.btn-group-sm>.btn,
+.btn-sm {
+    padding: 0.20rem 0.25rem;
+    font-size: .875rem;
+    line-height: 1.5;
+    border-radius: .2rem;
+}
+
+.badge {
+
+    padding: .4em;
+
+}
+
+.nowrap {
+    white-space: nowrap !important;
+}
+
+table tbody tr td:last-child {
+    padding-right: 15px !important;
+}
+
+.show {
+    display: block;
+}
+
+.hide {
+    display: none;
+}
+
+.header-button-left {
+    display: none;
+}
+
+.header-button {
+    margin-top: 0px;
+
+}
+
+@media(max-width:760px) {
+    .header-desktop {
+        height: 60px;
+    }
+}
+
+@media(min-width:760px) {
+    .header-button-left {
+        display: flex;
+    }
+
+    .hide_sidebar_desktop .menu-sidebar {
+        width: 100px;
+    }
+
+    .hide_sidebar_desktop .page-container {
+        padding-left: 100px;
+    }
+
+    .hide_sidebar_desktop .header-desktop {
+        left: 100px;
+    }
+
+    .hide_sidebar_desktop .navbar-sidebar {
+        padding: 20px
+    }
+
+    .hide_sidebar_desktop .menu-sidebar .logo {
+        padding: 5px;
+    }
+
+    .hide_sidebar_desktop .menu-sidebar .logo h1 {
+        font-size: 25px;
+    }
+
+
+    .hide_sidebar_desktop .navbar-sidebar .navbar__list li a {
+        text-align: center;
+    }
+
+    .hide_sidebar_desktop .navbar-sidebar .navbar__list li a span {
+        display: none;
+    }
+
+    .hide_sidebar_desktop .navbar-sidebar .navbar__list li a i {
+
+        margin: 0 auto;
+    }
 }

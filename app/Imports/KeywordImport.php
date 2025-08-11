@@ -2,7 +2,7 @@
 
 namespace App\Imports;
 
-use App\Models\Crawler;
+use App\Models\Keyword;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -12,7 +12,7 @@ use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithStartRow;
 
-class CrawlerDataImport implements ToCollection, WithChunkReading, WithHeadingRow, WithStartRow
+class KeywordImport implements ToCollection, WithChunkReading, WithHeadingRow, WithStartRow
 {
     use Importable;
 
@@ -26,23 +26,21 @@ class CrawlerDataImport implements ToCollection, WithChunkReading, WithHeadingRo
 
     public function collection(Collection $rows)
     {
-        DB::beginTransaction();
-        try { 
-            foreach ($rows as $row) {   
-                if (!empty($row['key_word'])) {
-                    $key_word = $row['key_word']; 
-                    if (empty($key_word)) continue;
-                    $slug = \Str::slug($key_word);
-                    $item = Crawler::updateOrCreate(['slug' => $slug], [
-                        'key_word' => $key_word,
-                        'slug' => $slug,
-                        'is_status' => 2,
-                        'is_crawler' => 0,
-                        'link_google_map' => $row['link_google_map'] ?? ''
-                    ]); 
-                    echo "\n Update {$key_word} - {$item->id} " . $this->importedCount; 
+        try {
+            DB::beginTransaction();
+            foreach ($rows as $row) {
+                if (!empty($row['key_word']) && $keyword = $row['key_word']) {
+                    Keyword::updateOrCreate([
+                        'key_word' =>  $keyword,
+                        'domain' => env('APP_URL'),
+                    ], [
+                        'key_word' =>  $keyword,
+                        'status' => 0,
+                        'domain' => env('APP_URL'),
+                        'count' => 1
+                    ]);
                     $this->importedCount++;
-                    Log::info("SUCCESS {$key_word}");
+                    Log::info("SUCCESS {$keyword}");
                 }
             }
             DB::commit();
@@ -55,7 +53,7 @@ class CrawlerDataImport implements ToCollection, WithChunkReading, WithHeadingRo
 
     public function chunkSize(): int
     {
-        return 10; // xử lý 100 dòng mỗi chunk
+        return 100; // xử lý 100 dòng mỗi chunk
     }
 
     public function getImportResults()

@@ -7,9 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Crawler extends Model
 {
-    use HasFactory;
-    protected $table = 'crawler_map';
-    protected $fillable = [ 
+    use HasFactory; 
+    protected $table = 'datacenter.crawler_map';
+    protected $fillable = [
+
+        'domain',
+        'type',
         'key_word',
         'slug',
         'link_google_map',
@@ -19,14 +22,21 @@ class Crawler extends Model
         'email',
         'time_open',
         'is_crawler',
+        'is_status',
+        'crawler_id',
         'relate_id',
         'google_review',
         'avg_vote',
         'is_status',
+        'crawler_id',
         'is_convert',
         'is_crawler_iframe_map',
         'thumbnail'
 
     ];
-    public $timestamps = false;
+
+    function keyword()
+    {
+        return $this->belongsTo(Keyword::class, 'crawler_id', 'id');
+    }
 }

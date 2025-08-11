@@ -13,7 +13,7 @@ return [
     ],
     'config_trending' => [
         ['key' => 'config_page_home', 'module' => 'page', 'text' => 'Quản lý bài viết Page trang chủ', 'query' => []],
-        
+
     ],
     'banner_type' => [
         'home' => 'Trang chủ',
@@ -37,11 +37,17 @@ return [
         3 => ['title' => 'Chờ cào', 'class' => "badge badge-secondary"],
         4 => ['title' => 'Bị từ chối', 'class' => "badge badge-danger"],
     ],
-    
+
     'status_crawler' => [
         0 => ['title' => 'Chờ crawler', 'class' => "badge badge-secondary"],
         1 => ['title' => 'Chờ đồng bộ', 'class' => "badge badge-warning"],
         2 => ['title' => 'Thành công', 'class' => "badge badge-success"],
+        3 => ['title' => 'Crawler lỗi', 'class' => "badge badge-danger"],
+    ],
+    'status_keyword' => [
+        0 => ['title' => 'Chờ crawler', 'class' => "badge badge-secondary"],
+        1 =>  ['title' => 'Thành công', 'class' => "badge badge-success"],
+        2 => ['title' => 'Crawler lỗi', 'class' => "badge badge-danger"],
     ],
 
 ];

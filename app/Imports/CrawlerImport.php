@@ -2,56 +2,54 @@
 
 namespace App\Imports;
 
-use Illuminate\Support\Collection;
+use App\Models\Crawler;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use Maatwebsite\Excel\Concerns\WithStartRow;
 
-class CrawlerImport implements ToCollection, WithChunkReading, WithHeadingRow, WithStartRow
+class CrawlerImport implements ToCollection, WithChunkReading, WithHeadingRow
 {
     use Importable;
 
-    private $importedCount = 0;
-    private $failedCount = 0;
+    private int $importedCount = 0;
+    private int $failedCount   = 0;
 
-    public function startRow(): int
+    // Nếu header ở dòng 1:
+    public function headingRow(): int
     {
-        return 2; // bắt đầu từ dòng 2 (header ở dòng 1)
+        return 1;
     }
 
-    public function collection(Collection $rows)
-    {
-        DB::beginTransaction();
-
+    public function collection(\Illuminate\Support\Collection $rows)
+    { 
         try {
+            DB::beginTransaction();
             foreach ($rows as $row) {
-                if (!empty($row['key_word'])) {
-                    $keyword = ucfirst("Nails in {$row['key_word']}");
-                    
-                    echo "\n Done {$keyword} " . $this->importedCount;
+                // $row là array với key đã chuẩn hoá: key_word, link_google_map, ...
+                $keyWord = trim((string)($row['key_word'] ?? ''));
+                if ($keyWord === '') continue;
 
-                    $key = DB::table('crawler')->where('keyword', $keyword)->first();
+                $slug = \Str::slug($keyWord);
 
-                    if (empty($key)) {
-                        DB::table('crawler')->insert(['keyword' => $keyword, 'status' => 0, 'count' => 1]);
-                    } else {
-                        DB::table('crawler')->where('id', $key->id)->update([
-                            'status' => 0,
-                            'count' => 1
-                        ]);
-                    }
+                $collect = collect($row)->only([
+                    'key_word', 'link_google_map', 'iframe_map', 'address', 'phone', 'email'
+                ])->toArray();
 
-                    $this->importedCount++;
-
-                    Log::info("SUCCESS {$keyword}");
-                }
+                $params = array_merge($collect, [
+                    'is_status'  => 0,
+                    'slug'       => $slug,
+                    'is_crawler' => 0,
+                ]);
+                
+                Crawler::firstOrCreate(['slug' => $slug], $params);
+                $this->importedCount++;
+                Log::info("SUCCESS {$keyWord}");
             }
             DB::commit();
-        } catch (\Exception $ex) {
+        } catch (\Throwable $ex) {
             DB::rollBack();
             $this->failedCount++;
             Log::error("ERROR in chunk: " . $ex->getMessage());
@@ -60,14 +58,14 @@ class CrawlerImport implements ToCollection, WithChunkReading, WithHeadingRow, W
 
     public function chunkSize(): int
     {
-        return 100; // xử lý 100 dòng mỗi chunk
+        return 100;
     }
 
-    public function getImportResults()
+    public function getImportResults(): array
     {
         return [
             'importedCount' => $this->importedCount,
-            'failedCount' => $this->failedCount,
+            'failedCount'   => $this->failedCount,
         ];
     }
 }

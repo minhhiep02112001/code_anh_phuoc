@@ -2,19 +2,18 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Exports\CrawleExport;
 use App\Http\Controllers\Controller;
-use App\Imports\CrawlerImport;
-use App\Repositories\Eloquent\CrawlerRepository;
+use App\Imports\KeywordImport;
+use App\Repositories\Eloquent\KeywordRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
-class CrawlerController extends Controller
+class KeywordController extends Controller
 {
     private $_repository;
 
-    function __construct(CrawlerRepository $repository)
+    function __construct(KeywordRepository $repository)
     {
         $this->_repository = $repository;
     }
@@ -22,7 +21,7 @@ class CrawlerController extends Controller
     public function index()
     {
         $data = [];
-        return view('admin.crawler.index', $data);
+        return view('admin.keyword.index', $data);
     }
 
     public function ajax_load_data(Request $request)
@@ -30,16 +29,9 @@ class CrawlerController extends Controller
         $limit = $request->limit ?? $request->length ?? 10;
         $offset = $request->offset ?? $request->start ?? 0;
         $params = $request->params ?? [];
-        $option = ['limit' => $limit, 'offset' => $offset];
 
-        if (!empty($params['order_by'])) {
-            $order = explode('__', $params['order_by']);
-            $option['order_by'] = [$order[0], $order[1]];
-            unset($params['order_by']);
-        }
- 
         $total = $this->_repository->count_customer($params);
-        $list = $this->_repository->getAll($params, $option);
+        $list = $this->_repository->getAll($params, ['limit' => $limit, 'offset' => $offset]);
 
         $rows = [];
         if (!empty($list))
@@ -47,17 +39,8 @@ class CrawlerController extends Controller
                 $row = array();
                 $row['checkID'] = $item->id;
                 $row['id'] = $item->id;
-                $row['key_word'] = $item->key_word;
-                $row['google_review'] = $item->google_review;
-                $row['address'] = $item->address;
-                $row['is_crawler_iframe_map'] = $item->is_crawler_iframe_map;
-                $row['relate_id'] = $item->relate_id;
-                $row['crawler_id'] = $item->crawler_id;
-                $row['link_google_map'] = $item->link_google_map;
+                $row['key_word'] = $row['title'] = $item->key_word;
                 $row['is_status'] = $item->is_status ?? 0;
-                $row['is_convert'] = $item->is_convert ?? 0;
-                $row['website'] = $item->website ?? '';
-                $row['phone'] = $item->phone ?? ''; 
                 $row['created_at'] = format_date($item->created_at);
                 $row['updated_at'] = format_date($item->updated_at);
                 $rows[] = $row;
@@ -81,10 +64,10 @@ class CrawlerController extends Controller
     public function create()
     {
         $data = [
-            'action' => route('admin.crawler.store'),
+            'action' => route('admin.keyword.store'),
             'method' => 'POST',
         ];
-        return view('admin.crawler.form', $data);
+        return view('admin.keyword.form', $data);
     }
 
     /**
@@ -100,7 +83,8 @@ class CrawlerController extends Controller
             DB::beginTransaction();
             $crawler = $this->_repository->create($input);
             DB::commit();
-            return $this->responsiveSuccess('Thêm thành công');
+            $count = $this->_repository->count_customer(['is_status' => 0]);
+            return $this->responsiveSuccess('Thêm thành công! Bạn cần chờ (' . round($count / 2) . ') phút để crawler');
         } catch (\Exception $ex) {
             DB::rollBack();
             return $this->responsiveError($ex->getMessage());
@@ -111,14 +95,16 @@ class CrawlerController extends Controller
     {
         try {
             $file = $request->get('import');
-            $import = new CrawlerImport();
+            $import = new KeywordImport();
             Excel::import($import, public_path($file));
             $result = $import->getImportResults();
             $successCount = $result['importedCount'] ?? 0;
             $failureCount = $result['failureCount'] ?? 0;
+
+            $count = $this->_repository->count_customer(['is_status' => 0]);
             return response()->json([
                 'status' => 'success',
-                'message' => "Dữ liệu đã được nhập thành công! Dòng thành công: $successCount, Dòng lỗi: $failureCount"
+                'message' => "Dữ liệu đã được nhập thành công! Dòng thành công: $successCount, Dòng lỗi: $failureCount, Bạn cần chờ (" . round($count / 2) . ")phút để crawler."
             ]);
         } catch (\Exception $ex) {
             return response()->json([
@@ -128,18 +114,6 @@ class CrawlerController extends Controller
         }
     }
 
-    public function export(Request $request)
-    {
-        $params = collect($request->params ?? [])->whereNotNull()->toArray();
-        $option = [];
-        if (!empty($params['order_by'])) {
-            $order = explode('__', $params['order_by']);
-            $option['order_by'] = [$order[0], $order[1]];
-            unset($params['order_by']);
-        }
-        // Xuất tệp Excel với các bộ lọc và tùy chọn
-        return Excel::download(new CrawleExport($this->_repository, $params, $option ?? []), 'crawled_data.xlsx');
-    }
 
     /**
      * Display the specified resource.
@@ -150,7 +124,7 @@ class CrawlerController extends Controller
     public function show($id, Request $request)
     {
         if (!$request->ajax())
-            return redirect()->route('admin.crawler.index');
+            return redirect()->route('admin.keyword.index');
         $crawler = $this->_repository->find($id);
         if (empty($crawler))
             return response()->json(['status' => 'error'], 500);
@@ -166,11 +140,11 @@ class CrawlerController extends Controller
     public function edit($id)
     {
         $data = [
-            'action' => route('admin.crawler.update', ['post' => $id]),
+            'action' => route('admin.keyword.update', ['post' => $id]),
             'method' => 'PUT',
             'row' => $this->_repository->find($id)
         ];
-        return view('admin.crawler.form', $data);
+        return view('admin.keyword.form', $data);
     }
 
     /**
@@ -184,12 +158,8 @@ class CrawlerController extends Controller
     {
         $crawler = $this->_repository->find($id);
         $input = $request->only($this->_repository->getCustomFillable());
-        if ($request->has('status')) {
-            $input['is_status'] = $request->get('is_status') ?? $crawler->is_status;
-            if ($input['is_status'] == 0)
-                $input['is_crawler'] = 0;
-        }
-
+        if ($request->has('status'))
+            $input['status'] = $request->get('status') ?? $crawler->is_status;
         try {
             DB::beginTransaction();
             $this->_repository->update($input, $id);

@@ -5,7 +5,7 @@
         <div class="tab-content row">
             <div class="col-sm-12 col-xs-12">
                 <div class="form-group">
-                    <label>Key word</label>
+                    <label>Tiêu đề</label>
                     <input name="key_word" placeholder="Nhập key word" class="form-control" type="text" />
                 </div>
                 <div class="form-group">
