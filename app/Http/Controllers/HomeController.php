@@ -24,11 +24,12 @@ class HomeController extends Controller
 
     public function __construct(
         public CategoryRepository $categoryRepository,
-        public PostRepository     $postRepository,
-        public CommentRepository  $commentRepository,
-        public BannerRepository   $bannerRepository,
-        public PageRepository     $pageRepository
-    ) {}
+        public PostRepository $postRepository,
+        public CommentRepository $commentRepository,
+        public BannerRepository $bannerRepository,
+        public PageRepository $pageRepository
+    ) {
+    }
 
     public function dashboard(Request $request)
     {
@@ -36,7 +37,7 @@ class HomeController extends Controller
         // get sản phẩm bestseller config từ admin:
         $data = [];
         $page = $request->page ?? 1;
-        $data['posts']  = $this->postRepository->getAll([
+        $data['posts'] = $this->postRepository->getAll([
             'is_status' => 1,
             'type' => 'brand'
         ], [
@@ -45,8 +46,8 @@ class HomeController extends Controller
             'limit' => 30,
             'pagination' => $page,
             'select' => ['id', 'title', 'slug', 'thumbnail', 'category_id', 'address', 'email', 'phone', 'description', 'publish_at'],
-        ]); 
-        $data['categories']  = $this->categoryRepository->getAll([
+        ]);
+        $data['categories'] = $this->categoryRepository->getAll([
             'is_status' => 1,
             'type' => 'home'
         ], [
@@ -62,9 +63,10 @@ class HomeController extends Controller
     public function post($slug, $id = 0)
     {
         $post = $this->postRepository->findByField('slug', $slug)->first();
-        if (empty($post) || $post->is_status != 1) return abort(404);
+        if (empty($post) || $post->is_status != 1)
+            return abort(404);
         $medias = $post->media()->select(['position', 'type', 'thumbnail'])->get()->groupBy('type');
-       
+
         $SEO = [
             'title' => $post->meta_title,
             'meta_title' => $post->meta_title,
@@ -88,12 +90,21 @@ class HomeController extends Controller
         ];
 
         if ($post->type == 'brand') {
-            $SEO['favicon'] =   getImageThumb($post->thumbnail, 100, 100);
-            $data['relates'] = Post::where([
+            $SEO['favicon'] = getImageThumb($post->thumbnail, 100, 100);
+            $relates = Post::where([
                 'type' => 'brand',
                 'is_status' => 1,
-            ])->where('publish_at', '>', $post->publish_at)->orderBy('publish_at', 'asc')->limit(7)->get();
+            ])->where('publish_at', '<', $post->publish_at)->orderBy('publish_at', 'desc')->limit(5)->get();
 
+
+            $relates2 = Post::where([
+                'type' => 'brand',
+                'is_status' => 1,
+            ])->where('publish_at', '>', $post->publish_at)->orderBy('publish_at', 'asc')->limit(5)->get();
+
+            $data['relates'] = $relates;
+
+            $data['relates2'] = collect($relates2)->merge($relates)->sortBy('publish_at')->values()->all();
 
             $data['comments'] = Comment::where([
                 'type' => 'post',
@@ -110,13 +121,14 @@ class HomeController extends Controller
     {
         $post = $this->postRepository->findByField('slug', $slug)->first();
 
-        if (empty($post) || $post->is_status != 1) return abort(404);
+        if (empty($post) || $post->is_status != 1)
+            return abort(404);
 
         $promat = env('META_DES');
         $SEO = [
             'title' => __('config_data.pages.menus.menu') . ' - ' . $post->title,
             'meta_title' => __('config_data.pages.menus.menu') . ' - ' . $post->title,
-            'meta_description' =>  str_replace('[text]',   $post->meta_title, $promat),
+            'meta_description' => str_replace('[text]', $post->meta_title, $promat),
             'meta_keyword' => __('config_data.pages.menus.menu') . ' ' . $post->title ?? '',
             'is_robot' => $post->is_robot ?? 0,
             'image' => $post->thumbnail ?? config('data.cms_setting.logo'),
@@ -136,12 +148,13 @@ class HomeController extends Controller
         return view('theme_2.menu', $data);
     }
 
-    
+
     public function sitemapBrand($slug)
     {
         $post = $this->postRepository->findByField('slug', $slug)->first();
 
-        if (empty($post) || $post->is_status != 1) return abort(404);
+        if (empty($post) || $post->is_status != 1)
+            return abort(404);
 
         $datas = [
             [
@@ -158,11 +171,12 @@ class HomeController extends Controller
             ->header('Content-Type', 'text/xml');
     }
 
-     
+
     public function search(Request $request)
     {
         $search = $request->key ?? '';
-        if (empty($search)) return redirect('/');
+        if (empty($search))
+            return redirect('/');
         $limit = 20;
         $posts = $this->postRepository->getAll([
             'is_status' => 1,
@@ -188,7 +202,8 @@ class HomeController extends Controller
     {
         $page = $this->pageRepository->findByField('slug', $slug)->first();
 
-        if (empty($page) || $page->is_status != 1) return abort(404);
+        if (empty($page) || $page->is_status != 1)
+            return abort(404);
 
         $SEO = [
             'title' => $page->meta_title ?? '',
@@ -217,7 +232,8 @@ class HomeController extends Controller
         if (!empty($link)) {
             return redirect($link->url_new, 301);
         }
-        return abort(404);;
+        return abort(404);
+        ;
     }
     private function redirectUrl($link, $request)
     {

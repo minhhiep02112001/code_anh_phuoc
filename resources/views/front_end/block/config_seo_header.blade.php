@@ -51,7 +51,13 @@
 
 <meta name="robots" content="{{ !empty($config_seo->index) ? 'index,follow' : 'noindex,nofollow' }}" />
 <meta name="Googlebot-News" content="{{ !empty($config_seo->index) ? 'index,follow' : 'noindex,nofollow' }}">
-<link rel="canonical" href="{{ url()->current() }}" />
-<link rel="shortcut icon" href="{{ $favicon }}" sizes="32x32">
-<link rel="apple-touch-icon" href="{{ $favicon }}" sizes="32x32">
+<link rel="canonical" href="{{ url()->current() }}" /> 
 {!! $config_website->config_header ?? '' !!}
+
+@if (!empty($post->thumbnail))
+    <link rel="shortcut icon" href="{{ getImageThumb($post->thumbnail, 100, 100) }}" sizes="32x32">
+    <link rel="apple-touch-icon" href="{{ getImageThumb($post->thumbnail , 100, 100) }}" sizes="32x32">
+@else
+    <link rel="shortcut icon" href="{{ convertPathImage($config_website->favicon ?? '') }}" sizes="32x32">
+    <link rel="apple-touch-icon" href="{{ convertPathImage($config_website->favicon ?? '') }}" sizes="32x32">
+@endif
