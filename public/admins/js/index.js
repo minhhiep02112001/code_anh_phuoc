@@ -851,7 +851,7 @@ var AJAX_CRUD_MODAL = {
 
         doc.on("click", ".btnSave", function (e) {
             e.preventDefault();
-            AJAX_CRUD_MODAL.save();
+            AJAX_CRUD_MODAL.save($(this).closest('#modal_form'));
         });
         doc.on("click", ".btnSaveDraft", function (e) {
             e.preventDefault();
