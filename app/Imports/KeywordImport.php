@@ -37,7 +37,8 @@ class KeywordImport implements ToCollection, WithChunkReading, WithHeadingRow, W
                         'key_word' =>  $keyword,
                         'status' => 0,
                         'domain' => env('APP_URL'),
-                        'count' => 1
+                        'count' => 1,
+                        'type' => env('APP_TYPE', 'nail')
                     ]);
                     $this->importedCount++;
                     Log::info("SUCCESS {$keyword}");
