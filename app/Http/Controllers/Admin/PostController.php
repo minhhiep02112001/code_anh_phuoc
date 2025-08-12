@@ -126,8 +126,8 @@ class PostController extends Controller
             $input['theme'] = $arr_theme[$index];
         }
 
-        $input['is_thumbnail'] =  (empty($input['thumbnail']) || !Storage::disk('public')->exists($input['thumbnail']))  ? 1 : 0;
-        $input['is_thumb_block_1'] =  (empty($input['image_block_1']) || !Storage::disk('public')->exists($input['image_block_1']))  ? 1 : 0;
+        $input['is_thumbnail'] =  (empty($input['thumbnail']) || !Storage::disk('public')->exists(str_replace(['storage', '//'], '', trim($input['thumbnail'], '/'))))  ? 1 : 0;
+        $input['is_thumb_block_1'] =  (empty($input['image_block_1']) || !Storage::disk('public')->exists(str_replace(['storage', '//'], '', trim($input['image_block_1'], '/'))))  ? 1 : 0;
 
         try {
             DB::beginTransaction();
@@ -235,8 +235,8 @@ class PostController extends Controller
             $input['config_social'] = json_encode($input['config_social']);
         }
 
-        $input['is_thumbnail'] =  (empty($input['thumbnail']) || !Storage::disk('public')->exists($input['thumbnail']))  ? 1 : 0;
-        $input['is_thumb_block_1'] =  (empty($input['image_block_1']) || !Storage::disk('public')->exists($input['image_block_1']))  ? 1 : 0;
+        $input['is_thumbnail'] =  (empty($input['thumbnail']) || !Storage::disk('public')->exists(str_replace(['storage', '//'], '', trim($input['thumbnail'], '/'))))  ? 1 : 0;
+        $input['is_thumb_block_1'] =  (empty($input['image_block_1']) || !Storage::disk('public')->exists(str_replace(['storage', '//'], '', trim($input['image_block_1'], '/'))))  ? 1 : 0;
 
         try {
             DB::beginTransaction();
