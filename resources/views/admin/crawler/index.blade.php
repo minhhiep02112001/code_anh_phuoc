@@ -173,8 +173,8 @@
                     render: function(t, e, item) {
                         let content = "<ul>";
                         content += `<li>Address: ${item.address || ''}</li>`;
-                        if (item.link_google_map) content +=
-                            `<li>Map:<a href="${item.address || ''}" target="_blank">Link</a></li>`;
+                        // if (item.link_google_map) content +=
+                        //     `<li>Map:<a href="${item.address || ''}" target="_blank">Link</a></li>`;
                         content += `<li>Review google: ${item.google_review || 0}</li>`;
 
                         if (item.relate_id) content += `<li>Brand: ${item.relate_id}</li>`;
