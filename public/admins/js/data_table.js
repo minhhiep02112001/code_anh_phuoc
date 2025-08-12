@@ -56,8 +56,8 @@ var DatatablesServerSide = (function () {
 
         // Re-init functions on every table re-draw -- more info: https://datatables.net/reference/event/draw
         dt.on("draw", function () {
-            initToggleToolbar(); 
-            AutoloadDataService.init($("#datatable")); 
+            initToggleToolbar();
+            AutoloadDataService.init($("#datatable"));
         });
     };
 
@@ -180,103 +180,193 @@ var DatatablesServerSide = (function () {
         //     });
         // });
 
-        $(document).on("click", ".btnDelete", function (ev) {
-            ev.preventDefault();
-            let id = $(this).closest("tr").find('input[type="checkbox"]').val();
-
-            let method = $(this).data("method");
-            let action = $(this).data("action");
-            Swal.fire({
-                title: "Bạn có chắc chắn xóa những bản ghi này ?",
-                text: "Bạn không thể khôi phục những bản ghi này sau khi xóa!",
-                icon: "warning",
-                showCancelButton: true,
-                buttonsStyling: false,
-                confirmButtonText: "Yes, delete!",
-                cancelButtonText: "No, cancel",
-                customClass: {
-                    confirmButton: "btn fw-bold btn-danger",
-                    cancelButton: "btn fw-bold btn-active-light-primary",
-                },
-            }).then(function (result) {
-                if (result.value) {
-                    // Simulate delete request -- for demo purpose only
-                    $.ajax({
-                        url: action,
-                        type: method,
-                        data: { id: id },
-                        dataType: "JSON",
-                        success: function (data) {
-                            if (data.status === "success") {
-                                Notification_Static.success(
-                                    "Xóa thành công!",
-                                    "Bản ghi đã được xóa."
-                                );
-                            }
-                            if (data.status === "warning") {
-                                Notification_Static.success(data.message);
-                            }
-                            initReloadDataTable();
-                            return true;
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            console.log(errorThrown);
-                            console.log(textStatus);
-                            console.log(jqXHR);
-                            Notification_Static.errors(
-                                "Lỗi!!! Liên hệ Hiệp để xử lý...",
-                                jqXHR.status
-                            );
-                            return true;
-                        },
+        // Click vào checkbox header (chọn/bỏ chọn tất cả dòng đang hiển thị)
+        $("#datatable")
+            .off("change", "#checkAll")
+            .on("change", "#checkAll", function () {
+                const isChecked = this.checked;
+                // chỉ checkbox ở trang hiện tại
+                $(this)
+                    .closest("table")
+                    .find("tbody .row-check")
+                    .each(function () {
+                        $(this).prop("checked", isChecked).trigger("change");
                     });
-                } else if (result.dismiss === "cancel") {
-                    Notification_Static.errors(
-                        "Hủy bỏ thành công !",
-                        "Bản ghi của bạn đã được an toàn :)"
-                    );
-                }
             });
-        });
 
-        $(document).on("click", ".btnUpdateField", function (ev) {
-            ev.preventDefault();
-            let id = $(this).closest("tr").find('input[type="checkbox"]').val();
-            let field = $(this).data("field");
-            let value = $(this).data("value");
-            let url = $(this).data("url");
-            let obj = {};
-            obj[field] = value;
-            $.ajax({
-                url: url,
-                type: "PUT",
-                data: obj,
-                dataType: "JSON",
-                success: function (data) {
-                    if (data.status === "success") {
-                        Notification_Static.success(
-                            "Thành công!",
-                            "Bản ghi đã sửa xóa."
+        $(document)
+            .off("click", ".btnDeleteAll")
+            .on("click", ".btnDeleteAll", function (ev) {
+                ev.preventDefault();
+
+                let ids = [];
+                $("#datatable tbody .row-check:checked").each(function () {
+                    ids.push($(this).val());
+                });
+
+                if (ids.length === 0) {
+                    Notification_Static.errors(
+                        "Vui lòng chọn ít nhất 1 bản ghi để xóa!"
+                    );
+                    return;
+                }
+
+                let method = $(this).data("method");
+                let action = $(this).data("action");
+
+                Swal.fire({
+                    title: `Bạn có chắc chắn xóa ${ids.length} bản ghi này?`,
+                    text: "Bạn không thể khôi phục những bản ghi này sau khi xóa!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    buttonsStyling: false,
+                    confirmButtonText: "Yes, delete!",
+                    cancelButtonText: "No, cancel",
+                    customClass: {
+                        confirmButton: "btn fw-bold btn-danger",
+                        cancelButton: "btn fw-bold btn-active-light-primary",
+                    },
+                }).then(function (result) {
+                    if (result.value) {
+                        $.ajax({
+                            url: action,
+                            type: method,
+                            data: { ids: ids },
+                            dataType: "JSON",
+                            success: function (data) {
+                                if (data.status === "success") {
+                                    Notification_Static.success(
+                                        "Xóa thành công!",
+                                        "Bản ghi đã được xóa."
+                                    );
+                                } else if (data.status === "warning") {
+                                    Notification_Static.success(data.message);
+                                }
+                                initReloadDataTable();
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                Notification_Static.errors(
+                                    "Lỗi!!! Liên hệ Hiệp để xử lý...",
+                                    jqXHR.status
+                                );
+                            },
+                        });
+                    } else if (result.dismiss === "cancel") {
+                        Notification_Static.errors(
+                            "Hủy bỏ thành công!",
+                            "Bản ghi của bạn đã được an toàn :)"
                         );
                     }
-                    if (data.status === "warning") {
-                        Notification_Static.success(data.message);
-                    }
-                    initReloadDataTable();
-                    return true;
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    console.log(errorThrown);
-                    console.log(textStatus);
-                    console.log(jqXHR);
-                    Notification_Static.errors(
-                        "Lỗi!!! Liên hệ Hiệp để xử lý...",
-                        jqXHR.status
-                    );
-                    return true;
-                },
+                });
             });
-        });
+
+        $(document)
+            .off("click", ".btnDelete")
+            .on("click", ".btnDelete", function (ev) {
+                ev.preventDefault();
+                let id = $(this)
+                    .closest("tr")
+                    .find('input[type="checkbox"]')
+                    .val();
+
+                let method = $(this).data("method");
+                let action = $(this).data("action");
+                Swal.fire({
+                    title: "Bạn có chắc chắn xóa những bản ghi này ?",
+                    text: "Bạn không thể khôi phục những bản ghi này sau khi xóa!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    buttonsStyling: false,
+                    confirmButtonText: "Yes, delete!",
+                    cancelButtonText: "No, cancel",
+                    customClass: {
+                        confirmButton: "btn fw-bold btn-danger",
+                        cancelButton: "btn fw-bold btn-active-light-primary",
+                    },
+                }).then(function (result) {
+                    if (result.value) {
+                        // Simulate delete request -- for demo purpose only
+                        $.ajax({
+                            url: action,
+                            type: method,
+                            data: { id: id },
+                            dataType: "JSON",
+                            success: function (data) {
+                                if (data.status === "success") {
+                                    Notification_Static.success(
+                                        "Xóa thành công!",
+                                        "Bản ghi đã được xóa."
+                                    );
+                                }
+                                if (data.status === "warning") {
+                                    Notification_Static.success(data.message);
+                                }
+                                initReloadDataTable();
+                                return true;
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                console.log(errorThrown);
+                                console.log(textStatus);
+                                console.log(jqXHR);
+                                Notification_Static.errors(
+                                    "Lỗi!!! Liên hệ Hiệp để xử lý...",
+                                    jqXHR.status
+                                );
+                                return true;
+                            },
+                        });
+                    } else if (result.dismiss === "cancel") {
+                        Notification_Static.errors(
+                            "Hủy bỏ thành công !",
+                            "Bản ghi của bạn đã được an toàn :)"
+                        );
+                    }
+                });
+            });
+
+        $(document)
+            .off("click", ".btnUpdateField")
+            .on("click", ".btnUpdateField", function (ev) {
+                ev.preventDefault();
+                let id = $(this)
+                    .closest("tr")
+                    .find('input[type="checkbox"]')
+                    .val();
+                let field = $(this).data("field");
+                let value = $(this).data("value");
+                let url = $(this).data("url");
+                let obj = {};
+                obj[field] = value;
+                $.ajax({
+                    url: url,
+                    type: "PUT",
+                    data: obj,
+                    dataType: "JSON",
+                    success: function (data) {
+                        if (data.status === "success") {
+                            Notification_Static.success(
+                                "Thành công!",
+                                "Bản ghi đã sửa xóa."
+                            );
+                        }
+                        if (data.status === "warning") {
+                            Notification_Static.success(data.message);
+                        }
+                        initReloadDataTable();
+                        return true;
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log(errorThrown);
+                        console.log(textStatus);
+                        console.log(jqXHR);
+                        Notification_Static.errors(
+                            "Lỗi!!! Liên hệ Hiệp để xử lý...",
+                            jqXHR.status
+                        );
+                        return true;
+                    },
+                });
+            });
 
         $(document)
             .off("click", ".btnExport")

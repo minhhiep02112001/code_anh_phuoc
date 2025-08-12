@@ -13,7 +13,97 @@ var win = $(window),
         selector: "textarea.tinymce",
         entity_encoding: "raw",
         setup: function (editor) {
-            editor.on("change", function () {
+            // Xử lý khi paste: xóa thẻ <a>
+            editor.on("PastePreProcess", function (e) {
+                const tempDiv = document.createElement("div");
+                tempDiv.innerHTML = e.content;
+
+                // Xóa tất cả thẻ <a> nhưng giữ nội dung bên trong
+                const links = tempDiv.querySelectorAll("a");
+                links.forEach((link) => link.remove());
+
+                // Cập nhật lại nội dung paste đã xử lý
+                e.content = tempDiv.innerHTML;
+            });
+            editor.addButton("custom_clearformat", {
+                title: "Clear heading → <p><strong>...</strong></p>",
+                image: editor.baseURI.toAbsolute("img/icons/remove.gif"),
+                onclick: function () {
+                    const content = editor.getContent(); // Lấy toàn bộ nội dung
+                    const tempDiv = document.createElement("div");
+                    tempDiv.innerHTML = content;
+
+                    const headings =
+                        tempDiv.querySelectorAll("h1,h2,h3,h4,h5,h6");
+
+                    // Xóa tất cả thẻ <a> nhưng giữ nội dung bên trong
+                    const links = tempDiv.querySelectorAll("a");
+                    links.forEach((link) => link.remove());
+
+                    headings.forEach(function (el) {
+                        const strong = document.createElement("strong");
+                        strong.innerHTML = el.innerHTML;
+
+                        const p = document.createElement("p");
+                        p.appendChild(strong);
+
+                        el.parentNode.replaceChild(p, el);
+                    });
+
+                    // 2. XÓA các thẻ rỗng không nội dung thực
+                    tempDiv.querySelectorAll("*").forEach(function (el) {
+                        if (
+                            el.textContent.trim() === "" &&
+                            el.childNodes.length === 0
+                        ) {
+                            el.remove();
+                        }
+                    });
+
+                    // 3. XÓA attributes, TRỪ img / iframe / video
+                    tempDiv.querySelectorAll("*").forEach(function (el) {
+                        const tagName = el.tagName.toLowerCase();
+                        if (!["img", "iframe", "video"].includes(tagName)) {
+                            while (el.attributes.length > 0) {
+                                el.removeAttribute(el.attributes[0].name);
+                            }
+                        }
+                    });
+
+                    // XÓA tất cả <span> trong <p> nhưng giữ nội dung bên trong
+                    tempDiv.querySelectorAll("p span").forEach(function (span) {
+                        const parent = span.parentNode;
+                        while (span.firstChild) {
+                            parent.insertBefore(span.firstChild, span);
+                        }
+                        span.remove();
+                    });
+
+                    let cleaned = tempDiv.innerHTML;
+                    cleaned = cleaned.replaceAll(/&amp;/g, "");
+                    // XÓA khoảng trắng trước dấu chấm
+                    cleaned = cleaned.replace(/\s+([.,!?;:])/g, "$1");
+                    // Ghi đè lại toàn bộ nội dung editor
+                    editor.setContent(cleaned);
+                },
+            });
+
+            editor.on("change", function (e) {
+                var content = editor.getContent(); // Lấy nội dung hiện tại của TinyMCE
+                var iframeMatch = content.match(
+                    /&lt;iframe.*?&gt;&lt;\/iframe&gt;/
+                ); // Tìm iframe mã hóa trong nội dung
+
+                if (iframeMatch) {
+                    // Giải mã thực thể HTML và chèn iframe vào nội dung
+                    var decodedIframe = iframeMatch[0]
+                        .replace(/&lt;/g, "<")
+                        .replace(/&gt;/g, ">")
+                        .replace(/&quot;/g, '"');
+                    editor.setContent(
+                        content.replace(iframeMatch[0], decodedIframe)
+                    ); // Thay thế iframe mã hóa bằng iframe thực tế
+                }
                 editor.save();
             });
 
@@ -33,6 +123,7 @@ var win = $(window),
                 }
             });
         },
+
         plugins: [
             "advlist autolink autosave link image lists charmap print preview hr anchor pagebreak spellchecker template",
             "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
@@ -43,7 +134,7 @@ var win = $(window),
         toolbar2:
             "searchreplace | bullist numlist | outdent indent blockquote | undo redo | link unlink image media code | forecolor backcolor",
         toolbar3:
-            "table | removeformat | charmap emoticons | spellchecker | template restoredraft insertfile | post_block_top post_block_bottom",
+            "table | removeformat | charmap emoticons | custom_clearformat | spellchecker | template restoredraft insertfile | post_block_top post_block_bottom",
         templates: [
             {
                 title: "Textbox",
@@ -85,10 +176,7 @@ var win = $(window),
                 document.documentElement.clientHeight ||
                 document.getElementsByTagName("body")[0].clientHeight;
 
-            var cmsURL =
-                window.APP_URL +
-                "/admin/laravel-filemanager?field_name=" +
-                field_name;
+            var cmsURL = `${window.SERVICE_FILEMANAGER}?field_name=${field_name}`;
 
             if (type === "image") {
                 cmsURL += "&type=Images";
@@ -370,7 +458,7 @@ var AJAX_CRUD_MODAL = {
                 }
             });
             setTimeout(function () {
-                AutoloadDataService.initReloadreplaceData($("#modal_form"));
+                AutoloadDataService.init($("#modal_form"));
             }, 1000);
         });
     },
@@ -396,6 +484,7 @@ var AJAX_CRUD_MODAL = {
                     $(e).find("img").attr("src", "").removeClass("show");
                     $(e).find('input[type="hidden"]').remove();
                 });
+            $(this).find(".gallery-upload .gallery-list").remove();
 
             $(this).find(".select2_suggest").empty().trigger("change");
             $(this).find("div.form-control-feedback").remove();
@@ -543,12 +632,12 @@ var AJAX_CRUD_MODAL = {
                 DatatablesServerSide.initReload();
             },
             error: function (jqXHR, textStatus, errorThrown) {
+                modal_form.find(".btnSave").attr("disabled", false);
                 console.log(jqXHR);
                 console.log(textStatus);
                 console.log(errorThrown);
                 let body = jqXHR.responseJSON.message;
                 Notification_Static.errors(jqXHR.status + ": " + body);
-                modal_form.find(".btnSave").attr("disabled", false);
             },
         });
         return false;
@@ -700,16 +789,16 @@ var AJAX_CRUD_MODAL = {
                                     if (data.type === "success") {
                                         e.value
                                             ? swal(
-                                                  "Xóa thành công!",
-                                                  "Những bản ghi bạn chọn đã được xóa.",
-                                                  "success"
-                                              )
+                                            "Xóa thành công!",
+                                            "Những bản ghi bạn chọn đã được xóa.",
+                                            "success"
+                                            )
                                             : "cancel" === e.dismiss &&
-                                              swal(
-                                                  "Hủy bỏ thành công !",
-                                                  "Bản ghi của bạn đã được an toàn :)",
-                                                  "warning"
-                                              );
+                                            swal(
+                                                "Hủy bỏ thành công !",
+                                                "Bản ghi của bạn đã được an toàn :)",
+                                                "warning"
+                                            );
                                     }
                                     AJAX_DATATABLES.reload();
                                 },
@@ -762,7 +851,7 @@ var AJAX_CRUD_MODAL = {
 
         doc.on("click", ".btnSave", function (e) {
             e.preventDefault();
-            AJAX_CRUD_MODAL.save($(this).closest(".modal"));
+            AJAX_CRUD_MODAL.save();
         });
         doc.on("click", ".btnSaveDraft", function (e) {
             e.preventDefault();
@@ -803,27 +892,23 @@ var FUNC = {
     },
 
     itemGallery: function (name, urlImageResponse, index = 0) {
-        return (html =
-            '<div class="upload-box" index="' +
-            index +
-            '">' +
-            "<span>+</span>" +
-            '<img class="preview-image" src=' +
-            FUNC.getImageThumb(urlImageResponse) +
-            ' height="100px" alt="Preview">' +
-            "<input type='hidden' name='" +
-            name +
-            "' value='" +
-            urlImageResponse +
-            "'>" +
-            "<span class='fa fa-times removeInput' onclick='this.parentNode.remove()'></span>" +
-            " </div>");
+        return `<div class="upload_box_item mr-2 mb-1" data-name="${name}" >
+                    <div class=" upload-container d-block m-0" data-field-name="${name}[${index}][thumb]">
+                        <div class="upload-box">
+                            <img class="preview-image show" alt="Preview" src="${FUNC.getImageThumb( urlImageResponse )}">
+                            <input type="hidden" name="${name}[${index}][thumb]" value="${urlImageResponse}">
+                        </div>
+                    </div>
+                    <input type="number" name="${name}[${index}][position]" value="${index}" class="w-100">
+                    <span class='fa fa-times removeInputImages'></span>
+                </div>`;
     },
 
     showGallery: function (element, name, data) {
         if (data !== null && data.length > 0) {
+            let length = $(element).find(".upload_box_item").length;
             $.each(data, function (i, v) {
-                $(element).append(FUNC.itemGallery(name, v, i + 1));
+                $(element).append(FUNC.itemGallery(name, v, length + i));
             });
         }
     },
@@ -941,6 +1026,7 @@ jQuery(function ($) {
     UI.init();
 });
 
+
 var FileUpload = (function () {
     // Register FilePond plugins
     FilePond.registerPlugin(FilePondPluginImagePreview);
@@ -999,7 +1085,7 @@ var FileUpload = (function () {
                         checkValidity: true,
                         forceRevert: true,
                         process: {
-                            url: fullUrl,
+                            url: window.SERVICE_UPLOAD_FILE,
                             method: "POST",
                             headers: {
                                 "X-CSRF-TOKEN": $(
@@ -1357,7 +1443,7 @@ const AutoloadDataService = (function () {
                         });
                     } else {
                         /////////// API MOI ///////////
-                        if (objData.version != 2) {
+                        if (objData.version == 2) {
                             if (objQuery.indexOf(",") > 0) {
                                 objQuery = objQuery.split(",");
                             }
@@ -1393,8 +1479,8 @@ const AutoloadDataService = (function () {
                 url: urlLoad,
                 type: "GET",
                 dataType: "json",
-                delay: 250,
-                cache: false,
+                delay: 300,
+                cache: true,
                 data: function (params) {
                     var query = {};
                     if (minimumInputLength > 0) {
@@ -1631,6 +1717,24 @@ const formatCurrency = (value) => {
 
 $(document).ready(function () {
     $(document)
+        .off("click", ".removeInputImages")
+        .on("click", ".removeInputImages", function () {
+            let _parent = $(this).closest(".gallery-list");
+            $(this).closest(".upload_box_item").remove();
+            _parent.find(".upload_box_item").each(function (index, element) {
+                let _name = $(element).attr("data-name");
+                $(element).attr("data-field-name", `${_name}[${index}][thumb]`);
+                $(element)
+                    .find('input[type="hidden"]')
+                    .attr("name", `${_name}[${index}][thumb]`);
+                $(element)
+                    .find('input[type="number"]')
+                    .attr("name", `${_name}[${index}][position]`)
+                    .val(index);
+            });
+        });
+
+    $(document)
         .off("click", ".upload-box")
         .on("click", ".upload-box", function () {
             let _parent_dom = $(this).closest(".upload-container");
@@ -1652,8 +1756,15 @@ $(document).ready(function () {
 
                 // Update input value and preview
                 if (is_mutil == "true") {
+                    let _parent_dom = $(_this).closest(".gallery-upload");
+                    if (_parent_dom.find(".gallery-list").length == 0) {
+                        $(_parent_dom).append(
+                            '<div class="gallery-list p-1"></div>'
+                        );
+                    }
+
                     FUNC.showGallery(
-                        _parent_dom.find(".gallery-images"),
+                        _parent_dom.find(".gallery-list"),
                         _name,
                         file_paths
                     );

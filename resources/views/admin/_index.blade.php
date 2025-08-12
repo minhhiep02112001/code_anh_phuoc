@@ -1,5 +1,5 @@
 @php
-    $v = 123;
+    $v = 12345;
 @endphp
 
 <!DOCTYPE html>
@@ -51,6 +51,25 @@
              .gallery-list .upload-box{
                 margin-bottom: 10px;
             }
+            .upload_box_item{
+                width:120px;
+                margin:5px 10px;
+                padding:10px;
+                background:beige;
+                position:relative;
+            }
+
+            .upload_box_item input[type="number"]{
+                border: 1px solid;
+                border-radius:5px;
+                padding-left: 5px;
+            }
+
+            .upload_box_item .removeInputImages{
+                position:absolute;
+                top:0;
+                right:0;
+            }
         </style>
     </head>
 
@@ -80,11 +99,12 @@
             </div>
 
         </div>
- 
+
         <script src="{{ asset('admins/js/script_minified.js') }}?v={{ $v }}"></script>
         <script src="{{ asset('admins/vendor/tinymce_1/tinymce.min.js') }}?v={{ $v }}"></script>
+        <script src="{{ asset('admins/js/data_table.js') }}?v={{ $v }}"></script>
         <script src="{{ asset('admins/js/index.js') }}?v={{ $v }}"></script>
-        <script src="{{ asset('admins/js/main.js') }}?v={{ $v }}"></script> 
+        <script src="{{ asset('admins/js/main.js') }}?v={{ $v }}"></script>
         <script>
             const _status = @json(config('data.status'));
             const _google_index = {
