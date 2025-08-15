@@ -8,9 +8,8 @@ use App\Repositories\Eloquent\PageRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class PageController extends Controller
+class PageController extends BaseAdminController
 {
-    private $_repository;
 
     function __construct(PageRepository $repository)
     {

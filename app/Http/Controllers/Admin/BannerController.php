@@ -8,10 +8,8 @@ use App\Repositories\Eloquent\BannerRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class BannerController extends Controller
-{
-    private $_repository;
-
+class BannerController extends BaseAdminController
+{ 
     function __construct(BannerRepository $repository)
     {
         $this->_repository = $repository;

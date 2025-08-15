@@ -8,10 +8,8 @@ use App\Repositories\Eloquent\RedirectRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class RedirectController extends Controller
+class RedirectController extends BaseAdminController
 {
-    private $_repository;
-
     function __construct(RedirectRepository $repository)
     {
         $this->_repository = $repository;

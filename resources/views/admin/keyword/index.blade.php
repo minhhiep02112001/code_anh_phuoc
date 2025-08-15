@@ -9,6 +9,13 @@
                             <h3 class="card-title">Keyword</h3>
                         </div>
                         <div class="table-data__tool-right">
+
+                            <button type="button" class="btn btn-secondary btn-sm"
+                                data-action="{{ route('admin.crawler.index') }}" id="btnFilterDbData"><i
+                                    class="fa fa-filter"></i>
+                                Lọc data Crawler
+                            </button>
+
                             <button type="button" data-action="{{ route('admin.keyword.import') }}" data-method="POST"
                                 class="btn btn-primary btn-sm btnImport"><i class="fa fa-plus"></i> Import
                             </button>
@@ -22,9 +29,12 @@
                                 aria-controls="formSearch" class="btn btn-warning btn-sm"><i class="fa fa-filter"></i>
                                 Tìm kiếm
                             </button>
-                            {{-- <button type="button" class="btn btn-danger btn-sm"><i class="fa fa-gears"></i> Quản
-                                lý
-                            </button> --}}
+
+                            <button type="button" class="btn btn-danger btn-sm btnDeleteAll"
+                                data-action="{{ route('admin.removeAll.keyword') }}" data-method="DELETE"><i
+                                    class="fa fa-gears"></i>
+                                Xóa</button>
+
                             <button type="button" class="btn btn-info btn-sm btnReload"><i class="fa fa-refresh"></i>
                                 Reload
                                 Data
@@ -105,9 +115,10 @@
                     data: null,
                     width: 24,
                     orderable: false,
-                    className: "text-center",
-                    selector: {
-                        class: "m-checkbox--solid m-checkbox--brand"
+                    className: "text-left",
+                    title: `<input type="checkbox" id="checkAll">`, // checkbox ở header
+                    render: function(data, type, row) {
+                        return `<input type="checkbox" class="row-check" value="${row.id}">`;
                     }
                 },
                 {
@@ -188,9 +199,6 @@
                                 }
                             });
                             let element = modal_form.find('[name="content"]');
-
-
-
                             modal_form.modal('show');
                         },
                         error: function(jqXHR, textStatus, errorThrown) {
@@ -201,6 +209,29 @@
                     });
                     return false;
                 });
+            });
+
+            $(document).on('click', '#btnFilterDbData', function() {
+                let arrs = [];
+                $("#datatable").find('input.row-check:checked').each(function() {
+                    arrs.push($(this).val())
+                })
+
+                let url = $(this).attr('data-action');
+                if (arrs.length == 0) {
+                    Swal.fire({
+                        title: "Warning!",
+                        text: "Vui lòng tích vào chọn bản ghi lọc!",
+                        icon: "warning"
+                    });
+                    return;
+                }
+                const query = $.param({
+                    'params[crawler_id][]': arrs
+                });
+                // -> "params%5Bcrawler_id%5D%5B%5D=1160&params%5Bcrawler_id%5D%5B%5D=1161"
+                const newUrl = url + (url.includes('?') ? '&' : '?') + query; 
+                window.open(newUrl, '_blank');
             });
         });
         // $(document).ready(function (e) {

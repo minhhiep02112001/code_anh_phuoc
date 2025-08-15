@@ -8,9 +8,8 @@ use App\Repositories\Eloquent\CategoryRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class CategoryController extends Controller
-{
-    private $_repository; 
+class CategoryController extends BaseAdminController
+{ 
 
     function __construct(CategoryRepository $categoryRepository)
     {
