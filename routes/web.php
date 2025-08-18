@@ -62,10 +62,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => [
         return redirect()->back();
     })->name('clear.cache');
 
-   Route::post('keyword/import', [App\Http\Controllers\Admin\KeywordController::class, 'import'])->name('keyword.import');
+    Route::post('keyword/import', [App\Http\Controllers\Admin\KeywordController::class, 'import'])->name('keyword.import');
     Route::post('crawler/import', [App\Http\Controllers\Admin\CrawlerController::class, 'import'])->name('crawler.import');
-    Route::get('crawler/export', [App\Http\Controllers\Admin\CrawlerController::class, 'export'])->name('crawler.export'); 
-  
+    Route::get('crawler/export', [App\Http\Controllers\Admin\CrawlerController::class, 'export'])->name('crawler.export');
+
     Route::get('/', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
     Route::get('category/product', [App\Http\Controllers\Admin\CategoryController::class, 'product']);
     Route::get('toplist', [App\Http\Controllers\Admin\PostController::class, 'topList'])->name('toplist');
@@ -81,18 +81,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => [
     Route::resource('page', App\Http\Controllers\Admin\PageController::class);
     Route::resource('role', App\Http\Controllers\Admin\RoleController::class);
     Route::resource('crawler', App\Http\Controllers\Admin\CrawlerController::class);
-    Route::resource('config-page', App\Http\Controllers\Admin\ConfigPageController::class);
-
-    Route::post('config-page-detail', [App\Http\Controllers\Admin\ConfigPageController::class, 'create_detail'])->name('config-page-detail.create');
-    Route::get('config-page-detail/{id}', [App\Http\Controllers\Admin\ConfigPageController::class, 'show_detail'])->name('config-page-detail.show');
-    Route::put('config-page-detail/{id}', [App\Http\Controllers\Admin\ConfigPageController::class, 'update_detail'])->name('config-page-detail.update');
-    Route::delete('config-page-detail/{id}', [App\Http\Controllers\Admin\ConfigPageController::class, 'delete_detail'])->name('config-page-detail.delete');
-
 
     Route::any('setting', [App\Http\Controllers\Admin\SettingController::class, 'setting'])->name('setting');
     Route::group(['prefix' => 'ajax', 'as' => 'ajax.'], function () {
         Route::post('/update-multiple-menu', [\App\Http\Controllers\Admin\MenuController::class, 'updateMultiple']);
-        Route::get('/config_page', [App\Http\Controllers\Admin\ConfigPageController::class, 'ajax_load_data']);
         Route::get('/keyword', [App\Http\Controllers\Admin\KeywordController::class, 'ajax_load_data']);
         Route::get('/crawler', [App\Http\Controllers\Admin\CrawlerController::class, 'ajax_load_data']);
         Route::get('/role', [App\Http\Controllers\Admin\RoleController::class, 'ajax_load_data']);
@@ -105,20 +97,41 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => [
         Route::get('/menu', [App\Http\Controllers\Admin\MenuController::class, 'ajax_load_data']);
         Route::get('/drag', [App\Http\Controllers\Admin\DragController::class, 'ajax_load_data']);
     });
+
+    Route::group(['as' => 'removeAll.'], function () {
+        Route::delete('/keyword', [App\Http\Controllers\Admin\KeywordController::class, 'removeAll'])->name('keyword');
+        Route::delete('/crawler', [App\Http\Controllers\Admin\CrawlerController::class, 'removeAll'])->name('crawler');
+        Route::delete('/banner', [App\Http\Controllers\Admin\BannerController::class, 'removeAll'])->name('banner');
+        Route::delete('/category', [App\Http\Controllers\Admin\CategoryController::class, 'removeAll'])->name('category');
+        Route::delete('/redirect', [App\Http\Controllers\Admin\RedirectController::class, 'removeAll'])->name('redirect');
+        Route::delete('/page', [App\Http\Controllers\Admin\PageController::class, 'removeAll'])->name('page');
+        Route::delete('/comment', [App\Http\Controllers\Admin\CommentController::class, 'removeAll'])->name('comment');
+        Route::delete('/post', [App\Http\Controllers\Admin\PostController::class, 'removeAll'])->name('post');
+        Route::delete('/drag', [App\Http\Controllers\Admin\DragController::class, 'removeAll'])->name('drag');
+    });
+
     Route::get('logout', [App\Http\Controllers\Admin\AuthController::class, 'logout'])->name('logout');
 });
 
 
+// Route::get('/sitemap_news.xml', function () {
+//     $posts =  \App\Models\Post::where([
+//         'is_status' => 1,
+//     ])->orderBy('updated_at', 'desc')->limit(100)->offset(0)->get();
+//     return response()->view('front_end.sitemap.sitemap_new', ['data' => $posts])->header('Content-Type', 'text/xml');
+// });
 
 Route::get('/rss', [App\Http\Controllers\FeedController::class, 'feed_rss'])->name('google-news');
 Route::get('/feeds/pinterestxxx.xml', [App\Http\Controllers\FeedController::class, 'pinterestxxx'])->name('pinterestxxx');
 Route::get('/feeds/rssxxx.xml', [App\Http\Controllers\FeedController::class, 'rssxxx'])->name('rssxxx');
+
 
 Route::domain('{slug}.' . env('DOMAIN'))->group(function () {
     Route::get('/', [\App\Http\Controllers\HomeController::class, 'post'])->name('post')->middleware('cacheResponse:600');
     // Route::get('/menu.html', [\App\Http\Controllers\HomeController::class, 'menu'])->name('menu');
     Route::get('/sitemap.xml', [\App\Http\Controllers\HomeController::class, 'sitemapBrand']);
 });
+
 
 Route::group([
     'middleware' => ['redirect_301']

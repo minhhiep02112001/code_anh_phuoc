@@ -7,9 +7,8 @@ use App\Repositories\Eloquent\CommentRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class CommentController extends Controller
-{
-    private $_repository;
+class CommentController extends BaseAdminController
+{ 
 
     function __construct(CommentRepository $repository)
     {

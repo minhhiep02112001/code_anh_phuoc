@@ -9,9 +9,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
-class KeywordController extends Controller
+class KeywordController extends BaseAdminController
 {
-    private $_repository;
+    
 
     function __construct(KeywordRepository $repository)
     {

@@ -9,7 +9,7 @@ use App\Models\Products\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class DragController extends Controller
+class DragController extends BaseAdminController
 {
     /**
      * Display a listing of the resource.

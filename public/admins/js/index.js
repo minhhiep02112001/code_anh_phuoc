@@ -738,7 +738,9 @@ var AJAX_CRUD_MODAL = {
             $("#modal_form_import")
                 .find("form")
                 .attr("data-method", method)
-                .attr("data-action", action);
+                .attr("data-action", action)
+                .attr("method", method)
+                .attr("action", action);
             $("#modal_form_import").modal("show");
         });
 
@@ -789,16 +791,16 @@ var AJAX_CRUD_MODAL = {
                                     if (data.type === "success") {
                                         e.value
                                             ? swal(
-                                            "Xóa thành công!",
-                                            "Những bản ghi bạn chọn đã được xóa.",
-                                            "success"
-                                            )
+                                                  "Xóa thành công!",
+                                                  "Những bản ghi bạn chọn đã được xóa.",
+                                                  "success"
+                                              )
                                             : "cancel" === e.dismiss &&
-                                            swal(
-                                                "Hủy bỏ thành công !",
-                                                "Bản ghi của bạn đã được an toàn :)",
-                                                "warning"
-                                            );
+                                              swal(
+                                                  "Hủy bỏ thành công !",
+                                                  "Bản ghi của bạn đã được an toàn :)",
+                                                  "warning"
+                                              );
                                     }
                                     AJAX_DATATABLES.reload();
                                 },
@@ -851,7 +853,7 @@ var AJAX_CRUD_MODAL = {
 
         doc.on("click", ".btnSave", function (e) {
             e.preventDefault();
-            AJAX_CRUD_MODAL.save($(this).closest('#modal_form'));
+            AJAX_CRUD_MODAL.save($(this).closest(".modal"));
         });
         doc.on("click", ".btnSaveDraft", function (e) {
             e.preventDefault();
@@ -895,7 +897,9 @@ var FUNC = {
         return `<div class="upload_box_item mr-2 mb-1" data-name="${name}" >
                     <div class=" upload-container d-block m-0" data-field-name="${name}[${index}][thumb]">
                         <div class="upload-box">
-                            <img class="preview-image show" alt="Preview" src="${FUNC.getImageThumb( urlImageResponse )}">
+                            <img class="preview-image show" alt="Preview" src="${FUNC.getImageThumb(
+                                urlImageResponse
+                            )}">
                             <input type="hidden" name="${name}[${index}][thumb]" value="${urlImageResponse}">
                         </div>
                     </div>
@@ -1025,7 +1029,6 @@ var UI = {
 jQuery(function ($) {
     UI.init();
 });
-
 
 var FileUpload = (function () {
     // Register FilePond plugins
@@ -1479,8 +1482,8 @@ const AutoloadDataService = (function () {
                 url: urlLoad,
                 type: "GET",
                 dataType: "json",
-                delay: 300,
-                cache: true,
+                delay: 250,
+                cache: false,
                 data: function (params) {
                     var query = {};
                     if (minimumInputLength > 0) {
@@ -1716,6 +1719,10 @@ const formatCurrency = (value) => {
 };
 
 $(document).ready(function () {
+    $(document).on("change_search", "#form-filter-data", function () {
+        AutoloadDataService.init($("#form-filter-data"));
+    });
+
     $(document)
         .off("click", ".removeInputImages")
         .on("click", ".removeInputImages", function () {
