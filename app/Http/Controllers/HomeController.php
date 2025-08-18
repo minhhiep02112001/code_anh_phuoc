@@ -28,8 +28,7 @@ class HomeController extends Controller
         public CommentRepository $commentRepository,
         public BannerRepository $bannerRepository,
         public PageRepository $pageRepository
-    ) {
-    }
+    ) {}
 
     public function dashboard(Request $request)
     {
@@ -74,7 +73,7 @@ class HomeController extends Controller
             // 'meta_description' => str_replace('[text]',   $post->meta_title, $promat),
             'meta_keyword' => $post->title ?? '',
             'is_robot' => $post->is_robot ?? 0,
-            'image' => $post->thumbnail ?? config('data.cms_setting.logo'),
+            'image' => $post->thumbnail ?? '',
 
             'url' => route('post', ['slug' => $post->slug]),
         ];
@@ -131,7 +130,7 @@ class HomeController extends Controller
             'meta_description' => str_replace('[text]', $post->meta_title, $promat),
             'meta_keyword' => __('config_data.pages.menus.menu') . ' ' . $post->title ?? '',
             'is_robot' => $post->is_robot ?? 0,
-            'image' => $post->thumbnail ?? config('data.cms_setting.logo'),
+            'image' => $post->thumbnail ?? '',
             'url' => route('post', ['slug' => $post->slug]),
         ];
 
@@ -202,8 +201,7 @@ class HomeController extends Controller
     {
         $page = $this->pageRepository->findByField('slug', $slug)->first();
 
-        if (empty($page) || $page->is_status != 1)
-            return abort(404);
+        if (empty($page) || $page->is_status != 1) return abort(404);
 
         $SEO = [
             'title' => $page->meta_title ?? '',
@@ -211,12 +209,12 @@ class HomeController extends Controller
             'meta_description' => $page->meta_description ?? '',
             'meta_keyword' => $page->meta_title ?? '',
             'is_robot' => $page->is_robot ?? 0,
-            'image' => $page->thumbnail ?? config('data.cms_setting.logo'),
+            'image' => $page->thumbnail ?? '',
             'url' => route('page', ['slug' => $page->slug]),
         ];
 
-        $view = $page->layout ?? 'front_end.page';
-        return view($view, ['row' => $page, 'SEO' => $SEO ?? [],]);
+        $view = $page->layout ?? 'theme_brand.theme_1.page';
+        return view($view, ['page' => $page, 'SEO' => $SEO ?? [],]);
     }
 
     public function redirect(Request $request)
@@ -232,8 +230,7 @@ class HomeController extends Controller
         if (!empty($link)) {
             return redirect($link->url_new, 301);
         }
-        return abort(404);
-        ;
+        return abort(404);;
     }
     private function redirectUrl($link, $request)
     {
