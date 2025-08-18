@@ -10,11 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
-class CrawlerController extends Controller
-{
-    private $_repository;
-
-    function __construct(CrawlerRepository $repository)
+class CrawlerController extends BaseAdminController
+{     function __construct(CrawlerRepository $repository)
     {
         $this->_repository = $repository;
     }

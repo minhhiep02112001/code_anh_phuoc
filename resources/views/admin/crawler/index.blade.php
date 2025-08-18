@@ -29,9 +29,12 @@
                                 <i class="fas fa-arrow-down"></i>
                                 Export
                             </button>
-                            {{-- <button type="button" class="btn btn-danger btn-sm"><i class="fa fa-gears"></i> Quản
-                                lý
-                            </button> --}}
+
+                            <button type="button" class="btn btn-danger btn-sm btnDeleteAll"
+                                data-action="{{ route('admin.removeAll.crawler') }}" data-method="DELETE"><i
+                                    class="fa fa-gears"></i>
+                                Xóa</button>
+
                             <button type="button" class="btn btn-info btn-sm btnReload"><i class="fa fa-refresh"></i>
                                 Reload
                                 Data
@@ -79,7 +82,8 @@
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label for="filterTitle">Thêm mới đến ngày:</label>
-                                        <input type="text" name="params[created_at][lte]" data-default-time="{{ \Carbon\Carbon::now('Asia/Ho_Chi_Minh')->format('H:i') }}"
+                                        <input type="text" name="params[created_at][lte]"
+                                            data-default-time="{{ \Carbon\Carbon::now('Asia/Ho_Chi_Minh')->format('H:i') }}"
                                             class="form-control pick_datetime" id="params[created_at][lte]"
                                             placeholder="Đến ngày...">
                                     </div>
@@ -135,9 +139,10 @@
                     data: null,
                     width: 24,
                     orderable: false,
-                    className: "text-center",
-                    selector: {
-                        class: "m-checkbox--solid m-checkbox--brand"
+                    className: "text-left",
+                    title: `<input type="checkbox" id="checkAll">`, // checkbox ở header
+                    render: function(data, type, row) {
+                        return `<input type="checkbox" class="row-check" value="${row.id}">`;
                     }
                 },
                 {
@@ -172,9 +177,7 @@
                     title: "Thông tin",
                     render: function(t, e, item) {
                         let content = "<ul>";
-                        content += `<li>Address: ${item.address || ''}</li>`;
-                        // if (item.link_google_map) content +=
-                        //     `<li>Map:<a href="${item.address || ''}" target="_blank">Link</a></li>`;
+                        content += `<li>Address: ${item.address || ''}</li>`; 
                         content += `<li>Review google: ${item.google_review || 0}</li>`;
 
                         if (item.relate_id) content += `<li>Brand: ${item.relate_id}</li>`;

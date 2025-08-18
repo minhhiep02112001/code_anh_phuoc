@@ -1,10 +1,7 @@
 // Class definition
 var DatatablesServerSide = (function () {
     // Shared variables
-    var table;
     var dt;
-    var filterPayment;
-
     // Private functions
     var initDatatable = function () {
         dt = $("#datatable").DataTable({
@@ -18,9 +15,117 @@ var DatatablesServerSide = (function () {
 
             ajax: {
                 url: url_ajax_list,
+
                 type: "GET",
                 // dataSrc: "data",
                 dataSrc: "data",
+                data: function (d) {
+                    // Lấy toàn bộ query hiện tại từ URL
+                    const params = new URLSearchParams(window.location.search);
+                    const grouped = {};
+
+                    params.forEach((value, key) => {
+                        // Nếu key đã tồn tại trong d => convert thành mảng
+                        if (d[key] !== undefined) {
+                            if (!Array.isArray(d[key])) {
+                                d[key] = [d[key]];
+                            }
+                            d[key].push(value);
+                        } else {
+                            d[key] = value;
+                        }
+                    });
+
+                    // Gom các value của cùng 1 key vào mảng
+                    params.forEach((value, key) => {
+                        const decodedKey = decodeURIComponent(key);
+                        // Chỉ xử lý nếu key chứa "params"
+                        if (decodedKey.includes("params")) {
+                            if (!grouped[decodedKey]) {
+                                grouped[decodedKey] = [];
+                            }
+                            grouped[decodedKey].push(value);
+                        }
+                    });
+                     
+                    if (grouped) {
+                        Object.keys(grouped).forEach((name) => {
+                            const values = grouped[name];
+                            const $field = $(`[name="${name}"]`);
+
+                            if ($field.length) {
+                                if ($field.is("select")) {
+                                    if ($field.is("[multiple]")) {
+                                    
+                                        // Lấy giá trị hiện tại của select (nếu có)
+                                        let existingValues = $field.val() || [];
+
+                                        // Gộp giá trị hiện tại + giá trị mới, loại bỏ trùng
+                                        let mergedValues = Array.from(
+                                            new Set([
+                                                ...existingValues,
+                                                ...values,
+                                            ])
+                                        );
+
+                                        // Nếu option chưa tồn tại trong select thì thêm mới
+                                        mergedValues.forEach(function (
+                                            element
+                                        ) {
+                                            if (
+                                                $field.find(
+                                                    'option[value="' +
+                                                        element +
+                                                        '"]'
+                                                ).length === 0
+                                            ) {
+                                                $field.append(
+                                                    new Option(
+                                                        element,
+                                                        element,
+                                                        true,
+                                                        true
+                                                    )
+                                                );
+                                            }
+                                        });
+
+                                        // Set lại giá trị cho select và trigger change
+                                        $field
+                                            .val(mergedValues)
+                                            .trigger("change");
+                                    } else {
+                                        $field
+                                            .append(
+                                                new Option(
+                                                    values,
+                                                    values,
+                                                    true,
+                                                    true
+                                                )
+                                            )
+                                            .val(values)
+                                            .trigger("change");
+                                    }
+                                } else if (
+                                    $field.is(":checkbox") ||
+                                    $field.is(":radio")
+                                ) {
+                                    // Checkbox hoặc radio
+                                    values.forEach((v) => {
+                                        $field
+                                            .filter(`[value="${v}"]`)
+                                            .prop("checked", true);
+                                    });
+                                } else {
+                                    // Input thường (lấy giá trị đầu tiên)
+                                    $field.val(values).trigger("change");
+                                }
+                            }
+                        });
+                        $("#form-filter-data").trigger("change_search");
+                    }
+                },
             },
             columns: datatables_columns,
             columnDefs: [
@@ -423,6 +528,11 @@ var DatatablesServerSide = (function () {
         $("#form-filter-data").closest(".box").addClass("collapsed-box");
         // Reload the DataTables with the modified settings
         dt.ajax.reload(null, false);
+        window.history.replaceState(
+            {},
+            document.title,
+            window.location.pathname
+        );
     };
     // Public methods
     return {

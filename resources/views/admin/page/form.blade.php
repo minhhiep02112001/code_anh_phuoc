@@ -32,6 +32,11 @@
                     </div>
                     <div class="col-sm-4 col-xs-12">
                         @include('admin._layout.section.seo')
+
+                        <div class="form-group">
+                            <label>Schema</label>
+                            <textarea name="schema" placeholder="Schema" class="form-control" rows="12"></textarea>
+                        </div>
                     </div>
                 </div>
             </div>

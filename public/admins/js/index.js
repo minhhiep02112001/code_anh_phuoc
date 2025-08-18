@@ -735,7 +735,6 @@ var AJAX_CRUD_MODAL = {
 
             let method = $(this).data("method");
             let action = $(this).data("action");
-
             $("#modal_form_import")
                 .find("form")
                 .attr("data-method", method)
@@ -1483,8 +1482,8 @@ const AutoloadDataService = (function () {
                 url: urlLoad,
                 type: "GET",
                 dataType: "json",
-                delay: 300,
-                cache: true,
+                delay: 250,
+                cache: false,
                 data: function (params) {
                     var query = {};
                     if (minimumInputLength > 0) {
@@ -1720,6 +1719,10 @@ const formatCurrency = (value) => {
 };
 
 $(document).ready(function () {
+    $(document).on("change_search", "#form-filter-data", function () {
+        AutoloadDataService.init($("#form-filter-data"));
+    });
+
     $(document)
         .off("click", ".removeInputImages")
         .on("click", ".removeInputImages", function () {

@@ -12,11 +12,17 @@
                         <div class="elementor-col-50 ele-header elementor-inner-column elementor-element">
 
                             <div class="elementor-widget-container container-mobile">
-                                <a href="{{ route('post', [$post->slug]) }}" class="show hide-scroll">
-                                    <div class="logo">{{ $post->title }}</div>
-                                </a>
+                                @if (!empty($post))
+                                    <a href="{{ route('post', [$post->slug]) }}" class="show hide-scroll">
+                                        <div class="logo">{{ $post->title }}</div>
+                                    </a>
+                                @else
+                                    <a href="{{ url('/') }}" class="show hide-scroll">
+                                        <div class="logo">{{ $config_website?->website }}</div>
+                                    </a>
+                                @endif
 
-                                <a href="https://beyout.net" class="show_mobi  show-scroll">
+                                <a href="{{ url('/') }}" class="show_mobi  show-scroll">
                                     <img style="max-height: 60px;" src="{!! getImageThumb($config_website?->logo) !!}" id="logo"
                                         alt="{{ $config_website?->website }}">
                                 </a>

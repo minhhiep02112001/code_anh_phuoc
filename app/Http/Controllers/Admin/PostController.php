@@ -9,9 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
-class PostController extends Controller
+class PostController extends BaseAdminController
 {
-    private $_repository;
 
     function __construct(PostRepository $postRepository)
     {
