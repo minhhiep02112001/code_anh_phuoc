@@ -3133,7 +3133,8 @@ body #back-to-top:hover {
 .mobile-menu ul li.close-nav>a,
 .mobile-menu ul li.go-back>a {
     background: 0 0 !important;
-    width: 50px
+    width: 100px;
+    font-weight: 700;
 }
 
 .mobile-menu ul li.close-nav a:focus,

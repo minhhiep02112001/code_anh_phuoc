@@ -2338,9 +2338,36 @@
             text-decoration: none
         }
 
+        .menu-toggle {
+            float: right;
+            font-size: 13px;
+            line-height: 1.2;
+            display: none;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: rgb(52, 52, 52);
+            -webkit-text-fill-color: rgb(52, 52, 52);
+            letter-spacing: 0.05em;
+            background: transparent;
+            text-decoration: none;
+            transition: 0.2s;
+            border-width: 2px;
+            border-style: solid;
+            border-color: rgb(52, 52, 52);
+            padding: 5px 10px;
+        }
+
+        .menu-toggle:hover {
+            background: #d6dee6 !important;
+        }
+
         @media screen and (max-width: 768px) {
             .explore-block .image img {
                 height: 230px;
+            }
+
+            .menu-toggle {
+                display: inline-block;
             }
 
             #banner {
@@ -2358,7 +2385,7 @@
                 top: 0;
                 left: 0;
                 right: 0;
-                z-index: 999999;
+                z-index: 9999;
                 background: #fff;
             }
         }
@@ -2393,7 +2420,7 @@
                             <img style="max-height: 50px;" src="{!! getImageThumb($config_website?->logo) !!}" id="logo"
                                 alt="{{ $config_website?->website }}">
                         </a>
-
+                        <button class="menu-toggle"> Menu</span></button>
                     </div>
                 </div>
             </header>
@@ -2715,12 +2742,14 @@
                                                 target="_blank"><span class="FooterLinks_socialIcon__MdMqQ"><span
                                                         class="_-6pfzC I-8PaC" aria-hidden="true"><span
                                                             class="rtl-icon"><svg fill="currentColor"
-                                                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                viewBox="0 0 32 32">
                                                                 <path fill-rule="evenodd"
                                                                     d="M14.707 6.293a1 1 0 0 1 0 1.414L7.414 15H27a1 1 0 1 1 0 2H7.414l7.293 7.293a1 1 0 0 1-1.414 1.414l-9-9a1 1 0 0 1 0-1.414l9-9a1 1 0 0 1 1.414 0"
                                                                     clip-rule="evenodd"></path>
-                                                            </svg></span><span class="ltr-icon"><svg fill="currentColor"
-                                                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+                                                            </svg></span><span class="ltr-icon"><svg
+                                                                fill="currentColor" xmlns="http://www.w3.org/2000/svg"
+                                                                viewBox="0 0 32 32">
                                                                 <path fill-rule="evenodd"
                                                                     d="M17.293 6.293a1 1 0 0 1 1.414 0l9 9a1 1 0 0 1 0 1.414l-9 9a1 1 0 0 1-1.414-1.414L24.586 17H5a1 1 0 1 1 0-2h19.586l-7.293-7.293a1 1 0 0 1 0-1.414"
                                                                     clip-rule="evenodd"></path>
@@ -2732,12 +2761,14 @@
                                                 target="_blank"><span class="FooterLinks_socialIcon__MdMqQ"><span
                                                         class="_-6pfzC I-8PaC" aria-hidden="true"><span
                                                             class="rtl-icon"><svg fill="currentColor"
-                                                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                viewBox="0 0 32 32">
                                                                 <path fill-rule="evenodd"
                                                                     d="M14.707 6.293a1 1 0 0 1 0 1.414L7.414 15H27a1 1 0 1 1 0 2H7.414l7.293 7.293a1 1 0 0 1-1.414 1.414l-9-9a1 1 0 0 1 0-1.414l9-9a1 1 0 0 1 1.414 0"
                                                                     clip-rule="evenodd"></path>
-                                                            </svg></span><span class="ltr-icon"><svg fill="currentColor"
-                                                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+                                                            </svg></span><span class="ltr-icon"><svg
+                                                                fill="currentColor" xmlns="http://www.w3.org/2000/svg"
+                                                                viewBox="0 0 32 32">
                                                                 <path fill-rule="evenodd"
                                                                     d="M17.293 6.293a1 1 0 0 1 1.414 0l9 9a1 1 0 0 1 0 1.414l-9 9a1 1 0 0 1-1.414-1.414L24.586 17H5a1 1 0 1 1 0-2h19.586l-7.293-7.293a1 1 0 0 1 0-1.414"
                                                                     clip-rule="evenodd"></path>
@@ -2749,12 +2780,14 @@
                                                 target="_blank"><span class="FooterLinks_socialIcon__MdMqQ"><span
                                                         class="_-6pfzC I-8PaC" aria-hidden="true"><span
                                                             class="rtl-icon"><svg fill="currentColor"
-                                                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                viewBox="0 0 32 32">
                                                                 <path fill-rule="evenodd"
                                                                     d="M14.707 6.293a1 1 0 0 1 0 1.414L7.414 15H27a1 1 0 1 1 0 2H7.414l7.293 7.293a1 1 0 0 1-1.414 1.414l-9-9a1 1 0 0 1 0-1.414l9-9a1 1 0 0 1 1.414 0"
                                                                     clip-rule="evenodd"></path>
-                                                            </svg></span><span class="ltr-icon"><svg fill="currentColor"
-                                                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+                                                            </svg></span><span class="ltr-icon"><svg
+                                                                fill="currentColor" xmlns="http://www.w3.org/2000/svg"
+                                                                viewBox="0 0 32 32">
                                                                 <path fill-rule="evenodd"
                                                                     d="M17.293 6.293a1 1 0 0 1 1.414 0l9 9a1 1 0 0 1 0 1.414l-9 9a1 1 0 0 1-1.414-1.414L24.586 17H5a1 1 0 1 1 0-2h19.586l-7.293-7.293a1 1 0 0 1 0-1.414"
                                                                     clip-rule="evenodd"></path>
@@ -2766,12 +2799,14 @@
                                                 target="_blank"><span class="FooterLinks_socialIcon__MdMqQ"><span
                                                         class="_-6pfzC I-8PaC" aria-hidden="true"><span
                                                             class="rtl-icon"><svg fill="currentColor"
-                                                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                viewBox="0 0 32 32">
                                                                 <path fill-rule="evenodd"
                                                                     d="M14.707 6.293a1 1 0 0 1 0 1.414L7.414 15H27a1 1 0 1 1 0 2H7.414l7.293 7.293a1 1 0 0 1-1.414 1.414l-9-9a1 1 0 0 1 0-1.414l9-9a1 1 0 0 1 1.414 0"
                                                                     clip-rule="evenodd"></path>
-                                                            </svg></span><span class="ltr-icon"><svg fill="currentColor"
-                                                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+                                                            </svg></span><span class="ltr-icon"><svg
+                                                                fill="currentColor" xmlns="http://www.w3.org/2000/svg"
+                                                                viewBox="0 0 32 32">
                                                                 <path fill-rule="evenodd"
                                                                     d="M17.293 6.293a1 1 0 0 1 1.414 0l9 9a1 1 0 0 1 0 1.414l-9 9a1 1 0 0 1-1.414-1.414L24.586 17H5a1 1 0 1 1 0-2h19.586l-7.293-7.293a1 1 0 0 1 0-1.414"
                                                                     clip-rule="evenodd"></path>
@@ -2787,6 +2822,20 @@
         </div>
         <div class=" css-1sg0k8w esj4ej70"></div>
     </div>
+
+    <div id="menu_mb">
+        <ul class="menu">
+            <li class="menu_mb__close">X</li>
+            @foreach ($menus_header as $menu)
+                <li class="menu__item is-leaf first leaf menu-mlid-18681">
+                    <a href="{{ $menu->link }}" title="{{ $menu->title }}"
+                        class="menu__link">{{ $menu->title }}
+                    </a>
+                </li>
+            @endforeach
+        </ul>
+    </div>
+
     <script src="{{ asset('admins/vendor/jquery-3.2.1.min.js') }}"></script>
 
     <style>
@@ -2815,6 +2864,137 @@
             backdrop-filter: blur(1px);
             transition: opacity 250ms;
         }
+
+        #menu_mb {
+            display: none ;
+            position: fixed;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            z-index: 1000000;
+            background: #333;
+            right: 0px;
+        }
+
+        #menu_mb {
+            position: fixed;
+
+            z-index: 10000;
+            pointer-events: none;
+            /* ẩn thì không bắt sự kiện */
+        }
+
+        /* overlay mờ */
+        #menu_mb::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, .5);
+            opacity: 0;
+            transition: opacity .28s ease;
+        }
+
+        /* panel menu (chính là ul.menu hiện có) */
+        #menu_mb .menu {
+            position: relative;
+
+            width: 100%;
+            height: 100%;
+            /* hoặc 85vw nếu muốn linh hoạt */
+
+            padding-top: 40px;
+            list-style: none;
+            overflow-y: auto;
+            background: #2c2e33;
+        }
+
+        /* khi mở */
+        #menu_mb.show {
+            pointer-events: auto;
+        }
+
+        #menu_mb.show::before {
+            opacity: 1;
+        }
+
+        #menu_mb.show .menu {
+            transform: translateX(0);
+        }
+
+        /* ========= Item & Link ========= */
+        #menu_mb .menu__item {
+            margin: 0;
+            border-bottom: 1px solid rgba(255, 255, 255, .08);
+        }
+
+        #menu_mb .menu__item:last-child {
+            border-bottom: 0;
+        }
+
+        #menu_mb .menu__link {
+            display: block;
+            padding: 14px 16px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            text-decoration: none;
+            line-height: 1.2;
+        }
+
+        #menu_mb .menu__link:hover {
+            background: #b794940f;
+        }
+
+        /* trạng thái active */
+        #menu_mb .menu__item.active>.menu__link,
+        #menu_mb .is-active>.menu__link {
+            color: #ffd166;
+        }
+
+        /* ========= Submenu (nếu có ul.menu lồng nhau) ========= */
+        #menu_mb .menu .menu {
+            position: static;
+            width: auto;
+            max-height: 0;
+            overflow: hidden;
+            margin: 0;
+            background: #23252a;
+            border-left: 3px solid rgba(255, 255, 255, .06);
+            transition: max-height .25s ease;
+        }
+
+        #menu_mb .menu__item.open>.menu {
+            max-height: 600px;
+        }
+
+        /* hoặc giá trị lớn hơn */
+
+        /* ========= Nút đóng (nếu bạn thêm .menu_mb__close trong #menu_mb) ========= */
+        #menu_mb .menu_mb__close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #2c2e33;
+            color: #fff;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .3);
+            cursor: pointer;
+        }
+
+        @media (max-width: 760px) {
+            #menu_mb.show {
+                display: block !important;
+            }
+
+            #menu_mb.hide {
+                display: none !important;
+            }
+        }
     </style>
     <script>
         $(document).ready(function() {
@@ -2823,6 +3003,57 @@
 
             })
         });
+    </script>
+    <script>
+        (() => {
+            const root = document.getElementById('menu_mb');
+            const panel = root.querySelector('.menu');
+            const btn = root.querySelector('.menu_mb__close');
+            const btn_open = document.querySelector('.menu-toggle');
+            const body = document.querySelector('body');
+
+            const open = () => {
+                root.classList.add('show');
+                document.documentElement.classList.add('mb-lock');
+            };
+            const close = () => {
+                root.classList.remove('show');
+                document.documentElement.classList.remove('mb-lock');
+            };
+
+            // Nút X
+            btn && btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                close();
+            });
+
+            btn_open.addEventListener('click', (e) => {
+                e.preventDefault();
+                open();
+            });
+
+
+
+            // Click ra ngoài panel (overlay) => đóng
+            root.addEventListener('click', (e) => {
+                if (!panel.contains(e.target)) close();
+            });
+            // Chặn sự kiện nổi bọt khi click trong panel
+            panel.addEventListener('click', (e) => e.stopPropagation());
+
+            // Phím ESC
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && root.classList.contains('show')) close();
+            });
+
+
+            // Expose để mở/toggle từ icon hamburger
+            window.menuMb = {
+                open,
+                close,
+                toggle: () => root.classList.toggle('show')
+            };
+        })();
     </script>
 </body>
 

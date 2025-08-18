@@ -15,17 +15,15 @@
                                 @if (!empty($post))
                                     <a href="{{ route('post', [$post->slug]) }}" class="show hide-scroll">
                                         <div class="logo">{{ $post->title }}</div>
-                                    </a>
+                                    </a> 
                                 @else
-                                    <a href="{{ url('/') }}" class="show hide-scroll">
-                                        <div class="logo">{{ $config_website?->website }}</div>
+                                    <a href="{{ url('/') }}" class="show_mobi  show-scroll">
+                                        <img style="max-height: 60px;" src="{!! getImageThumb($config_website?->logo) !!}" id="logo"
+                                            alt="{{ $config_website?->website }}">
                                     </a>
                                 @endif
 
-                                <a href="{{ url('/') }}" class="show_mobi  show-scroll">
-                                    <img style="max-height: 60px;" src="{!! getImageThumb($config_website?->logo) !!}" id="logo"
-                                        alt="{{ $config_website?->website }}">
-                                </a>
+
                             </div>
                         </div>
                         <div class="elementor-column elementor-col-50 elementor-inner-column elementor-element elementor-element-c3bec27"
@@ -38,7 +36,7 @@
                                         <div class="wdt-header-menu" data-menu="62">
                                             <div class="menu-container">
                                                 <ul id="menu-new-menu-2" class="wdt-primary-nav " data-menu="62">
-                                                    <li class="close-nav"><a href="javascript:void(0);"></a></li>
+                                                    <li class="close-nav"><a href="javascript:void(0);">X</a></li>
                                                     <li id="menu-item-2877"
                                                         class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-2877 menu-item-depth-0">
                                                         <a href="/" aria-current="page"><span
@@ -83,33 +81,13 @@
 </header>
 
 <script>
-    function scrollShowHide() {
-        var showScrollElements = document.querySelector('.show-scroll');
-        var hideScrollElements = document.querySelector('.hide-scroll');
-        const scrollTop = window.scrollY || document.documentElement.scrollTop;
-        const maxWidth = window.innerWidth;
+     
+    // window.addEventListener('scroll', function() {
+    //     scrollShowHide();
+    // });
 
-        // Chỉ áp dụng nếu màn hình nhỏ hơn hoặc bằng 760px
-        if (maxWidth <= 760) {
-            if (scrollTop > 60) {
-                if (showScrollElements) showScrollElements.style.display = 'block';
-                if (hideScrollElements) hideScrollElements.style.display = 'none';
-            } else {
-                if (showScrollElements) showScrollElements.style.display = 'none';
-                if (hideScrollElements) hideScrollElements.style.display = 'block';
-            }
-        } else {
-            // Ở desktop thì hiển thị mặc định
-            if (showScrollElements) showScrollElements.style.display = 'none';
-            if (hideScrollElements) hideScrollElements.style.display = 'block';
-        }
-    }
-    window.addEventListener('scroll', function() {
-        scrollShowHide();
-    });
-
-    // Ẩn ban đầu nếu cần
-    document.addEventListener('DOMContentLoaded', function() {
-        scrollShowHide()
-    });
+    // // Ẩn ban đầu nếu cần
+    // document.addEventListener('DOMContentLoaded', function() {
+    //     scrollShowHide()
+    // });
 </script>

@@ -82,7 +82,8 @@ body {
 @media screen and (max-width: 768px) {
     .logo {
         height: 100%;
-        font-size: 25px;
+        line-height: 60px;
+        font-size: 22px!important;
     }
 
     h2.elementor-heading-title {
@@ -807,7 +808,7 @@ h1 {
     }
 
     .elementor-col-50.ele-header {
-        width: 80%;
+        width: 90%;
     }
 }
 
