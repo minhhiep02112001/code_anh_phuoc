@@ -2376,8 +2376,8 @@
             width: 20px;
         }
 
-        .inner-box h4{
-            color:#fff;
+        .inner-box h4 {
+            color: #fff;
         }
     </style>
 </head>
@@ -2525,7 +2525,8 @@
                                             </figure>
                                             <div class="overlay-box">
                                                 <div class="content">
-                                                    <h4>{{ $item->title }}</h4><a href="#" class="overlay-link"></a>
+                                                    <h4>{{ $item->title }}</h4><a href="#"
+                                                        class="overlay-link"></a>
                                                 </div>
                                             </div>
                                         </div>
@@ -2602,19 +2603,23 @@
                                 <ul
                                     class="_5zC0N5 gap-default-150 direction-default-vertical display-default-inline-flex FooterLinks_gridItem__SwRrK">
                                     <li class="p_ehs5 title">
-                                        <p class="_-wKyRQ rfrdHQ font-default-body-m-semibold">About Blynz</p>
+                                        <p class="_-wKyRQ rfrdHQ font-default-body-m-semibold"> About
+                                            {{ $config_website->website ?? '' }}</p>
                                     </li>
                                     <li class="p_ehs5">
-                                        <p class="_-wKyRQ rfrdHQ font-default-body-s-regular"><a href="#"
+                                        <p class="_-wKyRQ rfrdHQ font-default-body-s-regular"><a
+                                                href="{{ route('page', ['about-us']) }}"
                                                 class="BaseAnchor_i-anh__wrapper__guUVX _Xd4TX util-focusRing-overrides _0HRiNX c2bV0y POrP8y"
-                                                data-qa="footer-careers" id="footer-careers" target="_blank">Careers</a>
+                                                title="About Us" data-qa="footer-careers" id="footer-careers"
+                                                target="_blank">About Us</a>
                                         </p>
                                     </li>
                                     <li class="p_ehs5">
-                                        <p class="_-wKyRQ rfrdHQ font-default-body-s-regular"><a href="#"
+                                        <p class="_-wKyRQ rfrdHQ font-default-body-s-regular"><a
+                                                href="{{ route('page', ['contact-us']) }}"
                                                 class="BaseAnchor_i-anh__wrapper__guUVX _Xd4TX util-focusRing-overrides _0HRiNX c2bV0y POrP8y"
                                                 data-qa="footer-customer-support" id="footer-customer-support"
-                                                target="_blank">Customer Support</a></p>
+                                                title="Contact Us " target="_blank">Contact Us</a></p>
                                     </li>
                                     <li class="p_ehs5">
                                         <p class="_-wKyRQ rfrdHQ font-default-body-s-regular"><a href="#"
@@ -2622,7 +2627,7 @@
                                                 data-qa="footer-blog" id="footer-blog" target="_self">Blog</a></p>
                                     </li>
                                     <li class="p_ehs5">
-                                        <p class="_-wKyRQ rfrdHQ font-default-body-s-regular"><a href="#"
+                                        <p class="_-wKyRQ rfrdHQ font-default-body-s-regular"><a href="/sitemap.xml"
                                                 class="BaseAnchor_i-anh__wrapper__guUVX _Xd4TX util-focusRing-overrides _0HRiNX c2bV0y POrP8y"
                                                 data-qa="footer-sitemap" id="footer-sitemap">Sitemap</a></p>
                                     </li>
@@ -2643,7 +2648,8 @@
                                     <li class="p_ehs5">
                                         <p class="_-wKyRQ rfrdHQ font-default-body-s-regular"><a href="#"
                                                 class="BaseAnchor_i-anh__wrapper__guUVX _Xd4TX util-focusRing-overrides _0HRiNX c2bV0y POrP8y"
-                                                data-qa="footer-pricing" id="footer-pricing" target="_self">Pricing</a>
+                                                data-qa="footer-pricing" id="footer-pricing"
+                                                target="_self">Pricing</a>
                                         </p>
                                     </li>
                                     <li class="p_ehs5">
@@ -2667,23 +2673,33 @@
                                         <p class="_-wKyRQ rfrdHQ font-default-body-m-semibold">Legal</p>
                                     </li>
                                     <li class="p_ehs5">
-                                        <p class="_-wKyRQ rfrdHQ font-default-body-s-regular"><a href="#"
+                                        <p class="_-wKyRQ rfrdHQ font-default-body-s-regular"><a
+                                                href="{{ route('page', ['terms-of-use']) }}"
                                                 class="BaseAnchor_i-anh__wrapper__guUVX _Xd4TX util-focusRing-overrides _0HRiNX c2bV0y POrP8y"
                                                 data-qa="footer-privacy-policy" id="footer-privacy-policy"
+                                                target="_blank">Terms of Use </a></p>
+                                    </li>
+                                    <li class="p_ehs5">
+                                        <p class="_-wKyRQ rfrdHQ font-default-body-s-regular"><a
+                                                href="{{ route('page', ['privacy-policy']) }}"
+                                                class="BaseAnchor_i-anh__wrapper__guUVX _Xd4TX util-focusRing-overrides _0HRiNX c2bV0y POrP8y"
+                                                data-qa="footer-service-terms" id="footer-service-terms"
                                                 target="_blank">Privacy Policy</a></p>
                                     </li>
                                     <li class="p_ehs5">
-                                        <p class="_-wKyRQ rfrdHQ font-default-body-s-regular"><a href="#"
+                                        <p class="_-wKyRQ rfrdHQ font-default-body-s-regular"><a
+                                                href="{{ route('page', ['terms-of-service']) }}"
                                                 class="BaseAnchor_i-anh__wrapper__guUVX _Xd4TX util-focusRing-overrides _0HRiNX c2bV0y POrP8y"
                                                 data-qa="footer-service-terms" id="footer-service-terms"
-                                                target="_blank">Terms of service</a></p>
+                                                target="_blank">Terms of
+                                                service</a></p>
                                     </li>
                                     <li class="p_ehs5">
-                                        <p class="_-wKyRQ rfrdHQ font-default-body-s-regular"><a href="#"
+                                        <p class="_-wKyRQ rfrdHQ font-default-body-s-regular"><a
+                                                href="{{ route('page', ['faq']) }}"
                                                 class="BaseAnchor_i-anh__wrapper__guUVX _Xd4TX util-focusRing-overrides _0HRiNX c2bV0y POrP8y"
-                                                data-qa="footer-use-terms" id="footer-use-terms" target="_blank">Terms
-                                                of
-                                                use</a></p>
+                                                data-qa="footer-use-terms" id="footer-use-terms"
+                                                target="_blank">FAQ</a></p>
                                     </li>
                                 </ul>
                             </div>
@@ -2801,8 +2817,8 @@
         }
     </style>
     <script>
-        $(document).ready(function () {
-            $("#open_menu, button.eqqze3d0").click(function () {
+        $(document).ready(function() {
+            $("#open_menu, button.eqqze3d0").click(function() {
                 $("#main-menu").toggleClass('css-1hd6k1h')
 
             })
