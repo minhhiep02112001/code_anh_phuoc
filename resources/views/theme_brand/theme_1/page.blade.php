@@ -2358,7 +2358,7 @@
                 top: 0;
                 left: 0;
                 right: 0;
-                z-index: 999999;
+                z-index: 9999;
                 background: #fff;
             }
         }
@@ -2393,7 +2393,7 @@
                             <img style="max-height: 50px;" src="{!! getImageThumb($config_website?->logo) !!}" id="logo"
                                 alt="{{ $config_website?->website }}">
                         </a>
-
+<button class="menu-toggle"> Menu</span></button>
                     </div>
                 </div>
             </header>
@@ -2408,7 +2408,7 @@
                     }
 
                     .box-content {
-                       
+
                         border-radius: 8px;
                         padding: 10px;
                         font-family: Arial, sans-serif;
@@ -2502,9 +2502,14 @@
                     .box-content a:hover {
                         text-decoration: underline;
                     }
-                    .text-center{
-            text-align: center;
-        }
+
+                    .text-center {
+                        text-align: center;
+                    }
+
+                    div#content {
+                        margin-top: 80px;
+                    }
                 </style>
                 <div id="content" class="column main-content" role="main" tabindex="-1">
                     <h1 class="text-center">{{ $page->title }}</h1>
@@ -2531,19 +2536,23 @@
                                 <ul
                                     class="_5zC0N5 gap-default-150 direction-default-vertical display-default-inline-flex FooterLinks_gridItem__SwRrK">
                                     <li class="p_ehs5 title">
-                                        <p class="_-wKyRQ rfrdHQ font-default-body-m-semibold">About Blynz</p>
+                                        <p class="_-wKyRQ rfrdHQ font-default-body-m-semibold"> About
+                                            {{ $config_website->website ?? '' }}</p>
                                     </li>
                                     <li class="p_ehs5">
-                                        <p class="_-wKyRQ rfrdHQ font-default-body-s-regular"><a href="#"
+                                        <p class="_-wKyRQ rfrdHQ font-default-body-s-regular"><a
+                                                href="{{ route('page', ['about-us']) }}"
                                                 class="BaseAnchor_i-anh__wrapper__guUVX _Xd4TX util-focusRing-overrides _0HRiNX c2bV0y POrP8y"
-                                                data-qa="footer-careers" id="footer-careers" target="_blank">Careers</a>
+                                                title="About Us" data-qa="footer-careers" id="footer-careers"
+                                                target="_blank">About Us</a>
                                         </p>
                                     </li>
                                     <li class="p_ehs5">
-                                        <p class="_-wKyRQ rfrdHQ font-default-body-s-regular"><a href="#"
+                                        <p class="_-wKyRQ rfrdHQ font-default-body-s-regular"><a
+                                                href="{{ route('page', ['contact-us']) }}"
                                                 class="BaseAnchor_i-anh__wrapper__guUVX _Xd4TX util-focusRing-overrides _0HRiNX c2bV0y POrP8y"
                                                 data-qa="footer-customer-support" id="footer-customer-support"
-                                                target="_blank">Customer Support</a></p>
+                                                title="Contact Us " target="_blank">Contact Us</a></p>
                                     </li>
                                     <li class="p_ehs5">
                                         <p class="_-wKyRQ rfrdHQ font-default-body-s-regular"><a href="#"
@@ -2551,7 +2560,7 @@
                                                 data-qa="footer-blog" id="footer-blog" target="_self">Blog</a></p>
                                     </li>
                                     <li class="p_ehs5">
-                                        <p class="_-wKyRQ rfrdHQ font-default-body-s-regular"><a href="#"
+                                        <p class="_-wKyRQ rfrdHQ font-default-body-s-regular"><a href="/sitemap.xml"
                                                 class="BaseAnchor_i-anh__wrapper__guUVX _Xd4TX util-focusRing-overrides _0HRiNX c2bV0y POrP8y"
                                                 data-qa="footer-sitemap" id="footer-sitemap">Sitemap</a></p>
                                     </li>
@@ -2597,24 +2606,33 @@
                                         <p class="_-wKyRQ rfrdHQ font-default-body-m-semibold">Legal</p>
                                     </li>
                                     <li class="p_ehs5">
-                                        <p class="_-wKyRQ rfrdHQ font-default-body-s-regular"><a href="#"
+                                        <p class="_-wKyRQ rfrdHQ font-default-body-s-regular"><a
+                                                href="{{ route('page', ['terms-of-use']) }}"
                                                 class="BaseAnchor_i-anh__wrapper__guUVX _Xd4TX util-focusRing-overrides _0HRiNX c2bV0y POrP8y"
                                                 data-qa="footer-privacy-policy" id="footer-privacy-policy"
+                                                target="_blank">Terms of Use </a></p>
+                                    </li>
+                                    <li class="p_ehs5">
+                                        <p class="_-wKyRQ rfrdHQ font-default-body-s-regular"><a
+                                                href="{{ route('page', ['privacy-policy']) }}"
+                                                class="BaseAnchor_i-anh__wrapper__guUVX _Xd4TX util-focusRing-overrides _0HRiNX c2bV0y POrP8y"
+                                                data-qa="footer-service-terms" id="footer-service-terms"
                                                 target="_blank">Privacy Policy</a></p>
                                     </li>
                                     <li class="p_ehs5">
-                                        <p class="_-wKyRQ rfrdHQ font-default-body-s-regular"><a href="#"
+                                        <p class="_-wKyRQ rfrdHQ font-default-body-s-regular"><a
+                                                href="{{ route('page', ['terms-of-service']) }}"
                                                 class="BaseAnchor_i-anh__wrapper__guUVX _Xd4TX util-focusRing-overrides _0HRiNX c2bV0y POrP8y"
                                                 data-qa="footer-service-terms" id="footer-service-terms"
-                                                target="_blank">Terms of service</a></p>
+                                                target="_blank">Terms of
+                                                service</a></p>
                                     </li>
                                     <li class="p_ehs5">
-                                        <p class="_-wKyRQ rfrdHQ font-default-body-s-regular"><a href="#"
+                                        <p class="_-wKyRQ rfrdHQ font-default-body-s-regular"><a
+                                                href="{{ route('page', ['faq']) }}"
                                                 class="BaseAnchor_i-anh__wrapper__guUVX _Xd4TX util-focusRing-overrides _0HRiNX c2bV0y POrP8y"
                                                 data-qa="footer-use-terms" id="footer-use-terms"
-                                                target="_blank">Terms
-                                                of
-                                                use</a></p>
+                                                target="_blank">FAQ</a></p>
                                     </li>
                                 </ul>
                             </div>
@@ -2710,6 +2728,20 @@
         </div>
         <div class=" css-1sg0k8w esj4ej70"></div>
     </div>
+
+    <div id="menu_mb">
+        <ul class="menu">
+            <li class="menu_mb__close">X</li>
+            @foreach ($menus_header as $menu)
+                <li class="menu__item is-leaf first leaf menu-mlid-18681">
+                    <a href="{{ $menu->link }}" title="{{ $menu->title }}"
+                        class="menu__link">{{ $menu->title }}
+                    </a>
+                </li>
+            @endforeach
+        </ul>
+    </div>
+
     <script src="{{ asset('admins/vendor/jquery-3.2.1.min.js') }}"></script>
 
     <style>
@@ -2738,6 +2770,162 @@
             backdrop-filter: blur(1px);
             transition: opacity 250ms;
         }
+
+        #menu_mb {
+            display: none;
+            position: fixed;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            z-index: 1000000;
+            background: #333;
+            right: 0px;
+        }
+
+        #menu_mb {
+            position: fixed;
+
+            z-index: 10000;
+            pointer-events: none;
+            /* ẩn thì không bắt sự kiện */
+        }
+
+        /* overlay mờ */
+        #menu_mb::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, .5);
+            opacity: 0;
+            transition: opacity .28s ease;
+        }
+
+        /* panel menu (chính là ul.menu hiện có) */
+        #menu_mb .menu {
+            position: relative;
+
+            width: 100%;
+            height: 100%;
+            /* hoặc 85vw nếu muốn linh hoạt */
+
+            padding-top: 40px;
+            list-style: none;
+            overflow-y: auto;
+            background: #2c2e33;
+        }
+
+        /* khi mở */
+        #menu_mb.show {
+            pointer-events: auto;
+        }
+
+        #menu_mb.show::before {
+            opacity: 1;
+        }
+
+        #menu_mb.show .menu {
+            transform: translateX(0);
+        }
+
+        /* ========= Item & Link ========= */
+        #menu_mb .menu__item {
+            margin: 0;
+            border-bottom: 1px solid rgba(255, 255, 255, .08);
+        }
+
+        #menu_mb .menu__item:last-child {
+            border-bottom: 0;
+        }
+
+        #menu_mb .menu__link {
+            display: block;
+            padding: 14px 16px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            text-decoration: none;
+            line-height: 1.2;
+        }
+
+        #menu_mb .menu__link:hover {
+            background: #b794940f;
+        }
+
+        /* trạng thái active */
+        #menu_mb .menu__item.active>.menu__link,
+        #menu_mb .is-active>.menu__link {
+            color: #ffd166;
+        }
+
+        /* ========= Submenu (nếu có ul.menu lồng nhau) ========= */
+        #menu_mb .menu .menu {
+            position: static;
+            width: auto;
+            max-height: 0;
+            overflow: hidden;
+            margin: 0;
+            background: #23252a;
+            border-left: 3px solid rgba(255, 255, 255, .06);
+            transition: max-height .25s ease;
+        }
+
+        #menu_mb .menu__item.open>.menu {
+            max-height: 600px;
+        }
+
+        /* hoặc giá trị lớn hơn */
+
+        /* ========= Nút đóng (nếu bạn thêm .menu_mb__close trong #menu_mb) ========= */
+        #menu_mb .menu_mb__close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #2c2e33;
+            color: #fff;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .3);
+            cursor: pointer;
+        }
+
+       
+
+        .menu-toggle {
+            float: right;
+            font-size: 13px;
+            line-height: 1.2;
+            display: none;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: rgb(52, 52, 52);
+            -webkit-text-fill-color: rgb(52, 52, 52);
+            letter-spacing: 0.05em;
+            background: transparent;
+            text-decoration: none;
+            transition: 0.2s;
+            border-width: 2px;
+            border-style: solid;
+            border-color: rgb(52, 52, 52);
+            padding: 5px 10px;
+        }
+
+         @media (max-width: 760px) {
+            #menu_mb.show {
+                display: block !important;
+            }
+
+            #menu_mb.hide {
+                display: none !important;
+            }
+            
+            .menu-toggle {
+                display: inline-block;
+            }
+        }
     </style>
     <script>
         $(document).ready(function() {
@@ -2746,6 +2934,57 @@
 
             })
         });
+    </script>
+    <script>
+        (() => {
+            const root = document.getElementById('menu_mb');
+            const panel = root.querySelector('.menu');
+            const btn = root.querySelector('.menu_mb__close');
+            const btn_open = document.querySelector('.menu-toggle');
+            const body = document.querySelector('body');
+
+            const open = () => {
+                root.classList.add('show');
+                document.documentElement.classList.add('mb-lock');
+            };
+            const close = () => {
+                root.classList.remove('show');
+                document.documentElement.classList.remove('mb-lock');
+            };
+
+            // Nút X
+            btn && btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                close();
+            });
+
+            btn_open.addEventListener('click', (e) => {
+                e.preventDefault();
+                open();
+            });
+
+
+
+            // Click ra ngoài panel (overlay) => đóng
+            root.addEventListener('click', (e) => {
+                if (!panel.contains(e.target)) close();
+            });
+            // Chặn sự kiện nổi bọt khi click trong panel
+            panel.addEventListener('click', (e) => e.stopPropagation());
+
+            // Phím ESC
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && root.classList.contains('show')) close();
+            });
+
+
+            // Expose để mở/toggle từ icon hamburger
+            window.menuMb = {
+                open,
+                close,
+                toggle: () => root.classList.toggle('show')
+            };
+        })();
     </script>
 </body>
 
