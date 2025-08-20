@@ -71,7 +71,7 @@ class ConvertData extends Command
             $thumbs = Media::where('post_id', $post->id)->orderBy('id', 'asc')->get();
             if ($thumbs->isNotEmpty()) {
                 if ($thumbs->where('type', 'banner')->count() == 0) {
-                    $arrs = $thumbs->whereIn('type', ['photo', 'menu'])->take(3)->pluck('id')->toArray();
+                    $arrs = $thumbs->whereIn('type', ['photo', 'menu'])->take(3)->pluck('id')->values()->toArray();
                     Media::whereIn('id',  $arrs)->update(['type' => 'banner']);
                     echo "\n Update banner";
                 }
