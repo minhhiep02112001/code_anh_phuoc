@@ -155,7 +155,7 @@
                      <div
                          class="elementor-element elementor-element-164478d animated-fast wdt-custom-hover-image-style elementor-hidden-tablet elementor-widget elementor-widget-image">
                          <div class="elementor-widget-container">
-                             <img decoding="async" width="500" height="500" loading="lazy"
+                             <img decoding="async" width="500" height="500" loading="lazy" alt="{{ $post->title }}"
                                  src="{{ getImageThumb($post->image_block_1, 500, 500) }}"
                                  class="attachment-full size-full wp-image-3006" alt="" />
                          </div>

@@ -73,6 +73,7 @@ class ConvertData extends Command
                 if ($thumbs->where('type', 'banner')->count() == 0) {
                     $arrs = $thumbs->whereIn('type', ['photo', 'menu'])->take(3)->pluck('id')->toArray();
                     Media::whereIn('id',  $arrs)->update(['type' => 'banner']);
+                    echo "\n Update banner";
                 }
 
                 $imgBlock = Media::where(['post_id' => $post->id, 'type' =>  'block'])->first();
@@ -83,6 +84,7 @@ class ConvertData extends Command
                     Media::where('id',  $imgBlock->id)->update(['type' => 'block']);
                     $data_update['image_block_1'] = $imgBlock->thumbnail ?? '';
                     $data_update['is_thumb_block_1'] = 0;
+                    echo "\n Update imgBlock";
                 }
             }
 
