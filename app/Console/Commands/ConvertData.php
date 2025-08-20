@@ -54,12 +54,13 @@ class ConvertData extends Command
         foreach ($datas as $data) {
             if (empty($data->slug))  $data->slug = \Str::slug($data->key_word);
             $post = Post::firstOrCreate(['slug' => $data->slug], ['title' => $data->key_word, 'slug' => $data->slug]);
-            
+
             $data_update = [
                 'is_thumb_block_1' => 1,
                 'is_thumbnail' => 1
             ];
             $thumnail_post = str_replace(['storage', '//'], '', trim($post->thumbnail ?? '', '/'));
+            $thumnail_image_block_1 = str_replace(['storage', '//'], '', trim($$post->image_block_1 ?? '', '/'));
 
             if ((empty($thumnail_post) || !Storage::disk('public')->exists($thumnail_post)) && !empty($data->thumbnail)) { // download_image
                 $data_update['thumbnail'] = saveImageUrlStorage($data->thumbnail, "photos/nails/{$post->slug}",   "thumbnail.jpg");
@@ -73,14 +74,14 @@ class ConvertData extends Command
                 if ($thumbs->where('type', 'banner')->count() == 0) {
                     $arrs = $thumbs->whereIn('type', ['photo', 'menu'])->take(3)->pluck('id')->values()->toArray();
                     Media::whereIn('id',  $arrs)->update(['type' => 'banner']);
-                    echo "\n Update banner";
+                    echo "\n Update 3 banner";
                 }
 
                 $imgBlock = Media::where(['post_id' => $post->id, 'type' =>  'block'])->first();
                 if (empty($imgBlock)) {
                     $imgBlock = Media::where('post_id', $post->id)->whereIn('type', ['photo', 'menu'])->first();
                 }
-                if (!empty($imgBlock)) {
+                if (!empty($imgBlock) || !Storage::disk('public')->exists($thumnail_image_block_1)) {
                     Media::where('id',  $imgBlock->id)->update(['type' => 'block']);
                     $data_update['image_block_1'] = $imgBlock->thumbnail ?? '';
                     $data_update['is_thumb_block_1'] = 0;
