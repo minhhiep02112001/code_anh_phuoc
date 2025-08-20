@@ -15,7 +15,7 @@ class ConvertData extends Command
      *
      * @var string
      */
-    protected $signature = 'convert:data {--function=}';
+    protected $signature = 'convert:data {--function=} {--status=}';
     /**
      * The console command description.
      *
@@ -54,8 +54,6 @@ class ConvertData extends Command
         foreach ($datas as $data) {
             if (empty($data->slug))  $data->slug = \Str::slug($data->key_word);
             $post = Post::firstOrCreate(['slug' => $data->slug], ['title' => $data->key_word, 'slug' => $data->slug]);
-           
-            if (!empty($post->is_status)) continue;
             
             $data_update = [
                 'is_thumb_block_1' => 1,
