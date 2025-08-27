@@ -102,6 +102,7 @@ class KeywordController extends BaseAdminController
             $failureCount = $result['failureCount'] ?? 0;
 
             $count = $this->_repository->count_customer(['is_status' => 0]);
+            @unlink(public_path($file));
             return response()->json([
                 'status' => 'success',
                 'message' => "Dữ liệu đã được nhập thành công! Dòng thành công: $successCount, Dòng lỗi: $failureCount, Bạn cần chờ (" . round($count / 2) . ")phút để crawler."

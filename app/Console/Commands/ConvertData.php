@@ -15,7 +15,7 @@ class ConvertData extends Command
      *
      * @var string
      */
-    protected $signature = 'convert:data {--function=}';
+    protected $signature = 'convert:data {--function=} {--status=}';
     /**
      * The console command description.
      *
@@ -167,7 +167,6 @@ class ConvertData extends Command
         die("Done All");
     }
 
-    
     public function getRandomTheme()
     {
         $arr = config('theme_colors.colors');

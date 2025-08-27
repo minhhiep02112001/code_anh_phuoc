@@ -64,7 +64,7 @@
                                             <div class="header__logo">
                                                 <img width="132px"
                                                     src="{{ getImageThumb($post->thumbnail, 200, 200) }}"
-                                                    alt="Le Baratin Menu">
+                                                    alt="{{ $post->title }}">
                                             </div>
                                             <div class="header__info">
                                                 <h1 class="header__restaurant-name">{{ $post->title }}</h1>

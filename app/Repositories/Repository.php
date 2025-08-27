@@ -95,4 +95,9 @@ abstract class Repository extends BaseRepository
 
         return $queryBuilder->select($select)->offset($offset)->limit($limit)->get();
     }
+
+    public function deleteAll(array $ids)
+    {
+        return $this->model->whereIn('id', $ids)->delete();
+    }
 }
