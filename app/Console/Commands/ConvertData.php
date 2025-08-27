@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Models\About;
+use App\Models\Crawler;
 use App\Models\Media;
 use App\Models\Post;
 use Illuminate\Console\Command;
