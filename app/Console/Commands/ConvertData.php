@@ -42,7 +42,7 @@ class ConvertData extends Command
     }
 
 
-
+    //  php artisan convert:data --function=updatePost
 
     public function updatePost()
     {
@@ -54,10 +54,13 @@ class ConvertData extends Command
         ])->get();
 
         foreach ($datas as $data) {
-            try { 
+            try {
                 $data->slug = \Str::slug($data->key_word);
                 $post = Post::firstOrCreate(['slug' => $data->slug], ['title' => $data->key_word, 'slug' => $data->slug]);
-                if (!empty($post->is_status)) continue;
+                if (!empty($post->is_status)) {
+                    Crawler::where('id', $data->id)->update(['relate_id' => $post->id, 'is_convert' => 1]);
+                    continue;
+                }
                 echo "\n Start " . $data->key_word;
 
                 $data_update = [
