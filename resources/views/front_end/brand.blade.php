@@ -39,7 +39,7 @@
                                     <a href="#about"
                                         class="navigation__item">{{ __('config_data.pages.menus.about') }}</a>
                                     {{-- @if (!empty($menus)) --}}
-                                    <a href="{{ route('menu', [$post->slug]) }}" class="navigation__item">
+                                    <a href="#menu" class="navigation__item">
                                         {{ __('config_data.pages.menus.menu') }}
                                     </a>
                                     {{-- @endif --}}
@@ -101,13 +101,13 @@
                                                     {{ __('config_data.pages.menus.about') }}
                                                 </a>
                                                 {{-- @if (!empty($menus)) --}}
-                                                <a href="{{ route('menu', [$post->slug]) }}" data-id="about"
+                                                <a href="#menu" data-id="menu"
                                                     class="navigation__item ">
                                                     {{ __('config_data.pages.menus.menu') }}
                                                 </a>
                                                 {{-- @endif --}}
 
-                                                <a href="#photo" data-id="about" class="navigation__item ">
+                                                <a href="#photo" data-id="photo" class="navigation__item ">
                                                     {{ __('config_data.pages.menus.photo') }}
                                                 </a>
 
