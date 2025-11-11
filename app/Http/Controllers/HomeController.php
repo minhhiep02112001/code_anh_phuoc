@@ -112,7 +112,7 @@ class HomeController extends Controller
                 'data_id' => $post->id
             ])->limit(5)->get();
         }
-        $view = $post->type == 'top_list' ? 'theme_brand.theme_1.topList' : 'theme_brand.theme_1.brand';
+        $view = $post->type == 'top_list' ? 'theme_brand.theme_1.topList' : 'theme_brand.theme.brand';
         return view($view, $data);
     }
 

@@ -8,29 +8,29 @@ return [
     ],
 
     'pages' => [
-        
+
         'home' => [
             'title_banner' => 'Pantaðu næsta máltíð þína',
             'des_banner' => 'Veitingastaðir Nálægt er þinn uppspretta fyrir veitingastaðamatseðla',
             'placeholder_search' => 'Sláðu inn nafn veitingastaðar eða borgar',
             'title_after_banner' => 'Hvernig það virkar',
-            
+
             'title_block_1' => 'Skoðaðu staðbundna matseðla',
             'des_block_1' => 'Skoðaðu matseðla vinsælla veitingastaða í nágrenninu.',
-            
+
             'title_block_2' => 'Pantaðu heimsendingu eða til að taka með',
             'des_block_2' => 'Njóttu þín á uppáhalds veitingastaðnum þínum eða uppgötvaðu nýja bragði.',
-            
+
             'title_block_3' => 'Auðvelt í notkun, alls staðar og hvenær sem er',
             'des_block_3' => 'Matseðlar, upplýsingar um veitingastaði og pöntun – allt á einum stað.',
-            
+
             'title_list_post' => 'Vinsælir veitingastaðir',
 
             'title_footer_end' => 'Leggðu til breytingu',
             'des_footer_end' => 'Þetta er ekki opinbera vefsíðan. Efnið er uppfært af samfélaginu. Ef þú ert eigandinn, vinsamlegast'
-      
+
         ],
-        
+
         'menus' => [
             '_home' => 'Home',
             'about' => 'About',
@@ -44,9 +44,9 @@ return [
         'brand' => [
             'banner_button_call' => 'Get A Reservation Now',
             'banner_button_view_menu' => 'View menu',
-            
+
             'about_title' => 'Hello dear',
-            'about_welcome' => 'Welcome, :name', 
+            'about_welcome' => 'Welcome, :name',
             'about_button' => 'SEE MORE',
 
             'suggest_title' => 'Suggestions',
@@ -57,16 +57,22 @@ return [
 
             'footer_title_address' => 'Our address',
             'footer_view_map' => 'VIEW ON MAP',
-
+            'title_footer_end' => '',
+            'des_footer_end' => '',
             'open_hour' => 'Open Hours',
-
+            'location' => 'Location',
             'footer_title_contact_us' => 'Contact us',
             'footer_email' => 'Email',
             'footer_phone' => 'Phone',
             'footer_button_see_menu' => 'SEE MENU',
-            'footer_button_sendamessage' => 'SEND A MESSAGE',
+            'footer_button_sendamessage' => 'SEND A MESSAGE', 
         ],
 
         'page' => [],
+        'config_data' => [
+        'footer_hour_open' => 'Horaires',
+        'footer_contact_detail' => 'Contactez-nous',
+        'footer_content_suggest' => "Ce n'est pas le site officiel. Le contenu est mis à jour par la communauté. Si vous êtes le propriétaire, veuillez nous envoyer un e-mail afin que nous puissions modifier le contenu.",
+    ],  
     ]
 ];
