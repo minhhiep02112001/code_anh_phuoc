@@ -39,7 +39,7 @@ class HomeController extends Controller
         // get sản phẩm bestseller config từ admin:
         $data = [];
         $page = $request->page ?? 1;
-        $filterBrand = ['is_status' => 0, 'type' => 'brand'];
+        $filterBrand = ['is_status' => 1, 'type' => 'brand'];
         if (!empty($language)) {
             $filterBrand['language_code'] = $language;
             $data['language'] = $lang = $this->languageRepository->findCode($language);
@@ -79,8 +79,8 @@ class HomeController extends Controller
     public function post($slug, $id = 0)
     {
         $post = $this->postRepository->findByField('slug', $slug)->first();
-        // if (empty($post) || $post->is_status != 1)
-        //     return abort(404);
+        if (empty($post) || $post->is_status != 1)
+            return abort(404);
         $medias = $post->media()->select(['position', 'type', 'thumbnail'])->get()->groupBy('type');
 
         $SEO = [
