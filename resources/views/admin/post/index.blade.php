@@ -28,7 +28,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-body p-1 pt-2">
+                <div class="card-body p-1 pt-2" id="data-body">
                     <div class="collapse" id="formSearch">
                         <form action="" id="form-filter-data" class="p-1 border rounded bg-light">
                             <fieldset>
@@ -89,7 +89,7 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-12">
-                                        <button type="submit" class=" btn btn-primary btn-block btn-sm">Tìm kiếm
+                                        <button type="submit" class="btn btn-primary btn-block btn-sm">Tìm kiếm
                                         </button>
                                     </div>
                                 </div>
@@ -158,9 +158,9 @@
                     render: function(t, e, item) {
                         let content = "<ul>";
                         // content += `<li>Sub: ${item.sub ||''}</li>`;
+                        content += `<li>Language: <b class="em-language" data-code="${item.language_code || ''}">${item.language_code || ''}</b></li>`;
                         content += `<li>Address: ${item.address  || ''}</li>`;
                         content += `<li>Review google: ${item.review_google || 0}</li>`;
-                        content += `<li>Review yelp: ${item.review_yelp || 0}</li>`;
                         if(item.is_thumbnail) content += `<li class="badge-warning">Thiếu thumbnail</li>`;
                         if(item.is_thumb_block_1) content += `<li class="badge-warning">Thiếu thumbnail block</li>`;
                         content += "</ul>";
@@ -232,149 +232,22 @@
                         type: "GET",
                         dataType: "JSON",
                         success: function(response) {
-                            $.each(response.data_info, function(key, value) {
-                                let element = modal_form.find('[name="' + key +
-                                    '"]');
-                                if (element.hasClass('tinymce')) {
-                                    const id = element.attr('id');
-                                    setTimeout(() => {
-                                        if (id && tinymce.get(id)) {
-                                            tinymce.get(id).setContent(
-                                                value ?? '');
-                                        }
-                                    }, 200); // hoặc 300 nếu vẫn chưa ăn
-                                } else {
-                                    $(element).val(value);
-                                }
-                            });
 
-                            let content_photo = modal_form.find(
-                                '[name="content_photo"]');
-                            let content_footer = modal_form.find(
-                                '[name="content_footer"]');
-                            let time_open = modal_form.find(
-                                '[name="time_open"]');
-                            let content_block_1 = modal_form.find(
-                                '[name="content_block_1"]');
-                            let content_block_2 = modal_form.find(
-                                '[name="content_block_2"]');
-                            if (response.data_info.category_id && $('#category_id')
-                                .length > 0) {
-                                var newOption = new Option(response.data_info
-                                    .category_id, response.data_info.category_id,
-                                    true,
-                                    true);
-                                // Append it to the select
-                                $('#category_id').append(newOption).trigger('change');
-                            }
+                            AJAX_CRUD_MODAL.fillFormByData(modal_form, response
+                                ?.data_info || {},
+                                function(key, value, element) {
 
-                            if (response.data_info.thumbnail) {
-                                let parent_thumb = modal_form.find(
-                                    'div[data-field-name="thumbnail"] .upload-box');
-                                parent_thumb.find('img').addClass('show').attr('src',
-                                    FUNC.getImageThumb(response.data_info.thumbnail)
-                                );
-                                parent_thumb.append(
-                                    `<input type="hidden" name="thumbnail" value="${response.data_info.thumbnail}">`
-                                );
-                            }
-                            if (response.data_info.thumbnail) {
-                                let parent_thumb = modal_form.find(
-                                    'div[data-field-name="thumbnail"] .upload-box');
-                                parent_thumb.find('img').addClass('show').attr('src',
-                                    FUNC.getImageThumb(response.data_info.thumbnail)
-                                );
-                                parent_thumb.append(
-                                    `<input type="hidden" name="thumbnail" value="${response.data_info.thumbnail}">`
-                                );
-                            }
-                            if (response.data_info.image_block_1) {
-                                let parent_thumb = modal_form.find(
-                                    'div[data-field-name="image_block_1"] .upload-box'
-                                );
-                                parent_thumb.find('img').addClass('show').attr('src',
-                                    FUNC.getImageThumb(response.data_info
-                                        .image_block_1)
-                                );
-                                parent_thumb.append(
-                                    `<input type="hidden" name="image_block_1" value="${response.data_info.image_block_1}">`
-                                );
-                            }
-                            if (response.data_info.image_block_2) {
-                                let parent_thumb = modal_form.find(
-                                    'div[data-field-name="image_block_2"] .upload-box'
-                                );
-                                parent_thumb.find('img').addClass('show').attr('src',
-                                    FUNC.getImageThumb(response.data_info
-                                        .image_block_2)
-                                );
-                                parent_thumb.append(
-                                    `<input type="hidden" name="image_block_2" value="${response.data_info.image_block_2}">`
-                                );
-                            }
-                            if (response.data_info.logo_share) {
-                                let parent_thumb = modal_form.find(
-                                    'div[data-field-name="logo_share"] .upload-box');
-                                parent_thumb.find('img').addClass('show').attr('src',
-                                    FUNC.getImageThumb(response.data_info
-                                        .logo_share)
-                                );
-                                parent_thumb.append(
-                                    `<input type="hidden" name="logo_share" value="${response.data_info.logo_share}">`
-                                );
-                            }
+                                    // 🔥 đặt xử lý custom ở đây
+                                    // ví dụ: nếu key === 'status' muốn toggle switch
+                                    // if (key === 'status') {
+                                    //     element.prop("checked", value == 1);
+                                    //     return false; // override → không chạy xử lý mặc định
+                                    // }
 
-                            if (response.data_info.thumbnails) {
-                                var file_paths = response.data_info.thumbnails.map(
-                                    (item) => item.thumbnail
-                                );
-                                // Update input value and preview 
-                                let _parent_dom = $('div[data-field-name="thumbnails"]')
-                                    .closest(
-                                        ".gallery-upload");
-                                if (_parent_dom.find(".gallery-list").length == 0) {
-                                    $(_parent_dom).append(
-                                        '<div class="gallery-list p-1"></div>'
-                                    );
-                                }
-                                FUNC.showGallery(
-                                    _parent_dom.find(".gallery-list"),
-                                    'thumbnails',
-                                    file_paths
-                                );
-                            }
 
-                            if (response.data_info.banners) {
-                                var file_paths = response.data_info.banners.map(
-                                    (item) => item.thumbnail
-                                );
-                                // Update input value and preview 
-                                let _parent_dom = $('div[data-field-name="banners"]')
-                                    .closest(
-                                        ".gallery-upload");
-                                if (_parent_dom.find(".gallery-list").length == 0) {
-                                    $(_parent_dom).append(
-                                        '<div class="gallery-list p-1"></div>'
-                                    );
-                                }
-                                FUNC.showGallery(
-                                    _parent_dom.find(".gallery-list"),
-                                    'banners',
-                                    file_paths
-                                );
-                            }
+                                });
 
-                            if (response.data_info.config_social) {
-                                for (let element in response.data_info.config_social) {
-                                    let _val = response.data_info.config_social[
-                                        element] ?? '';
-                                    if ($(`[name="config_social[${element}]"]`).length >
-                                        0 && _val) {
-                                        $(`[name="config_social[${element}]"]`).val(
-                                            _val)
-                                    }
-                                }
-                            }
+
                             modal_form.modal('show');
                         },
                         error: function(jqXHR, textStatus, errorThrown) {

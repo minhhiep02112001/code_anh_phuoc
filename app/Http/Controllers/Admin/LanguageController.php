@@ -35,10 +35,10 @@ class LanguageController extends BaseAdminController
         $rows = [];
         if (!empty($list)) foreach ($list as $item) {
             $title_link = $item->title;
-            // if ($item->is_status == 1) {
-            //     $route = ($item->type == 'product') ? route('language', ['slug' => $item->slug, 'id' => $item->id]) : route('language.post', ['slug' => $item->slug, 'id' => $item->id]);
-            //     $title_link = "<a target='_blank' href='{$route}' title='{$item->title}'>{$item->title}</a>";
-            // }
+            if ($item->is_status == 1) {
+                $route =  route('language', ['slug' => $item->code]);
+                $title_link = "<a target='_blank' href='{$route}' title='{$item->title}'>{$item->title}</a>";
+            }
             $row = array();
             $row['checkID'] = $item->id;
             $row['id'] = $item->id;

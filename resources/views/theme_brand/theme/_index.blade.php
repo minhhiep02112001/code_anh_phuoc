@@ -4,8 +4,7 @@
 @endphp
 
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
+<html lang="{{ str_replace('_', '-', $language->lang ?? app()->getLocale()) }}" dir="ltr"></html>
 <head>
     <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">

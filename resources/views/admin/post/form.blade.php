@@ -61,11 +61,6 @@
                             <label>Nội dung</label>
                             <textarea name="content" id="content" placeholder="Nội dung" class="form-control tinymce" rows="5"></textarea>
                         </div>
-
-
-
-
-
                         <fieldset>
                             <legend class="w-auto ">Content footer:</legend>
                             <div class="form-group">
@@ -74,6 +69,13 @@
                         </fieldset>
                     </div>
                     <div class="col-sm-4 col-xs-12">
+                        <div class="form-group">
+                            <label>Thuộc Quốc Gia:</label>
+                            <select class="form-control select2_suggest em-language" id="language_code" name="language_code"
+                                data-module="language" style="width: 100%;">
+                            </select>
+                        </div>
+                        
                         <div class="form-group">
                             <label for="thumbnail">Ảnh đại diện </label>
                             <!-- Single File Upload -->

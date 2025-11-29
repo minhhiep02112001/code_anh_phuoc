@@ -13,6 +13,12 @@
 
                 </li> --}}
 
+                 <li class="{{ \Request::route()->getName() == 'admin.language.index' ? 'active' : '' }}">
+                    <a href="{{ route('admin.language.index') }}" title="Quản lý language"> <i
+                            class="fas fa-table"></i><span>Quản lý
+                            language</span></a>
+                </li>
+
                 <li class="{{ \Request::route()->getName() == 'admin.banner.index' ? 'active' : '' }}">
                     <a href="{{ route('admin.banner.index') }}" title="Quản lý banner"> <i
                             class="fas fa-table"></i><span>Quản lý

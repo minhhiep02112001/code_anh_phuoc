@@ -12,6 +12,7 @@ use App\Models\Redirect;
 use App\Repositories\Eloquent\BannerRepository;
 use App\Repositories\Eloquent\CategoryRepository;
 use App\Repositories\Eloquent\CommentRepository;
+use App\Repositories\Eloquent\LanguageRepository;
 use App\Repositories\Eloquent\PageRepository;
 use App\Repositories\Eloquent\PostRepository;
 use Illuminate\Http\Request;
@@ -27,19 +28,34 @@ class HomeController extends Controller
         public PostRepository $postRepository,
         public CommentRepository $commentRepository,
         public BannerRepository $bannerRepository,
-        public PageRepository $pageRepository
-    ) {}
+        public PageRepository $pageRepository,
+        public LanguageRepository $languageRepository
+    ) {
+    }
 
-    public function dashboard(Request $request)
+    public function dashboard(Request $request, $language = '')
     {
 
         // get sản phẩm bestseller config từ admin:
         $data = [];
         $page = $request->page ?? 1;
-        $data['posts'] = $this->postRepository->getAll([
-            'is_status' => 1,
-            'type' => 'brand'
-        ], [
+        $filterBrand = ['is_status' => 0, 'type' => 'brand'];
+        if (!empty($language)) {
+            $filterBrand['language_code'] = $language;
+            $data['language'] = $lang = $this->languageRepository->findCode($language);
+            $data['SEO'] = [
+                'title' => $lang->meta_title,
+                'meta_title' => $lang->meta_title,
+                'meta_description' => $lang->meta_description,
+                // 'meta_description' => str_replace('[text]',   $post->meta_title, $promat),
+                'meta_keyword' => $lang->title ?? '',
+                'is_robot' => $lang->is_robot ?? 0,
+                'image' => $lang->thumbnail ?? '',
+                'url' => route('language', ['language' => $language]),
+            ];
+            $data['breadcrumbs'] = [array('url' => '', 'title' => $language->title)];
+        }
+        $data['posts'] = $this->postRepository->getAll($filterBrand, [
             'order_by' => ['publish_at', 'desc'],
             'with' => ['category'],
             'limit' => 30,
@@ -56,14 +72,15 @@ class HomeController extends Controller
             'select' => ['id', 'title', 'slug', 'thumbnail', 'description'],
         ]);
         $data['banners'] = Banner::getType('home');
+
         return view('theme_brand.theme_1.home', $data);
     }
 
     public function post($slug, $id = 0)
     {
         $post = $this->postRepository->findByField('slug', $slug)->first();
-        if (empty($post) || $post->is_status != 1)
-            return abort(404);
+        // if (empty($post) || $post->is_status != 1)
+        //     return abort(404);
         $medias = $post->media()->select(['position', 'type', 'thumbnail'])->get()->groupBy('type');
 
         $SEO = [
@@ -74,11 +91,10 @@ class HomeController extends Controller
             'meta_keyword' => $post->title ?? '',
             'is_robot' => $post->is_robot ?? 0,
             'image' => $post->thumbnail ?? '',
-
             'url' => route('post', ['slug' => $post->slug]),
         ];
-        $breadcrumbs = [array('url' => '', 'title' => $post->title)];
 
+        $breadcrumbs = [array('url' => '', 'title' => $post->title)];
 
         $data = [
             'breadcrumbs' => $breadcrumbs,
@@ -90,16 +106,19 @@ class HomeController extends Controller
 
         if ($post->type == 'brand') {
             $SEO['favicon'] = getImageThumb($post->thumbnail, 100, 100);
+            $data['language'] = $this->languageRepository->findCode($post->language_code);
+          
             $relates = Post::where([
                 'type' => 'brand',
+                // 'language_code' => $post->language_code,
                 'is_status' => 1,
-            ])->where('publish_at', '<', $post->publish_at)->orderBy('publish_at', 'desc')->limit(5)->get();
-
+            ])->where('publish_at', '<', $post->publish_at ?? '')->orderBy('publish_at', 'desc')->limit(5)->get();
 
             $relates2 = Post::where([
                 'type' => 'brand',
+                'language_code' => $post->language_code,
                 'is_status' => 1,
-            ])->where('publish_at', '>', $post->publish_at)->orderBy('publish_at', 'asc')->limit(5)->get();
+            ])->where('publish_at', '>', $post->publish_at ?? '')->orderBy('publish_at', 'asc')->limit(5)->get();
 
             $data['relates'] = $relates;
 
@@ -135,7 +154,6 @@ class HomeController extends Controller
         ];
 
         $breadcrumbs = [array('url' => '', 'title' => $post->title)];
-
 
         $data = [
             'breadcrumbs' => $breadcrumbs,
@@ -201,7 +219,8 @@ class HomeController extends Controller
     {
         $page = $this->pageRepository->findByField('slug', $slug)->first();
 
-        if (empty($page) || $page->is_status != 1) return abort(404);
+        if (empty($page) || $page->is_status != 1)
+            return abort(404);
 
         $SEO = [
             'title' => $page->meta_title ?? '',
@@ -230,7 +249,8 @@ class HomeController extends Controller
         if (!empty($link)) {
             return redirect($link->url_new, 301);
         }
-        return abort(404);;
+        return abort(404);
+        ;
     }
     private function redirectUrl($link, $request)
     {

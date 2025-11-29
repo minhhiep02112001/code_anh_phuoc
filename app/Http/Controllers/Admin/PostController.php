@@ -51,35 +51,37 @@ class PostController extends BaseAdminController
         $list = $this->_repository->getAll($params, $option);
 
         $rows = [];
-        if (!empty($list)) foreach ($list as $item) {
-            $title = $item->title;
-            if ($item->is_status == 1) {
-                $title = "<a target='_blank' href='" . route('post', ['slug' => $item->slug]) . "' title='{$item->title}'>{$item->title}</a>";
+        if (!empty($list))
+            foreach ($list as $item) {
+                $title = $item->title;
+                if ($item->is_status == 1) {
+                    $title = "<a target='_blank' href='" . route('post', ['slug' => $item->slug]) . "' title='{$item->title}'>{$item->title}</a>";
+                }
+                $row = array();
+                $row['checkID'] = $item->id;
+                $row['id'] = $item->id;
+                $row['title'] = $item->title;
+                $row['title_link'] = $title;
+                $row['parent_id'] = $item->parent_id;
+                $row['is_status'] = $item->is_status;
+                $row['is_robot'] = $item->is_robot;
+                $row['is_thumbnail'] = $item->is_thumbnail;
+                $row['is_thumb_block_1'] = $item->is_thumb_block_1;
+                $row['thumbnail'] = getThumbnail($item, 100, 100);
+                $row['address'] = $item->address;
+                $row['link_map'] = $item->link_map;
+                $row['iframe_map'] = $item->iframe_map;
+                $row['time_open'] = $item->time_open;
+                $row['email'] = $item->email;
+                $row['language_code'] = $item->language_code;
+                $row['review_google'] = $item->review_google;
+                $row['phone'] = $item->phone;
+                $row['review_yelp'] = $item->review_yelp;
+                $row['schema'] = $item->schema;
+                $row['updated_at'] = format_date($item->updated_at);
+                $row['created_at'] = format_date($item->created_at);
+                $rows[] = $row;
             }
-            $row = array();
-            $row['checkID'] = $item->id;
-            $row['id'] = $item->id;
-            $row['title'] = $item->title;
-            $row['title_link'] = $title;
-            $row['parent_id'] = $item->parent_id;
-            $row['is_status']    = $item->is_status;
-            $row['is_robot']    = $item->is_robot;
-            $row['is_thumbnail']    = $item->is_thumbnail;
-            $row['is_thumb_block_1']    = $item->is_thumb_block_1;
-            $row['thumbnail']    = getThumbnail($item, 100, 100);
-            $row['address']     = $item->address;
-            $row['link_map']     = $item->link_map;
-            $row['iframe_map']     = $item->iframe_map;
-            $row['time_open']     = $item->time_open;
-            $row['email']     = $item->email;
-            $row['review_google']     = $item->review_google;
-            $row['phone']     = $item->phone;
-            $row['review_yelp']     = $item->review_yelp;
-            $row['schema']     = $item->schema;
-            $row['updated_at'] = format_date($item->updated_at);
-            $row['created_at'] = format_date($item->created_at);
-            $rows[] = $row;
-        }
 
         $data = [
             "draw" => intval($request->draw ?? 0),
@@ -118,15 +120,16 @@ class PostController extends BaseAdminController
         if (!empty($input['config_social'])) {
             $input['config_social'] = json_encode($input['config_social']);
         }
-        if (!empty($input['is_status']) && $input['is_status'] == 1) $input['publish_at'] = date('Y-m-d H:i:s');
+        if (!empty($input['is_status']) && $input['is_status'] == 1)
+            $input['publish_at'] = date('Y-m-d H:i:s');
         if (!empty($input['is_status']) && $input['is_status'] == 1) {
             $arr_theme = ['theme', 'theme_2'];
             $index = array_rand($arr_theme);
             $input['theme'] = $arr_theme[$index];
         }
 
-        $input['is_thumbnail'] =  (empty($input['thumbnail']) || !Storage::disk('public')->exists(str_replace(['storage', '//'], '', trim($input['thumbnail'], '/'))))  ? 1 : 0;
-        $input['is_thumb_block_1'] =  (empty($input['image_block_1']) || !Storage::disk('public')->exists(str_replace(['storage', '//'], '', trim($input['image_block_1'], '/'))))  ? 1 : 0;
+        $input['is_thumbnail'] = (empty($input['thumbnail']) || !Storage::disk('public')->exists(str_replace(['storage', '//'], '', trim($input['thumbnail'], '/')))) ? 1 : 0;
+        $input['is_thumb_block_1'] = (empty($input['image_block_1']) || !Storage::disk('public')->exists(str_replace(['storage', '//'], '', trim($input['image_block_1'], '/')))) ? 1 : 0;
 
         try {
             DB::beginTransaction();
@@ -172,9 +175,11 @@ class PostController extends BaseAdminController
      */
     public function show($id, Request $request)
     {
-        if (!$request->ajax()) return redirect()->route('admin.category.index');
+        if (!$request->ajax())
+            return redirect()->route('admin.category.index');
         $story = $this->_repository->find($id);
-        if (empty($story)) return response()->json(['status' => 'error'], 500);
+        if (empty($story))
+            return response()->json(['status' => 'error'], 500);
         $story['url'] = route('post', ['slug' => $story->slug]);
 
         $story['banners'] = $story->media()->where('type', 'banner')->get();
@@ -194,7 +199,8 @@ class PostController extends BaseAdminController
     public function edit($id)
     {
         $row = $this->_repository->find($id);
-        if (empty($row)) return abort(404);
+        if (empty($row))
+            return abort(404);
         $category = $row->categories()->select(['g_categories.id', 'g_categories.title'])->get()->toArray();
 
         $data = [
@@ -220,22 +226,24 @@ class PostController extends BaseAdminController
 
         if ($request->has('is_status')) {
             $input['is_status'] = $request->get('is_status') ?? $story->is_status;
-            if (empty($story->publish_at) && $input['is_status'] == 1) $input['publish_at'] = date('Y-m-d H:i:s');
+            if (empty($story->publish_at) && $input['is_status'] == 1)
+                $input['publish_at'] = date('Y-m-d H:i:s');
             if (empty($story->theme) && $input['is_status'] == 1) {
                 $arr_theme = ['theme', 'theme_2'];
                 $index = array_rand($arr_theme);
                 $input['theme'] = $arr_theme[$index];
             }
         }
-        if ($request->has('is_robot')) $input['is_robot'] = $request->get('is_robot') ?? $story->is_robot;
+        if ($request->has('is_robot'))
+            $input['is_robot'] = $request->get('is_robot') ?? $story->is_robot;
 
         $input['config_social'] = $input['config_social'] ?? json_encode([]);
         if (!empty($input['config_social'])) {
             $input['config_social'] = json_encode($input['config_social']);
         }
 
-        $input['is_thumbnail'] =  (empty($input['thumbnail']) || !Storage::disk('public')->exists(str_replace(['storage', '//'], '', trim($input['thumbnail'], '/'))))  ? 1 : 0;
-        $input['is_thumb_block_1'] =  (empty($input['image_block_1']) || !Storage::disk('public')->exists(str_replace(['storage', '//'], '', trim($input['image_block_1'], '/'))))  ? 1 : 0;
+        $input['is_thumbnail'] = (empty($input['thumbnail']) || !Storage::disk('public')->exists(str_replace(['storage', '//'], '', trim($input['thumbnail'], '/')))) ? 1 : 0;
+        $input['is_thumb_block_1'] = (empty($input['image_block_1']) || !Storage::disk('public')->exists(str_replace(['storage', '//'], '', trim($input['image_block_1'], '/')))) ? 1 : 0;
 
         try {
             DB::beginTransaction();

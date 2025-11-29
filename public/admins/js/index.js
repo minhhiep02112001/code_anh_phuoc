@@ -81,6 +81,8 @@ var win = $(window),
 
                     let cleaned = tempDiv.innerHTML;
                     cleaned = cleaned.replaceAll(/&amp;/g, "");
+                    cleaned = cleaned.replaceAll(/-/g, " ");
+                    cleaned = cleaned.replace(/[-–—－]/g, " ");
                     // XÓA khoảng trắng trước dấu chấm
                     cleaned = cleaned.replace(/\s+([.,!?;:])/g, "$1");
                     // Ghi đè lại toàn bộ nội dung editor
@@ -703,6 +705,64 @@ var AJAX_CRUD_MODAL = {
         });
         return false;
     },
+    fillFormByData: function (modal_form, data, callback = null) {
+        let tinymceInst = window.tinymce;
+
+        $.each(data, function (key, value) {
+            let element = modal_form.find(`[name="${key}"], [name="${key}[]"]`);
+
+            /** Nếu có custom xử lý thì callback(key, value, element) */
+            if (typeof callback === "function") {
+                let stop = callback(key, value, element);
+                if (stop === false) return; // cho phép callback override field
+            }
+
+            /** TinyMCE */
+            if (element.length && element.hasClass("tinymce")) {
+                let editor = tinymceInst?.get(element.attr("id"));
+                if (editor) editor.setContent(value || "");
+                return;
+            }
+
+            /** Upload image */
+            if (value && ["thumbnail", "favicon", "logo_share"].includes(key)) {
+                let box = modal_form.find(
+                    `div[data-field-name="${key}"] .upload-box`
+                );
+                box.find("img")
+                    .attr("src", FUNC.getImageThumb(value))
+                    .addClass("show");
+                box.append(
+                    `<input type="hidden" name="${key}" value="${value}">`
+                );
+                return;
+            }
+
+            /** Config social = Object */
+            if (value && key === "config_social") {
+                Object.entries(value).forEach(([socialKey, socialVal]) => {
+                    modal_form
+                        .find(`[name="config_social[${socialKey}]"]`)
+                        .val(socialVal || "");
+                });
+                return;
+            }
+
+            /** select2_suggest support */
+            if (element.length && element.hasClass("select2_suggest")) {
+                let arr = Array.isArray(value) ? value : [value];
+                arr.forEach((v) => {
+                    if (!element.find(`option[value="${v}"]`).length)
+                        element.append(new Option(v, v, true, true));
+                });
+                element.val(arr).trigger("change");
+                return;
+            }
+
+            /** Default set value */
+            if (element.length) element.val(value ?? "");
+        });
+    },
     delete: function () {
         return false;
     },
@@ -1168,6 +1228,11 @@ const AutoloadDataService = (function () {
             id: "id",
             query: ["type"],
         },
+        language: {
+            url: window.APP_URL + "/admin/ajax/language",
+            formated: "$(title)",
+            id: "code",
+        },
         post: {
             url: window.APP_URL + "/admin/ajax/post",
             formated: "$(title)",
@@ -1199,11 +1264,17 @@ const AutoloadDataService = (function () {
             fk: "id",
         },
         {
+            url: window.APP_URL + "/admin/ajax/language",
+            dom: ".em-language",
+            attr: "data-code",
+            formated: "$(title)",
+            fk: "code",
+        },
+        {
             url: window.APP_URL + "/admin/ajax/category",
             dom: ".em-category",
             attr: "data-id",
-            formated: "$(title)",
-
+            formated: "$(title)", 
             fk: "id",
         },
         {
@@ -1260,7 +1331,7 @@ const AutoloadDataService = (function () {
             }
         });
     };
-
+ 
     // Basic Datatable examples
     var replaceData = function (parentDom) {
         $.each(arrDomAutoFill, function (idx, item) {
@@ -1290,7 +1361,7 @@ const AutoloadDataService = (function () {
             if (!arrId.length) {
                 return;
             }
-            arrId = arrId.map(($item) => parseInt($item));
+            // arrId = arrId.map(($item) => parseInt($item));
 
             var count = 1;
             if (arrId.length > 200) {
@@ -1379,8 +1450,7 @@ const AutoloadDataService = (function () {
         });
     };
 
-    var selectData = function (parentDom) {
-        var __cache = [];
+    var selectData = function (parentDom) { 
         parentDom.find(".select2_suggest").each(function () {
             var self = $(this);
             loadSelectData(self);
@@ -1473,6 +1543,8 @@ const AutoloadDataService = (function () {
         var limit = search_param ? 50 : 1000;
         var __cache = [];
 
+        const keyId = objData.id || "id";
+
         $(current_dom).select2({
             minimumInputLength: 0,
             allowClear: true,
@@ -1511,7 +1583,7 @@ const AutoloadDataService = (function () {
                     $.each(responsive.data, function (item_key, item) {
                         if (item) {
                             dataResult.push({
-                                id: item.id,
+                                id: item[keyId],
                                 text: item.title,
                                 html: item.title,
                             });
@@ -1550,70 +1622,7 @@ const AutoloadDataService = (function () {
             },
         });
     };
-    function stringToSlug(str) {
-        // remove accents
-        var from =
-                "àáãảạăằắẳẵặâầấẩẫậèéẻẽẹêềếểễệđùúủũụưừứửữựòóỏõọôồốổỗộơờớởỡợìíỉĩịäëïîöüûñçýỳỹỵỷ",
-            to =
-                "aaaaaaaaaaaaaaaaaeeeeeeeeeeeduuuuuuuuuuuoooooooooooooooooiiiiiaeiiouuncyyyyy";
-        for (var i = 0, l = from.length; i < l; i++) {
-            str = str.replace(RegExp(from[i], "gi"), to[i]);
-        }
-
-        str = str
-            .toLowerCase()
-            .trim()
-            .replace(/[^a-z0-9\-]/g, "-")
-            .replace(/-+/g, "-");
-
-        return str;
-    }
-
-    function formatRepo(repo) {
-        if (repo.loading) {
-            return repo.text;
-        }
-
-        var $container = $(
-            "<div class='select2-result-repository clearfix'>" +
-                "<div class='select2-result-repository__avatar'><img src='" +
-                repo.owner.avatar_url +
-                "' /></div>" +
-                "<div class='select2-result-repository__meta'>" +
-                "<div class='select2-result-repository__title'></div>" +
-                "<div class='select2-result-repository__description'></div>" +
-                "<div class='select2-result-repository__statistics'>" +
-                "<div class='select2-result-repository__forks'><i class='fa fa-flash'></i> </div>" +
-                "<div class='select2-result-repository__stargazers'><i class='fa fa-star'></i> </div>" +
-                "<div class='select2-result-repository__watchers'><i class='fa fa-eye'></i> </div>" +
-                "</div>" +
-                "</div>" +
-                "</div>"
-        );
-
-        $container
-            .find(".select2-result-repository__title")
-            .text(repo.full_name);
-        $container
-            .find(".select2-result-repository__description")
-            .text(repo.description);
-        $container
-            .find(".select2-result-repository__forks")
-            .append(repo.forks_count + " Forks");
-        $container
-            .find(".select2-result-repository__stargazers")
-            .append(repo.stargazers_count + " Stars");
-        $container
-            .find(".select2-result-repository__watchers")
-            .append(repo.watchers_count + " Watchers");
-
-        return $container;
-    }
-
-    function formatRepoSelection(repo) {
-        return repo.full_name || repo.text;
-    }
-
+     
     $.fn.loadSuggestData = function (params) {
         var o = $(this[0]); // This is the element
         loadSelectData($(this), params);

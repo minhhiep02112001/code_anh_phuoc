@@ -22,4 +22,7 @@ class LanguageRepository extends Repository implements CategoryContracts
     {
         return Language::class;
     }
+    public function findCode($code){
+        return $this->model->where('code', $code)->first();
+    }
 }

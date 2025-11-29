@@ -67,3 +67,4 @@
     <link rel="shortcut icon" href="{{ convertPathImage($config_website->favicon ?? '') }}" sizes="32x32">
     <link rel="apple-touch-icon" href="{{ convertPathImage($config_website->favicon ?? '') }}" sizes="32x32">
 @endif
+

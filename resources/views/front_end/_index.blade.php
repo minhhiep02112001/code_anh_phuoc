@@ -5,7 +5,7 @@
     $config_social = getValueSetting('config_social');
 @endphp
 <!DOCTYPE html>
-<html lang="en-US">
+<html lang="{{ str_replace('_', '-', $language->lang ?? app()->getLocale()) }}" dir="ltr">
 
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
 

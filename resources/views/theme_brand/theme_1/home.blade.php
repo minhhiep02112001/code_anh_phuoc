@@ -15,7 +15,7 @@
 <!--[if (IE 7)&(!IEMobile)]><html class="lt-ie9 lt-ie8"  lang="en" dir="ltr"><![endif]-->
 <!--[if IE 8]><html class="lt-ie9"  lang="en" dir="ltr"><![endif]-->
 <!--[if (gte IE 9)|(gt IEMobile 7)]><!-->
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="ltr">
+<html lang="{{ str_replace('_', '-', $language->lang ?? app()->getLocale()) }}" dir="ltr">
 <!--<![endif]-->
 
 <head>
