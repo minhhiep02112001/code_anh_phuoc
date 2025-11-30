@@ -4,97 +4,48 @@
     $config_seo = getValueSetting('config_seo');
     $config_social = getValueSetting('config_social');
 @endphp
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', $language->lang ?? app()->getLocale()) }}" dir="ltr">
 
-<meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-
-    @include('front_end.block.config_seo_header')
-
- <link href="{{ asset('assets/font-awesome-4.7/css/font-awesome.min.css') }}" rel="stylesheet" media="all">
-    <link rel="preload" href="{{ convertPathImage('/assets/css/fonts.css') }}?ver={{ $ver }}" as="style"
-        onload="this.rel='stylesheet'">
-    <noscript>
-        <link rel="stylesheet" href="{{ convertPathImage('/assets/css/fonts.css') }}?ver={{ $ver }}">
-    </noscript>
-
-   
-    <link rel="stylesheet" href="{{ convertPathImage('/assets/css/brand_1.css') }}?ver={{ $ver }}"> 
-    <link rel="stylesheet" href="{{ convertPathImage('/assets/slick/slick/slick.css') }}?ver={{ $ver }}">
-    <link rel="stylesheet" href="{{ convertPathImage('/assets/css/theme_1.css') }}?ver={{ $ver }}">
-  
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Goto Where - Discover the Best Restaurants, Cafes, Bars, Nail Salons, and Hotels</title>
+    <meta name="description"
+        content="Explore Goto Where to find top-rated restaurants, cozy cafes, vibrant bars, relaxing nail salons, and comfortable hotels. Your ultimate guide to the best local spots!" />
+    <meta name="keywords" content="" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title"
+        content="Goto Where - Discover the Best Restaurants, Cafes, Bars, Nail Salons, and Hotels" />
+    <meta property="og:description"
+        content="Explore Goto Where to find top-rated restaurants, cozy cafes, vibrant bars, relaxing nail salons, and comfortable hotels. Your ultimate guide to the best local spots!" />
+    <meta property="og:image" content="https://static.goto-where.com/logo-share.png" />
+    <meta property="og:url" content="https://goto-where.com/" />
+    <link rel="canonical" href="https://goto-where.com/" />
+    <meta name="robots" content="index, follow" />
+    <link rel="shortcut icon" href="https://static.goto-where.com/favico.png" sizes="32x32">
+    <link rel="stylesheet" href="https://goto-where.com/public/css/static-css.min.css">
+    <script> var base_url_domain = 'https://goto-where.com/'; </script> <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QD03L57NY8"></script>
+    <script> window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date()); gtag('config', 'G-QD03L57NY8'); </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1957781431232923"
+        crossorigin="anonymous"></script>
 </head>
 
-<body class="home page-template  ">
-
-    <!-- **Wrapper** -->
-    <div class="wrapper">
-
-        <!-- ** Inner Wrapper ** -->
-        <div class="inner-wrapper">
-
-
-            <!-- ** Header Wrapper ** -->
-            @include('front_end.layout.header')
-            <!-- ** Header Wrapper - End ** -->
-
-            <!-- **Main** -->
-            <div id="main">
-                <!-- ** Container ** -->
-                @yield('content')
-                <!-- ** Container End ** -->
-            </div><!-- **Main - End ** -->
-
-
-            <!-- **Footer** -->
-            @include('front_end.layout.footer')
-            <!-- **Footer - End** -->
-        </div><!-- **Inner Wrapper - End** -->
-
-    </div><!-- **Wrapper - End** -->
-    <div class="mobile-menu">
-        <ul id="menu-new-menu-2" class="wdt-primary-nav " data-menu="62">
-            <li class="close-nav"><a href="javascript:void(0);">X</a></li>
-            <li id="menu-item-2877"
-                class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-2877 menu-item-depth-0">
-                <a href="/" aria-current="page"><span data-text="Home">Home</span></a>
-            </li>
-
-            <li id="menu-item-2744"
-                class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2744 menu-item-depth-0">
-                <a href="#about"><span data-text="About">About</span></a>
-            </li>
-            <li id="menu-item-2757"
-                class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2757 menu-item-depth-0">
-                <a href="#gallery"><span data-text="Contact Us">Photos</span></a>
-            </li>
-            <li id="menu-item-2755"
-                class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2755 menu-item-depth-0">
-                <a href="#comment"><span data-text="Blog">Review</span></a>
-            </li>
-            <li id="menu-item-2755"
-                class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2755 menu-item-depth-0">
-                <a href="#location"><span data-text="Blog">Location</span></a>
-            </li>
-        </ul>
+<body>
+    <div class="page-wrapper">
+        @include('front_end.layout.header')
+        <div>
+            @yield('content')
+        </div>
+        @include('front_end.layout.footer')
     </div>
-    <a id="back-to-top" href="#">
-        <span id="back-to-top-hover"></span>
-        <span class="back-to-top-icon"><i class="wdticon-angle-up"></i></span>
-    </a>
 
-    <script type="text/javascript" src="{{ convertPathImage('/assets/js/script_minified.js') }}?ver={{ $ver }}">
-    </script>
-
-    @stack('scripts')
+    <script type="text/javascript" src="{{ asset('/assets/js/app.js') }}?v={{ $ver }}"></script>
 </body>
 
 </html>
-
 <!-- Page cached by LiteSpeed Cache 6.5.4 on 2025-02-14 19:50:31 -->

@@ -76,7 +76,6 @@ Route::group([
     Route::resource('category', App\Http\Controllers\Admin\CategoryController::class);
     Route::resource('keyword', App\Http\Controllers\Admin\KeywordController::class);
     Route::resource('banner', App\Http\Controllers\Admin\BannerController::class);
-    Route::resource('language', App\Http\Controllers\Admin\LanguageController::class);
     Route::resource('comment', App\Http\Controllers\Admin\CommentController::class);
     Route::resource('drag', App\Http\Controllers\Admin\DragController::class);
     Route::resource('crawler', App\Http\Controllers\Admin\CrawlerController::class);
@@ -92,7 +91,6 @@ Route::group([
         Route::post('/update-multiple-menu', [\App\Http\Controllers\Admin\MenuController::class, 'updateMultiple']);
         Route::get('/keyword', [App\Http\Controllers\Admin\KeywordController::class, 'ajax_load_data']);
         Route::get('/crawler', [App\Http\Controllers\Admin\CrawlerController::class, 'ajax_load_data']);
-        Route::get('/language', [App\Http\Controllers\Admin\LanguageController::class, 'ajax_load_data']);
         Route::get('/role', [App\Http\Controllers\Admin\RoleController::class, 'ajax_load_data']);
         Route::get('/banner', [App\Http\Controllers\Admin\BannerController::class, 'ajax_load_data']);
         Route::get('/category', [App\Http\Controllers\Admin\CategoryController::class, 'ajax_load_data']);
@@ -132,11 +130,6 @@ Route::get('/feeds/pinterestxxx.xml', [App\Http\Controllers\FeedController::clas
 Route::get('/feeds/rssxxx.xml', [App\Http\Controllers\FeedController::class, 'rssxxx'])->name('rssxxx');
 
 
-// NGÔN NGỮ 2 ký tự
-Route::domain('{language}.' . env('DOMAIN'))->group(function () {
-    Route::get('/', [\App\Http\Controllers\HomeController::class, 'dashboard'])->name('language');
-})->where('language', '^[a-z]{2}$')->middleware('redirect_301');
-
 Route::domain('{slug}.' . env('DOMAIN'))->group(function () {
     Route::get('/', [\App\Http\Controllers\HomeController::class, 'post'])->name('post')->middleware('cacheResponse:600');
     // Route::get('/menu.html', [\App\Http\Controllers\HomeController::class, 'menu'])->name('menu');
@@ -150,11 +143,6 @@ Route::group([
     Route::get('/', [App\Http\Controllers\HomeController::class, 'dashboard'])->name('home')->middleware('cacheResponse:300');
     // Route::get('/search', [App\Http\Controllers\HomeController::class, 'search'])->name('search');
     if (\App::environment('local')) {
-        // ví dụ: vi.html / en.html
-        Route::get('{language}.html', [App\Http\Controllers\HomeController::class, 'dashboard'])
-            ->where('language', '^[a-z]{2}$')
-            ->name('language');
-
         // ví dụ: tin-tuc-post.html
         Route::get('{slug}-post.html', [App\Http\Controllers\HomeController::class, 'post'])
             ->where('slug', '[a-z0-9-_]+')
