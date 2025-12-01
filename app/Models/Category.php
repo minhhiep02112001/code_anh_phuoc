@@ -28,8 +28,7 @@ class Category extends AbstractModel
         'meta_keyword',
         'meta_description',
         'thumbnail',
-        'icon',
-        'language_code',
+        'icon', 
         'show_content'
     ];
 

@@ -13,12 +13,6 @@
 
                 </li> --}}
 
-                 <li class="{{ \Request::route()->getName() == 'admin.language.index' ? 'active' : '' }}">
-                    <a href="{{ route('admin.language.index') }}" title="Quản lý language"> <i
-                            class="fas fa-table"></i><span>Quản lý
-                            language</span></a>
-                </li>
-
                 <li class="{{ \Request::route()->getName() == 'admin.banner.index' ? 'active' : '' }}">
                     <a href="{{ route('admin.banner.index') }}" title="Quản lý banner"> <i
                             class="fas fa-table"></i><span>Quản lý
@@ -60,6 +54,10 @@
                     <a class="js-arrow" href="#">
                         <i class="fas fa-copy"></i><span>Cài đặt hệ thống</span></a>
                     <ul class="list-unstyled navbar__sub-list js-sub-list">
+
+                        <li>
+                            <a href="{{ route('unisharp.lfm.show') }}">Quản lý file</a>
+                        </li>
                         <li>
                             <a href="{{ route('admin.setting') }}">Cài đặt</a>
                         </li>
@@ -68,20 +66,10 @@
                         </li>
                     </ul>
                 </li>
-                <li class="has-sub">
-                    <a class="js-arrow" href="#">
+                <li class="{{ \Request::route()->getName() == 'admin.crawler.index' ? 'active' : '' }}">
+                    <a class="js-arrow" href="{{ route('admin.crawler.index') }}">
                         <i class="fas fa-arrow-down"></i><span>Crawler</span></a>
-                    <ul class="list-unstyled navbar__sub-list js-sub-list">
-                        <li class="{{ \Request::route()->getName() == 'admin.keyword.index' ? 'active' : '' }}">
-                            <a href="{{ route('admin.keyword.index') }}" title="Quản lý page"> <i
-                                    class="fas fa-table"></i><span>Keyword</span></a>
-                        </li>
 
-                        <li class="{{ \Request::route()->getName() == 'admin.crawler.index' ? 'active' : '' }}">
-                            <a href="{{ route('admin.crawler.index') }}" title="Quản lý page"> <i
-                                    class="fas fa-table"></i><span>Data Crawler</span></a>
-                        </li>
-                    </ul>
                 </li>
             </ul>
         </nav>

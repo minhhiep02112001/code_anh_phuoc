@@ -158,11 +158,11 @@
                     render: function(t, e, item) {
                         let content = "<ul>";
                         // content += `<li>Sub: ${item.sub ||''}</li>`;
-                        content += `<li>Language: <b class="em-language" data-code="${item.language_code || ''}">${item.language_code || ''}</b></li>`;
                         content += `<li>Address: ${item.address  || ''}</li>`;
                         content += `<li>Review google: ${item.review_google || 0}</li>`;
-                        if(item.is_thumbnail) content += `<li class="badge-warning">Thiếu thumbnail</li>`;
-                        if(item.is_thumb_block_1) content += `<li class="badge-warning">Thiếu thumbnail block</li>`;
+                        if (item.is_thumbnail) content += `<li class="badge-warning">Thiếu thumbnail</li>`;
+                        if (item.is_thumb_block_1) content +=
+                            `<li class="badge-warning">Thiếu thumbnail block</li>`;
                         content += "</ul>";
                         return content;
                     }

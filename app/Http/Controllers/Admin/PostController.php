@@ -72,8 +72,7 @@ class PostController extends BaseAdminController
                 $row['link_map'] = $item->link_map;
                 $row['iframe_map'] = $item->iframe_map;
                 $row['time_open'] = $item->time_open;
-                $row['email'] = $item->email;
-                $row['language_code'] = $item->language_code;
+                $row['email'] = $item->email; 
                 $row['review_google'] = $item->review_google;
                 $row['phone'] = $item->phone;
                 $row['review_yelp'] = $item->review_yelp;

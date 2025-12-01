@@ -69,10 +69,8 @@ class Post extends AbstractModel
         'image_block_1',
         'title_block_1',
         'content_block_1',
-
         'is_thumbnail',
-        'is_thumb_block_1',
-        'language_code',
+        'is_thumb_block_1', 
     ];
 
     public function categories()

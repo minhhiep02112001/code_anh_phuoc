@@ -12,6 +12,7 @@ use App\Repositories\Eloquent\CommentRepository;
 use App\Repositories\Eloquent\PageRepository;
 use App\Repositories\Eloquent\PostRepository;
 use Illuminate\Http\Request;
+
 class HomeController extends Controller
 {
     protected $model_tag;
@@ -23,8 +24,7 @@ class HomeController extends Controller
         public CommentRepository $commentRepository,
         public BannerRepository $bannerRepository,
         public PageRepository $pageRepository
-    ) {
-    }
+    ) {}
 
     public function dashboard(Request $request)
     {
@@ -62,6 +62,7 @@ class HomeController extends Controller
     public function post($slug, $id = 0)
     {
         $post = $this->postRepository->findByField('slug', $slug)->first();
+        dd($post->id,$post->comment()->get() );
         // if (empty($post) || $post->is_status != 1)
         //     return abort(404);
         $medias = $post->media()->select(['position', 'type', 'thumbnail'])->get()->groupBy('type');
@@ -102,10 +103,9 @@ class HomeController extends Controller
 
             $data['relates2'] = collect($relates2)->merge($relates)->sortBy('publish_at')->values()->all();
 
-            $data['comments'] = Comment::where([
+            $data['comments'] = $post->comment()->where([
                 'type' => 'post',
                 'is_status' => 1,
-                'data_id' => $post->id
             ])->limit(5)->get();
         }
         $view = $post->type == 'top_list' ? 'front_end.topList' : 'front_end.brand';
@@ -226,8 +226,7 @@ class HomeController extends Controller
         if (!empty($link)) {
             return redirect($link->url_new, 301);
         }
-        return abort(404);
-        ;
+        return abort(404);;
     }
     private function redirectUrl($link, $request)
     {

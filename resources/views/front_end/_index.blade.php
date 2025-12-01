@@ -29,10 +29,20 @@
     <link rel="shortcut icon" href="https://static.goto-where.com/favico.png" sizes="32x32">
     <link rel="stylesheet" href="https://goto-where.com/public/css/static-css.min.css">
     <script> var base_url_domain = 'https://goto-where.com/'; </script> <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QD03L57NY8"></script>
-    <script> window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date()); gtag('config', 'G-QD03L57NY8'); </script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1957781431232923"
-        crossorigin="anonymous"></script>
+  
+
+    <style>
+        #time_open table{
+            width: 100%;
+        }
+        .timing-list li{
+            line-height: 18px;
+            margin-bottom: 0px;
+        }
+        #time_open table td{
+            padding:10px;
+        }
+    </style>
 </head>
 
 <body>

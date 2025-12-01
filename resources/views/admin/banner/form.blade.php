@@ -54,11 +54,7 @@
                 <div class="form-group">
                     <label>Link redirect</label>
                     <input name="link_redirect" placeholder="Link" class="form-control" type="text" />
-                </div>
-                <div class="form-group">
-                    <label>Link Youtobe</label>
-                    <input name="youtobe" placeholder="youtobe" class="form-control" type="text" />
-                </div>
+                </div> 
                 <div class="form-group">
                     <label for="thumbnail">Target</label>
                     <input name="target" placeholder="Target" class="form-control" type="text" />

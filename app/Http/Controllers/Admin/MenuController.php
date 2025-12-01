@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 class MenuController extends Controller
 {
-    protected $fillData = ['title', 'svg', 'link', 'parent_id', 'order', 'class', 'location_id', 'language_code', 'type'];
+    protected $fillData = ['title', 'svg', 'link', 'parent_id', 'order', 'class', 'location_id',   'type'];
     protected $fillSearch = [
         'title', 'location_id', 'type',
     ];

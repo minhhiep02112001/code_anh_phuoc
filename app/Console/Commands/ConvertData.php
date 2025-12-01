@@ -74,8 +74,7 @@ class ConvertData extends Command
             $lang = collect($languages)->where('title', $data->domain)->first();
 
             $data_update = [
-                'is_thumbnail' => 1,
-                'language_code' => $lang->code,
+                'is_thumbnail' => 1, 
                 'theme' => 'theme_1'
             ]; 
             
