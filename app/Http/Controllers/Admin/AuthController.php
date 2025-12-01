@@ -10,6 +10,9 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
+        if(Auth::guard('admin')->check()){
+            return redirect()->route('admin.dashboard');
+        }
         if ($request->isMethod('post')) {
             $data = [
                 'email' => $request->email ?? '',

@@ -19,8 +19,8 @@
                                 Tìm kiếm
                             </button>
                             {{-- <button type="button" class="btn btn-danger btn-sm"><i class="fa fa-gears"></i> Quản
-                            lý
-                        </button> --}}
+                                lý
+                            </button> --}}
                             <button type="button" class="btn btn-info btn-sm btnReload"><i class="fa fa-refresh"></i>
                                 Reload
                                 Data
@@ -122,97 +122,97 @@
         var url_ajax_edit = window.APP_URL + "/admin/post";
         // Dom Ready
 
-        $(document).ready(function() {
+        $(document).ready(function () {
             datatables_columns = [{
-                    data: "checkID",
-                    width: 20,
-                    orderable: false,
-                    visible: false,
-                    className: 'text-center'
-                },
-                {
-                    data: "id",
-                    title: "ID",
-                    className: "text-center",
-                    orderable: false,
-                    width: 50,
-                },
-                {
-                    data: "thumbnail",
-                    title: "Hình ảnh",
-                    className: "text-center",
-                    width: 50,
-                    orderable: false,
-                },
-                {
-                    data: "title_link",
-                    title: "Tiêu đề",
-                    width: 250,
-                    orderable: false,
-                },
-                {
-                    data: null,
-                    width: 250,
-                    className: "text-left",
-                    title: "Thông tin",
-                    render: function(t, e, item) {
-                        let content = "<ul>";
-                        // content += `<li>Sub: ${item.sub ||''}</li>`;
-                        content += `<li>Address: ${item.address  || ''}</li>`;
-                        content += `<li>Review google: ${item.review_google || 0}</li>`;
-                        if (item.is_thumbnail) content += `<li class="badge-warning">Thiếu thumbnail</li>`;
-                        if (item.is_thumb_block_1) content +=
-                            `<li class="badge-warning">Thiếu thumbnail block</li>`;
-                        content += "</ul>";
-                        return content;
-                    }
-                },
-                {
-                    data: "is_status",
-                    title: "Status",
-                    className: "text-center",
-                    orderable: false,
-                    width: 50,
-                    render: function(t, item, data) {
-                        let url = url_ajax_edit + "/" + data.id;
-                        let status = data.is_status;
-                        let _index = data.is_robot;
-                        let html = '<span data-field="is_status" data-url="' + url + '" data-id="' + data
-                            .id +
-                            '" data-value="' + (status == 1 ? 0 : 1) + '" class="' + _status[status].class +
-                            ' btnUpdateField">' + _status[status].title + "</span>";
-
-                        html += '<span data-field="is_robot" data-url="' + url + '" data-id="' + data.id +
-                            '" data-value="' + (_index == 1 ? 0 : 1) + '" class="' + _google_index[_index]
-                            .class +
-                            ' btnUpdateField">' + _google_index[_index].title + "</span>";
-                        return html;
-                    }
-                },
-                {
-                    data: null,
-                    width: 150,
-                    className: "text-left",
-                    title: "Actions",
-                    render: function(t, item, item) {
-
-                        let url_edit = url_ajax_edit + "/" + item.id + '/edit';
-                        let url = url_ajax_edit + "/" + item.id;
-                        let content = '';
-
-                        content += "<ul>";
-                        content += `<li>Ngày tạo: ${item.created_at}</li>`;
-                        content += `<li>Ngày sửa: ${item.updated_at}</li>`;
-                        content += "</ul>";
-
-                        content +=
-                            `<button style="margin-right: 5px;" data-action="${url}" data-method="PUT"  class="btn btn-sm btn-warning  btnEdit" data-id="${item.id}">Sửa</button>`;
-                        content +=
-                            `<button data-action="${url}" data-method="DELETE" data-id="${item.id}" class="btn btn-sm btn-danger  btnDelete">Xóa</button>`;
-
-                        return content;
-                    }
+                data: "checkID",
+                width: 20,
+                orderable: false,
+                visible: false,
+                className: 'text-center'
+            },
+            {
+                data: "id",
+                title: "ID",
+                className: "text-center",
+                orderable: false,
+                width: 50,
+            },
+            {
+                data: "thumbnail",
+                title: "Hình ảnh",
+                className: "text-center",
+                width: 50,
+                orderable: false,
+            },
+            {
+                data: "title_link",
+                title: "Tiêu đề",
+                width: 250,
+                orderable: false,
+            },
+            {
+                data: null,
+                width: 250,
+                className: "text-left",
+                title: "Thông tin",
+                render: function (t, e, item) {
+                    let content = "<ul>";
+                    // content += `<li>Sub: ${item.sub ||''}</li>`;
+                    content += `<li>Address: ${item.address || ''}</li>`;
+                    content += `<li>Review google: ${item.review_google || 0}</li>`;
+                    if (item.is_thumbnail) content += `<li class="badge-warning">Thiếu thumbnail</li>`;
+                    if (item.is_thumb_block_1) content +=
+                        `<li class="badge-warning">Thiếu thumbnail block</li>`;
+                    content += "</ul>";
+                    return content;
                 }
+            },
+            {
+                data: "is_status",
+                title: "Status",
+                className: "text-center",
+                orderable: false,
+                width: 50,
+                render: function (t, item, data) {
+                    let url = url_ajax_edit + "/" + data.id;
+                    let status = data.is_status;
+                    let _index = data.is_robot;
+                    let html = '<span data-field="is_status" data-url="' + url + '" data-id="' + data
+                        .id +
+                        '" data-value="' + (status == 1 ? 0 : 1) + '" class="' + _status[status].class +
+                        ' btnUpdateField">' + _status[status].title + "</span>";
+
+                    html += '<span data-field="is_robot" data-url="' + url + '" data-id="' + data.id +
+                        '" data-value="' + (_index == 1 ? 0 : 1) + '" class="' + _google_index[_index]
+                            .class +
+                        ' btnUpdateField">' + _google_index[_index].title + "</span>";
+                    return html;
+                }
+            },
+            {
+                data: null,
+                width: 150,
+                className: "text-left",
+                title: "Actions",
+                render: function (t, item, item) {
+
+                    let url_edit = url_ajax_edit + "/" + item.id + '/edit';
+                    let url = url_ajax_edit + "/" + item.id;
+                    let content = '';
+
+                    content += "<ul>";
+                    content += `<li>Ngày tạo: ${item.created_at}</li>`;
+                    content += `<li>Ngày sửa: ${item.updated_at}</li>`;
+                    content += "</ul>";
+
+                    content +=
+                        `<button style="margin-right: 5px;" data-action="${url}" data-method="PUT"  class="btn btn-sm btn-warning  btnEdit" data-id="${item.id}">Sửa</button>`;
+                    content +=
+                        `<button data-action="${url}" data-method="DELETE" data-id="${item.id}" class="btn btn-sm btn-danger  btnDelete">Xóa</button>`;
+
+                    return content;
+                }
+            }
             ];
             // On document ready
 
@@ -220,22 +220,22 @@
             AJAX_CRUD_MODAL.init();
             AJAX_CRUD_MODAL.tinymce();
             SEO.init_slug();
-            $(document).on('click', '.btnEdit', function() {
+            $(document).on('click', '.btnEdit', function () {
                 let modal_form = $('#modal_form');
                 let id = $(this).attr('data-id');
                 let action = $(this).data('action');
                 let method = $(this).data('method');
                 $(modal_form).find('form').attr('data-method', method).attr('data-action', action);
-                AJAX_CRUD_MODAL.edit(function() {
+                AJAX_CRUD_MODAL.edit(function () {
                     $.ajax({
                         url: url_ajax_edit + "/" + id,
                         type: "GET",
                         dataType: "JSON",
-                        success: function(response) {
+                        success: function (response) {
 
                             AJAX_CRUD_MODAL.fillFormByData(modal_form, response
                                 ?.data_info || {},
-                                function(key, value, element) {
+                                function (key, value, element) {
 
                                     // 🔥 đặt xử lý custom ở đây
                                     // ví dụ: nếu key === 'status' muốn toggle switch
@@ -243,14 +243,52 @@
                                     //     element.prop("checked", value == 1);
                                     //     return false; // override → không chạy xử lý mặc định
                                     // }
+                                    if (key == 'thumbnails') {
+                                        var file_paths = value.map(
+                                            (item) => item.thumbnail
+                                        );
+                                        // Update input value and preview 
+                                        let _parent_dom = $('div[data-field-name="thumbnails"]')
+                                            .closest(
+                                                ".gallery-upload");
+                                        if (_parent_dom.find(".gallery-list").length == 0) {
+                                            $(_parent_dom).append(
+                                                '<div class="gallery-list p-1"></div>'
+                                            );
+                                        }
+                                        FUNC.showGallery(
+                                            _parent_dom.find(".gallery-list"),
+                                            'thumbnails',
+                                            file_paths
+                                        );
+                                    }
 
+                                    if (key == 'banners') {
+                                        var file_paths = value.map(
+                                            (item) => item.thumbnail
+                                        );
+                                        // Update input value and preview 
+                                        let _parent_dom = $('div[data-field-name="banners"]')
+                                            .closest(
+                                                ".gallery-upload");
+                                        if (_parent_dom.find(".gallery-list").length == 0) {
+                                            $(_parent_dom).append(
+                                                '<div class="gallery-list p-1"></div>'
+                                            );
+                                        }
+                                        FUNC.showGallery(
+                                            _parent_dom.find(".gallery-list"),
+                                            'banners',
+                                            file_paths
+                                        );
+                                    }
 
                                 });
 
 
                             modal_form.modal('show');
                         },
-                        error: function(jqXHR, textStatus, errorThrown) {
+                        error: function (jqXHR, textStatus, errorThrown) {
                             console.log(errorThrown);
                             console.log(textStatus);
                             console.log(jqXHR);

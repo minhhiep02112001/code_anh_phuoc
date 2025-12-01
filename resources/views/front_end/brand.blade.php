@@ -117,7 +117,7 @@
                                 <h2><span class="icon flaticon-consulting-message"></span> Reviews {{ $post->title }}</h2>
                             </div>
                             <div class="widget-content">
-                                @dd($comments)
+                                
                                 @foreach ($comments as $item)
                                     <div class="comment">
                                         <div class="user-name"> {{ $item->fullname }}</div>

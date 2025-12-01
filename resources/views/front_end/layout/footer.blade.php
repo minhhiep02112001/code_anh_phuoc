@@ -6,26 +6,27 @@
         <div class="box-footer">
             <div class="row">
                 <div class="col-lg-4 col-sm-12">
-                    <div class="logo-footer"> <a href="https://goto-where.com" title="Goto Where"> <img
-                                src="https://goto-where.com/public/img/logo.png" width="150" alt="Goto Where">
-                        </a> </div>
+                    <div class="logo-footer">
+                        <a href="{{ route('home') }}" title="{{ $config_website->website ?? '' }}">
+                            <img src="{{ getImageThumb($config_website->logo_footer ?? '') }}" width="150"
+                                alt="{{ $config_website->website ?? '' }}">
+                        </a>
+                    </div>
                 </div>
                 <div class="col-lg-4 col-sm-12">
                     <div class="footer-list">
                         <h5 class="title-footer">About Us</h5>
                         <ul class="footer-nav">
-                            <li><a href="https://goto-where.com/about-us.html" title="About us">About us</a>
-                            </li>
-                            <li><a href="#">Contact us</a></li>
-                            <li><a href="#">Privacy policy</a></li>
-                            <li><a href="#">Accessibility Statement</a></li>
+                            @foreach($menus_footer as $menu)
+                                <li><a href="{{ $menu->link }}" title="{{ $menu->title }}">{{ $menu->title }}</a></li>
+                            @endforeach
                         </ul>
                     </div>
                 </div>
                 <div class="col-lg-4 col-sm-12">
                     <h5 class="title-footer">Do Business With Us</h5>
                     <ul class="footer-nav">
-                        <li>Email : goto.where.com@gmail.com</li>
+                        <li>Email : {{ $config_website->email ?? '' }}</li>
                     </ul>
                     <ul class="social-icon-one">
                         <li><a href="#"><span class="fab fa-facebook"></span></a></li>
@@ -40,6 +41,6 @@
         </div>
     </div>
     <div class="footer-bottom">
-        <div class="text">© 2025 Goto Where. All rights reserved.</div>
+        <div class="text">© 2025 {{ $config_website->website ?? '' }}. All rights reserved.</div>
     </div>
 </footer>

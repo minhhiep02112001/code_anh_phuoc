@@ -62,7 +62,7 @@ class HomeController extends Controller
     public function post($slug, $id = 0)
     {
         $post = $this->postRepository->findByField('slug', $slug)->first();
-        dd($post->id,$post->comment()->get() );
+       
         // if (empty($post) || $post->is_status != 1)
         //     return abort(404);
         $medias = $post->media()->select(['position', 'type', 'thumbnail'])->get()->groupBy('type');

@@ -8,11 +8,11 @@
     <div class="main-box">
         <div class="logo-box">
             <div class="logo">
-                <a href="https://goto-where.com" title="Goto Where">
+                <a href="{{ route('home') }}" title="Goto Where">
                     @if(!empty($post))
                         {{ $post->title }}
                     @else
-                        <img src="https://goto-where.com/public/img/logo.png" width="95" alt="Goto Where">
+                        <img src="{{ getImageThumb($config_website->logo_header ?? '') }}" width="95" alt="{{ $config_website->website ?? '' }}">
                     @endif
                 </a>
             </div>
@@ -30,11 +30,11 @@
 
     <div class="mobile-header">
         <div class="logo">
-            <a href="https://goto-where.com" title="Goto Where">
+            <a href="{{ route('home') }}" title="{{ $config_website->website ?? '' }}">
                 @if(!empty($post))
                     {{ $post->title }}
                 @else
-                    <img src="https://goto-where.com/public/img/logo.png" alt="Goto Where">
+                    <img src="{{ getImageThumb($config_website->logo_header ?? '') }}" alt="{{ $config_website->website ?? '' }}">
                 @endif
             </a>
         </div>
