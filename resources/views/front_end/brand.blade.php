@@ -4,9 +4,8 @@
     $config_seo = getValueSetting('config_seo');
     $medias = $post->media->all();
     $photos = collect($medias)->where('type', 'photo')->all();
-    $banner = collect($medias)->where('type', 'banner')->all();
     $menus = collect($medias)->where('type', 'menu')->all();
-
+    $indexImg = 0;
 @endphp
 
 @extends('front_end._index')
@@ -14,15 +13,15 @@
 @section('content')
 
     <section class="listing-banner box-brand">
-        <div class="background-layer banner-brand"
-            style="background-image: url('https://static.goto-where.com/199164-albums-1.jpg');"></div>
+        <div class="background-layer banner-brand" style="background-image: url('{{ getImageThumb($post->thumbnail) }}');">
+        </div>
         <div class="auto-container info-brand">
             <div class="content-box">
                 <div class="menu-item header-fixed">
                     <ul>
                         <li class="show"><a class="active" href="#overview" title="Overview">Overview</a></li>
                         <li class="show"><a href="#photos" title="Photos">Photos</a></li>
-                        <li class="show"><a href="https://khao-sok-eagle.goto-where.com/menu" title="Menu">Menu</a></li>
+                        <li class="show"><a href="#menu" title="Menu">Menu</a></li>
                         <li class="show"><a href="#reviews" title="Reviews">Reviews</a></li>
                         <li class="show"><a href="#location" title="Location">Location</a></li>
                     </ul>
@@ -37,7 +36,7 @@
                             <span class="fa fa-star"></span>
                             <span class="fa fa-star"></span>
                             <span class="avg-vote">5</span>
-                            <span class="title">(148 reviews )</span>
+                            <span class="title">({{ $post->viewed }} reviews )</span>
                         </div>
                     </div>
 
@@ -88,58 +87,93 @@
                                 </div>
                             </div>
                         @endif
-                        <div class="gallery-widget ls-widget" id="photos">
-                            <div class="widget-title">
-                                <h2><span class="icon flaticon-gallery"></span> Photos</h2>
+                        @if (!empty($menus))
+                            <div class="gallery-widget ls-widget" id="menus">
+                                <div class="widget-title">
+                                    <h2><span class="icon flaticon-gallery"></span> Menus</h2>
+                                </div>
+                                <div class="widget-content">
+                                    <ul class="listing-gallery listing-gallery-photos">
+                                        @foreach ($menus as $k => $item)
+                                            <li class="gallery-item photo-item-{{ $indexImg++ }}">
+                                                <div class="inner-box">
+                                                    <figure class="image"> <img class=""
+                                                            src="{{ getImageThumb($item->thumbnail) }}"
+                                                            alt="Menu {{ $post->title }} - {{ $k }}"
+                                                            data-src="{{ getImageThumb($item->thumbnail) }}"
+                                                            lazy="loading">
+                                                    </figure>
+                                                    <div class="overlay"> <a href="{{ getImageThumb($item->thumbnail) }}"
+                                                            class="lightbox-image" data-fancybox="ls-gallery-photos"
+                                                            title="Menu {{ $post->title }} - {{ $k }}"><span
+                                                                class="icon flaticon-magnifying-glass"></span></a> </div>
+                                                </div>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
                             </div>
-                            <div class="widget-content">
-                                <ul class="listing-gallery listing-gallery-photos">
-                                    @foreach ($photos as $k => $item)
-                                        <li class="gallery-item photo-item--{{ $k + 1 }}">
-                                            <div class="inner-box">
-                                                <figure class="image"> <img class=""
-                                                        src="{{ getImageThumb($item->thumbnail) }}"
-                                                        alt="{{ $post->title }} - {{ $k }}"
-                                                        data-src="{{ getImageThumb($item->thumbnail) }}" lazy="loading">
-                                                </figure>
-                                                <div class="overlay"> <a href="{{ getImageThumb($item->thumbnail) }}"
-                                                        class="lightbox-image" data-fancybox="ls-gallery-photos"
-                                                        title="{{ $post->title }} - {{ $k }}"><span
-                                                            class="icon flaticon-magnifying-glass"></span></a> </div>
+                        @endif
+
+                        @if (!empty($photos))
+                            <div class="gallery-widget ls-widget" id="photos">
+                                <div class="widget-title">
+                                    <h2><span class="icon flaticon-gallery"></span> Photos</h2>
+                                </div>
+                                <div class="widget-content">
+                                    <ul class="listing-gallery listing-gallery-photos">
+                                        @foreach ($photos as $k => $item)
+                                            <li class="gallery-item photo-item-{{ $indexImg++ }}">
+                                                <div class="inner-box">
+                                                    <figure class="image"> <img class=""
+                                                            src="{{ getImageThumb($item->thumbnail) }}"
+                                                            alt="Photo {{ $post->title }} - {{ $k }}"
+                                                            data-src="{{ getImageThumb($item->thumbnail) }}"
+                                                            lazy="loading">
+                                                    </figure>
+                                                    <div class="overlay"> <a href="{{ getImageThumb($item->thumbnail) }}"
+                                                            class="lightbox-image" data-fancybox="ls-gallery-photos"
+                                                            title="Photo {{ $post->title }} - {{ $k }}"><span
+                                                                class="icon flaticon-magnifying-glass"></span></a> </div>
+                                                </div>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                        @endif
+
+                        @if (!empty($comments))
+                            <div class="comments-widget ls-widget" id="reviews">
+                                <div class="widget-title">
+                                    <h2><span class="icon flaticon-consulting-message"></span> Reviews {{ $post->title }}
+                                    </h2>
+                                </div>
+                                <div class="widget-content">
+
+                                    @foreach ($comments as $item)
+                                        <div class="comment">
+                                            <div class="user-name"> {{ $item->fullname }}</div>
+                                            <div class="comment-info listing-block-two">
+                                                <ul class="rating">
+                                                    <span class="fa fa-star"></span>
+                                                    <span class="fa fa-star"></span>
+                                                    <span class="fa fa-star"></span>
+                                                    <span class="fa fa-star"></span>
+                                                    <span class="fa fa-star"></span>
+                                                </ul>
+                                                <div class="comment-time">
+                                                    {{ format_date($item->created_at, 'd-m-Y') }}
+                                                </div>
                                             </div>
-                                        </li>
+                                            <div class="text">
+                                                {!! $item->content ?? '' !!}
+                                            </div>
+                                        </div>
                                     @endforeach
-                                </ul>
+                                </div>
                             </div>
-                        </div>
-                        <div class="comments-widget ls-widget" id="reviews">
-                            <div class="widget-title">
-                                <h2><span class="icon flaticon-consulting-message"></span> Reviews {{ $post->title }}</h2>
-                            </div>
-                            <div class="widget-content">
-                                
-                                @foreach ($comments as $item)
-                                    <div class="comment">
-                                        <div class="user-name"> {{ $item->fullname }}</div>
-                                        <div class="comment-info listing-block-two">
-                                            <ul class="rating">
-                                                <span class="fa fa-star"></span>
-                                                <span class="fa fa-star"></span>
-                                                <span class="fa fa-star"></span>
-                                                <span class="fa fa-star"></span>
-                                                <span class="fa fa-star"></span>
-                                            </ul>
-                                            <div class="comment-time">
-                                                {{ format_date($item->created_at, 'd-m-Y') }}
-                                            </div>
-                                        </div>
-                                        <div class="text">
-                                            {!! $item->content ?? '' !!}
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
+                        @endif
                         <div class="comments-form-widget ls-widget">
                             <div class="widget-title">
                                 <h4><span class="icon flaticon-consulting-message"></span> Add a Review</h4>
@@ -185,11 +219,12 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
                 <div class="sidebar-side col-lg-6 col-md-12 col-sm-12">
                     <aside class="sidebar">
-                        <div class="timing-widget ls-widget" id="hours" >
+                        <div class="timing-widget ls-widget" id="hours">
                             <div class="widget-title">
                                 <h2><span class="icon flaticon-menu"></span>Opening Hours</h2> <span
                                     class="status"><strong class="time-status text-danger"
@@ -221,58 +256,56 @@
             </div>
         </div>
     </div>
-
-    <section class="listing-section-two appreciated-others">
-        <div class="container-fluid">
-            <div class="sec-title text-center">
-                <h2>Appreciated by Others</h2>
-            </div>
-            <div class="carousel-outer">
-                <div class="four-items-carousel owl-carousel owl-theme default-nav light no-dots owl-loaded owl-drag">
-                    <div class="owl-stage-outer">
-                        <div class="owl-stage"
-                            style="transform: translate3d(-6377px, 0px, 0px); transition: 0.4s; width: 9110px;">
-                            @foreach ($relates as $item)
-                                <div class="listing-block-two">
-                                    <div class="inner-box">
-                                        <div class="image-box">
-                                            <figure class="image">
-                                                <img class=""
-                                                    src="https://static.goto-where.com/199146-albums-1.jpg"
-                                                    data-src="https://static.goto-where.com/199146-albums-1.jpg"
-                                                    alt="Pizzeria Maria Luisa">
-                                            </figure>
-                                            <div class="content">
-                                                <div class="rating"> <span class="fa fa-star"></span> <span
-                                                        class="fa fa-star"></span> <span class="fa fa-star"></span> <span
-                                                        class="fa fa-star"></span> <span
-                                                        class="fa fa-star no-start"></span>
-                                                    <span class="title">(207 review)</span>
+    @if (!empty($relates))
+        <section class="listing-section-two appreciated-others">
+            <div class="container-fluid">
+                <div class="sec-title text-center">
+                    <h2>Appreciated by Others</h2>
+                </div>
+                <div class="carousel-outer">
+                    <div class="four-items-carousel owl-carousel owl-theme default-nav light no-dots owl-loaded owl-drag">
+                        <div class="owl-stage-outer">
+                            <div class="owl-stage"
+                                style="transform: translate3d(-6377px, 0px, 0px); transition: 0.4s; width: 9110px;">
+                                @foreach ($relates as $item)
+                                    <div class="listing-block-two">
+                                        <div class="inner-box">
+                                            <div class="image-box">
+                                                <figure class="image">
+                                                    <img src="{{ getImageThumb($item->thumbnail) }}"
+                                                        alt="{{ $item->title }}" lazy="loading">
+                                                </figure>
+                                                <div class="content">
+                                                    <div class="rating"> <span class="fa fa-star"></span> <span
+                                                            class="fa fa-star"></span> <span class="fa fa-star"></span>
+                                                        <span class="fa fa-star"></span> <span class="fa fa-star"></span>
+                                                        <span class="title">({{ $item->review }} review)</span>
+                                                    </div>
+                                                    <div class="title-brand"><a href="{{ route('post', $item->slug) }}"
+                                                            title="{{ $item->title }}">{{ $item->title }}</a></div>
+                                                    <ul class="info mt-3">
+                                                        <li><span class="flaticon-pin"></span>{{ $item->address }}</li>
+                                                    </ul>
                                                 </div>
-                                                <div class="title-brand"><a href="{{ route('post', $item->slug) }}"
-                                                        title="{{ $item->title }}">{{ $item->title }}</a></div>
-                                                <ul class="info mt-3">
-                                                    <li><span class="flaticon-pin"></span>{{ $item->address }}</li>
-                                                </ul>
                                             </div>
+                                            @if (!empty($item->phone))
+                                                <div class="bottom-box">
+                                                    <div class="places">
+                                                        <div class="place">Pizza Restaurant</div>
+                                                    </div>
+                                                    <div class="status"><span class="flaticon-phone-call"></span>
+                                                        {{ $item->phone }}
+                                                    </div>
+                                                </div>
+                                            @endif
                                         </div>
-                                        @if (!empty($item->phone))
-                                            <div class="bottom-box">
-                                                <div class="places">
-                                                    <div class="place">Pizza Restaurant</div>
-                                                </div>
-                                                <div class="status"><span class="flaticon-phone-call"></span>
-                                                    {{ $item->phone }}
-                                                </div>
-                                            </div>
-                                        @endif
                                     </div>
-                                </div>
-                            @endforeach
+                                @endforeach
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    @endif
 @endsection

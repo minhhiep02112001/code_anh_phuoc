@@ -17,8 +17,8 @@ return [
     ],
     'banner_type' => [
         'home' => 'Trang chủ',
-        'home_brand_1' => 'Banner icon bài viết trang chủ',
-        'home_brand' => 'Banner thương hiệu trang chủ',
+        'explore_more' => 'Banner Explore More? (trang chủ)',
+        'review_home' => 'Banner Love About (trang chủ)',
     ],
     'setting_menu' => [
         0 => 'Menu Header',

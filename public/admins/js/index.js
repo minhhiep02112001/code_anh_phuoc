@@ -725,7 +725,10 @@ var AJAX_CRUD_MODAL = {
             }
 
             /** Upload image */
-            if (value && ["thumbnail", "favicon", "logo_share"].includes(key)) {
+            if (
+                value &&
+                ["thumbnail", "favicon", "icon", "logo_share"].includes(key)
+            ) {
                 let box = modal_form.find(
                     `div[data-field-name="${key}"] .upload-box`
                 );
@@ -1274,7 +1277,7 @@ const AutoloadDataService = (function () {
             url: window.APP_URL + "/admin/ajax/category",
             dom: ".em-category",
             attr: "data-id",
-            formated: "$(title)", 
+            formated: "$(title)",
             fk: "id",
         },
         {
@@ -1300,38 +1303,6 @@ const AutoloadDataService = (function () {
         },
     ];
 
-    //
-    // Setup module components
-    //
-
-    var loadItemSelected = (domSelected) => {
-        let _id = $(domSelected).val();
-        let selector = $("select#color_id");
-        let params = {
-            params: {
-                id: dataSelected,
-            },
-        };
-        $.ajax({
-            url: _url_load_color,
-            dataType: "json",
-            data: params,
-        }).done(function (result) {
-            let data = result.data;
-            if (data.length > 0) {
-                $.each(data, function (indexInArray, valueOfElement) {
-                    let newOptionCo = new Option(
-                        valueOfElement.title,
-                        valueOfElement.id,
-                        true,
-                        true
-                    );
-                    $(selector).append(newOptionCo).trigger("change");
-                });
-            }
-        });
-    };
- 
     // Basic Datatable examples
     var replaceData = function (parentDom) {
         $.each(arrDomAutoFill, function (idx, item) {
@@ -1450,7 +1421,7 @@ const AutoloadDataService = (function () {
         });
     };
 
-    var selectData = function (parentDom) { 
+    var selectData = function (parentDom) {
         parentDom.find(".select2_suggest").each(function () {
             var self = $(this);
             loadSelectData(self);
@@ -1487,28 +1458,9 @@ const AutoloadDataService = (function () {
         }
         var objParams = {};
 
-        if (typeof option.query != "undefined") {
-            $.each(option.query, function (qidx, qkey) {
-                if (typeof objData["url_to_" + qidx] != "undefined") {
-                    urlLoad = formatReplace(objData["url_to_" + qidx], {
-                        [qidx]: qkey,
-                    });
-                } else {
-                    if (objData.version == 2) {
-                        objParams[qidx] = qkey;
-                    } else {
-                        if (typeof qkey == "object") {
-                            objParams[qidx] = { inq: qkey };
-                        } else {
-                            objParams[qidx] = { eq: qkey };
-                        }
-                    }
-                }
-            });
-        } else if (typeof objData.query != "undefined") {
+        if (typeof objData.query != "undefined") {
             $.each(objData.query, function (qidx, qkey) {
                 var objQuery = current_dom.attr("data-query-" + qkey);
-
                 if (objQuery) {
                     if (typeof objData["url_to_" + qkey] != "undefined") {
                         urlLoad = formatReplace(objData["url_to_" + qkey], {
@@ -1516,37 +1468,25 @@ const AutoloadDataService = (function () {
                         });
                     } else {
                         /////////// API MOI ///////////
-                        if (objData.version == 2) {
-                            if (objQuery.indexOf(",") > 0) {
-                                objQuery = objQuery.split(",");
-                            }
-                            objParams[qkey] = objQuery;
-                        } else {
-                            if (objQuery.indexOf(",") > 0) {
-                                objQuery = objQuery.split(",");
-                                objParams[qkey] = { inq: objQuery };
-                            } else {
-                                objParams[qkey] = { eq: objQuery };
-                            }
+                        if (objQuery.indexOf(",") > 0) {
+                            objQuery = objQuery.split(",");
                         }
+                        objParams[qkey] = objQuery;
                     }
                 }
             });
         }
 
         var search_param = objData.search_param || "";
-        var minimumInputLength =
-            (typeof showType == "undefined" || showType != "all") &&
-            search_param
-                ? 2
-                : 0;
+        var minimumInputLength = search_param ? 2 : 0;
         var limit = search_param ? 50 : 1000;
         var __cache = [];
 
         const keyId = objData.id || "id";
+        var __allItems = [];
 
         $(current_dom).select2({
-            minimumInputLength: 0,
+            minimumInputLength: minimumInputLength,
             allowClear: true,
             cache: false,
             placeholder: current_dom.attr("placeholder") || "Select an option",
@@ -1554,7 +1494,7 @@ const AutoloadDataService = (function () {
                 url: urlLoad,
                 type: "GET",
                 dataType: "json",
-                delay: 250,
+                delay: 200,
                 cache: false,
                 data: function (params) {
                     var query = {};
@@ -1573,27 +1513,46 @@ const AutoloadDataService = (function () {
                     };
                     return result;
                 },
+
                 processResults: function (responsive, params) {
-                    if (!responsive.data) {
-                        return false;
+                    // Từ khóa user đang gõ
+                    if (!responsive || !responsive.data) {
+                        return {
+                            results: [],
+                            pagination: { more: false },
+                        };
+                    }
+
+                    // Lần đầu: lưu toàn bộ data vào cache
+                    if (!__allItems || __allItems.length == 0) {
+                        __allItems = responsive.data;
                     }
 
                     params.page = params.page || 1;
-                    let dataResult = [];
-                    $.each(responsive.data, function (item_key, item) {
-                        if (item) {
-                            dataResult.push({
-                                id: item[keyId],
-                                text: item.title,
-                                html: item.title,
-                            });
+
+                    // Từ khóa user đang gõ
+                    let term = $.trim(params.term || "").toLowerCase();
+                    var filtered = [];
+                    $.each(__allItems, function (i, item) {
+                        if (!item) return;
+                        // Nếu có term thì lọc theo title (hoặc field khác bạn muốn)
+                        if (term && term.length) {
+                            var text = item.title.toLowerCase();
+                            if (text.indexOf(term) === -1) {
+                                return; // không match → bỏ
+                            }
                         }
+                        filtered.push({
+                            id: item[keyId],
+                            text: item.title,
+                            html: item.title,
+                        });
                     });
 
                     return {
-                        results: dataResult,
+                        results: filtered,
                         pagination: {
-                            more: dataResult.length == limit ? true : false,
+                            more: false, // vì đã dùng full cache local rồi, không phân trang nữa
                         },
                     };
                 },
@@ -1606,6 +1565,7 @@ const AutoloadDataService = (function () {
                         success(__cache[__cachekey]);
                         return;
                     }
+
                     var $request = $.ajax(params);
                     $request.then(function (data) {
                         //store data in cache
@@ -1622,7 +1582,7 @@ const AutoloadDataService = (function () {
             },
         });
     };
-     
+
     $.fn.loadSuggestData = function (params) {
         var o = $(this[0]); // This is the element
         loadSelectData($(this), params);
@@ -1785,7 +1745,7 @@ $(document).ready(function () {
                         file_paths
                     );
                 } else {
-                    let file_path = file_paths[0];
+                    let file_path = file_paths[0].replaceAll("//", "/");
                     _this.find('input[type="hidden"]').remove();
                     _this.append(
                         `<input type="hidden" name="${_name}" value="${file_path}">`

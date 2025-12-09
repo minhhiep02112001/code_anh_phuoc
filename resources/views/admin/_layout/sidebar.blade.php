@@ -24,10 +24,10 @@
                             mục</span></a>
                 </li>
 
-                <li class="{{ \Request::route()->getName() == 'admin.toplist' ? 'active' : '' }}">
+                {{-- <li class="{{ \Request::route()->getName() == 'admin.toplist' ? 'active' : '' }}">
                     <a href="{{ route('admin.toplist') }}" title="Quản lý danh mục"> <i
                             class="fas fa-table"></i><span>Quản lý top list</span></a>
-                </li>
+                </li> --}}
 
                 <li class="{{ \Request::route()->getName() == 'admin.post.index' ? 'active' : '' }}">
                     <a href="{{ route('admin.post.index') }}" title="Quản lý brand"> <i
@@ -66,11 +66,11 @@
                         </li>
                     </ul>
                 </li>
-                <li class="{{ \Request::route()->getName() == 'admin.crawler.index' ? 'active' : '' }}">
+                {{-- <li class="{{ \Request::route()->getName() == 'admin.crawler.index' ? 'active' : '' }}">
                     <a class="js-arrow" href="{{ route('admin.crawler.index') }}">
                         <i class="fas fa-arrow-down"></i><span>Crawler</span></a>
 
-                </li>
+                </li> --}}
             </ul>
         </nav>
     </div>

@@ -15,7 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     @include('front_end.block.config_seo_header')
     <!-- <link rel="stylesheet" href="https://goto-where.com/public/css/static-css.min.css"> -->
-    <link rel="stylesheet" href="{{asset('/assets/css/index.css')}}?v={{$ver}}">
+    <link rel="stylesheet" href="{{ asset('/assets/css/index.css') }}?v={{ $ver }}">
 
     <style>
         #time_open table {
@@ -29,6 +29,12 @@
 
         #time_open table td {
             padding: 10px;
+        }
+
+        .main-header .logo-box a {
+            font-size: 30px;
+            font-weight: 700;
+            color: #fff;
         }
     </style>
 </head>

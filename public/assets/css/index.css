@@ -11732,8 +11732,8 @@ a.text-dark:hover {
 
 @font-face {
     font-family: Flaticon;
-    src: url(/public/fonts/Flaticon.eot);
-    src: url(/public/fonts/Flaticon.eot?#iefix) format("embedded-opentype"), url(../font/Flaticon.woff2) format("woff2"), url(../font/Flaticon.woff) format("woff"), url(../font/Flaticon.ttf) format("truetype"), url(/public/fonts/Flaticon.svg#Flaticon) format("svg");
+    src: url(../fonts/Flaticon.eot);
+    src: url(../fonts/Flaticon.eot?#iefix) format("embedded-opentype"), url(../font/Flaticon.woff2) format("woff2"), url(../font/Flaticon.woff) format("woff"), url(../font/Flaticon.ttf) format("truetype"), url(../fonts/Flaticon.svg#Flaticon) format("svg");
     font-weight: 400;
     font-style: normal
 }
@@ -11741,7 +11741,7 @@ a.text-dark:hover {
 @media screen and (-webkit-min-device-pixel-ratio:0) {
     @font-face {
         font-family: Flaticon;
-        src: url(/public/fonts/Flaticon.svg#Flaticon) format("svg")
+        src: url(../fonts/Flaticon.svg#Flaticon) format("svg")
     }
 }
 
@@ -17876,8 +17876,8 @@ a.text-dark:hover {
     font-family: 'Font Awesome 5 Brands';
     font-style: normal;
     font-weight: 400;
-    src: url(/public/fonts/fa-brands-400.eot);
-    src: url(/public/fonts/fa-brands-400.eot?#iefix) format("embedded-opentype"), url(../font/fa-brands-400.woff2) format("woff2"), url(/public/fonts/fa-brands-400.woff) format("woff"), url(/public/fonts/fa-brands-400.ttf) format("truetype"), url(/public/fonts/fa-brands-400.svg#fontawesome) format("svg")
+    src: url(../fonts/fa-brands-400.eot);
+    src: url(../fonts/fa-brands-400.eot?#iefix) format("embedded-opentype"), url(../font/fa-brands-400.woff2) format("woff2"), url(../fonts/fa-brands-400.woff) format("woff"), url(../fonts/fa-brands-400.ttf) format("truetype"), url(../fonts/fa-brands-400.svg#fontawesome) format("svg")
 }
 
 .fab {
@@ -17888,8 +17888,8 @@ a.text-dark:hover {
     font-family: 'Font Awesome 5 Free';
     font-style: normal;
     font-weight: 400;
-    src: url(/public/fonts/fa-regular-400.eot);
-    src: url(/public/fonts/fa-regular-400.eot?#iefix) format("embedded-opentype"), url(../font/fa-regular-400.woff2) format("woff2"), url(../font/fa-regular-400.woff) format("woff"), url(../font/fa-regular-400.ttf) format("truetype"), url(/public/fonts/fa-regular-400.svg#fontawesome) format("svg")
+    src: url(../fonts/fa-regular-400.eot);
+    src: url(../fonts/fa-regular-400.eot?#iefix) format("embedded-opentype"), url(../font/fa-regular-400.woff2) format("woff2"), url(../font/fa-regular-400.woff) format("woff"), url(../font/fa-regular-400.ttf) format("truetype"), url(../fonts/fa-regular-400.svg#fontawesome) format("svg")
 }
 
 .far {
@@ -17901,8 +17901,8 @@ a.text-dark:hover {
     font-family: 'Font Awesome 5 Free';
     font-style: normal;
     font-weight: 900;
-    src: url(/public/fonts/fa-solid-900.eot);
-    src: url(/public/fonts/fa-solid-900.eot?#iefix) format("embedded-opentype"), url(../font/fa-solid-900.woff2) format("woff2"), url(/public/fonts/fa-solid-900.woff) format("woff"), url(/public/fonts/fa-solid-900.ttf) format("truetype"), url(/public/fonts/fa-solid-900.svg#fontawesome) format("svg")
+    src: url(../fonts/fa-solid-900.eot);
+    src: url(../fonts/fa-solid-900.eot?#iefix) format("embedded-opentype"), url(../font/fa-solid-900.woff2) format("woff2"), url(../fonts/fa-solid-900.woff) format("woff"), url(../fonts/fa-solid-900.ttf) format("truetype"), url(../fonts/fa-solid-900.svg#fontawesome) format("svg")
 }
 
 .fa,
@@ -30635,8 +30635,8 @@ a.ui-button:active {
     font-style: normal;
     font-weight: 400;
     font-display: auto;
-    src: url(/public/fonts/la-brands-400.eot);
-    src: url(/public/fonts/la-brands-400.eot?#iefix) format("embedded-opentype"), url(/public/fonts/la-brands-400.woff2) format("woff2"), url(/public/fonts/la-brands-400.woff) format("woff"), url(/public/fonts/la-brands-400.ttf) format("truetype"), url(/public/fonts/la-brands-400.svg#lineawesome) format("svg")
+    src: url(../fonts/la-brands-400.eot);
+    src: url(../fonts/la-brands-400.eot?#iefix) format("embedded-opentype"), url(../fonts/la-brands-400.woff2) format("woff2"), url(../fonts/la-brands-400.woff) format("woff"), url(../fonts/la-brands-400.ttf) format("truetype"), url(../fonts/la-brands-400.svg#lineawesome) format("svg")
 }
 
 .lab {
@@ -30648,8 +30648,8 @@ a.ui-button:active {
     font-style: normal;
     font-weight: 400;
     font-display: auto;
-    src: url(/public/fonts/la-regular-400.eot);
-    src: url(/public/fonts/la-regular-400.eot?#iefix) format("embedded-opentype"), url(/public/fonts/la-regular-400.woff2) format("woff2"), url(/public/fonts/la-regular-400.woff) format("woff"), url(/public/fonts/la-regular-400.ttf) format("truetype"), url(/public/fonts/la-regular-400.svg#lineawesome) format("svg")
+    src: url(../fonts/la-regular-400.eot);
+    src: url(../fonts/la-regular-400.eot?#iefix) format("embedded-opentype"), url(../fonts/la-regular-400.woff2) format("woff2"), url(../fonts/la-regular-400.woff) format("woff"), url(../fonts/la-regular-400.ttf) format("truetype"), url(../fonts/la-regular-400.svg#lineawesome) format("svg")
 }
 
 .lar {
@@ -30662,8 +30662,8 @@ a.ui-button:active {
     font-style: normal;
     font-weight: 900;
     font-display: auto;
-    src: url(/public/fonts/la-solid-900.eot);
-    src: url(/public/fonts/la-solid-900.eot?#iefix) format("embedded-opentype"), url(/../font/la-solid-900.woff2) format("woff2"), url(/public/fonts/la-solid-900.woff) format("woff"), url(/public/fonts/la-solid-900.ttf) format("truetype"), url(/public/fonts/la-solid-900.svg#lineawesome) format("svg")
+    src: url(../fonts/la-solid-900.eot);
+    src: url(../fonts/la-solid-900.eot?#iefix) format("embedded-opentype"), url(/../font/la-solid-900.woff2) format("woff2"), url(../fonts/la-solid-900.woff) format("woff"), url(../fonts/la-solid-900.ttf) format("truetype"), url(../fonts/la-solid-900.svg#lineawesome) format("svg")
 }
 
 .la,
@@ -51016,38 +51016,40 @@ section hr {
         padding: 15px 10px !important
     }
 
-    #photos .listing-gallery-photos {
+    #photos .listing-gallery-photos,
+    #menus .listing-gallery-photos {
         grid-template-columns: repeat(2, 1fr) !important;
         grid-auto-rows: 120px !important;
         overflow: hidden;
         gap: 10px !important
     }
 
+    #menus .photo-item--1,
     #photos .photo-item--1 {
         grid-column: span 1 !important;
         grid-row: span 2
     }
 
-    .see__hours #photos .photo-item--5 {
+    .see__hours #menus .photo-item--5,.see__hours #photos .photo-item--5 {
         grid-column: span 1 !important;
         grid-row: span 2
     }
 
-    #photos .photo-item--7 {
+    #menus .photo-item--7, #photos .photo-item--7 {
         grid-row: span 2 !important
     }
 
-    #photos .photo-item--11 {
+   #menus .photo-item--11, #photos .photo-item--11 {
         grid-column: span 1 !important;
         grid-row: span 2
     }
 
-    #photos .photo-item--13 {
+   #menus .photo-item--13, #photos .photo-item--13 {
         grid-column: span 1 !important;
         grid-row: span 2
     }
 
-    #photos .photo-item--9 {
+   #menus .photo-item--9, #photos .photo-item--9 {
         grid-column: span 1 !important
     }
 
@@ -51060,7 +51062,7 @@ section hr {
         font-size: 24px !important
     }
 
-    #photos .listing-gallery .gallery-item .image img {
+    #menus .listing-gallery .gallery-item .image img , #photos .listing-gallery .gallery-item .image img {
         height: 250px !important
     }
 
@@ -51318,7 +51320,7 @@ section hr {
 }
 
 .banner-brand {
-    top: 100px !important
+    top: 90px !important
 }
 
 .banner-brand:before {
@@ -51385,43 +51387,43 @@ section hr {
     font-size: 20px
 }
 
-#photos .listing-gallery-photos {
+#menus .listing-gallery-photos, #photos .listing-gallery-photos {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-auto-rows: 18rem;
     gap: 1rem
 }
 
-#photos .gallery-item {
+#menus .gallery-item #photos .gallery-item {
     overflow: hidden;
     cursor: pointer;
     border-radius: 10px !important
 }
 
-#photos .image img {
+#menus .image img ,#photos .image img {
     display: block;
     width: 100%;
     height: 100%;
     object-fit: cover
 }
 
-#photos .photo-item--1 {
+#menus .photo-item--1 ,#photos .photo-item--1 {
     grid-column: span 2
 }
 
-#photos .photo-item--5 {
+#menus .photo-item--5,#photos .photo-item--5 {
     grid-column: span 2
 }
 
-#photos .photo-item--9 {
+#menus .photo-item--9,#photos .photo-item--9 {
     grid-column: span 2
 }
 
-#photos .photo-item--11 {
+#menus .photo-item--11,#photos .photo-item--11 {
     grid-column: span 2
 }
 
-#photos .photo-item--13 {
+#menus .photo-item--13,#photos .photo-item--13 {
     grid-column: span 2
 }
 

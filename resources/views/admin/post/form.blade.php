@@ -10,8 +10,8 @@
             <a class="nav-item nav-link" id="nav-tab_setting-tab" data-toggle="tab" href="#tab_setting" role="tab"
                 aria-controls="nav-tab_setting" aria-selected="true">Cấu hình </a>
 
-            <a class="nav-item nav-link" id="nav-tab_page-tab" data-toggle="tab" href="#tab_page" role="tab"
-                aria-controls="nav-tab_page" aria-selected="true">Cấu hình page </a>
+            {{-- <a class="nav-item nav-link" id="nav-tab_page-tab" data-toggle="tab" href="#tab_page" role="tab"
+                aria-controls="nav-tab_page" aria-selected="true">Cấu hình page </a> --}}
 
         </div>
         <div class="tab-content pt-3">
@@ -26,35 +26,21 @@
 
                         <div class="form-group">
                             <label>Tóm tắt</label>
-                            <textarea name="description" id="description" placeholder="Tóm tắt" class="form-control"
-                                rows="5"></textarea>
+                            <textarea name="description" id="description" placeholder="Tóm tắt" class="form-control" rows="5"></textarea>
                         </div>
-                        <!-- <fieldset>
-                                        <legend class="w-auto ">Content block 1:</legend>
-                                        <div class="form-group">
-                                            <label for="image_block_1">Ảnh </label>
-                                            <div class="upload-container" data-field-name="image_block_1" is_multiple="false">
-                                                <div class="upload-box">
-                                                    <span>+</span>
-                                                    <img class="preview-image" alt="Preview">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Nội dung</label>
-                                            <textarea name="content_block_1" id="content_block_1" rows="10" class="form-control tinymce"
-                                                placeholder="Meta description"></textarea>
-                                        </div>
-                                    </fieldset> -->
-                        {{-- <div class="form-group">
-                            <label>Nội dung Banner</label>
-                            <textarea name="content_banner" id="description" class="form-control" rows="5"></textarea>
-                        </div> --}}
-                        <div class="form-group">
-                            <label>Nội dung</label>
-                            <textarea name="content" id="content" placeholder="Nội dung" class="form-control tinymce"
-                                rows="5"></textarea>
-                        </div>
+                        <fieldset>
+                            <div class="form-group">
+                                <label>Content about:</label>
+                                <textarea name="content_about" id="content_about about" rows="10" class="form-control tinymce"
+                                    placeholder="Meta description"></textarea>
+                            </div>
+                        </fieldset>
+                        <fieldset class="mt-3">
+                            <div class="form-group">
+                                <label>Nội dung</label>
+                                <textarea name="content" id="content" placeholder="Nội dung" class="form-control tinymce" rows="5"></textarea>
+                            </div>
+                        </fieldset>
 
                     </div>
                     <div class="col-sm-4 col-xs-12">
@@ -70,7 +56,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group colo-6">
+                            <div class="form-group col-6">
                                 <label for="thumbnail">Favicon </label>
                                 <!-- Single File Upload -->
                                 <div class="upload-container" data-field-name="favicon" is_multiple="false">
@@ -81,7 +67,6 @@
                                 </div>
                             </div>
                         </div>
-                    
 
                         @include('admin._layout.section.seo')
 
@@ -138,14 +123,15 @@
                         </div>
                         <div class="form-group">
                             <label>Review google</label>
-                            <input name="review_google" placeholder="Review google" class="form-control" type="text" />
+                            <input name="review_google" placeholder="Review google" class="form-control"
+                                type="text" />
                         </div>
                     </div>
                     <div class="col-lg-6 col-12">
                         <div class="form-group">
-                            <label>Ảnh gallerys</label>
+                            <label>Ảnh menus</label>
                             <div class="gallery-upload">
-                                <div class="upload-container" data-field-name="thumbnails" is_multiple="true">
+                                <div class="upload-container" data-field-name="menus" is_multiple="true">
                                     <div class="upload-box w-100">
                                         <span>+</span>
                                     </div>
@@ -154,9 +140,9 @@
                         </div>
 
                         <div class="form-group">
-                            <label>Ảnh banners</label>
+                            <label>Ảnh gallerys</label>
                             <div class="gallery-upload">
-                                <div class="upload-container" data-field-name="banners" is_multiple="true">
+                                <div class="upload-container" data-field-name="thumbnails" is_multiple="true">
                                     <div class="upload-box w-100">
                                         <span>+</span>
                                     </div>
@@ -204,8 +190,8 @@
                             <div class="form-group mb-1 form-group-sm row">
                                 <label class="col-sm-3 col-form-label-sm">Tripadvisor:</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class=" form-control input-sm" name="config_social[tripadvisor]"
-                                        value="{{ $config_social->tripadvisor ?? '' }}">
+                                    <input type="text" class=" form-control input-sm"
+                                        name="config_social[tripadvisor]" value="{{ $config_social->tripadvisor ?? '' }}">
                                 </div>
                             </div>
                             <div class="form-group mb-1 form-group-sm row">
@@ -308,7 +294,7 @@
                 </div> --}}
             </div>
             <div class="tab-pane" id="tab_page">
-                <div class="row">
+                {{-- <div class="row">
                     <div class="col-lg-6 col-12">
                         <fieldset>
                             <legend class="w-auto ">Cấu hình menu:</legend>
@@ -322,7 +308,7 @@
                     <div class="col-lg-6 col-12">
 
                     </div>
-                </div>
+                </div> --}}
                 {{-- <div class="col-lg-6 col-12">
                     <fieldset>
                         <legend class="w-auto ">Content footer:</legend>

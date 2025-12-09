@@ -134,16 +134,16 @@ class PostController extends BaseAdminController
             DB::beginTransaction();
             $story = $this->_repository->create($input);
 
-            if ($request->has('banners') && !empty($request->get('banners'))) {
-                $banners = array_map(function ($item) use ($story) {
+            if ($request->has('menus') && !empty($request->get('menus'))) {
+                $menus = array_map(function ($item) use ($story) {
                     return [
                         'position' => $item['position'] ?? 0,
                         'thumbnail' => $item['thumb'] ?? '',
                         'post_id' => $story->id,
-                        'type' => 'banner'
+                        'type' => 'menu'
                     ];
-                }, $request->banners);
-                DB::table('st_post_images')->insert($banners);
+                }, $request->menus);
+                DB::table('st_post_images')->insert($menus);
             }
 
             if ($request->has('thumbnails') && !empty($request->get('thumbnails'))) {
@@ -181,7 +181,7 @@ class PostController extends BaseAdminController
             return response()->json(['status' => 'error'], 500);
         $story['url'] = route('post', ['slug' => $story->slug]);
 
-        $story['banners'] = $story->media()->where('type', 'banner')->get();
+        $story['menus'] = $story->media()->where('type', 'menu')->get();
         $story['thumbnails'] = $story->media()->where('type', 'photo')->get();
         if (!empty($story->config_social)) {
             $story['config_social'] = json_decode($story->config_social);
@@ -248,20 +248,20 @@ class PostController extends BaseAdminController
             DB::beginTransaction();
             $this->_repository->update($input, $id);
 
-            if ($request->has('banners') && !empty($request->get('banners'))) {
-                $banners = array_map(function ($item) use ($story) {
+            if ($request->has('menus') && !empty($request->get('menus'))) {
+                $menus = array_map(function ($item) use ($story) {
                     return [
                         'position' => $item['position'] ?? 0,
                         'thumbnail' => $item['thumb'] ?? '',
                         'post_id' => $story->id,
-                        'type' => 'banner'
+                        'type' => 'menu'
                     ];
-                }, $request->banners);
+                }, $request->menus);
                 DB::table('st_post_images')->where([
                     'post_id' => $story->id,
-                    'type' => 'banner'
+                    'type' => 'menu'
                 ])->delete();
-                DB::table('st_post_images')->insert($banners);
+                DB::table('st_post_images')->insert($menus);
             }
 
             if ($request->has('thumbnails') && !empty($request->get('thumbnails'))) {

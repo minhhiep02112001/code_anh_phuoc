@@ -263,12 +263,12 @@
                                         );
                                     }
 
-                                    if (key == 'banners') {
+                                    if (key == 'menus') {
                                         var file_paths = value.map(
                                             (item) => item.thumbnail
                                         );
                                         // Update input value and preview 
-                                        let _parent_dom = $('div[data-field-name="banners"]')
+                                        let _parent_dom = $('div[data-field-name="menus"]')
                                             .closest(
                                                 ".gallery-upload");
                                         if (_parent_dom.find(".gallery-list").length == 0) {
@@ -278,7 +278,7 @@
                                         }
                                         FUNC.showGallery(
                                             _parent_dom.find(".gallery-list"),
-                                            'banners',
+                                            'menus',
                                             file_paths
                                         );
                                     }

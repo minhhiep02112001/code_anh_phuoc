@@ -140,7 +140,7 @@ Route::domain('{slug}.' . env('DOMAIN'))->group(function () {
 Route::group([
     'middleware' => ['redirect_301']
 ], function () {
-    Route::get('/', [App\Http\Controllers\HomeController::class, 'dashboard'])->name('home')->middleware('cacheResponse:300');
+    Route::any('/', [App\Http\Controllers\HomeController::class, 'dashboard'])->name('home')->middleware('cacheResponse:300');
     // Route::get('/search', [App\Http\Controllers\HomeController::class, 'search'])->name('search');
     if (\App::environment('local')) {
         // ví dụ: tin-tuc-post.html
