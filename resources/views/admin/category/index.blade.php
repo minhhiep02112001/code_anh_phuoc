@@ -9,7 +9,7 @@
                             <h3 class="card-title">Category</h3>
                         </div>
                         <div class="table-data__tool-right">
-                            <button type="button" data-action="{{ route('admin.category.store') }}" data-method="POST"
+                            <button type="button" data-action="{{ route('admin.categories.store') }}" data-method="POST"
                                 class="btn btn-success btn-sm btnAddForm"><i class="fa fa-plus"></i> Thêm
                                 mới
                             </button>
@@ -84,8 +84,8 @@
     @include('admin.category.form')
     <script>
         //setting url
-        var url_ajax_list = window.APP_URL + "/admin/ajax/category?type={{ $type }}";
-        var url_ajax_edit = window.APP_URL + "/admin/category";
+        var url_ajax_list = window.APP_URL + "/admin/ajax/categories?type={{ $type }}";
+        var url_ajax_edit = window.APP_URL + "/admin/categories";
         // Dom Ready
 
         $(document).ready(function() {

@@ -71,9 +71,8 @@ Route::group([
     Route::get('crawler/export', [App\Http\Controllers\Admin\CrawlerController::class, 'export'])->name('crawler.export');
 
     Route::get('/', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
-    Route::get('category/product', [App\Http\Controllers\Admin\CategoryController::class, 'product']);
     Route::get('toplist', [App\Http\Controllers\Admin\PostController::class, 'topList'])->name('toplist');
-    Route::resource('category', App\Http\Controllers\Admin\CategoryController::class);
+    Route::resource('categories', App\Http\Controllers\Admin\CategoryController::class);
     Route::resource('keyword', App\Http\Controllers\Admin\KeywordController::class);
     Route::resource('banner', App\Http\Controllers\Admin\BannerController::class);
     Route::resource('comment', App\Http\Controllers\Admin\CommentController::class);
@@ -93,7 +92,7 @@ Route::group([
         Route::get('/crawler', [App\Http\Controllers\Admin\CrawlerController::class, 'ajax_load_data']);
         Route::get('/role', [App\Http\Controllers\Admin\RoleController::class, 'ajax_load_data']);
         Route::get('/banner', [App\Http\Controllers\Admin\BannerController::class, 'ajax_load_data']);
-        Route::get('/category', [App\Http\Controllers\Admin\CategoryController::class, 'ajax_load_data']);
+        Route::get('/categories', [App\Http\Controllers\Admin\CategoryController::class, 'ajax_load_data']);
         Route::get('/redirect', [App\Http\Controllers\Admin\RedirectController::class, 'ajax_load_data']);
         Route::get('/page', [App\Http\Controllers\Admin\PageController::class, 'ajax_load_data']);
         Route::get('/comment', [App\Http\Controllers\Admin\CommentController::class, 'ajax_load_data']);

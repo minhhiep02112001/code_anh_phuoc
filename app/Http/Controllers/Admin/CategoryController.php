@@ -80,7 +80,7 @@ class CategoryController extends BaseAdminController
     public function create()
     {
         $data = [
-            'action' => route('admin.category.store'),
+            'action' => route('admin.categories.store'),
             'method' => 'POST',
         ];
         return view('admin.category.form', $data);
@@ -114,7 +114,7 @@ class CategoryController extends BaseAdminController
      */
     public function show($id, Request $request)
     {
-        if (!$request->ajax()) return redirect()->route('admin.category.index');
+        if (!$request->ajax()) return redirect()->route('admin.categories.index');
         $category = $this->_repository->find($id);
         if (empty($category)) return response()->json(['status' => 'error'], 500);
         return response()->json(['status' => 'success', 'data_info' => $category], 200);
@@ -128,7 +128,7 @@ class CategoryController extends BaseAdminController
     public function edit($id)
     {
         $data = [
-            'action' => route('admin.category.update', ['category' => $id]),
+            'action' => route('admin.categories.update', ['category' => $id]),
             'row' => $this->_repository->find($id),
             'method' => 'PUT',
         ];

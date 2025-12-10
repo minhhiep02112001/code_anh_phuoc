@@ -18,8 +18,8 @@
                             class="fas fa-table"></i><span>Quản lý
                             banner</span></a>
                 </li>
-                <li class="{{ \Request::route()->getName() == 'admin.category.index' ? 'active' : '' }}">
-                    <a href="{{ route('admin.category.index') }}" title="Quản lý danh mục"> <i
+                <li class="{{ \Request::route()->getName() == 'admin.categories.index' ? 'active' : '' }}">
+                    <a href="{{ route('admin.categories.index') }}" title="Quản lý danh mục"> <i
                             class="fas fa-table"></i><span>Quản lý danh
                             mục</span></a>
                 </li>

@@ -22,8 +22,8 @@
                         <i class="fas fa-tachometer-alt"></i>Dashboard</a>
 
                 </li> 
-                <li class="{{\Request::route()->getName() == 'admin.category.index' ? 'has-sub active' : ''  }}">
-                    <a href="{{route('admin.category.index')}}"> <i class="fas fa-table"></i>Quản lý danh mục</a>
+                <li class="{{\Request::route()->getName() == 'admin.categories.index' ? 'has-sub active' : ''  }}">
+                    <a href="{{route('admin.categories.index')}}"> <i class="fas fa-table"></i>Quản lý danh mục</a>
                 </li>
                 <li class="{{\Request::route()->getName() == 'admin.banner.index' ? 'has-sub active' : ''  }}">
                     <a href="{{route('admin.banner.index')}}"> <i class="fas fa-table"></i>Quản lý banner</a>

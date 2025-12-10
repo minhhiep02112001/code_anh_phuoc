@@ -175,7 +175,7 @@ class PostController extends BaseAdminController
     public function show($id, Request $request)
     {
         if (!$request->ajax())
-            return redirect()->route('admin.category.index');
+            return redirect()->route('admin.categories.index');
         $story = $this->_repository->find($id);
         if (empty($story))
             return response()->json(['status' => 'error'], 500);
