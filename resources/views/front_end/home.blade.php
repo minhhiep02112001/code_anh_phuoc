@@ -151,7 +151,8 @@
                 @foreach ($categories as $category)
                     <div class="explore-block col-lg-3 col-md-6 col-sm-12">
                         <div class="inner-box">
-                            <figure class="image"><img src="public/img/new-york.jpg" alt=""></figure>
+                            <figure class="image"><img src="{{ getImageThumb($category->thumbnail, 300, 400) }}"
+                                    alt=""></figure>
                             <div class="overlay-box">
                                 <div class="content">
                                     <h5>{{ $category->title }}</h5>

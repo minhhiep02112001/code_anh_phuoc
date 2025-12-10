@@ -40793,7 +40793,8 @@ section hr {
 }
 
 .banner-section.style-two {
-    position: relative
+    position: relative;
+    overflow: hidden;
 }
 
 .banner-section.style-two .background-layer:before {
