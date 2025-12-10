@@ -6,7 +6,7 @@
                 <div class="card-header">
                     <div class="table-data__tool mb-0">
                         <div class="table-data__tool-left">
-                            <h3 class="card-title">Bài viết</h3>
+                            <h3 class="card-title">Brand</h3>
                         </div>
                         <div class="table-data__tool-right">
                             <button type="button" data-action="{{ route('admin.post.store') }}" data-method="POST"

@@ -6,7 +6,7 @@
                 <div class="card-header">
                     <div class="table-data__tool mb-0">
                         <div class="table-data__tool-left">
-                            <h3 class="card-title">Category</h3>
+                            <h3 class="card-title">Banner</h3>
                         </div>
                         <div class="table-data__tool-right">
                             <button type="button" data-action="{{ route('admin.banner.store') }}" data-method="POST"
