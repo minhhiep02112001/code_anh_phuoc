@@ -57,27 +57,19 @@ class ConvertData extends Command
     // php artisan convert:data --function=updatePost
     public function updatePost()
     {
-        $languages = Language::all();
-
-        $languageTitle  = $languages->pluck('title')->toArray();
-        $datas = DB::table('datacenter.crawler_map')->where([
-            'is_crawler' => 1,
-            'is_convert' => 0,
-            'is_status' => 1
-        ])->whereIn('domain', $languageTitle)->get();
+        $datas = Crawler::where(['is_crawler' => 1, 'is_convert' => 0, 'is_status' => 1])->get();
 
         foreach ($datas as $data) {
             echo "\n\n Start: {$data->key_word}";
             $data->slug = \Str::slug($data->key_word);
             $post = Post::firstOrCreate(['slug' => $data->slug], ['title' => $data->key_word, 'slug' => $data->slug]);
             if (!empty($post->is_status)) continue;
-            $lang = collect($languages)->where('title', $data->domain)->first();
-
+             
             $data_update = [
-                'is_thumbnail' => 1, 
+                'is_thumbnail' => 1,
                 'theme' => 'theme_1'
-            ]; 
-            
+            ];
+
             $thumnail_post = str_replace(['storage', '//'], '', trim($post->thumbnail ?? '', '/'));
 
             if ((empty($thumnail_post) || !Storage::disk('public')->exists($thumnail_post)) && !empty($data->thumbnail)) { // download_image
@@ -213,7 +205,7 @@ class ConvertData extends Command
             if (!empty($data_update)) {
                 //     //     // $data_update['is_status'] = 0;
                 DB::table('st_post')->where('id', $post->id)->update($data_update);
-                DB::table('datacenter.crawler_map')->where('id', $data->id)->update(['relate_id' => $post->id, 'is_convert' => 1]);
+                Crawler::where('id', $data->id)->update(['relate_id' => $post->id, 'is_convert' => 1]);
                 //     // echo "\n Done {$post->id} status {$post->is_status}";
                 echo "\n Done {$post->id} status {$post->is_status}";
             }

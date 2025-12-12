@@ -28,13 +28,13 @@ class CrawlerController extends BaseAdminController
         $offset = $request->offset ?? $request->start ?? 0;
         $params = $request->params ?? [];
         $option = ['limit' => $limit, 'offset' => $offset];
-
+     
         if (!empty($params['order_by'])) {
             $order = explode('__', $params['order_by']);
             $option['order_by'] = [$order[0], $order[1]];
             unset($params['order_by']);
         }
- 
+        
         $total = $this->_repository->count_customer($params);
         $list = $this->_repository->getAll($params, $option);
 

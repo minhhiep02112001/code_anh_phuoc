@@ -8,10 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Crawler extends Model
 {
     use HasFactory; 
-    protected $table = 'datacenter.crawler_map';
-    protected $fillable = [
-
-        'domain',
+    protected $table = 'crawler_map';
+    protected $fillable = [ 
         'type',
         'key_word',
         'slug',

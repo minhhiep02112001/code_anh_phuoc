@@ -1,12 +1,18 @@
 const puppeteer = require("puppeteer-extra");
-const randomUseragent = require("random-useragent");
-const Helper = require("./Helper/Function");
-const database = require("./Helper/database");
+const database = require("./database");
 const folder_path = "/storage/photos/nails";
 const WAIT_TIME_SHORT = 1000;
 const WAIT_TIME_SHORTLONG = 3000;
 const WAIT_TIME_LONG = 3000;
 const slugify = require("slugify");
+
+const table = {
+    product: "st_product",
+    about: "st_about",
+    image: "st_post_images",
+    comment: "st_comment",
+    crawler: "crawler_map",
+};
 
 function extractInParentheses(text) {
     const match = text.match(/\(([^)]+)\)/); // Tìm chuỗi bên trong dấu ()
@@ -15,6 +21,12 @@ function extractInParentheses(text) {
 function convertStr(str) {
     return str.replace(/'/g, "''");
 }
+function convertToSlug(text) {
+    if (typeof text !== "string") return "";
+    text = text.replace(/[^a-zA-Z0-9\s]/g, "");
+    return slugify(text, { lower: true, strict: true, trim: true });
+}
+
 async function crawlerGoogleIframe(browser, record, retry = 5) {
     let url = record.link_google_map;
     let crawler_id = record.id;
@@ -64,11 +76,11 @@ async function crawlerGoogleIframe(browser, record, retry = 5) {
             // Lấy giờ mở cửa (ví dụ: "Closed · Opens 10AM")
             const openHoursEl = document.querySelector(
                 'div[data-hide-tooltip-on-mouse-move="true"][role="button"]'
-            ); 
+            );
             if (openHoursEl) {
-                openHoursEl.closest("div").click(); 
+                openHoursEl.closest("div").click();
                 const table = openHoursEl.parentNode.querySelector("table");
-                obj.time_open = table ? table.outerHTML : null; 
+                obj.time_open = table ? table.outerHTML : null;
             }
 
             obj.phone = phoneButton
@@ -84,7 +96,7 @@ async function crawlerGoogleIframe(browser, record, retry = 5) {
                 : "";
 
             return obj; // Không tìm thấy nút để click
-        }); 
+        });
         // Sử dụng Puppeteer để kiểm tra và click nếu nút tồn tại
         const buttonClicked = await page.evaluate(async () => {
             await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -108,7 +120,6 @@ async function crawlerGoogleIframe(browser, record, retry = 5) {
             }
             return;
         }
-
         await page.waitForTimeout(WAIT_TIME_SHORT);
         // get image menus
         data_update.link_google_map = link_google_map;
@@ -149,17 +160,21 @@ async function crawlerGoogleIframe(browser, record, retry = 5) {
         data_update.email = convertStr(data_update.email ?? "");
         data_update.thumbnail = convertStr(data_update.thumbnail ?? "");
         data_update.phone = convertStr(data_update.phone ?? "");
-        data_update.time_open = data_update.time_open ? convertStr(data_update.time_open ?? "") : '';
+        data_update.time_open = data_update.time_open
+            ? convertStr(data_update.time_open ?? "")
+            : "";
+        record.slug = data_update.slug = slugify(record.key_word, {
+            lower: true,
+        });
         data_update.google_review = convertStr(data_update.google_review ?? "");
         data_update.is_crawler_iframe_map = data_update.iframe_map ? 1 : 0;
         data_update.is_convert = 1;
         data_update.is_crawler = 1;
         data_update.is_error = 0;
-        
-        await database.update_crawler_map(crawler_id, data_update, 2);
-
+        await database.update_crawler_map(crawler_id, data_update, 1);
+        await crawlerMenu(page, record);
+        await crawler_comment(page, record);
         await crawler_about(page, record);
-        // await crawler_comment(page, record);
         await crawler_images(page, record);
         // get ảnh thumbnail
         await page.close();
@@ -168,6 +183,137 @@ async function crawlerGoogleIframe(browser, record, retry = 5) {
         await page.close();
         console.error("Error crawling " + url, error);
         return false;
+    }
+}
+
+async function crawlerMenu(page, record) {
+    try {
+        await page.evaluate(async () => {
+            let allButtons = Array.from(
+                document.querySelectorAll(
+                    'div[role="tablist"] button[role="tab"]'
+                )
+            );
+            let button = allButtons.find((button) => {
+                const text = button.textContent
+                    ? button.textContent.trim().toLowerCase()
+                    : "";
+                return text === "menu" || text === "Menus";
+            });
+            if (button) {
+                button.click();
+                return true;
+            }
+            return false;
+        });
+        await page.waitForTimeout(WAIT_TIME_SHORT);
+        const checkMenu = await page.evaluate(() => {
+            const lists = document.querySelectorAll('div[role="tablist"]');
+            return lists.length > 1;
+        });
+
+        if (checkMenu) {
+            // lấy node tablist thứ 2
+            const tablists = await page.$$('div[role="tablist"]');
+            const tablist = tablists[1];
+
+            // lấy tất cả tab (category)
+            let tabs = await tablist.$$('button[role="tab"]');
+            await database.execute(
+                `Delete from ${table.product} where crawler_id = ${record.id}`
+            );
+            for (let i = 1; i < tabs.length; i++) {
+                console.log("\n Click " + tabs[i]);
+                // lấy tiêu đề tab
+                const title = await tabs[i].evaluate((el) =>
+                    (el.textContent || "").trim()
+                );
+                // cuộn tab vào giữa rồi click
+                await tabs[i].evaluate((el) =>
+                    el.scrollIntoView({ block: "center", inline: "center" })
+                );
+                await tabs[i].click({ delay: 50 });
+
+                // đợi tab được chọn
+                await page.waitForTimeout(200);
+                const items = await page.evaluate((tabEl) => {
+                    // Bây giờ tabEl là một DOM element thật, có thể dùng closest
+                    const domProduct = document.querySelector(
+                        'div[aria-label="Menu"][role="region"]'
+                    );
+                    if (!domProduct) return [];
+
+                    // Lấy tất cả con cấp 1
+                    const rows = Array.from(domProduct.children);
+
+                    const data = rows
+                        .map((row) => {
+                            const name =
+                                row
+                                    .querySelector("div.fontBodyMedium")
+                                    ?.textContent?.trim() || "";
+
+                            const price =
+                                row.querySelector("h2")?.textContent?.trim() ||
+                                "";
+
+                            return { name, price };
+                        })
+                        .filter((item) => item.name);
+                    return data;
+                }, tabs[i]); // <-- phải truyền tabs[i] ở đây
+                if (items.length > 0) {
+                    let relate_id = record.relate_id ?? 0;
+                    let parentSlug = slugify(title, { lower: true });
+                    let insertParentSql = `
+                        INSERT INTO ${
+                            table.product
+                        } (title, slug, parent_id, relate_id, crawler_id)
+                        VALUES ('${convertStr(title)}', '${convertStr(
+                        parentSlug
+                    )}', 0, ${relate_id}, ${record.id})`;
+                    let parentResult = await database.execute(insertParentSql);
+                    let parentId = parentResult.insertId;
+
+                    // 👉 Insert children
+                    for (let child of items) {
+                        let childSlug = convertStr(
+                            slugify(child.name, { lower: true })
+                        );
+                        let insertChildSql = `
+                        INSERT INTO ${
+                            table.product
+                        } (title, slug, price , parent_id, relate_id, crawler_id)
+                        VALUES ('${convertStr(child.name)}', '${childSlug}', '${
+                            child.price
+                        }', ${parentId},  ${relate_id}, ${record.id})`;
+                        await database.execute(insertChildSql);
+                    }
+                    console.log(
+                        "\nSuccess Menu",
+                        title,
+                        "(" + items.length + ")"
+                    );
+                }
+                // NOTE: DOM Maps hay thay đổi -> lấy lại danh sách tabs mỗi vòng
+                tabs = await tablist.$$('button[role="tab"]');
+            }
+            await page.evaluate(async () => {
+                let allButtons = Array.from(
+                    document.querySelectorAll(
+                        'div[role="tablist"] button[role="tab"]'
+                    )
+                );
+                if (allButtons) allButtons[0].click();
+                return;
+            });
+            console.log("=> Success Menus: " + record.key_word);
+        } else {
+            console.log("Menus Null: " + record.key_word);
+        }
+        return;
+    } catch (e) {
+        console.log("Error Menu: " + record.key_word);
     }
 }
 
@@ -222,7 +368,6 @@ async function crawler_about(page, record) {
                     childs: childs,
                 });
             });
-
             return list;
         }
         return [];
@@ -230,36 +375,54 @@ async function crawler_about(page, record) {
     if (abouts.length > 0) {
         const relate_id = record.relate_id ?? 0;
         await database.execute(
-            `Delete from about where crawler_id = ${record.id}`
+            `Delete from ${table.about} where crawler_id = ${record.id}`
         );
         for (const group of abouts) {
             const parentTitle = group.parent;
             const parentSlug = slugify(parentTitle, { lower: true });
             // 👉 Insert parent
             const insertParentSql = `
-              INSERT INTO about (title, slug, parent_id, relate_id, crawler_id)
-              VALUES ('${parentTitle}', '${parentSlug}', 0, ${relate_id}, ${record.id})
+              INSERT INTO ${
+                  table.about
+              } (title, slug, parent_id, relate_id, crawler_id)
+              VALUES ('${convertStr(parentTitle)}', '${convertStr(
+                parentSlug
+            )}', 0, ${relate_id}, ${record.id})
             `;
             const parentResult = await database.execute(insertParentSql);
             const parentId = parentResult.insertId;
 
             // 👉 Insert children
             for (const childTitle of group.childs) {
-                const childSlug = slugify(childTitle, { lower: true });
+                const childSlug = convertStr(
+                    slugify(childTitle, { lower: true })
+                );
                 const insertChildSql = `
-                INSERT INTO about (title, slug, parent_id, relate_id, crawler_id)
-                VALUES ('${childTitle}', '${childSlug}', ${parentId},  ${relate_id}, ${record.id})
+                INSERT INTO ${
+                    table.about
+                } (title, slug, parent_id, relate_id, crawler_id)
+                VALUES ('${convertStr(
+                    childTitle
+                )}', '${childSlug}', ${parentId},  ${relate_id}, ${record.id})
               `;
                 await database.execute(insertChildSql);
             }
         }
-
+        await page.evaluate(async () => {
+            let allButtons = Array.from(
+                document.querySelectorAll(
+                    'div[role="tablist"] button[role="tab"]'
+                )
+            );
+            if (allButtons) allButtons[0].click();
+            return;
+        });
         console.log("Success download about");
     }
     return;
 }
 
-async function crawler_images(page, record ) {
+async function crawler_images(page, record) {
     await page.waitForTimeout(WAIT_TIME_SHORT);
     await page.evaluate(async () => {
         await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -277,47 +440,68 @@ async function crawler_images(page, record ) {
     });
 
     await page.waitForTimeout(WAIT_TIME_SHORT);
-
     let thumbnails = await page.evaluate(async () => {
-        const images = [];
-        // Cuộn nội dung nếu cần
-        const targetElement = document.querySelector(
-            'div[role="main"] div[tabindex="-1"]'
-        );
-        if (targetElement) {
-            let totalHeight = 0;
-            const distance = 500;
-            let i = 0;
-            while (i <= 30) {
-                targetElement.scrollTop += distance;
-                totalHeight += distance;
-                await new Promise((resolve) => setTimeout(resolve, 300));
-                i++;
-            }
-        }
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        const seen = new Set();
+        const out = [];
 
-        const elements = document.querySelectorAll("a[data-photo-index]");
-        for (const element of elements) {
-            let img = element.querySelector("img")?.src;
+        // Vùng cần scroll (fallback sang tài liệu nếu không có container)
+        const feed =
+            document.querySelector('div[role="main"] div[tabindex="-1"]') ||
+            document.scrollingElement ||
+            document.body;
 
-            // Nếu không có `img`, kiểm tra style attribute
-            if (!img) {
-                const loadedDiv = element.querySelector("div.loaded");
-                if (loadedDiv) {
-                    const styleAttr = loadedDiv.getAttribute("style") || "";
-                    const match = styleAttr.match(/url\(["']?(.*?)["']?\)/);
-                    if (match && match[1]) {
-                        img = match[1];
-                    }
+        const distance = 800; // px mỗi lần cuộn
+        const maxIdle = 7; // số lần cuộn liên tiếp không có ảnh mới -> dừng
+        let idle = 0;
+
+        // lấy URL từ <img> hoặc background-image
+        const pickUrl = (a) => {
+            // 1) <img>
+            const img = a.querySelector("img");
+            if (img) {
+                if (img.currentSrc) return img.currentSrc;
+                if (img.src) return img.src;
+                if (img.srcset) {
+                    // lấy bản lớn nhất trong srcset
+                    const last = img.srcset.split(",").pop();
+                    if (last) return last.trim().split(" ")[0];
                 }
             }
-
-            // Thêm URL ảnh vào mảng
-            if (img && img.startsWith("https://lh")) {
-                images.push(img);
+            // 2) background-image
+            const el =
+                a.querySelector("div.loaded") ||
+                a.querySelector('[style*="background-image"]');
+            if (el) {
+                const bg =
+                    el.style.backgroundImage ||
+                    getComputedStyle(el).backgroundImage;
+                const m = bg && bg.match(/url\((['"]?)(.*?)\1\)/i);
+                if (m && m[2]) return m[2];
             }
+            return null;
+        };
+
+        const collect = () => {
+            const anchors = document.querySelectorAll("a[data-photo-index]");
+            anchors.forEach((a) => {
+                const url = pickUrl(a);
+                if (url && url.startsWith("https://lh") && !seen.has(url)) {
+                    seen.add(url);
+                    out.push(url); // "push ảnh vào" ngay khi thấy
+                }
+            });
+        };
+
+        // vòng đời scroll + thu thập
+        collect(); // thu thập lần đầu
+        while (idle < maxIdle) {
+            feed.scrollTop += distance;
+            await new Promise((r) => setTimeout(r, 600));
+            collect();
+            idle++;
         }
+        collect();
+        // chờ nốt lazy-load nếu còn
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
         let allButtons = Array.from(
@@ -328,65 +512,88 @@ async function crawler_images(page, record ) {
             const text = button.textContent
                 ? button.textContent.trim().toLowerCase()
                 : "";
-            return (
-                text === "Nail" ||
-                text === "nail"
-            );
+            return text === "menu" || text === "Menu";
         });
         if (button) button.click();
-        return images;
+        return out;
     });
 
     await page.waitForTimeout(WAIT_TIME_LONG);
     // get image menus
-    let menus = await page.evaluate(async () => {
-        let images = [];
-        // Cuộn nội dung nếu cần
-        let targetElement = document.querySelector(
-            'div[role="main"] div[tabindex="-1"]'
-        );
-        await new Promise((resolve) => setTimeout(resolve, 3000));
-        if (targetElement) {
-            let totalHeight = 0;
-            const distance = 300;
-            let i = 0;
-            while (i <= 20) {
-                targetElement.scrollTop += distance;
-                totalHeight += distance;
-                await new Promise((resolve) => setTimeout(resolve, 700));
-                i++;
-            }
-        }
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+    let menus = [];
+    menus = await page.evaluate(async () => {
+        const seen = new Set();
+        const out = [];
 
-        const elements = document.querySelectorAll("a[data-photo-index]");
-        for (const element of elements) {
-            let img = element.querySelector("img")?.src;
-            if (!img) {
-                const loadedDiv = element.querySelector("div.loaded");
-                if (loadedDiv) {
-                    const styleAttr = loadedDiv.getAttribute("style") || "";
-                    const match = styleAttr.match(/url\(["']?(.*?)["']?\)/);
-                    if (match && match[1]) {
-                        img = match[1];
-                    }
+        // Vùng cần scroll (fallback sang tài liệu nếu không có container)
+        const feed =
+            document.querySelector('div[role="main"] div[tabindex="-1"]') ||
+            document.scrollingElement ||
+            document.body;
+
+        const distance = 800; // px mỗi lần cuộn
+        const maxIdle = 6; // số lần cuộn liên tiếp không có ảnh mới -> dừng
+        let idle = 0;
+
+        // lấy URL từ <img> hoặc background-image
+        const pickUrl = (a) => {
+            // 1) <img>
+            const img = a.querySelector("img");
+            if (img) {
+                if (img.currentSrc) return img.currentSrc;
+                if (img.src) return img.src;
+                if (img.srcset) {
+                    // lấy bản lớn nhất trong srcset
+                    const last = img.srcset.split(",").pop();
+                    if (last) return last.trim().split(" ")[0];
                 }
             }
-            if (img && img.startsWith("https://lh")) {
-                images.push(img);
+            // 2) background-image
+            const el =
+                a.querySelector("div.loaded") ||
+                a.querySelector('[style*="background-image"]');
+            if (el) {
+                const bg =
+                    el.style.backgroundImage ||
+                    getComputedStyle(el).backgroundImage;
+                const m = bg && bg.match(/url\((['"]?)(.*?)\1\)/i);
+                if (m && m[2]) return m[2];
             }
+            return null;
+        };
+
+        const collect = () => {
+            const anchors = document.querySelectorAll("a[data-photo-index]");
+            anchors.forEach((a) => {
+                const url = pickUrl(a);
+                if (url && url.startsWith("https://lh") && !seen.has(url)) {
+                    seen.add(url);
+                    out.push(url); // "push ảnh vào" ngay khi thấy
+                }
+            });
+        };
+
+        // vòng đời scroll + thu thập
+        collect(); // thu thập lần đầu
+        while (idle < maxIdle) {
+            feed.scrollTop += distance;
+            await new Promise((r) => setTimeout(r, 600));
+            collect();
+            idle++;
         }
-        return images;
+
+        // chờ nốt lazy-load nếu còn
+        await new Promise((r) => setTimeout(r, 800));
+        collect();
+        return out;
     });
- 
+
     if (thumbnails.length > 0) {
         await downloadFile(thumbnails, "photo", record);
     }
     if (menus.length > 0) {
-        await downloadFile(menus, "photo", record);
+        await downloadFile(menus, "menu", record);
     }
-
-    console.error("Success download ", thumbnails.length, menus.length);
     return;
 }
 async function crawler_comment(page, record) {
@@ -409,7 +616,7 @@ async function crawler_comment(page, record) {
             return;
         });
 
-        let _select = `select count('id') from st_comment where crawler_id = ${record.id}`;
+        let _select = `select count('id') from ${table.comment} where crawler_id = ${record.id}`;
         let _count = await database.execute(_select);
 
         if (_count[0]["count('id')"] == 0) {
@@ -502,9 +709,11 @@ async function crawler_comment(page, record) {
                     }', '${record.relate_id ?? 0}', '${record.id}')`;
                 });
                 await database.execute(
-                    `delete from st_comment where crawler_id = ${record.id}`
+                    `delete from ${table.comment} where crawler_id = ${record.id}`
                 );
-                let _insert = `INSERT INTO st_comment (fullname, content, is_status , thumbnail, data_id, crawler_id) VALUES ${values.join(
+                let _insert = `INSERT INTO ${
+                    table.comment
+                } (fullname, content, is_status , thumbnail, data_id, crawler_id) VALUES ${values.join(
                     ", "
                 )};`;
                 await database.execute(_insert);
@@ -545,70 +754,8 @@ async function simulateHumanBehavior(page) {
     await page.waitForTimeout(WAIT_TIME_SHORT);
 }
 
-async function searchData(keyword, browser, record) {
-    const page = await browser.newPage();
-    await page.setExtraHTTPHeaders({
-        "Accept-Language": "en-US,en;q=0.9,en-US;q=0.8,en;q=0.7",
-    });
-    await page.setUserAgent(
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36"
-    );
-    // // // Điều hướng đến trang đăng nhập Google
-    await page.goto("https://www.google.com/maps", {
-        waitUntil: "networkidle2",
-    });
-    await page.waitForTimeout(WAIT_TIME_SHORT);
-
-    await simulateHumanBehavior(page);
-
-    await page.waitForSelector('input[id="searchboxinput"]', {
-        timeout: 120000,
-    });
-
-    await page.click('input[id="searchboxinput"]');
-
-    await page.waitForSelector('input[id="searchboxinput"]');
-    await page.type('input[id="searchboxinput"]', keyword, {
-        delay: 50,
-    });
-    await page.waitForTimeout(2000);
-    await page.click('button[id="searchbox-searchbutton"]');
-    await page.waitForTimeout(WAIT_TIME_SHORTLONG);
-
-    await simulateHumanBehavior(page);
-
-    var link_google_map = await page.url();
-    if (link_google_map.includes("maps/search")) {
-        link_google_map = await page.evaluate(async () => {
-            await new Promise((resolve) => setTimeout(resolve, 1000));
-            // Cuộn nội dung nếu cần
-            var targetElement = document.querySelector(
-                'div[role="main"] div[tabindex="-1"]'
-            );
-
-            await new Promise((resolve) => setTimeout(resolve, 1000));
-
-            const elements = targetElement.querySelectorAll(
-                "div[jsaction] a[jsaction][jslog]"
-            );
-            if (elements) {
-                return elements[0].getAttribute("href");
-            }
-            return "";
-        });
-    }
-    await page.close();
-    if (!link_google_map || link_google_map == "") {
-        return;
-    }
-    record.link_google_map = link_google_map;
-    await crawlerGoogleIframe(browser, record);
-    return;
-}
-
 async function getAllCrawlerDataBase(offset = 0) {
-    // const query = ` SELECT crawler_map.* FROM crawler_map join st_post on crawler_map.relate_id = st_post.id WHERE crawler_map.is_crawler = 0 and crawler_map.is_status = 2 ORDER BY st_post.id asc LIMIT 500 offset ${offset}`;
-    const query = ` SELECT * FROM crawler_map WHERE is_crawler = 0 and is_status = 2 ORDER BY id DESC LIMIT 500 offset ${offset}`;
+    const query = ` SELECT * FROM ${table.crawler} WHERE is_crawler = 0 and is_status=1 ORDER BY id DESC LIMIT 500 offset ${offset}`;
     return database.query(query);
 }
 
@@ -624,11 +771,11 @@ async function getAllCrawlerDataBase(offset = 0) {
     for (let element of list_data) {
         try {
             console.log("\n ===Start key: " + element.key_word);
-            await crawlerGoogleIframe(browser, element); 
+            await crawlerGoogleIframe(browser, element);
             console.log("Crawler_success key: " + element.key_word);
         } catch (e) {
             console.error("\nCrawler_error: " + element.id + e);
-            await database.update_crawler_map(element.id, { is_error: 1 }, 2);
+            await database.update_crawler_map(element.id, { is_error: 1 }, 3);
         }
     }
 
@@ -638,38 +785,27 @@ async function getAllCrawlerDataBase(offset = 0) {
 
 async function downloadFile(results = [], _type = "photo", record, is_new = 1) {
     //crawler_href
-    await Helper.sleep(10000);
-    let values = results.map((element, index) => {
-        let path = `${folder_path}/${record.slug}/${record.slug}-${_type}-${index}.jpg`;
-        return `('${index}', '${path}', '${element}', ${
-            record.relate_id ?? 0
-        }, ${record.id}, '${_type}', ${is_new})`;
-    });
+    record.slug = convertStr(convertToSlug(record.slug));
+    let values = results
+        .map((element, index) => {
+            let path = `${folder_path}/${record.slug}/${record.slug}-${_type}-${index}.jpg`;
+            return `('${index}', '${path}', '${convertStr(element)}', ${
+                record.relate_id ?? 0
+            }, ${record.id}, '${_type}', ${is_new})`;
+        })
+        .slice(0, _type == "photo" ? 20 : 10);
 
     let _delete = `DELETE
-    FROM st_post_images
+    FROM ${table.image}
     WHERE crawler_id = ${record.id} and type='${_type}';`;
     await database.execute(_delete);
 
-    let _insert = `INSERT INTO st_post_images (position, thumbnail, crawler_href, post_id , crawler_id, type, is_new)
+    let _insert = `INSERT INTO ${
+        table.image
+    } (position, thumbnail, crawler_href, post_id , crawler_id, type, is_new)
     VALUES ${values.join(", ")};`;
     await database.execute(_insert);
     console.log(
-        "Insert success image : " +
-            results.length +
-            ` crawler_id = ${record.id} `
+        `Insert success [${_type}] image: ${values.length} crawler_id = ${record.id}`
     );
 }
-
-
-// WITH low_image_crawlers AS (
-//   SELECT cd.id
-//   FROM crawler_map cd
-//   LEFT JOIN st_post_images pi ON pi.crawler_id = cd.id
-//   WHERE cd.is_crawler = 1 AND pi.is_new = 1
-//   GROUP BY cd.id
-//   HAVING COUNT(pi.id) < 10
-// )
-// UPDATE crawler_map
-// SET is_crawler = 0
-// WHERE id IN (SELECT id FROM low_image_crawlers); 

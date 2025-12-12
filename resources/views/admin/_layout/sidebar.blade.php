@@ -66,11 +66,11 @@
                         </li>
                     </ul>
                 </li>
-                {{-- <li class="{{ \Request::route()->getName() == 'admin.crawler.index' ? 'active' : '' }}">
+                <li class="{{ \Request::route()->getName() == 'admin.crawler.index' ? 'active' : '' }}">
                     <a class="js-arrow" href="{{ route('admin.crawler.index') }}">
-                        <i class="fas fa-arrow-down"></i><span>Crawler</span></a>
-
-                </li> --}}
+                        <i class="fas fa-arrow-down"></i><span>Data Crawler</span>
+                    </a>
+                </li>
             </ul>
         </nav>
     </div>
