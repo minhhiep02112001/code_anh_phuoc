@@ -19,7 +19,7 @@ class Product extends AbstractModel
     const IS_NOT_MOST = 2;
     const VIEW_HOT = 1000;
 
-    protected $table = 'st_products';
+    protected $table = 'st_product';
     protected $fillable = [
         'title',
         'content',

@@ -6,6 +6,13 @@ const WAIT_TIME_SHORTLONG = 3000;
 const WAIT_TIME_LONG = 3000;
 const slugify = require("slugify");
 
+const crawlerData = {
+    menu: true,
+    images: true,
+    about: true,
+    comment: true,
+};
+
 const table = {
     product: "st_product",
     about: "st_about",
@@ -99,7 +106,7 @@ async function crawlerGoogleIframe(browser, record, retry = 5) {
         });
         // Sử dụng Puppeteer để kiểm tra và click nếu nút tồn tại
         const buttonClicked = await page.evaluate(async () => {
-            await new Promise((resolve) => setTimeout(resolve, 1000));
+            await new Promise((resolve) => setTimeout(resolve, 1500));
             const button = document.querySelector('button[data-value="Share"]');
 
             // Click vào nút nếu tồn tại
@@ -131,6 +138,11 @@ async function crawlerGoogleIframe(browser, record, retry = 5) {
             await new Promise((resolve) => setTimeout(resolve, 1000));
             if (tabs.length) {
                 tabs[1].click(); // Click vào phần tử cha bậc 2
+            } else {
+                let btn = document.querySelector(
+                    'div[id="app-container-Embed a map"]'
+                );
+                if (btn) btn.click();
             }
             await new Promise((resolve) => setTimeout(resolve, 2000));
 
@@ -168,14 +180,11 @@ async function crawlerGoogleIframe(browser, record, retry = 5) {
         });
         data_update.google_review = convertStr(data_update.google_review ?? "");
         data_update.is_crawler_iframe_map = data_update.iframe_map ? 1 : 0;
-        data_update.is_convert = 1;
-        data_update.is_crawler = 1;
-        data_update.is_error = 0;
         await database.update_crawler_map(crawler_id, data_update, 1);
-        await crawlerMenu(page, record);
-        await crawler_comment(page, record);
-        await crawler_about(page, record);
-        await crawler_images(page, record);
+        if (crawlerData.menu) await crawlerMenu(page, record);
+        if (crawlerData.about) await crawler_about(page, record);
+        if (crawlerData.images) await crawler_images(page, record);
+        if (crawlerData.comment) await crawler_comment(page, record);
         // get ảnh thumbnail
         await page.close();
         return;
@@ -307,7 +316,7 @@ async function crawlerMenu(page, record) {
                 if (allButtons) allButtons[0].click();
                 return;
             });
-            console.log("=> Success Menus: " + record.key_word);
+            console.log("==> Success Menus: " + record.key_word);
         } else {
             console.log("Menus Null: " + record.key_word);
         }
@@ -417,7 +426,7 @@ async function crawler_about(page, record) {
             if (allButtons) allButtons[0].click();
             return;
         });
-        console.log("Success download about");
+        console.log("==> Success download about");
     }
     return;
 }
@@ -589,7 +598,7 @@ async function crawler_images(page, record) {
     });
 
     if (thumbnails.length > 0) {
-        await downloadFile(thumbnails, "photo", record);
+        await downloadFile(thumbnails, "photo", record, 20);
     }
     if (menus.length > 0) {
         await downloadFile(menus, "menu", record);
@@ -755,12 +764,12 @@ async function simulateHumanBehavior(page) {
 }
 
 async function getAllCrawlerDataBase(offset = 0) {
-    const query = ` SELECT * FROM ${table.crawler} WHERE is_crawler = 0 and is_status=1 ORDER BY id DESC LIMIT 500 offset ${offset}`;
+    const query = `SELECT * FROM ${table.crawler} WHERE is_status = 0 ORDER BY id DESC LIMIT 500 offset ${offset}`;
     return database.query(query);
 }
 
 (async () => {
-    var list_data = await getAllCrawlerDataBase();
+    var list_data = await getAllCrawlerDataBase(1500);
 
     const browser = await puppeteer.launch({
         headless: false, // Hiển thị trình duyệt
@@ -783,7 +792,7 @@ async function getAllCrawlerDataBase(offset = 0) {
     console.log("Done All");
 })();
 
-async function downloadFile(results = [], _type = "photo", record, is_new = 1) {
+async function downloadFile(results = [], _type = "photo", record, max = 10) {
     //crawler_href
     record.slug = convertStr(convertToSlug(record.slug));
     let values = results
@@ -791,9 +800,9 @@ async function downloadFile(results = [], _type = "photo", record, is_new = 1) {
             let path = `${folder_path}/${record.slug}/${record.slug}-${_type}-${index}.jpg`;
             return `('${index}', '${path}', '${convertStr(element)}', ${
                 record.relate_id ?? 0
-            }, ${record.id}, '${_type}', ${is_new})`;
+            }, ${record.id}, '${_type}')`;
         })
-        .slice(0, _type == "photo" ? 20 : 10);
+        .slice(0, max);
 
     let _delete = `DELETE
     FROM ${table.image}
@@ -802,10 +811,10 @@ async function downloadFile(results = [], _type = "photo", record, is_new = 1) {
 
     let _insert = `INSERT INTO ${
         table.image
-    } (position, thumbnail, crawler_href, post_id , crawler_id, type, is_new)
+    } (position, thumbnail, crawler_href, post_id , crawler_id, type )
     VALUES ${values.join(", ")};`;
     await database.execute(_insert);
     console.log(
-        `Insert success [${_type}] image: ${values.length} crawler_id = ${record.id}`
+        `==> Insert success [${_type}] image: ${values.length} crawler_id = ${record.id}`
     );
 }

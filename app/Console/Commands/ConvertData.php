@@ -51,23 +51,18 @@ class ConvertData extends Command
         $this->$function();
     }
 
-
-
-
     // php artisan convert:data --function=updatePost
     public function updatePost()
     {
-        $datas = Crawler::where(['is_crawler' => 1, 'is_convert' => 0, 'is_status' => 1])->get();
+        $datas = Crawler::where(['is_status' => 1])->get();
 
         foreach ($datas as $data) {
             echo "\n\n Start: {$data->key_word}";
             $data->slug = \Str::slug($data->key_word);
             $post = Post::firstOrCreate(['slug' => $data->slug], ['title' => $data->key_word, 'slug' => $data->slug]);
-            if (!empty($post->is_status)) continue;
              
             $data_update = [
                 'is_thumbnail' => 1,
-                'theme' => 'theme_1'
             ];
 
             $thumnail_post = str_replace(['storage', '//'], '', trim($post->thumbnail ?? '', '/'));
@@ -79,100 +74,17 @@ class ConvertData extends Command
 
             if (Storage::disk('public')->exists($thumnail_post))  $data_update['is_thumbnail'] = 0;
 
-            $thumbs = Media::where('post_id', $post->id)->orderBy('id', 'asc')->get();
+            Media::where('crawler_id', $data->id)->update([
+                'post_id' => $post->id
+            ]);
 
-            if ($thumbs->isEmpty()) {
-                $images = DB::table('datacenter.st_images')->where('crawler_id', $data->id)->get();
-                $menus = collect($images)->where('type', 'menu')->take(10);
-                $_images = collect($images)->where('type', 'photo')->take(15);
-                $images = collect($menus)->merge($_images);
-                $data_insert = collect($images)->map(function ($item) use ($post) {
-                    return [
-                        'thumbnail' => $item->thumbnail,
-                        'crawler_href' => $item->crawler_href,
-                        'post_id'   => $post->id,
-                        'position'  => $item->position ?? 0,
-                        'type'      => $item->type ?? 'photo',
-                    ];
-                })->toArray();
+            About::where('crawler_id', $data->id)->update([
+                'relate_id' => $post->id
+            ]);
 
-                if (!empty($data_insert)) {
-                    Media::insert($data_insert);
-                    $thumbs = Media::where('post_id', $post->id)->orderBy('id', 'asc')->get();
-                    echo "\n Insert " . $thumbs->count() . " thumb";
-                }
-            }
-
-            $abouts = About::where('relate_id', $post->id)->orderBy('id', 'asc')->get();
-
-            if ($abouts->isEmpty()) {
-                $dataAbout = DB::table('datacenter.about')->where('crawler_id', $data->id)->get();
-                if ($dataAbout->isNotEmpty()) {
-                    foreach (collect($dataAbout)->where('parent_id', 0) as $val) {
-                        $children = collect($dataAbout)->where('parent_id', $val->id)->values()->toArray();
-                        $aboutId = About::insertGetId([
-                            'title' => $val->title,
-                            'slug' => $val->slug,
-                            'crawler_id' => $val->crawler_id,
-                            'parent_id' => 0,
-                            'relate_id' => $post->id
-                        ]);
-                        if (!empty($children)) {
-                            $dataInsertAbout = array_map(function ($i)  use ($aboutId, $post) {
-                                return [
-                                    'title' => $i->title,
-                                    'slug' => $i->slug,
-                                    'crawler_id' => $i->crawler_id,
-                                    'parent_id' => $aboutId,
-                                    'relate_id' => $post->id
-                                ];
-                            }, $children);
-                            About::insert($dataInsertAbout);
-                        }
-                    }
-                    echo "\n Insert " . $dataAbout->count() . " about";
-                }
-            }
-
-            $products = Product::where('relate_id', $post->id)->orderBy('id', 'asc')->get();
-
-            if ($products->isEmpty()) {
-                $dataProd = DB::table('datacenter.st_product')->where('crawler_id', $data->id)->get();
-                if ($dataProd->isNotEmpty()) {
-                    foreach (collect($dataProd)->where('parent_id', 0) as $val) {
-                        $children = collect($dataProd)->where('parent_id', $val->id)->values()->toArray();
-
-                        $proId = Product::insertGetId([
-                            'title' => $val->title,
-                            'slug' => $val->slug,
-                            'crawler_id' => $val->crawler_id,
-                            'price' => $val->price,
-                            'parent_id' => 0,
-                            'relate_id' => $post->id
-                        ]);
-                        if (!empty($children)) {
-                            $dataProduct = array_map(function ($i) use ($proId, $post) {
-                                return [
-                                    'title' => $i->title,
-                                    'slug' => $i->slug,
-                                    'crawler_id' => $i->crawler_id,
-                                    'price' => $i->price,
-                                    'parent_id' => $proId,
-                                    'relate_id' => $post->id
-                                ];
-                            }, $children);
-                            Product::insert($dataProduct);
-                        }
-                    }
-                    echo "\n Insert " . $dataProd->count() . " product";
-                }
-            }
-            if ($thumbs->isNotEmpty()) {
-                if ($thumbs->where('type', 'banner')->count() == 0) {
-                    $arrs = $thumbs->whereIn('type', ['photo', 'menu'])->take(3)->pluck('id')->toArray();
-                    Media::whereIn('id',  $arrs)->update(['type' => 'banner']);
-                }
-            }
+            Product::where('crawler_id', $data->id)->update([
+                'relate_id' => $post->id
+            ]);
 
             if (!empty($data->time_open)) {
                 $data_update['time_open']  = convertTimeOpen($data->time_open);
@@ -201,12 +113,9 @@ class ConvertData extends Command
                 $data_update['iframe_map'] =  $data->iframe_map;
             }
 
-
-            if (!empty($data_update)) {
-                //     //     // $data_update['is_status'] = 0;
+            if (!empty($data_update)) { 
                 DB::table('st_post')->where('id', $post->id)->update($data_update);
-                Crawler::where('id', $data->id)->update(['relate_id' => $post->id, 'is_convert' => 1]);
-                //     // echo "\n Done {$post->id} status {$post->is_status}";
+                Crawler::where('id', $data->id)->update(['relate_id' => $post->id,  'is_status' => 2]);
                 echo "\n Done {$post->id} status {$post->is_status}";
             }
         }

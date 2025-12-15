@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Media;
 use App\Models\Post;
 use App\Repositories\Eloquent\PostRepository;
 use Illuminate\Http\Request;
@@ -72,7 +73,7 @@ class PostController extends BaseAdminController
                 $row['link_map'] = $item->link_map;
                 $row['iframe_map'] = $item->iframe_map;
                 $row['time_open'] = $item->time_open;
-                $row['email'] = $item->email; 
+                $row['email'] = $item->email;
                 $row['review_google'] = $item->review_google;
                 $row['phone'] = $item->phone;
                 $row['review_yelp'] = $item->review_yelp;
@@ -161,7 +162,6 @@ class PostController extends BaseAdminController
             return $this->responsiveSuccess('Thêm bài viết thành công');
         } catch (\Exception $ex) {
             DB::rollBack();
-            dd($ex);
             return $this->responsiveError($ex->getMessage());
         }
     }
@@ -249,37 +249,11 @@ class PostController extends BaseAdminController
             $this->_repository->update($input, $id);
 
             if ($request->has('menus') && !empty($request->get('menus'))) {
-                $menus = array_map(function ($item) use ($story) {
-                    return [
-                        'position' => $item['position'] ?? 0,
-                        'thumbnail' => $item['thumb'] ?? '',
-                        'post_id' => $story->id,
-                        'type' => 'menu'
-                    ];
-                }, $request->menus);
-                DB::table('st_post_images')->where([
-                    'post_id' => $story->id,
-                    'type' => 'menu'
-                ])->delete();
-                DB::table('st_post_images')->insert($menus);
+                $this->syncPostImagesByThumbnail($story->id, 'menu', $request->get('menus'));
             }
-
             if ($request->has('thumbnails') && !empty($request->get('thumbnails'))) {
-                $images = array_map(function ($item) use ($story) {
-                    return [
-                        'position' => 0,
-                        'thumbnail' => $item['thumb'] ?? '',
-                        'post_id' => $story->id,
-                        'type' => 'photo'
-                    ];
-                }, $request->thumbnails);
-                DB::table('st_post_images')->where([
-                    'post_id' => $story->id,
-                    'type' => 'photo'
-                ])->delete();
-                DB::table('st_post_images')->insert($images);
-            }
-
+                $this->syncPostImagesByThumbnail($story->id, 'photo', $request->get('menus'));
+            }  
             DB::commit();
             return $this->responsiveSuccess('Sửa bài viết thành công');
         } catch (\Exception $ex) {
@@ -287,6 +261,43 @@ class PostController extends BaseAdminController
             return $this->responsiveError($ex->getMessage());
         }
     }
+
+    private function syncPostImagesByThumbnail(int $postId, string $type, array $items, array $extraFields = [])
+    {
+        $items = collect($items)
+            ->filter(fn($i) => !empty($i['thumb']))
+            ->values();
+
+        if ($items->isEmpty()) {
+            // Không có dữ liệu gửi lên → xóa hết theo type
+            return DB::table('st_post_images')->where('post_id', $postId)->where('type', $type)->delete();
+        }
+
+        DB::transaction(function () use ($postId, $type, $items) {
+            $newThumbs = $items->pluck('thumb')->toArray();
+            /** 1️⃣ XÓA record không còn tồn tại */
+            Media::where('post_id', $postId)
+                ->where('type', $type)
+                ->whereNotIn('thumbnail', $newThumbs)
+                ->delete();
+
+            /** 2️⃣ UPSERT record mới / update */
+            $rows = $items->map(function ($item) use ($postId, $type) {
+                return [
+                    'post_id'   => $postId,
+                    'type'      => $type,
+                    'thumbnail' => $item['thumb'],
+                    'position'  => $item['position'] ?? 0,
+                ];
+            })->toArray(); 
+            Media::upsert(
+                $rows,
+                ['post_id', 'thumbnail', 'type'],
+                ['position']
+            );
+        });
+    }
+
 
     /**
      * Remove the specified resource from storage.

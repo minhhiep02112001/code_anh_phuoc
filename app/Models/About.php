@@ -9,7 +9,7 @@ class About extends Model
 {
     use HasFactory;
 
-    protected $table = 'about';
+    protected $table = 'st_about';
     protected $fillable = ['title', 'slug', 'parent_id', 'relate_id', 'crawler_id'];
     public $timestamps = false;
 }

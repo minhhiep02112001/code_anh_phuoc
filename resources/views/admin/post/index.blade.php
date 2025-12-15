@@ -160,9 +160,7 @@
                     // content += `<li>Sub: ${item.sub ||''}</li>`;
                     content += `<li>Address: ${item.address || ''}</li>`;
                     content += `<li>Review google: ${item.review_google || 0}</li>`;
-                    if (item.is_thumbnail) content += `<li class="badge-warning">Thiếu thumbnail</li>`;
-                    if (item.is_thumb_block_1) content +=
-                        `<li class="badge-warning">Thiếu thumbnail block</li>`;
+                    if (item.is_thumbnail) content += `<li class="badge-warning">Thiếu thumbnail</li>`; 
                     content += "</ul>";
                     return content;
                 }
