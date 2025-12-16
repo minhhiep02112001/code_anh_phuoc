@@ -111,17 +111,35 @@
 
                                                  <div class="form-group mb-1 row">
                                                      <label class="col-sm-3 col-form-label-sm"
-                                                         for="config_website[logo]">Logo</label>
+                                                         for="config_website[logo]">Logo Header</label>
                                                      <!-- Single File Upload -->
                                                      <div class="col-sm-9">
                                                          <div class="upload-container"
-                                                             data-field-name="config_website[logo]" is_multiple="false">
+                                                             data-field-name="config_website[logo_header]" is_multiple="false">
                                                              <div class="upload-box">
                                                                  <span>+</span>
-                                                                 <img class="preview-image  {{ !empty($config_website->logo)  ? 'show' : '' }}" alt="Preview"
-                                                                     src="{{ !empty($config_website->logo) ? convertPathImage($config_website->logo) : '' }}">
-                                                                 <input type="hidden" name="config_website[logo]"
-                                                                     value="{{ $config_website->logo ?? '' }}">
+                                                                 <img class="preview-image  {{ !empty($config_website->logo_header)  ? 'show' : '' }}" alt="Preview"
+                                                                     src="{{ !empty($config_website->logo_header) ? convertPathImage($config_website->logo_header) : '' }}">
+                                                                 <input type="hidden" name="config_website[logo_header]"
+                                                                     value="{{ $config_website->logo_header ?? '' }}">
+                                                             </div>
+                                                         </div>
+                                                     </div>
+                                                 </div>
+
+                                                 <div class="form-group mb-1 row">
+                                                     <label class="col-sm-3 col-form-label-sm"
+                                                         for="config_website[logo_footer]">Logo Footer</label>
+                                                     <!-- Single File Upload -->
+                                                     <div class="col-sm-9">
+                                                         <div class="upload-container"
+                                                             data-field-name="config_website[logo_footer]" is_multiple="false">
+                                                             <div class="upload-box">
+                                                                 <span>+</span>
+                                                                 <img class="preview-image  {{ !empty($config_website->logo_footer)  ? 'show' : '' }}" alt="Preview"
+                                                                     src="{{ !empty($config_website->logo_footer) ? convertPathImage($config_website->logo_footer) : '' }}">
+                                                                 <input type="hidden" name="config_website[logo_footer]"
+                                                                     value="{{ $config_website->logo_footer ?? '' }}">
                                                              </div>
                                                          </div>
                                                      </div>

@@ -764,12 +764,12 @@ async function simulateHumanBehavior(page) {
 }
 
 async function getAllCrawlerDataBase(offset = 0) {
-    const query = `SELECT * FROM ${table.crawler} WHERE is_status = 0 ORDER BY id DESC LIMIT 500 offset ${offset}`;
+    const query = `SELECT * FROM ${table.crawler} WHERE is_status = 0 ORDER BY id DESC LIMIT 100 offset ${offset}`;
     return database.query(query);
 }
 
 (async () => {
-    var list_data = await getAllCrawlerDataBase(1500);
+    var list_data = await getAllCrawlerDataBase(0);
 
     const browser = await puppeteer.launch({
         headless: false, // Hiển thị trình duyệt

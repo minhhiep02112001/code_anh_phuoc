@@ -59,8 +59,11 @@ class ConvertData extends Command
         foreach ($datas as $data) {
             echo "\n\n Start: {$data->key_word}";
             $data->slug = \Str::slug($data->key_word);
-            $post = Post::firstOrCreate(['slug' => $data->slug], ['title' => $data->key_word, 'slug' => $data->slug]);
-             
+            $post = Post::firstOrCreate(['slug' => $data->slug], [
+                'title' => mb_convert_case($data->key_word, MB_CASE_TITLE, 'UTF-8'),
+                'slug' => $data->slug
+            ]);
+
             $data_update = [
                 'is_thumbnail' => 1,
             ];
@@ -113,7 +116,7 @@ class ConvertData extends Command
                 $data_update['iframe_map'] =  $data->iframe_map;
             }
 
-            if (!empty($data_update)) { 
+            if (!empty($data_update)) {
                 DB::table('st_post')->where('id', $post->id)->update($data_update);
                 Crawler::where('id', $data->id)->update(['relate_id' => $post->id,  'is_status' => 2]);
                 echo "\n Done {$post->id} status {$post->is_status}";
@@ -122,17 +125,15 @@ class ConvertData extends Command
         die("Done All");
     }
 
+    // php artisan convert:data --function=public_data
     public function public_data()
     {
-        $post = Post::where('is_status', 0)->limit(5)->get();
-        foreach ($post as $item) {
-            $item->publish_at = date('Y-m-d H:i:s');
-            $item->is_status = 1;
-            $arr_theme = ['theme', 'theme_1', 'theme_2'];
-            $index = array_rand($arr_theme);
-            $item->theme = $arr_theme[$index];
+        $posts = Post::get();
+
+        foreach ($posts as $item) {
+            $item->title = mb_convert_case($item->title, MB_CASE_TITLE, 'UTF-8');
             $item->save();
-            echo "\n public {$item->id}";
+            echo "\n Success {$item->id} -- {$item->title}";
         }
     }
 
