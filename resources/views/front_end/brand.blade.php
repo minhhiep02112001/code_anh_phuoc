@@ -264,9 +264,7 @@
                 </div>
                 <div class="carousel-outer">
                     <div class="four-items-carousel owl-carousel owl-theme default-nav light no-dots owl-loaded owl-drag">
-                        <div class="owl-stage-outer">
-                            <div class="owl-stage"
-                                style="transform: translate3d(-6377px, 0px, 0px); transition: 0.4s; width: 9110px;">
+                        
                                 @foreach ($relates as $item)
                                     <div class="listing-block-two">
                                         <div class="inner-box">
@@ -301,8 +299,7 @@
                                         </div>
                                     </div>
                                 @endforeach
-                            </div>
-                        </div>
+                            
                     </div>
                 </div>
             </div>

@@ -246,7 +246,7 @@
                         <div class="client-thumbs-carousel owl-carousel owl-theme">
                             @foreach ($bannerReview as $banner)
                                 <div class="thumb-item">
-                                    <figure class="thumb-box"><img src="{{ getImageThumb($item->thumbnail, 200, 200) }}"
+                                    <figure class="thumb-box"><img src="{{ getImageThumb($banner->thumbnail, 200, 200) }}"
                                             alt="">
                                     </figure>
                                     <div class="author-info">

@@ -33,7 +33,7 @@ class HomeController extends Controller
         $data = [];
         $page = $request->page ?? 1;
         $filterBrand = [
-            'is_status' => 1,
+            // 'is_status' => 1,
             'type' => 'brand'
         ];
 
@@ -58,14 +58,15 @@ class HomeController extends Controller
         $data['banner'] = Banner::getType('home')->first();
         $data['exploreMore'] = Banner::getType('explore_more')->first();
         $data['bannerReview'] = Banner::getType('review_home');
-      
+
         return view('front_end.home', $data);
     }
 
     public function post($slug, $id = 0)
     {
+        $status = 0;
         $post = $this->postRepository->findByField('slug', $slug)->first();
-        if (empty($post) || $post->is_status != 1) return abort(404);
+        if (empty($post) || $post->is_status != $status) return abort(404);
         $medias = $post->media()->select(['position', 'type', 'thumbnail'])->get()->groupBy('type');
 
         $SEO = [
@@ -84,28 +85,33 @@ class HomeController extends Controller
             'breadcrumbs' => $breadcrumbs,
             'post' => $post,
             'SEO' => $SEO,
-            'medias' => $medias, 
+            'medias' => $medias,
         ];
 
         if ($post->type == 'brand') {
             $data['SEO']['favicon'] = getImageThumb($post->favicon ?? $post->thumbnail, 100, 100);
             $relates = Post::where([
                 'type' => 'brand',
-                'is_status' => 1,
-            ])->where('publish_at', '<', $post->publish_at ?? '')->orderBy('publish_at', 'desc')->limit(5)->get();
+                'is_status' => $status,
+            ])->where(function ($q) use ($post) {
+                if (!empty($post->publish_at)) return $q->where('publish_at', '<', $post->publish_at ?? '');
+                return $q->where('created_at', '<', $post->created_at ?? '');
+            })->orderBy(!empty($post->publish_at) ? 'publish_at' : 'created_at', 'desc')->limit(5)->get();
 
             $relates2 = Post::where([
                 'type' => 'brand',
-                'is_status' => 1,
-            ])->where('publish_at', '>', $post->publish_at ?? '')->orderBy('publish_at', 'asc')->limit(5)->get();
+                'is_status' => $status,
+            ])->where(function ($q) use ($post) {
+                if (!empty($post->publish_at)) return $q->where('publish_at', '>', $post->publish_at ?? '');
+                return $q->where('created_at', '>', $post->created_at ?? '');
+            })->orderBy(!empty($post->publish_at) ? 'publish_at' : 'created_at', 'asc')->limit(5)->get();
 
-            $data['relates'] = collect($relates2)->merge($relates)->sortBy('publish_at')->values()->all();
-
+            $data['relates'] = collect($relates2)->merge($relates)->sortBy(!empty($post->publish_at) ? 'publish_at' : 'created_at')->values()->all();
+            
             $data['comments'] = $post->comment()->where([
                 'type' => 'post',
-                'is_status' => 1,
             ])->limit(5)->get();
-        } 
+        }
         $view = $post->type == 'top_list' ? 'front_end.topList' : 'front_end.brand';
         return view($view, $data);
     }
