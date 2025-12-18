@@ -60,6 +60,13 @@ async function crawlerGoogleIframe(browser, record, retry = 5) {
 
         // Chờ đợi cho nội dung tải xong
         await page.waitForTimeout(WAIT_TIME_SHORTLONG);
+
+       await crawler_comment(page, record);
+        await database.update_crawler_map(crawler_id, {}, 1);
+        // get ảnh thumbnail
+        await page.close();
+        return;
+
         var link_google_map = await page.url();
 
         const data_update = await page.evaluate(async () => {
@@ -181,10 +188,10 @@ async function crawlerGoogleIframe(browser, record, retry = 5) {
         data_update.google_review = convertStr(data_update.google_review ?? "");
         data_update.is_crawler_iframe_map = data_update.iframe_map ? 1 : 0;
         await database.update_crawler_map(crawler_id, data_update, 1);
-        if (crawlerData.menu) await crawlerMenu(page, record);
-        if (crawlerData.about) await crawler_about(page, record);
-        if (crawlerData.images) await crawler_images(page, record);
         if (crawlerData.comment) await crawler_comment(page, record);
+        if (crawlerData.about) await crawler_about(page, record);
+        if (crawlerData.menu) await crawlerMenu(page, record);
+        if (crawlerData.images) await crawler_images(page, record);
         // get ảnh thumbnail
         await page.close();
         return;
@@ -764,12 +771,12 @@ async function simulateHumanBehavior(page) {
 }
 
 async function getAllCrawlerDataBase(offset = 0) {
-    const query = `SELECT * FROM ${table.crawler} WHERE is_status = 0 ORDER BY id DESC LIMIT 100 offset ${offset}`;
+    const query = `SELECT * FROM ${table.crawler} WHERE is_status = 0 ORDER BY id DESC LIMIT 500 offset ${offset}`;
     return database.query(query);
 }
 
 (async () => {
-    var list_data = await getAllCrawlerDataBase(0);
+    var list_data = await getAllCrawlerDataBase(1450);
 
     const browser = await puppeteer.launch({
         headless: false, // Hiển thị trình duyệt
