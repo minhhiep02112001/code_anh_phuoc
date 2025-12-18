@@ -66,7 +66,7 @@ class CrawlerData extends Command
                         'position' => $k
                     ];
                     if (empty($path)) {
-                        $dataUpdate = ['is_crawler' => 2];
+                        $dataUpdate = ['is_crawler' => 2, 'position' => $k];
                     }
                     DB::table('st_post_images')->where('id', $item->id)->update($dataUpdate);
                     echo "\n Done {$item->id} {$path}";
