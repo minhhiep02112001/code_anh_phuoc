@@ -1556,14 +1556,9 @@
                             1 < a && bt(h),
                             1 < a &&
                                 vt(
-                                    t
-                                        .slice(0, a - 1)
-                                        .concat({
-                                            value:
-                                                " " === t[a - 2].type
-                                                    ? "*"
-                                                    : "",
-                                        })
+                                    t.slice(0, a - 1).concat({
+                                        value: " " === t[a - 2].type ? "*" : "",
+                                    })
                                 ).replace(z, "$1"),
                             e,
                             a < n && wt(t.slice(a, n)),
@@ -13081,15 +13076,28 @@
                                   e.setError(t);
                               })
                               .one("load", function () {
+                                  let width = t.opts.width || this.naturalWidth;
+                                  let height =
+                                      t.opts.width || this.naturalWidth;
+                                  if (350 < width && width < 500) {
+                                      width = width * 1.5;
+                                      height = height * 1.5;
+                                  }
+                                  if (200 < width && width <= 350) {
+                                      width = width * 2;
+                                      height = height * 2;
+                                  }
+                                  if (width <= 200) {
+                                      width = width * 3;
+                                      height = height * 3;
+                                  }
+                                  console.log(width, height);
+
                                   clearTimeout(t.timouts),
                                       (t.timouts = null),
                                       e.isClosing ||
-                                          ((t.width =
-                                              t.opts.width ||
-                                              this.naturalWidth),
-                                          (t.height =
-                                              t.opts.height ||
-                                              this.naturalHeight),
+                                          ((t.width = width),
+                                          (t.height = height),
                                           t.opts.image.srcset &&
                                               n
                                                   .attr("sizes", "100vw")

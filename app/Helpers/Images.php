@@ -5,6 +5,8 @@ use Intervention\Image\ImageManagerStatic as Image;
 if (!function_exists('getImageThumb')) {
      function getImageThumb($image = '', $width = '', $height = '', $crop = true)
      {
+          return convertPathImage($image);
+          
           $img_default = asset("assets/default.png");
 
           if (empty($image) || !file_exists(public_path($image))) {
