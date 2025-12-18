@@ -61,7 +61,7 @@ async function crawlerGoogleIframe(browser, record, retry = 5) {
         // Chờ đợi cho nội dung tải xong
         await page.waitForTimeout(WAIT_TIME_SHORTLONG);
 
-       await crawler_comment(page, record);
+        await crawler_images(page, record);
         await database.update_crawler_map(crawler_id, {}, 1);
         // get ảnh thumbnail
         await page.close();
@@ -486,7 +486,7 @@ async function crawler_images(page, record) {
             // 2) background-image
             const el =
                 a.querySelector("div.loaded") ||
-                a.querySelector('[style*="background-image"]');
+                a.querySelector('div[role="img"] div[style*="background-image"]');
             if (el) {
                 const bg =
                     el.style.backgroundImage ||
@@ -567,7 +567,7 @@ async function crawler_images(page, record) {
             // 2) background-image
             const el =
                 a.querySelector("div.loaded") ||
-                a.querySelector('[style*="background-image"]');
+                a.querySelector(' div[role="img"] div[style*="background-image"]');
             if (el) {
                 const bg =
                     el.style.backgroundImage ||
@@ -771,12 +771,12 @@ async function simulateHumanBehavior(page) {
 }
 
 async function getAllCrawlerDataBase(offset = 0) {
-    const query = `SELECT * FROM ${table.crawler} WHERE is_status = 0 ORDER BY id DESC LIMIT 500 offset ${offset}`;
+    const query = `SELECT * FROM ${table.crawler} WHERE is_status = 0 ORDER BY id ASC LIMIT 250 offset ${offset}`;
     return database.query(query);
 }
 
 (async () => {
-    var list_data = await getAllCrawlerDataBase(1450);
+    var list_data = await getAllCrawlerDataBase(0);
 
     const browser = await puppeteer.launch({
         headless: false, // Hiển thị trình duyệt
