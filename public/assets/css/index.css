@@ -46797,7 +46797,7 @@ section hr {
 
 .main-footer {
     position: relative;
-    background-color: #1b2032
+    background-color: #8224E0;
 }
 
 .main-footer .footer-upper {
@@ -51171,12 +51171,8 @@ section hr {
     float: left !important
 }
 
-.main-header {
-    background-color: gray
-}
-
-.main-header.fixed-header {
-    background-color: gray
+.main-header,.main-header.fixed-header {
+    background-color: #8224E0;
 }
 
 .menu-item {

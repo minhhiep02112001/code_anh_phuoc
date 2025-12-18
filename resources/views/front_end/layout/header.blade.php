@@ -8,12 +8,12 @@
     <div class="main-box">
         <div class="logo-box">
             <div class="logo">
-                <a href="{{ route('home') }}" title="Goto Where">
-                    @if(!empty($post))
+                <a href="{{ route('home') }}" title="{{ $config_website->website ?? '' }}">
+                    {{-- @if(!empty($post))
                         {{ $post->title }}
-                    @else
+                    @else --}}
                         <img src="{{ getImageThumb($config_website->logo_header ?? '') }}" width="95" alt="{{ $config_website->website ?? '' }}">
-                    @endif
+                    {{-- @endif --}}
                 </a>
             </div>
         </div>

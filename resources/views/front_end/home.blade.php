@@ -238,8 +238,8 @@
         <section class="testimonial-section">
             <div class="auto-container">
                 <div class="sec-title text-center">
-                    <h2>What People Love About Goto Where</h2> <span class="divider"></span>
-                    <div class="text">See how users explore and discover great local spots with Goto Where.</div>
+                    <h2>What People Love About {{ $config_website->website ?? '' }}</h2> <span class="divider"></span>
+                    <div class="text">See how users explore and discover great local spots with {{ $config_website->website ?? '' }}.</div>
                 </div>
                 <div class="testimonial-outer">
                     <div class="client-thumb-outer">
