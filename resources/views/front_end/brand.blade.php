@@ -56,11 +56,13 @@
             <div class="row">
                 <div class="content-side col-lg-12 col-md-12 col-sm-12">
                     <div class="listing-single">
-                        <div class="description-widget ls-widget">
-                            <div class="widget-content" id="overview">
-                                {!! $post->content_about !!}
+                        @if (!empty($post->content_about))
+                            <div class="description-widget ls-widget">
+                                <div class="widget-content" id="overview">
+                                    {!! $post->content_about !!}
+                                </div>
                             </div>
-                        </div>
+                        @endif
                         @if (!empty($abouts))
                             <div class="features-widget ls-widget" id="business">
                                 <div class="widget-title">
@@ -74,13 +76,12 @@
                                                     <span class="title-amenites">{{ $about->title }}</span>
                                                     <ul class="listing-child">
                                                         @foreach (collect($abouts)->where('parent_id', $about->id) as $child)
-                                                            <div>{!! $child->title !!}</div>
                                                             <li><span>{!! $child->title !!}</span></li>
                                                         @endforeach
 
                                                     </ul>
                                                 </li>
-                                            @endifÏ
+                                            @endif
                                         @endforeach
 
                                     </ul>
@@ -264,42 +265,42 @@
                 </div>
                 <div class="carousel-outer">
                     <div class="four-items-carousel owl-carousel owl-theme default-nav light no-dots owl-loaded owl-drag">
-                        
-                                @foreach ($relates as $item)
-                                    <div class="listing-block-two">
-                                        <div class="inner-box">
-                                            <div class="image-box">
-                                                <figure class="image">
-                                                    <img src="{{ getImageThumb($item->thumbnail) }}"
-                                                        alt="{{ $item->title }}" lazy="loading">
-                                                </figure>
-                                                <div class="content">
-                                                    <div class="rating"> <span class="fa fa-star"></span> <span
-                                                            class="fa fa-star"></span> <span class="fa fa-star"></span>
-                                                        <span class="fa fa-star"></span> <span class="fa fa-star"></span>
-                                                        <span class="title">({{ $item->review }} review)</span>
-                                                    </div>
-                                                    <div class="title-brand"><a href="{{ route('post', $item->slug) }}"
-                                                            title="{{ $item->title }}">{{ $item->title }}</a></div>
-                                                    <ul class="info mt-3">
-                                                        <li><span class="flaticon-pin"></span>{{ $item->address }}</li>
-                                                    </ul>
-                                                </div>
+
+                        @foreach ($relates as $item)
+                            <div class="listing-block-two">
+                                <div class="inner-box">
+                                    <div class="image-box">
+                                        <figure class="image">
+                                            <img src="{{ getImageThumb($item->thumbnail) }}" alt="{{ $item->title }}"
+                                                lazy="loading">
+                                        </figure>
+                                        <div class="content">
+                                            <div class="rating"> <span class="fa fa-star"></span> <span
+                                                    class="fa fa-star"></span> <span class="fa fa-star"></span>
+                                                <span class="fa fa-star"></span> <span class="fa fa-star"></span>
+                                                <span class="title">({{ $item->review }} review)</span>
                                             </div>
-                                            @if (!empty($item->phone))
-                                                <div class="bottom-box">
-                                                    <div class="places">
-                                                        <div class="place">Pizza Restaurant</div>
-                                                    </div>
-                                                    <div class="status"><span class="flaticon-phone-call"></span>
-                                                        {{ $item->phone }}
-                                                    </div>
-                                                </div>
-                                            @endif
+                                            <div class="title-brand"><a href="{{ route('post', $item->slug) }}"
+                                                    title="{{ $item->title }}">{{ $item->title }}</a></div>
+                                            <ul class="info mt-3">
+                                                <li><span class="flaticon-pin"></span>{{ $item->address }}</li>
+                                            </ul>
                                         </div>
                                     </div>
-                                @endforeach
-                            
+                                    @if (!empty($item->phone))
+                                        <div class="bottom-box">
+                                            <div class="places">
+                                                <div class="place">Pizza Restaurant</div>
+                                            </div>
+                                            <div class="status"><span class="flaticon-phone-call"></span>
+                                                {{ $item->phone }}
+                                            </div>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                        @endforeach
+
                     </div>
                 </div>
             </div>

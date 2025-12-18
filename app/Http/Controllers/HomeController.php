@@ -111,6 +111,7 @@ class HomeController extends Controller
             $data['comments'] = $post->comment()->where([
                 'type' => 'post',
             ])->limit(5)->get();
+            $data['abouts'] = $post->about()->get();
         }
         $view = $post->type == 'top_list' ? 'front_end.topList' : 'front_end.brand';
         return view($view, $data);

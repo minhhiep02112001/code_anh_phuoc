@@ -70,7 +70,7 @@ class Post extends AbstractModel
         'title_block_1',
         'content_block_1',
         'is_thumbnail',
-        'is_thumb_block_1', 
+        'is_thumb_block_1',
     ];
 
     public function categories()
@@ -90,6 +90,10 @@ class Post extends AbstractModel
     public function comment()
     {
         return $this->hasMany(Comment::class, 'data_id', 'id');
+    }
+    public function about()
+    {
+        return $this->hasMany(About::class, 'relate_id', 'id');
     }
 
 
