@@ -7,7 +7,7 @@
             <div class="row">
                 <div class="col-lg-4 col-sm-12">
                     <div class="logo-footer">
-                        <a href="{{ route('home') }}" title="{{ $config_website->website ?? '' }}">
+                        <a href="{{ route('homepage') }}" title="{{ $config_website->website ?? '' }}">
                             <img src="{{ getImageThumb($config_website->logo_footer ?? '') }}" width="150"
                                 alt="{{ $config_website->website ?? '' }}">
                         </a>

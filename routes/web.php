@@ -79,6 +79,8 @@ Route::group([
     Route::resource('drag', App\Http\Controllers\Admin\DragController::class);
     Route::resource('crawler', App\Http\Controllers\Admin\CrawlerController::class);
     Route::resource('post', App\Http\Controllers\Admin\PostController::class);
+    Route::resource('product', App\Http\Controllers\Admin\ProductController::class);
+    Route::resource('about', App\Http\Controllers\Admin\AboutController::class);
     Route::resource('menu', App\Http\Controllers\Admin\MenuController::class);
     Route::resource('redirect', App\Http\Controllers\Admin\RedirectController::class);
     Route::resource('page', App\Http\Controllers\Admin\PageController::class);
@@ -89,6 +91,8 @@ Route::group([
     Route::group(['prefix' => 'ajax', 'as' => 'ajax.'], function () {
         Route::post('/update-multiple-menu', [\App\Http\Controllers\Admin\MenuController::class, 'updateMultiple']);
         Route::get('/keyword', [App\Http\Controllers\Admin\KeywordController::class, 'ajax_load_data']);
+        Route::get('/about', [App\Http\Controllers\Admin\AboutController::class, 'ajax_load_data']);
+        Route::get('/product', [App\Http\Controllers\Admin\ProductController::class, 'ajax_load_data']);
         Route::get('/crawler', [App\Http\Controllers\Admin\CrawlerController::class, 'ajax_load_data']);
         Route::get('/role', [App\Http\Controllers\Admin\RoleController::class, 'ajax_load_data']);
         Route::get('/banner', [App\Http\Controllers\Admin\BannerController::class, 'ajax_load_data']);
@@ -139,7 +143,7 @@ Route::domain('{slug}.' . env('DOMAIN'))->group(function () {
 Route::group([
     'middleware' => ['redirect_301']
 ], function () {
-    Route::any('/', [App\Http\Controllers\HomeController::class, 'dashboard'])->name('home')->middleware('cacheResponse:300');
+    Route::any('/', [App\Http\Controllers\HomeController::class, 'dashboard'])->name('homepage')->middleware('cacheResponse:300');
     // Route::get('/search', [App\Http\Controllers\HomeController::class, 'search'])->name('search');
     if (\App::environment('local')) {
         // ví dụ: tin-tuc-post.html

@@ -8,7 +8,7 @@
     <div class="main-box">
         <div class="logo-box">
             <div class="logo">
-                <a href="{{ route('home') }}" title="{{ $config_website->website ?? '' }}">
+                <a href="{{ route('homepage') }}" title="{{ $config_website->website ?? '' }}">
                     {{-- @if(!empty($post))
                         {{ $post->title }}
                     @else --}}
