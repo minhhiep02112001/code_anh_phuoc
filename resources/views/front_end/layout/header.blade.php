@@ -8,7 +8,7 @@
     <div class="main-box">
         <div class="logo-box">
             <div class="logo">
-                <a href="{{ url('/') }}" title="{{ $config_website->website ?? '' }}">
+                <a href="{{ env('APP_URL', '/') }}" title="{{ $config_website->website ?? '' }}">
                     {{-- @if(!empty($post))
                         {{ $post->title }}
                     @else --}}
@@ -30,7 +30,7 @@
 
     <div class="mobile-header">
         <div class="logo">
-            <a href="{{ route('homepage') }}" title="{{ $config_website->website ?? '' }}">
+            <a href="{{ env('APP_URL', '/') }}" title="{{ $config_website->website ?? '' }}">
                 @if(!empty($post))
                     {{ $post->title }}
                 @else
