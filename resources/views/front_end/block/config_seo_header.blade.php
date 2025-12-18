@@ -1,7 +1,7 @@
 @php
     $config_website = getValueSetting('config_website');
     $config_seo = getValueSetting('config_seo');
-    $favicon = !empty($SEO['favicon']) ? $SEO['favicon'] : convertPathImage($config_website->favicon ?? '');
+    $favicon = convertPathImage($config_website->favicon ?? '');
 @endphp
 
 <link rel="shortcut icon" href="{{ $favicon }}" sizes="32x32">
