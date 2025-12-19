@@ -13079,18 +13079,18 @@
                                   let width = t.opts.width || this.naturalWidth;
                                   let height =
                                       t.opts.width || this.naturalWidth;
-                                  if (350 < width && width < 500) {
-                                      width = width * 1.5;
-                                      height = height * 1.5;
-                                  }
-                                  if (200 < width && width <= 350) {
-                                      width = width * 2;
-                                      height = height * 2;
-                                  }
-                                  if (width <= 200) {
-                                      width = width * 3;
-                                      height = height * 3;
-                                  }
+                                //   if (350 < width && width < 500) {
+                                //       width = width * 1.5;
+                                //       height = height * 1.5;
+                                //   }
+                                //   if (200 < width && width <= 350) {
+                                //       width = width * 2;
+                                //       height = height * 2;
+                                //   }
+                                //   if (width <= 200) {
+                                //       width = width * 3;
+                                //       height = height * 3;
+                                //   }
                                   console.log(width, height);
 
                                   clearTimeout(t.timouts),
