@@ -56,23 +56,33 @@ async function safeClick(page, selector, timeout = 3000) {
         return false;
     }
 }
-async function clickArrayFindText(page, selector, textClick = "",timeout = 3000) {
+async function clickArrayFindText(
+    page,
+    selector,
+    textClick = "",
+    timeout = 3000
+) {
     // 1️⃣ Chờ selector xuất hiện
-    await page.waitForSelector(selector, { timeout }).catch(() => false); 
+    await page.waitForSelector(selector, { timeout }).catch(() => false);
     // 2️⃣ Truyền biến vào evaluate
-    return page.evaluate((selector, textClick) => { 
-        const targetText = textClick.toLowerCase();
-        const elements = Array.from(document.querySelectorAll(selector));
-        const el = elements.find(e =>e.textContent?.trim().toLowerCase().includes(targetText));
-        if (el) {
-            el.scrollIntoView({block: "center", behavior: "instant"});
-            el.click();
-            return true;
-        }
-        return false;
-    }, selector, textClick);
+    return page.evaluate(
+        (selector, textClick) => {
+            const targetText = textClick.toLowerCase();
+            const elements = Array.from(document.querySelectorAll(selector));
+            const el = elements.find((e) =>
+                e.textContent?.trim().toLowerCase().includes(targetText)
+            );
+            if (el) {
+                el.scrollIntoView({ block: "center", behavior: "instant" });
+                el.click();
+                return true;
+            }
+            return false;
+        },
+        selector,
+        textClick
+    );
 }
-
 
 async function getText(page, selector) {
     try {
@@ -82,7 +92,6 @@ async function getText(page, selector) {
         return "";
     }
 }
-
 
 async function simulateHumanBehavior(page) {
     const randomize = (min, max) =>
@@ -100,9 +109,9 @@ async function simulateHumanBehavior(page) {
     });
     await page.waitForTimeout(WAIT_TIME_SHORT);
 }
- 
+
 async function crawlerGoogleIframe(browser, record) {
-     for (let attempt = 1; attempt <= 5; attempt++) {
+    for (let attempt = 1; attempt <= 5; attempt++) {
         const page = await browser.newPage();
         try {
             await setupPage(page);
@@ -111,14 +120,13 @@ async function crawlerGoogleIframe(browser, record) {
             await simulateHumanBehavior(page);
             await delay(2000);
             // await page.goto(record.link_google_map);
-            // let data = await extractMainInfo(page); 
-            // await database.update_crawler_map(record.id, data, 1); 
+            // let data = await extractMainInfo(page);
+            let data = {};
+            await database.update_crawler_map(record.id, data, 1);
             // if (crawlerData.comment) await crawler_comment(page, record);
             // if (crawlerData.about) await crawler_about(page, record);
-            if (crawlerData.menu) await crawlerMenu(page, record);
-            return
+            // if (crawlerData.menu) await crawlerMenu(page, record);
             if (crawlerData.images) await crawler_images(page, record);
-
             await page.close();
             return;
         } catch (e) {
@@ -131,23 +139,39 @@ async function crawlerGoogleIframe(browser, record) {
 async function crawlIframeMap(page) {
     const clicked = await safeClick(page, 'button[data-value="Share"]');
     if (!clicked) return "";
-    await page.waitForSelector('div[jsaction="focus:modal.focus.top"]', { timeout: 10000 }).catch(() => null); 
-    await safeClick(page, 'button[data-tooltip="Embed a map"]'); 
-    await delay(500); 
-    await page.waitForSelector('input[jsaction="pane.embedMap.clickInput"]', { timeout: 5000 }).catch(() => null);
+    await page
+        .waitForSelector('div[jsaction="focus:modal.focus.top"]', {
+            timeout: 10000,
+        })
+        .catch(() => null);
+    await safeClick(page, 'button[data-tooltip="Embed a map"]');
+    await delay(500);
+    await page
+        .waitForSelector('input[jsaction="pane.embedMap.clickInput"]', {
+            timeout: 5000,
+        })
+        .catch(() => null);
     let iframe = page.evaluate(() => {
-        return document.querySelector('input[jsaction="pane.embedMap.clickInput"]' )?.getAttribute("value") || "";
+        return (
+            document
+                .querySelector('input[jsaction="pane.embedMap.clickInput"]')
+                ?.getAttribute("value") || ""
+        );
     });
     await safeClick(page, 'button[jsaction="modal.close"]');
     return iframe;
 }
-async function extractMainInfo(page) { 
+async function extractMainInfo(page) {
     // 2️⃣ Extract DOM info (Browser)
     const rawData = await page.evaluate(() => {
-        const getAttr = (sel, attr) => document.querySelector(sel)?.getAttribute(attr) || "";
+        const getAttr = (sel, attr) =>
+            document.querySelector(sel)?.getAttribute(attr) || "";
 
         var h1 = document.querySelector("h1");
-        var reviewText = h1?.parentNode?.parentNode?.textContent?.match(/\(([^)]+)\)/)?.[1]  || "";
+        var reviewText =
+            h1?.parentNode?.parentNode?.textContent?.match(
+                /\(([^)]+)\)/
+            )?.[1] || "";
 
         let time_open = "";
         const openHoursEl = document.querySelector(
@@ -156,16 +180,22 @@ async function extractMainInfo(page) {
 
         if (openHoursEl) {
             openHoursEl.closest("div")?.click();
-            time_open = openHoursEl.parentNode?.querySelector("table")?.outerHTML || "";
+            time_open =
+                openHoursEl.parentNode?.querySelector("table")?.outerHTML || "";
         }
 
         return {
             google_review: reviewText,
-            phone: getAttr('button[data-tooltip="Copy phone number"]',"aria-label"),
-            address: getAttr('button[data-item-id="address"]',"aria-label"),
-            thumbnail:document.querySelector('button img[decoding="async"]')?.src || "",
+            phone: getAttr(
+                'button[data-tooltip="Copy phone number"]',
+                "aria-label"
+            ),
+            address: getAttr('button[data-item-id="address"]', "aria-label"),
+            thumbnail:
+                document.querySelector('button img[decoding="async"]')?.src ||
+                "",
             link_google_map: location.href,
-            time_open
+            time_open,
         };
     });
 
@@ -180,188 +210,30 @@ async function extractMainInfo(page) {
         phone: convertStr(rawData.phone),
         address: convertStr(rawData.address),
         thumbnail: convertStr(rawData.thumbnail),
-        time_open: convertStr(rawData.time_open)
+        time_open: convertStr(rawData.time_open),
     };
-}
- 
-async function crawlerGoogleIframeOld(browser, record, retry = 5) {
-    let url = record.link_google_map;
-    let crawler_id = record.id;
-    var page = await browser.newPage();
-
-    await page.setExtraHTTPHeaders({
-        "Accept-Language": "en-US,en;q=0.9,en-US;q=0.8,en;q=0.7",
-    });
-    // Đặt user-agent với thông tin ngôn ngữ tiếng Pháp
-    await page.setUserAgent(
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36 Accept-Language: en-US"
-    );
-
-    try {
-        if (!url) {
-            console.error(`Error: Failed to decode URL for ${url}`);
-            return;
-        }
-        // Điều hướng đến URL
-        await page.goto(url, { waitUntil: "networkidle2" });
-        await page.waitForTimeout(WAIT_TIME_SHORT);
-
-        await simulateHumanBehavior(page);
-
-        // Chờ đợi cho nội dung tải xong
-        await page.waitForTimeout(WAIT_TIME_SHORTLONG);
-
-        var link_google_map = await page.url();
-
-        const data_update = await page.evaluate(async () => {
-            await new Promise((resolve) => setTimeout(resolve, 2000));
-            let obj = {};
-            // Tìm tất cả các nút
-            obj.google_review =
-                document.querySelector("h1").parentNode.parentNode.textContent;
-
-            let buttonImage = document.querySelectorAll(
-                'button img[decoding="async"]'
-            );
-
-            let addressButton = document.querySelector(
-                'button[data-item-id="address"]'
-            );
-            let phoneButton = document.querySelector(
-                'button[data-tooltip="Copy phone number"]'
-            );
-
-            // Lấy giờ mở cửa (ví dụ: "Closed · Opens 10AM")
-            const openHoursEl = document.querySelector(
-                'div[data-hide-tooltip-on-mouse-move="true"][role="button"]'
-            );
-            if (openHoursEl) {
-                openHoursEl.closest("div").click();
-                const table = openHoursEl.parentNode.querySelector("table");
-                obj.time_open = table ? table.outerHTML : null;
-            }
-
-            obj.phone = phoneButton
-                ? phoneButton.getAttribute("aria-label")
-                : "";
-
-            obj.address = addressButton
-                ? addressButton.getAttribute("aria-label")
-                : "";
-
-            obj.thumbnail = buttonImage[0]
-                ? buttonImage[0].getAttribute("src")
-                : "";
-
-            return obj; // Không tìm thấy nút để click
-        });
-        // Sử dụng Puppeteer để kiểm tra và click nếu nút tồn tại
-        const buttonClicked = await page.evaluate(async () => {
-            await new Promise((resolve) => setTimeout(resolve, 1500));
-            const button = document.querySelector('button[data-value="Share"]');
-
-            // Click vào nút nếu tồn tại
-            if (button) {
-                button.click();
-                return true; // Đánh dấu đã click
-            }
-            return false; // Không tìm thấy nút để click
-        });
-        if (!buttonClicked) {
-            await page.close();
-            console.log("Button not found.");
-            if (retry > 0) {
-                console.warn(
-                    `Warning: No title found, retrying... (Retry count: ${retry})`
-                );
-                return await crawlerGoogleIframe(browser, record, retry - 1);
-            }
-            return;
-        }
-        await page.waitForTimeout(WAIT_TIME_SHORT);
-        // get image menus
-        data_update.link_google_map = link_google_map;
-        data_update.iframe_map = await page.evaluate(async () => {
-            await new Promise((resolve) => setTimeout(resolve, 1000));
-            let tabs = document.querySelectorAll(
-                'button[data-tooltip-only-on-overflow="true"]'
-            );
-            await new Promise((resolve) => setTimeout(resolve, 1000));
-            if (tabs.length) {
-                tabs[1].click(); // Click vào phần tử cha bậc 2
-            } else {
-                let btn = document.querySelector(
-                    'div[id="app-container-Embed a map"]'
-                );
-                if (btn) btn.click();
-            }
-            await new Promise((resolve) => setTimeout(resolve, 2000));
-
-            let elements = document.querySelector(
-                'input[jsaction="pane.embedMap.clickInput"]'
-            );
-            if (elements) {
-                // Click vào phần tử cha bậc 2
-                return elements.getAttribute("value");
-            }
-
-            return "";
-        });
-
-        await page.evaluate(() => {
-            const modal = document.getElementById("modal-dialog"); // Lấy phần tử modal
-            if (modal) {
-                modal.remove(); // Xóa phần tử modal khỏi DOM
-            }
-        });
-
-        data_update.google_review = extractInParentheses(
-            data_update.google_review
-        );
-        data_update.iframe_map = convertStr(data_update.iframe_map);
-        data_update.address = convertStr(data_update.address ?? "");
-        data_update.email = convertStr(data_update.email ?? "");
-        data_update.thumbnail = convertStr(data_update.thumbnail ?? "");
-        data_update.phone = convertStr(data_update.phone ?? "");
-        data_update.time_open = data_update.time_open
-            ? convertStr(data_update.time_open ?? "")
-            : "";
-        record.slug = data_update.slug = slugify(record.key_word, {
-            lower: true,
-        });
-        data_update.google_review = convertStr(data_update.google_review ?? "");
-        data_update.is_crawler_iframe_map = data_update.iframe_map ? 1 : 0;
-        await database.update_crawler_map(crawler_id, data_update, 1);
-        if (crawlerData.comment) await crawler_comment(page, record);
-        if (crawlerData.about) await crawler_about(page, record);
-        if (crawlerData.menu) await crawlerMenu(page, record);
-        if (crawlerData.images) await crawler_images(page, record);
-        // get ảnh thumbnail
-        await page.close();
-        return;
-    } catch (error) {
-        await page.close();
-        console.error("Error crawling " + url, error);
-        return false;
-    }
 }
 
 async function crawlerMenu(page, record) {
-    let check = await clickArrayFindText(page, 'div[role="tablist"] button[role="tab"]', 'menu');
-    if(!check) return;
+    let check = await clickArrayFindText(
+        page,
+        'div[role="tablist"] button[role="tab"]',
+        "menu"
+    );
+    if (!check) return;
     var menus = await page.evaluate(async () => {
-        const lists = document.querySelectorAll('div[role="tablist"]'); 
-        const parent = lists[lists.length - 1] || null; 
+        const lists = document.querySelectorAll('div[role="tablist"]');
+        const parent = lists[lists.length - 1] || null;
         if (!parent) return [];
         var results = [];
         let tabs = Array.from(parent.querySelectorAll('button[role="tab"]'));
-        return tabs
-        if(tabs.length){
+        return tabs;
+        if (tabs.length) {
             for (const element of tabs) {
                 let title = element.textContent?.trim();
-                if(title){
+                if (title) {
                     results.push({
-                        title
+                        title,
                     });
                 }
             }
@@ -376,12 +248,11 @@ async function crawlerMenu(page, record) {
     console.log(menus);
     return;
 
-    try { 
-        
-        
-
+    try {
         const checkMenu = await page.evaluate(() => {
-            const lists = document.querySelectorAll('div[role="main"] div[role="tablist"]');
+            const lists = document.querySelectorAll(
+                'div[role="main"] div[role="tablist"]'
+            );
             return lists.length > 1;
         });
 
@@ -470,33 +341,41 @@ async function crawlerMenu(page, record) {
                 }
                 // NOTE: DOM Maps hay thay đổi -> lấy lại danh sách tabs mỗi vòng
                 tabs = await tablist.$$('button[role="tab"]');
-            } 
+            }
             console.log("==> Success Menus: " + record.key_word);
         } else {
             console.log("Menus Null: " + record.key_word);
-        } 
+        }
     } catch (e) {
         console.log("Error Menu: " + record.key_word);
     }
-    return await safeClick(page, 'button[aria-label="Back"]'); 
+    return await safeClick(page, 'button[aria-label="Back"]');
 }
 
 async function crawler_about(page, record) {
-    let check = await clickArrayFindText(page, 'div[role="tablist"] button[role="tab"]', 'about');   
+    let check = await clickArrayFindText(
+        page,
+        'div[role="tablist"] button[role="tab"]',
+        "about"
+    );
     let abouts = await page.evaluate(() => {
-        const list = []; 
+        const list = [];
         // Cuộn nếu cần
-        const targetElement = document.querySelector('div[role="region"][tabindex="-1"]');
+        const targetElement = document.querySelector(
+            'div[role="region"][tabindex="-1"]'
+        );
         if (targetElement) {
             let distance = 5;
             for (let i = 0; i <= 15; i++) {
                 targetElement.scrollTop += distance;
-            } 
-            const elements = targetElement.querySelectorAll("h2.fontTitleSmall");
+            }
+            const elements =
+                targetElement.querySelectorAll("h2.fontTitleSmall");
 
             elements.forEach((element) => {
-                const parentText = element.textContent?.trim(); 
-                const liElements = element.parentElement.querySelectorAll("ul li");
+                const parentText = element.textContent?.trim();
+                const liElements =
+                    element.parentElement.querySelectorAll("ul li");
                 const childs = Array.from(liElements).map((li) => {
                     li.querySelector('span[aria-hidden="true"]')?.remove(); // Xóa span nếu có
                     return li.textContent?.trim(); // Trả về nội dung còn lại
@@ -509,9 +388,9 @@ async function crawler_about(page, record) {
             return list;
         }
         return [];
-    }); 
-    if(check) await safeClick(page, 'button[aria-label="Back"]'); 
-    
+    });
+    if (check) await safeClick(page, 'button[aria-label="Back"]');
+
     if (abouts.length > 0) {
         const relate_id = record.relate_id ?? 0;
         await database.execute(
@@ -547,7 +426,7 @@ async function crawler_about(page, record) {
               `;
                 await database.execute(insertChildSql);
             }
-        } 
+        }
         console.log("==> Success download about");
     }
     return;
@@ -587,30 +466,12 @@ async function crawler_images(page, record) {
 
         // lấy URL từ <img> hoặc background-image
         const pickUrl = (a) => {
-            // 1) <img>
-            const img = a.querySelector("img");
-            if (img) {
-                if (img.currentSrc) return img.currentSrc;
-                if (img.src) return img.src;
-                if (img.srcset) {
-                    // lấy bản lớn nhất trong srcset
-                    const last = img.srcset.split(",").pop();
-                    if (last) return last.trim().split(" ")[0];
-                }
-            }
             // 2) background-image
-            const el =
-                a.querySelector("div.loaded") ||
-                a.querySelector(
-                    'div[role="img"] div[style*="background-image"]'
-                );
-            if (el) {
-                const bg =
-                    el.style.backgroundImage ||
-                    getComputedStyle(el).backgroundImage;
-                const m = bg && bg.match(/url\((['"]?)(.*?)\1\)/i);
-                if (m && m[2]) return m[2];
-            }
+            const el = a.querySelector(
+                'div[role="img"] div[style*="background-image"]'
+            )?.style?.backgroundImage;
+            const m = el && el.match(/url\((['"]?)(.*?)\1\)/i);
+            if (m && m[2]) return m[2];
             return null;
         };
 
@@ -633,95 +494,72 @@ async function crawler_images(page, record) {
             collect();
             idle++;
         }
+        await new Promise((r) => setTimeout(r, 600));
         collect();
-        // chờ nốt lazy-load nếu còn
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-
-        let allButtons = Array.from(
-            document.querySelectorAll('button[role="tab"]')
-        );
-
-        let button = allButtons.find((button) => {
-            const text = button.textContent
-                ? button.textContent.trim().toLowerCase()
-                : "";
-            return text === "menu" || text === "Menu";
-        });
-        if (button) button.click();
         return out;
     });
-
-    await page.waitForTimeout(WAIT_TIME_LONG);
+    let check = await clickArrayFindText(
+        page,
+        'div[role="tablist"] button[role="tab"]',
+        "menu"
+    );
     // get image menus
     let menus = [];
-    menus = await page.evaluate(async () => {
-        const seen = new Set();
-        const out = [];
+    if (check) {
+        await page.waitForTimeout(WAIT_TIME_LONG);
+        menus = await page.evaluate(async () => {
+            const seen = new Set();
+            const out = [];
 
-        // Vùng cần scroll (fallback sang tài liệu nếu không có container)
-        const feed =
-            document.querySelector('div[role="main"] div[tabindex="-1"]') ||
-            document.scrollingElement ||
-            document.body;
+            // Vùng cần scroll (fallback sang tài liệu nếu không có container)
+            const feed =
+                document.querySelector('div[role="main"] div[tabindex="-1"]') ||
+                document.scrollingElement ||
+                document.body;
 
-        const distance = 800; // px mỗi lần cuộn
-        const maxIdle = 6; // số lần cuộn liên tiếp không có ảnh mới -> dừng
-        let idle = 0;
+            const distance = 800; // px mỗi lần cuộn
+            const maxIdle = 6; // số lần cuộn liên tiếp không có ảnh mới -> dừng
+            let idle = 0;
 
-        // lấy URL từ <img> hoặc background-image
-        const pickUrl = (a) => {
-            // 1) <img>
-            const img = a.querySelector("img");
-            if (img) {
-                if (img.currentSrc) return img.currentSrc;
-                if (img.src) return img.src;
-                if (img.srcset) {
-                    // lấy bản lớn nhất trong srcset
-                    const last = img.srcset.split(",").pop();
-                    if (last) return last.trim().split(" ")[0];
-                }
-            }
-            // 2) background-image
-            const el =
-                a.querySelector("div.loaded") ||
-                a.querySelector(
-                    ' div[role="img"] div[style*="background-image"]'
-                );
-            if (el) {
-                const bg =
-                    el.style.backgroundImage ||
-                    getComputedStyle(el).backgroundImage;
-                const m = bg && bg.match(/url\((['"]?)(.*?)\1\)/i);
+            // lấy URL từ <img> hoặc background-image
+            const pickUrl = (a) => {
+                // 2) background-image
+                const el = a.querySelector(
+                    'div[role="img"] div[style*="background-image"]'
+                )?.style?.backgroundImage;
+                const m = el && el.match(/url\((['"]?)(.*?)\1\)/i);
                 if (m && m[2]) return m[2];
+                return null;
+            };
+
+            const collect = () => {
+                const anchors = document.querySelectorAll(
+                    'div[role="main"] div[tabindex="-1"] a[data-photo-index]'
+                );
+                anchors.forEach((a) => {
+                    const url = pickUrl(a);
+                    if (url && url.startsWith("https://lh") && !seen.has(url)) {
+                        seen.add(url);
+                        out.push(url); // "push ảnh vào" ngay khi thấy
+                    }
+                });
+            };
+
+            // vòng đời scroll + thu thập
+            collect(); // thu thập lần đầu
+            while (idle < maxIdle) {
+                feed.scrollTop += distance;
+                await new Promise((r) => setTimeout(r, 600));
+                collect();
+                idle++;
             }
-            return null;
-        };
 
-        const collect = () => {
-            const anchors = document.querySelectorAll("a[data-photo-index]");
-            anchors.forEach((a) => {
-                const url = pickUrl(a);
-                if (url && url.startsWith("https://lh") && !seen.has(url)) {
-                    seen.add(url);
-                    out.push(url); // "push ảnh vào" ngay khi thấy
-                }
-            });
-        };
-
-        // vòng đời scroll + thu thập
-        collect(); // thu thập lần đầu
-        while (idle < maxIdle) {
-            feed.scrollTop += distance;
-            await new Promise((r) => setTimeout(r, 600));
+            // chờ nốt lazy-load nếu còn
+            await new Promise((r) => setTimeout(r, 800));
             collect();
-            idle++;
-        }
-
-        // chờ nốt lazy-load nếu còn
-        await new Promise((r) => setTimeout(r, 800));
-        collect();
-        return out;
-    });
+            return out;
+        });
+    }
 
     if (thumbnails.length > 0) {
         await downloadFile(thumbnails, "photo", record, 20);
@@ -873,13 +711,12 @@ async function crawler_comment(page, record) {
 }
 
 async function getAllCrawlerDataBase(offset = 0) {
-    const query = `SELECT * FROM ${table.crawler} where id=139168  ORDER BY id ASC LIMIT 250 offset ${offset}`;
-    // const query = `SELECT * FROM ${table.crawler} WHERE is_status = 0 ORDER BY id ASC LIMIT 250 offset ${offset}`;
+     const query = `SELECT * FROM ${table.crawler} WHERE is_status = 0 ORDER BY id DESC LIMIT 1000 offset ${offset}`;
     return database.query(query);
 }
 
 (async () => {
-    var list_data = await getAllCrawlerDataBase(0);
+    var list_data = await getAllCrawlerDataBase(500);
 
     const browser = await puppeteer.launch({
         headless: false, // Hiển thị trình duyệt
@@ -891,8 +728,7 @@ async function getAllCrawlerDataBase(offset = 0) {
         try {
             console.log("\n ===Start key: " + element.key_word);
             await crawlerGoogleIframe(browser, element);
-            console.log("Crawler_success key: " + element.key_word);
-            return;
+            console.log("Crawler_success key: " + element.key_word); 
         } catch (e) {
             console.error("\nCrawler_error: " + element.id + e);
             // await database.update_crawler_map(element.id, { is_error: 1 }, 3);

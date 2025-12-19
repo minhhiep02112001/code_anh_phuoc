@@ -57,9 +57,9 @@ class CrawlerData extends Command
         foreach ($datas->groupBy('post_id')->toArray() as $post_id => $data) {
             foreach (array_values($data) as $k => $item) {
                 $thumb =   preg_replace('/=(.*?)w\d+-h\d+(-)?/', '=$1', $item->crawler_href);
-
+                
                 if (!empty($thumb)) {
-                    $path = saveImageUrlStorage($thumb, "photos/nails/{$item->slug}", "{$item->slug}-{$item->type}-{$k}.jpg");
+                    $path = saveImageUrlStorage($thumb, "photos/restaurants/{$item->slug}", "{$item->slug}-{$item->type}-{$k}.jpg");
                     $dataUpdate = [
                         'is_crawler' => 1,
                         'thumbnail' => "/{$path}",

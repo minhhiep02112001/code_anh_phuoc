@@ -71,7 +71,8 @@ class ConvertData extends Command
             $thumnail_post = str_replace(['storage', '//'], '', trim($post->thumbnail ?? '', '/'));
 
             if ((empty($thumnail_post) || !Storage::disk('public')->exists($thumnail_post)) && !empty($data->thumbnail)) { // download_image
-                $data_update['thumbnail'] = saveImageUrlStorage($data->thumbnail, "photos/restaurants/{$post->slug}",   "thumbnail.jpg");
+                $thumb = strtok($data->thumbnail, '='). '=s800';
+                $data_update['thumbnail'] = saveImageUrlStorage($thumb, "photos/restaurants/{$post->slug}",   "thumbnail.jpg");
                 $thumnail_post = str_replace(['storage', '//'], '', trim($data_update['thumbnail'], '/'));
             }
 
