@@ -13078,7 +13078,7 @@
                               .one("load", function () {
                                   let width = t.opts.width || this.naturalWidth;
                                   let height =
-                                      t.opts.width || this.naturalWidth;
+                                      t.opts.height || this.naturalWidth;
                                 //   if (350 < width && width < 500) {
                                 //       width = width * 1.5;
                                 //       height = height * 1.5;

@@ -110,7 +110,7 @@ async function crawlerGoogleIframe(browser, record) {
 
             await simulateHumanBehavior(page);
             await delay(2000);
- await page.goto(record.link_google_map);
+            // await page.goto(record.link_google_map);
             // let data = await extractMainInfo(page); 
             // await database.update_crawler_map(record.id, data, 1); 
             // if (crawlerData.comment) await crawler_comment(page, record);
@@ -350,7 +350,7 @@ async function crawlerMenu(page, record) {
     let check = await clickArrayFindText(page, 'div[role="tablist"] button[role="tab"]', 'menu');
     if(!check) return;
     var menus = await page.evaluate(async () => {
-        const lists = document.querySelectorAll('div[role="main"] div[role="tablist"]'); 
+        const lists = document.querySelectorAll('div[role="tablist"]'); 
         const parent = lists[lists.length - 1] || null; 
         if (!parent) return [];
         var results = [];
