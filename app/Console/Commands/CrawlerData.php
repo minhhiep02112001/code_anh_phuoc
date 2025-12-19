@@ -56,14 +56,19 @@ class CrawlerData extends Command
 
         foreach ($datas->groupBy('post_id')->toArray() as $post_id => $data) {
             foreach (array_values($data) as $k => $item) {
-                $thumb = $item->crawler_href;
+                $thumb =   preg_replace('/=(.*?)w\d+-h\d+(-)?/', '=$1', $item->crawler_href);
+
                 if (!empty($thumb)) {
                     $path = saveImageUrlStorage($thumb, "photos/nails/{$item->slug}", "{$item->slug}-{$item->type}-{$k}.jpg");
-                    DB::table('st_post_images')->where('id', $item->id)->update([
+                    $dataUpdate = [
                         'is_crawler' => 1,
                         'thumbnail' => "/{$path}",
-                        'position' => $k,
-                    ]);
+                        'position' => $k
+                    ];
+                    if (empty($path)) {
+                        $dataUpdate = ['is_crawler' => 2, 'position' => $k];
+                    }
+                    DB::table('st_post_images')->where('id', $item->id)->update($dataUpdate);
                     echo "\n Done {$item->id} {$path}";
                 }
 
@@ -105,12 +110,11 @@ class CrawlerData extends Command
             echo "\n Done {$item->id}";
         }
     }
-    
+
     // php artisan crawler:data --function=yelp
     public function yelp()
     {
         $service = \App::make(CrawlersYelp::class);
         $service->index();
     }
-   
 }
