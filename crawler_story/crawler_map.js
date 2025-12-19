@@ -5,6 +5,8 @@ const WAIT_TIME_SHORT = 1000;
 const WAIT_TIME_SHORTLONG = 3000;
 const WAIT_TIME_LONG = 3000;
 const slugify = require("slugify");
+const StealthPlugin = require("puppeteer-extra-plugin-stealth");
+puppeteer.use(StealthPlugin());
 
 const crawlerData = {
     menu: true,
@@ -26,7 +28,7 @@ function extractInParentheses(text) {
     return match ? match[1] : null; // Nếu tìm thấy, trả về chuỗi; nếu không, trả về null
 }
 function convertStr(str) {
-    return str.replace(/'/g, "''");
+    return String(str).replace(/\\/g, "\\\\").replace(/'/g, "\\'");
 }
 function convertToSlug(text) {
     if (typeof text !== "string") return "";
@@ -34,7 +36,155 @@ function convertToSlug(text) {
     return slugify(text, { lower: true, strict: true, trim: true });
 }
 
-async function crawlerGoogleIframe(browser, record, retry = 5) {
+const delay = (ms) => new Promise((r) => setTimeout(r, ms));
+
+async function setupPage(page) {
+    await page.setExtraHTTPHeaders({
+        "Accept-Language": "en-US,en;q=0.9",
+    });
+    await page.setUserAgent(
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120 Safari/537.36"
+    );
+}
+
+async function safeClick(page, selector, timeout = 3000) {
+    try {
+        await page.waitForSelector(selector, { timeout });
+        await page.click(selector);
+        return true;
+    } catch {
+        return false;
+    }
+}
+async function clickArrayFindText(page, selector, textClick = "",timeout = 3000) {
+    // 1️⃣ Chờ selector xuất hiện
+    await page.waitForSelector(selector, { timeout }).catch(() => false); 
+    // 2️⃣ Truyền biến vào evaluate
+    return page.evaluate((selector, textClick) => { 
+        const targetText = textClick.toLowerCase();
+        const elements = Array.from(document.querySelectorAll(selector));
+        const el = elements.find(e =>e.textContent?.trim().toLowerCase().includes(targetText));
+        if (el) {
+            el.scrollIntoView({block: "center", behavior: "instant"});
+            el.click();
+            return true;
+        }
+        return false;
+    }, selector, textClick);
+}
+
+
+async function getText(page, selector) {
+    try {
+        await page.waitForSelector(selector, { timeout: 3000 });
+        return await page.$eval(selector, (el) => el.textContent.trim());
+    } catch {
+        return "";
+    }
+}
+
+
+async function simulateHumanBehavior(page) {
+    const randomize = (min, max) =>
+        Math.floor(Math.random() * (max - min + 1)) + min;
+
+    await page.mouse.move(randomize(0, 100), randomize(0, 100));
+    await page.waitForTimeout(WAIT_TIME_SHORT);
+
+    await page.evaluate(() => {
+        window.scrollBy({
+            top: window.innerHeight / 2,
+            left: 0,
+            behavior: "smooth",
+        });
+    });
+    await page.waitForTimeout(WAIT_TIME_SHORT);
+}
+ 
+async function crawlerGoogleIframe(browser, record) {
+     for (let attempt = 1; attempt <= 5; attempt++) {
+        const page = await browser.newPage();
+        try {
+            await setupPage(page);
+            await page.goto(record.link_google_map);
+
+            await simulateHumanBehavior(page);
+            await delay(2000);
+ await page.goto(record.link_google_map);
+            // let data = await extractMainInfo(page); 
+            // await database.update_crawler_map(record.id, data, 1); 
+            // if (crawlerData.comment) await crawler_comment(page, record);
+            // if (crawlerData.about) await crawler_about(page, record);
+            if (crawlerData.menu) await crawlerMenu(page, record);
+            return
+            if (crawlerData.images) await crawler_images(page, record);
+
+            await page.close();
+            return;
+        } catch (e) {
+            await page.close();
+            console.error(`Retry ${attempt} failed`, e);
+            if (attempt === 5) throw e;
+        }
+    }
+}
+async function crawlIframeMap(page) {
+    const clicked = await safeClick(page, 'button[data-value="Share"]');
+    if (!clicked) return "";
+    await page.waitForSelector('div[jsaction="focus:modal.focus.top"]', { timeout: 10000 }).catch(() => null); 
+    await safeClick(page, 'button[data-tooltip="Embed a map"]'); 
+    await delay(500); 
+    await page.waitForSelector('input[jsaction="pane.embedMap.clickInput"]', { timeout: 5000 }).catch(() => null);
+    let iframe = page.evaluate(() => {
+        return document.querySelector('input[jsaction="pane.embedMap.clickInput"]' )?.getAttribute("value") || "";
+    });
+    await safeClick(page, 'button[jsaction="modal.close"]');
+    return iframe;
+}
+async function extractMainInfo(page) { 
+    // 2️⃣ Extract DOM info (Browser)
+    const rawData = await page.evaluate(() => {
+        const getAttr = (sel, attr) => document.querySelector(sel)?.getAttribute(attr) || "";
+
+        var h1 = document.querySelector("h1");
+        var reviewText = h1?.parentNode?.parentNode?.textContent?.match(/\(([^)]+)\)/)?.[1]  || "";
+
+        let time_open = "";
+        const openHoursEl = document.querySelector(
+            'div[data-hide-tooltip-on-mouse-move="true"][role="button"]'
+        );
+
+        if (openHoursEl) {
+            openHoursEl.closest("div")?.click();
+            time_open = openHoursEl.parentNode?.querySelector("table")?.outerHTML || "";
+        }
+
+        return {
+            google_review: reviewText,
+            phone: getAttr('button[data-tooltip="Copy phone number"]',"aria-label"),
+            address: getAttr('button[data-item-id="address"]',"aria-label"),
+            thumbnail:document.querySelector('button img[decoding="async"]')?.src || "",
+            link_google_map: location.href,
+            time_open
+        };
+    });
+
+    // 1️⃣ Crawl iframe map TRƯỚC (NodeJS)
+    const iframe_map = await crawlIframeMap(page);
+
+    // 3️⃣ Escape + normalize tại NodeJS
+    return {
+        ...rawData,
+        iframe_map: convertStr(iframe_map),
+        google_review: convertStr(rawData.google_review),
+        phone: convertStr(rawData.phone),
+        address: convertStr(rawData.address),
+        thumbnail: convertStr(rawData.thumbnail),
+        time_open: convertStr(rawData.time_open)
+    };
+}
+ 
+async function crawlerGoogleIframeOld(browser, record, retry = 5) {
     let url = record.link_google_map;
     let crawler_id = record.id;
     var page = await browser.newPage();
@@ -60,12 +210,6 @@ async function crawlerGoogleIframe(browser, record, retry = 5) {
 
         // Chờ đợi cho nội dung tải xong
         await page.waitForTimeout(WAIT_TIME_SHORTLONG);
-
-        await crawler_images(page, record);
-        await database.update_crawler_map(crawler_id, {}, 1);
-        // get ảnh thumbnail
-        await page.close();
-        return;
 
         var link_google_map = await page.url();
 
@@ -203,28 +347,41 @@ async function crawlerGoogleIframe(browser, record, retry = 5) {
 }
 
 async function crawlerMenu(page, record) {
-    try {
-        await page.evaluate(async () => {
-            let allButtons = Array.from(
-                document.querySelectorAll(
-                    'div[role="tablist"] button[role="tab"]'
-                )
-            );
-            let button = allButtons.find((button) => {
-                const text = button.textContent
-                    ? button.textContent.trim().toLowerCase()
-                    : "";
-                return text === "menu" || text === "Menus";
-            });
-            if (button) {
-                button.click();
-                return true;
+    let check = await clickArrayFindText(page, 'div[role="tablist"] button[role="tab"]', 'menu');
+    if(!check) return;
+    var menus = await page.evaluate(async () => {
+        const lists = document.querySelectorAll('div[role="main"] div[role="tablist"]'); 
+        const parent = lists[lists.length - 1] || null; 
+        if (!parent) return [];
+        var results = [];
+        let tabs = Array.from(parent.querySelectorAll('button[role="tab"]'));
+        return tabs
+        if(tabs.length){
+            for (const element of tabs) {
+                let title = element.textContent?.trim();
+                if(title){
+                    results.push({
+                        title
+                    });
+                }
             }
-            return false;
-        });
-        await page.waitForTimeout(WAIT_TIME_SHORT);
+        }
+        return results;
+
+        // for (let i = 0; i < 10; i++) {
+        //     parent.scrollTop += 300;
+        //     await new Promise(r => setTimeout(r, 200));
+        // }
+    });
+    console.log(menus);
+    return;
+
+    try { 
+        
+        
+
         const checkMenu = await page.evaluate(() => {
-            const lists = document.querySelectorAll('div[role="tablist"]');
+            const lists = document.querySelectorAll('div[role="main"] div[role="tablist"]');
             return lists.length > 1;
         });
 
@@ -313,72 +470,37 @@ async function crawlerMenu(page, record) {
                 }
                 // NOTE: DOM Maps hay thay đổi -> lấy lại danh sách tabs mỗi vòng
                 tabs = await tablist.$$('button[role="tab"]');
-            }
-            await page.evaluate(async () => {
-                let allButtons = Array.from(
-                    document.querySelectorAll(
-                        'div[role="tablist"] button[role="tab"]'
-                    )
-                );
-                if (allButtons) allButtons[0].click();
-                return;
-            });
+            } 
             console.log("==> Success Menus: " + record.key_word);
         } else {
             console.log("Menus Null: " + record.key_word);
-        }
-        return;
+        } 
     } catch (e) {
         console.log("Error Menu: " + record.key_word);
     }
+    return await safeClick(page, 'button[aria-label="Back"]'); 
 }
 
 async function crawler_about(page, record) {
-    await page.waitForTimeout(WAIT_TIME_SHORT);
-    await page.evaluate(async () => {
-        let allButtons = Array.from(
-            document.querySelectorAll('div[role="tablist"] button[role="tab"]')
-        );
-
-        let button = allButtons.find((button) => {
-            const text = button.textContent
-                ? button.textContent.trim().toLowerCase()
-                : "";
-            return text === "about" || text === "About";
-        });
-        if (button) button.click();
-        return;
-    });
-
-    await page.waitForTimeout(WAIT_TIME_SHORT);
-
+    let check = await clickArrayFindText(page, 'div[role="tablist"] button[role="tab"]', 'about');   
     let abouts = await page.evaluate(() => {
-        const list = [];
-
+        const list = []; 
         // Cuộn nếu cần
-        const targetElement = document.querySelector(
-            'div[role="region"][tabindex="-1"]'
-        );
+        const targetElement = document.querySelector('div[role="region"][tabindex="-1"]');
         if (targetElement) {
             let distance = 5;
             for (let i = 0; i <= 15; i++) {
                 targetElement.scrollTop += distance;
-            }
-
-            const elements =
-                targetElement.querySelectorAll("h2.fontTitleSmall");
+            } 
+            const elements = targetElement.querySelectorAll("h2.fontTitleSmall");
 
             elements.forEach((element) => {
-                const parentText = element.textContent.trim();
-                const parentDom = element.parentElement;
-
-                const liElements = parentDom.querySelectorAll("ul li");
+                const parentText = element.textContent?.trim(); 
+                const liElements = element.parentElement.querySelectorAll("ul li");
                 const childs = Array.from(liElements).map((li) => {
-                    const span = li.querySelector('span[aria-hidden="true"]');
-                    if (span) span.remove(); // Xóa span nếu có
-                    return li.textContent.trim(); // Trả về nội dung còn lại
+                    li.querySelector('span[aria-hidden="true"]')?.remove(); // Xóa span nếu có
+                    return li.textContent?.trim(); // Trả về nội dung còn lại
                 });
-
                 list.push({
                     parent: parentText,
                     childs: childs,
@@ -387,7 +509,9 @@ async function crawler_about(page, record) {
             return list;
         }
         return [];
-    });
+    }); 
+    if(check) await safeClick(page, 'button[aria-label="Back"]'); 
+    
     if (abouts.length > 0) {
         const relate_id = record.relate_id ?? 0;
         await database.execute(
@@ -423,16 +547,7 @@ async function crawler_about(page, record) {
               `;
                 await database.execute(insertChildSql);
             }
-        }
-        await page.evaluate(async () => {
-            let allButtons = Array.from(
-                document.querySelectorAll(
-                    'div[role="tablist"] button[role="tab"]'
-                )
-            );
-            if (allButtons) allButtons[0].click();
-            return;
-        });
+        } 
         console.log("==> Success download about");
     }
     return;
@@ -486,7 +601,9 @@ async function crawler_images(page, record) {
             // 2) background-image
             const el =
                 a.querySelector("div.loaded") ||
-                a.querySelector('div[role="img"] div[style*="background-image"]');
+                a.querySelector(
+                    'div[role="img"] div[style*="background-image"]'
+                );
             if (el) {
                 const bg =
                     el.style.backgroundImage ||
@@ -567,7 +684,9 @@ async function crawler_images(page, record) {
             // 2) background-image
             const el =
                 a.querySelector("div.loaded") ||
-                a.querySelector(' div[role="img"] div[style*="background-image"]');
+                a.querySelector(
+                    ' div[role="img"] div[style*="background-image"]'
+                );
             if (el) {
                 const bg =
                     el.style.backgroundImage ||
@@ -753,25 +872,9 @@ async function crawler_comment(page, record) {
     }
 }
 
-async function simulateHumanBehavior(page) {
-    const randomize = (min, max) =>
-        Math.floor(Math.random() * (max - min + 1)) + min;
-
-    await page.mouse.move(randomize(0, 100), randomize(0, 100));
-    await page.waitForTimeout(WAIT_TIME_SHORT);
-
-    await page.evaluate(() => {
-        window.scrollBy({
-            top: window.innerHeight / 2,
-            left: 0,
-            behavior: "smooth",
-        });
-    });
-    await page.waitForTimeout(WAIT_TIME_SHORT);
-}
-
 async function getAllCrawlerDataBase(offset = 0) {
-    const query = `SELECT * FROM ${table.crawler} WHERE is_status = 0 ORDER BY id ASC LIMIT 250 offset ${offset}`;
+    const query = `SELECT * FROM ${table.crawler} where id=139168  ORDER BY id ASC LIMIT 250 offset ${offset}`;
+    // const query = `SELECT * FROM ${table.crawler} WHERE is_status = 0 ORDER BY id ASC LIMIT 250 offset ${offset}`;
     return database.query(query);
 }
 
@@ -789,9 +892,10 @@ async function getAllCrawlerDataBase(offset = 0) {
             console.log("\n ===Start key: " + element.key_word);
             await crawlerGoogleIframe(browser, element);
             console.log("Crawler_success key: " + element.key_word);
+            return;
         } catch (e) {
             console.error("\nCrawler_error: " + element.id + e);
-            await database.update_crawler_map(element.id, { is_error: 1 }, 3);
+            // await database.update_crawler_map(element.id, { is_error: 1 }, 3);
         }
     }
 
