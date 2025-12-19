@@ -13077,7 +13077,6 @@
                               })
                               .one("load", function () {
                                   let width = t.opts.width || this.naturalWidth;
-<<<<<<< HEAD
                                   let height =
                                       t.opts.width || this.naturalWidth;
                                 //   if (350 < width && width < 500) {
@@ -13092,21 +13091,6 @@
                                 //       width = width * 3;
                                 //       height = height * 3;
                                 //   }
-=======
-                                  let height =  t.opts.height || this.naturalHeight;
-                                  if (350 < width && width < 500) {
-                                      width = width * 1.5;
-                                      height = height * 1.5;
-                                  }
-                                  if (200 < width && width <= 350) {
-                                      width = width * 2;
-                                      height = height * 2;
-                                  }
-                                  if (width <= 200) {
-                                      width = width * 3;
-                                      height = height * 3;
-                                  }
->>>>>>> 9a32bfea3203da14f647db109a077d6df3eb70df
                                   console.log(width, height);
 
                                   clearTimeout(t.timouts),
