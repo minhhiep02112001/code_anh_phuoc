@@ -77,9 +77,11 @@ class ConvertData extends Command
             }
 
             if (Storage::disk('public')->exists($thumnail_post)) {
-                [$w, $h] = getimagesize(Storage::disk('public')->path($thumnail_post));
-                $data_update['is_thumbnail'] = 0;
-                if ($w < $h) $data_update['is_thumbnail'] = 1;
+                $size = @getimagesize(Storage::disk('public')->path($thumnail_post));
+                if ($size) {
+                    [$w, $h] = $size;
+                    $data_update['is_thumbnail'] = ($h > $w) ? 1 : 0;
+                }
             }
 
             // downloadFile 
