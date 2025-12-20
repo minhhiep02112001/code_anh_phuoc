@@ -71,12 +71,18 @@ class ConvertData extends Command
             $thumnail_post = str_replace(['storage', '//'], '', trim($post->thumbnail ?? '', '/'));
 
             if ((empty($thumnail_post) || !Storage::disk('public')->exists($thumnail_post)) && !empty($data->thumbnail)) { // download_image
-                $thumb = strtok($data->thumbnail, '='). '=s800';
-                $data_update['thumbnail'] = saveImageUrlStorage($thumb, "photos/restaurants/{$post->slug}",   "thumbnail.jpg");
+                $thumb = strtok($data->thumbnail, '=') . '=s1200';
+                $data_update['thumbnail'] = saveImageUrlStorage($thumb, "photos/thumbnails/restaurants/{$post->slug}",   "thumbnail.jpg");
                 $thumnail_post = str_replace(['storage', '//'], '', trim($data_update['thumbnail'], '/'));
             }
 
-            if (Storage::disk('public')->exists($thumnail_post))  $data_update['is_thumbnail'] = 0;
+            if (Storage::disk('public')->exists($thumnail_post)) {
+                [$w, $h] = getimagesize(Storage::disk('public')->path($thumnail_post));
+                $data_update['is_thumbnail'] = 0;
+                if ($w < $h) $data_update['is_thumbnail'] = 1;
+            }
+
+            // downloadFile 
 
             Media::where('crawler_id', $data->id)->update([
                 'post_id' => $post->id
@@ -150,6 +156,49 @@ class ConvertData extends Command
         return $arr[array_rand($arr)];
     }
 
-    // php artisan convert:data --function=asyncDataCrawler
 
+    // php artisan convert:data --function=convertPath
+    public function convertPath()
+    {
+        $allPost = Post::where('is_thumbnail', 0)->get();
+        foreach ($allPost as $post) {
+            $this->convertImageThumbnail($post->id, $post->thumbnail);
+            echo "\n Done post {$post->id}";
+        }
+    }
+
+    public function convertImageThumbnail($postId, $thumb)
+    {
+
+        if (empty($thumb)) return;
+        // Chuẩn hoá path storage
+        $thumbnail = ltrim(str_replace('storage/', '', $thumb), '/');
+        $storage = Storage::disk('public');
+        $width = $height = 0;
+        if ($storage->exists($thumbnail)) [$width, $height] = getimagesize($storage->path($thumbnail));
+        // Ảnh ngang → giữ nguyên
+        if ($width > $height) return;
+        // Ảnh dọc → tìm ảnh ngang lớn nhất trong media
+        $medias = Media::where('post_id', $postId)->where('type', 'photo')->get();
+        if ($medias->isEmpty()) return;
+        foreach ($medias as $media) {
+            $mediaThumbTemp = '';
+            if (empty($media->thumbnail)) continue;
+            $mediaThumb = ltrim(str_replace('storage/', '', $media->thumbnail), '/');
+            if (!$storage->exists($mediaThumb)) {
+                if (empty($media->crawler_href)) continue;
+                $mediaThumbTemp = saveImageUrlStorage($media->crawler_href, dirname(ltrim(str_replace('storage/', '', $media->thumbnail), '/')), 'test-' . basename($media->thumbnail));
+                $mediaThumb = ltrim(str_replace('storage/', '', $mediaThumbTemp), '/');
+            }
+            [$w, $h] = getimagesize($storage->path($mediaThumb));
+
+            if ($w > $h && $w > $width && $width = $w) {
+                $crawler_href = strtok($media->crawler_href, '=') . '=s1200';
+                saveImageUrlStorage($crawler_href, dirname(ltrim(str_replace('storage/', '', $thumb), '/')), basename($thumb));
+                echo "\n Done {$media->id} $crawler_href";
+            }
+            if (!empty($mediaThumbTemp)) $storage->delete(ltrim(str_replace('storage/', '', $mediaThumbTemp), '/'));
+        }
+        return;
+    }
 }

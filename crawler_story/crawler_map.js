@@ -461,7 +461,7 @@ async function crawler_images(page, record) {
             document.body;
 
         const distance = 800; // px mỗi lần cuộn
-        const maxIdle = 7; // số lần cuộn liên tiếp không có ảnh mới -> dừng
+        const maxIdle = 10; // số lần cuộn liên tiếp không có ảnh mới -> dừng
         let idle = 0;
 
         // lấy URL từ <img> hoặc background-image
@@ -716,7 +716,7 @@ async function getAllCrawlerDataBase(offset = 0) {
 }
 
 (async () => {
-    var list_data = await getAllCrawlerDataBase(500);
+    var list_data = await getAllCrawlerDataBase(0);
 
     const browser = await puppeteer.launch({
         headless: false, // Hiển thị trình duyệt
