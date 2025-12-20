@@ -163,13 +163,12 @@ class ConvertData extends Command
         $allPost = Post::where('is_thumbnail', 0)->get();
         foreach ($allPost as $post) {
             $this->convertImageThumbnail($post->id, $post->thumbnail);
-            echo "\n Done post {$post->id}";
         }
     }
 
     public function convertImageThumbnail($postId, $thumb)
     {
-
+        DB::table('st_post')->where('id', $postId)->update(['is_thumbnail' => 2]);
         if (empty($thumb)) return;
         // Chuẩn hoá path storage
         $thumbnail = ltrim(str_replace('storage/', '', $thumb), '/');
@@ -195,6 +194,7 @@ class ConvertData extends Command
             if ($w > $h && $w > $width && $width = $w) {
                 $crawler_href = strtok($media->crawler_href, '=') . '=s1200';
                 saveImageUrlStorage($crawler_href, dirname(ltrim(str_replace('storage/', '', $thumb), '/')), basename($thumb));
+                DB::table('st_post')->where('id', $postId)->update(['is_thumbnail' => 1]);
                 echo "\n Done {$media->id} $crawler_href";
             }
             if (!empty($mediaThumbTemp)) $storage->delete(ltrim(str_replace('storage/', '', $mediaThumbTemp), '/'));
