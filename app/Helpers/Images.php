@@ -70,7 +70,7 @@ if (!function_exists('getImageThumb')) {
 if (!function_exists('convertPathImage')) {
      function convertPathImage($path)
      {
-          return env('MEDIA_URL') . trim($path, '/');
+          return env('MEDIA_URL') . trim($path, '/'). "?v=1";
      }
 }
 
