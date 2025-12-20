@@ -80,7 +80,7 @@ class ConvertData extends Command
                 $size = @getimagesize(Storage::disk('public')->path($thumnail_post));
                 if ($size) {
                     [$w, $h] = $size;
-                    $data_update['is_thumbnail'] = ($h > $w) ? 1 : 0;
+                    $data_update['is_thumbnail'] = ($h >= $w) ? 1 : 0;
                 }
             }
 
