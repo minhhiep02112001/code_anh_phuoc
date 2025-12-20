@@ -196,7 +196,7 @@ class ConvertData extends Command
             if ($w > $h && $w > $width && $width = $w) {
                 $crawler_href = strtok($media->crawler_href, '=') . '=s1200';
                 saveImageUrlStorage($crawler_href, dirname(ltrim(str_replace('storage/', '', $thumb), '/')), basename($thumb));
-                DB::table('st_post')->where('id', $postId)->update(['is_thumbnail' => 1]);
+                DB::table('st_post')->where('id', $postId)->update(['is_thumbnail' => 0]);
                 echo "\n Done {$media->id} $crawler_href";
             }
             if (!empty($mediaThumbTemp)) $storage->delete(ltrim(str_replace('storage/', '', $mediaThumbTemp), '/'));
