@@ -162,7 +162,7 @@ class ConvertData extends Command
     // php artisan convert:data --function=convertPath
     public function convertPath()
     {
-        $allPost = Post::where('is_thumbnail', 0)->get();
+        $allPost = Post::where('is_thumbnail', 1)->get();
         foreach ($allPost as $post) {
             $this->convertImageThumbnail($post->id, $post->thumbnail);
         }
