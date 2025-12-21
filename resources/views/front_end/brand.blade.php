@@ -11,7 +11,13 @@
 @extends('front_end._index')
 
 @section('content')
-
+    <style>
+        .mobile-header .logo a {
+            font-size: 20px;
+            color: #fff;
+            font-weight: 700;
+        }
+    </style>
     <section class="listing-banner box-brand">
         <div class="background-layer banner-brand" style="background-image: url('{{ getImageThumb($post->thumbnail) }}');">
         </div>
