@@ -17,6 +17,9 @@
             color: #fff;
             font-weight: 700;
         }
+        .nav-outer .mobile-nav-toggler{
+            margin-left: 5px;
+        }
     </style>
     <section class="listing-banner box-brand">
         <div class="background-layer banner-brand" style="background-image: url('{{ getImageThumb($post->thumbnail) }}');">
