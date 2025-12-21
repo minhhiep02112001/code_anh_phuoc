@@ -88,33 +88,65 @@
                                 </div>
                             </div>
                         @endif
-                        @if (!empty($menus))
+                        @if (!empty($menus) || !empty($products))
                             <div class="gallery-widget ls-widget" id="menus">
                                 <div class="widget-title">
                                     <h2><span class="icon flaticon-gallery"></span> Menus</h2>
                                 </div>
                                 <div class="widget-content">
-                                    <ul class="listing-gallery listing-gallery-photos">
-                                        @foreach ($menus as $k => $item)
-                                            <li class="gallery-item photo-item-{{ $indexImg++ }}">
-                                                <div class="inner-box">
-                                                    <figure class="image"> <img class=""
-                                                            src="{{ getImageThumb($item->thumbnail) }}"
-                                                            alt="Menu {{ $post->title }} - {{ $k }}"
-                                                            data-src="{{ getImageThumb($item->thumbnail) }}"
-                                                            lazy="loading">
-                                                    </figure>
-                                                    <div class="overlay"> <a href="{{ getImageThumb($item->thumbnail) }}"
-                                                            class="lightbox-image" data-fancybox="ls-gallery-photos"
-                                                            title="Menu {{ $post->title }} - {{ $k }}"><span
-                                                                class="icon flaticon-magnifying-glass"></span></a> </div>
-                                                </div>
-                                            </li>
-                                        @endforeach
-                                    </ul>
+                                    @if (!empty($menus))
+                                        <ul class="listing-gallery listing-gallery-photos">
+                                            @foreach ($menus as $k => $item)
+                                                <li class="gallery-item photo-item-{{ $indexImg++ }}">
+                                                    <div class="inner-box">
+                                                        <figure class="image"> <img class=""
+                                                                src="{{ getImageThumb($item->thumbnail) }}"
+                                                                alt="Menu {{ $post->title }} - {{ $k }}"
+                                                                data-src="{{ getImageThumb($item->thumbnail) }}"
+                                                                lazy="loading">
+                                                        </figure>
+                                                        <div class="overlay"> <a
+                                                                href="{{ getImageThumb($item->thumbnail) }}"
+                                                                class="lightbox-image" data-fancybox="ls-gallery-photos"
+                                                                title="Menu {{ $post->title }} - {{ $k }}"><span
+                                                                    class="icon flaticon-magnifying-glass"></span></a>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    @endif
+
+                                    @if (!empty($products))
+                                        <ul class="listing-features">
+                                            @foreach (collect($products)->where('parent_id', 0) as $product)
+                                                @if (!empty($product->title))
+                                                    <li style="padding: 0 5px;">
+                                                        <span class="title-amenites">{{ $product->title }}</span>
+                                                        <ul class="listing-child">
+                                                            @foreach (collect($products)->where('parent_id', $product->id) as $child)
+                                                                <li
+                                                                    style="
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+">
+                                                                    <span>{!! trim($child->title) !!}</span>
+                                                                    @if (!empty($child->price))
+                                                                        <span>{!! trim($child->price) !!}</span>
+                                                                    @endif
+                                                                </li>
+                                                            @endforeach
+                                                        </ul>
+                                                    </li>
+                                                @endif
+                                            @endforeach
+                                        </ul>
+                                    @endif
                                 </div>
                             </div>
                         @endif
+
 
                         @if (!empty($photos))
                             <div class="gallery-widget ls-widget" id="photos">

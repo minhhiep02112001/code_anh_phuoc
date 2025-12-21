@@ -119,14 +119,14 @@ async function crawlerGoogleIframe(browser, record) {
 
             await simulateHumanBehavior(page);
             await delay(2000);
-            // await page.goto(record.link_google_map);
+            await page.goto(record.link_google_map);
             // let data = await extractMainInfo(page);
             let data = {};
             await database.update_crawler_map(record.id, data, 1);
             // if (crawlerData.comment) await crawler_comment(page, record);
             // if (crawlerData.about) await crawler_about(page, record);
-            // if (crawlerData.menu) await crawlerMenu(page, record);
-            if (crawlerData.images) await crawler_images(page, record);
+            if (crawlerData.menu) await crawlerMenu(page, record);
+            // if (crawlerData.images) await crawler_images(page, record);
             await page.close();
             return;
         } catch (e) {
@@ -221,133 +221,57 @@ async function crawlerMenu(page, record) {
         "menu"
     );
     if (!check) return;
-    var menus = await page.evaluate(async () => {
-        const lists = document.querySelectorAll('div[role="tablist"]');
-        const parent = lists[lists.length - 1] || null;
-        if (!parent) return [];
-        var results = [];
-        let tabs = Array.from(parent.querySelectorAll('button[role="tab"]'));
-        return tabs;
-        if (tabs.length) {
-            for (const element of tabs) {
-                let title = element.textContent?.trim();
-                if (title) {
-                    results.push({
-                        title,
-                    });
-                }
-            }
+    await delay(1000);
+
+    const tablists = await page.$$('div[role="tablist"]');
+    if(tablists.length <= 1) return;
+    const lastTab = tablists[tablists.length - 1];
+    const buttons = await lastTab.$$("button");
+    if (!buttons.length) {
+        console.log("❌ No tabs found in lastTablist");
+        return;
+    }
+    await database.execute(`Delete from ${table.product} where crawler_id = ${record.id}`);
+    for (const btn of buttons) {
+        await btn.click();
+        const title = await btn.evaluate((el) => (el.textContent || "").trim());
+        if(title.toLowerCase() == 'overview') continue;
+        console.log("👉 Click tab:", title);
+        // Scroll + click
+        await btn.evaluate((el) => el.scrollIntoView({ block: "center", inline: "center" }));
+        await btn.click({ delay: 10 });
+        // Đợi menu load
+        try{
+            await page.waitForSelector('div[aria-label="Menu"][role="region"]', {timeout: 1000});
+        }catch(e){
+            continue;
         }
-        return results;
-
-        // for (let i = 0; i < 10; i++) {
-        //     parent.scrollTop += 300;
-        //     await new Promise(r => setTimeout(r, 200));
-        // }
-    });
-    console.log(menus);
-    return;
-
-    try {
-        const checkMenu = await page.evaluate(() => {
-            const lists = document.querySelectorAll(
-                'div[role="main"] div[role="tablist"]'
-            );
-            return lists.length > 1;
+        await page.waitForTimeout(100);
+        // Crawl menu items
+        const items = await page.evaluate(() => {
+            const domProduct = document.querySelector('div[aria-label="Menu"][role="region"]');
+            if (!domProduct) return [];
+            return [...domProduct.children].map((row) => {
+                const name = row.querySelector("div.fontBodyMedium") ?.textContent?.trim() || "";
+                const price = row.querySelector("h2")?.textContent?.trim() || "";
+                return { name, price };
+            }).filter((item) => item.name);
         });
-
-        if (checkMenu) {
-            // lấy node tablist thứ 2
-            const tablists = await page.$$('div[role="tablist"]');
-            const tablist = tablists[1];
-
-            // lấy tất cả tab (category)
-            let tabs = await tablist.$$('button[role="tab"]');
-            await database.execute(
-                `Delete from ${table.product} where crawler_id = ${record.id}`
-            );
-            for (let i = 1; i < tabs.length; i++) {
-                console.log("\n Click " + tabs[i]);
-                // lấy tiêu đề tab
-                const title = await tabs[i].evaluate((el) =>
-                    (el.textContent || "").trim()
-                );
-                // cuộn tab vào giữa rồi click
-                await tabs[i].evaluate((el) =>
-                    el.scrollIntoView({ block: "center", inline: "center" })
-                );
-                await tabs[i].click({ delay: 50 });
-
-                // đợi tab được chọn
-                await page.waitForTimeout(200);
-                const items = await page.evaluate((tabEl) => {
-                    // Bây giờ tabEl là một DOM element thật, có thể dùng closest
-                    const domProduct = document.querySelector(
-                        'div[aria-label="Menu"][role="region"]'
-                    );
-                    if (!domProduct) return [];
-
-                    // Lấy tất cả con cấp 1
-                    const rows = Array.from(domProduct.children);
-
-                    const data = rows
-                        .map((row) => {
-                            const name =
-                                row
-                                    .querySelector("div.fontBodyMedium")
-                                    ?.textContent?.trim() || "";
-
-                            const price =
-                                row.querySelector("h2")?.textContent?.trim() ||
-                                "";
-
-                            return { name, price };
-                        })
-                        .filter((item) => item.name);
-                    return data;
-                }, tabs[i]); // <-- phải truyền tabs[i] ở đây
-                if (items.length > 0) {
-                    let relate_id = record.relate_id ?? 0;
-                    let parentSlug = slugify(title, { lower: true });
-                    let insertParentSql = `
-                        INSERT INTO ${
-                            table.product
-                        } (title, slug, parent_id, relate_id, crawler_id)
-                        VALUES ('${convertStr(title)}', '${convertStr(
-                        parentSlug
-                    )}', 0, ${relate_id}, ${record.id})`;
-                    let parentResult = await database.execute(insertParentSql);
-                    let parentId = parentResult.insertId;
-
-                    // 👉 Insert children
-                    for (let child of items) {
-                        let childSlug = convertStr(
-                            slugify(child.name, { lower: true })
-                        );
-                        let insertChildSql = `
-                        INSERT INTO ${
-                            table.product
-                        } (title, slug, price , parent_id, relate_id, crawler_id)
-                        VALUES ('${convertStr(child.name)}', '${childSlug}', '${
-                            child.price
-                        }', ${parentId},  ${relate_id}, ${record.id})`;
-                        await database.execute(insertChildSql);
-                    }
-                    console.log(
-                        "\nSuccess Menu",
-                        title,
-                        "(" + items.length + ")"
-                    );
-                }
-                // NOTE: DOM Maps hay thay đổi -> lấy lại danh sách tabs mỗi vòng
-                tabs = await tablist.$$('button[role="tab"]');
+        if (items.length > 0) { 
+            let relate_id = record.relate_id ?? 0;
+            let parentSlug = slugify(title, { lower: true });
+            let insertParentSql = `INSERT INTO ${table.product} (title, slug, parent_id, relate_id, crawler_id) VALUES ('${convertStr(title)}', '${convertStr(parentSlug)}', 0, ${relate_id}, ${record.id})`;
+            let parentResult = await database.execute(insertParentSql);
+            let parentId = parentResult.insertId;
+            // 👉 Insert children
+            for (let child of items) {
+                let childSlug = convertStr(slugify(child.name, { lower: true }));
+                let insertChildSql = `INSERT INTO ${table.product} (title, slug, price , parent_id, relate_id, crawler_id) VALUES ('${convertStr(child.name)}', '${childSlug}', '${child.price}', ${parentId},  ${relate_id}, ${record.id})`;
+                await database.execute(insertChildSql);
             }
-            console.log("==> Success Menus: " + record.key_word);
-        } else {
-            console.log("Menus Null: " + record.key_word);
+            console.log("\nSuccess Menu", title, "(" + items.length + ")");
         }
-    } catch (e) {
-        console.log("Error Menu: " + record.key_word);
+        await page.waitForTimeout(100);
     }
     return await safeClick(page, 'button[aria-label="Back"]');
 }
@@ -711,7 +635,7 @@ async function crawler_comment(page, record) {
 }
 
 async function getAllCrawlerDataBase(offset = 0) {
-     const query = `SELECT * FROM ${table.crawler} WHERE is_status = 0 ORDER BY id DESC LIMIT 1000 offset ${offset}`;
+     const query = `SELECT * FROM ${table.crawler} WHERE is_status = 0 ORDER BY id DESC LIMIT 500 offset ${offset}`;
     return database.query(query);
 }
 
@@ -728,10 +652,10 @@ async function getAllCrawlerDataBase(offset = 0) {
         try {
             console.log("\n ===Start key: " + element.key_word);
             await crawlerGoogleIframe(browser, element);
-            console.log("Crawler_success key: " + element.key_word); 
+            console.log("Crawler_success key: " + element.key_word);
         } catch (e) {
             console.error("\nCrawler_error: " + element.id + e);
-            // await database.update_crawler_map(element.id, { is_error: 1 }, 3);
+            await database.update_crawler_map(element.id, { is_error: 1 }, 3);
         }
     }
 

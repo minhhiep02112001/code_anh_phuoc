@@ -95,6 +95,10 @@ class Post extends AbstractModel
     {
         return $this->hasMany(About::class, 'relate_id', 'id');
     }
+    public function product()
+    {
+        return $this->hasMany(Product::class, 'relate_id', 'id');
+    }
 
 
     public function displayStatus()
