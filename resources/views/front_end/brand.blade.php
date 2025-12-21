@@ -118,7 +118,7 @@
                                     @endif
 
                                     @if (!empty($products))
-                                        <ul class="listing-features">
+                                        <ul class="listing-features" style="margin-top: 20px;">
                                             @foreach (collect($products)->where('parent_id', 0) as $product)
                                                 @if (!empty($product->title))
                                                     <li style="padding: 0 5px;">
