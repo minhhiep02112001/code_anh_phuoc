@@ -28,7 +28,7 @@
         }
 
         #time_open table td {
-            padding: 10px;
+            padding:10px 0px;
         }
 
         .main-header .logo-box a {
@@ -49,6 +49,7 @@
     </div>
 
     <script type="text/javascript" src="{{ asset('/assets/js/app.js') }}?v={{ $ver }}"></script>
+    @stack('scripts')
 </body>
 
 </html>

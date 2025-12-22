@@ -10,8 +10,9 @@ puppeteer.use(StealthPlugin());
 
 const crawlerData = {
     menu: true,
-    images: true,
-    about: true,
+    infor: false,
+    images: false,
+    about: false,
     comment: true,
 };
 
@@ -83,7 +84,7 @@ async function clickArrayFindText(
         textClick
     );
 }
- 
+
 async function simulateHumanBehavior(page) {
     const randomize = (min, max) =>
         Math.floor(Math.random() * (max - min + 1)) + min;
@@ -108,20 +109,22 @@ async function crawlerGoogleIframe(browser, record) {
             await setupPage(page);
             await page.goto(record.link_google_map);
             await simulateHumanBehavior(page);
-            await delay(2000);
+            await delay(100);
+            await page.goto(record.link_google_map);
+            await delay(1000);
             let data = {};
-            data = await extractMainInfo(page);
+            if (crawlerData.infor) data = await extractMainInfo(page);
             await database.update_crawler_map(record.id, data, 1);
             if (crawlerData.comment) await crawler_comment(page, record);
-            if (crawlerData.about) await crawler_about(page, record);
             if (crawlerData.menu) await crawlerMenu(page, record);
+            if (crawlerData.about) await crawler_about(page, record);
             if (crawlerData.images) await crawler_images(page, record);
-            await page.close();
             return;
         } catch (e) {
-            await page.close();
             console.error(`Retry ${attempt} failed`, e);
             if (attempt === 5) throw e;
+        } finally {
+            await page.close();
         }
     }
 }
@@ -206,6 +209,7 @@ async function extractMainInfo(page) {
 }
 
 async function crawlerMenu(page, record) {
+    await delay(200);
     let check = await clickArrayFindText(
         page,
         'div[role="tablist"] button[role="tab"]',
@@ -213,125 +217,165 @@ async function crawlerMenu(page, record) {
     );
     if (!check) return;
     await delay(1000);
-
-    const tablists = await page.$$('div[role="tablist"]');
-    if(tablists.length <= 1) return;
-    const lastTab = tablists[tablists.length - 1];
-    const buttons = await lastTab.$$("button");
-    if (!buttons.length) {
-        console.log("❌ No tabs found in lastTablist");
-        return;
-    }
-    await database.execute(`Delete from ${table.product} where crawler_id = ${record.id}`);
-    for (const btn of buttons) {
-        await btn.click();
-        const title = await btn.evaluate((el) => (el.textContent || "").trim());
-        if(title.toLowerCase() == 'overview') continue;
-        console.log("👉 Click tab:", title);
-        // Scroll + click
-        await btn.evaluate((el) => el.scrollIntoView({ block: "center", inline: "center" }));
-        await btn.click({ delay: 10 });
-        // Đợi menu load
-        try{
-            await page.waitForSelector('div[aria-label="Menu"][role="region"]', {timeout: 1000});
-        }catch(e){
-            continue;
+    let _select = `select count('id') from ${table.product} where crawler_id = ${record.id}`;
+    let _count = await database.execute(_select);
+    if (_count[0]["count('id')"] == 0) {
+        const tablists = await page.$$('div[role="tablist"]');
+        if (tablists.length <= 1) return;
+        const lastTab = tablists[tablists.length - 1];
+        const buttons = await lastTab.$$("button");
+        if (!buttons.length) {
+            console.log("❌ No tabs found in lastTablist");
+            return;
         }
-        await page.waitForTimeout(100);
-        // Crawl menu items
-        const items = await page.evaluate(() => {
-            const domProduct = document.querySelector('div[aria-label="Menu"][role="region"]');
-            if (!domProduct) return [];
-            return [...domProduct.children].map((row) => {
-                const name = row.querySelector("div.fontBodyMedium") ?.textContent?.trim() || "";
-                const price = row.querySelector("h2")?.textContent?.trim() || "";
-                return { name, price };
-            }).filter((item) => item.name);
-        });
-        if (items.length > 0) { 
-            let relate_id = record.relate_id ?? 0;
-            let parentSlug = slugify(title, { lower: true });
-            let insertParentSql = `INSERT INTO ${table.product} (title, slug, parent_id, relate_id, crawler_id) VALUES ('${convertStr(title)}', '${convertStr(parentSlug)}', 0, ${relate_id}, ${record.id})`;
-            let parentResult = await database.execute(insertParentSql);
-            let parentId = parentResult.insertId;
-            // 👉 Insert children
-            for (let child of items) {
-                let childSlug = convertStr(slugify(child.name, { lower: true }));
-                let insertChildSql = `INSERT INTO ${table.product} (title, slug, price , parent_id, relate_id, crawler_id) VALUES ('${convertStr(child.name)}', '${childSlug}', '${child.price}', ${parentId},  ${relate_id}, ${record.id})`;
-                await database.execute(insertChildSql);
+        let count = 0;
+        for (const btn of buttons) {
+            await btn.click();
+            const title = await btn.evaluate((el) =>
+                (el.textContent || "").trim()
+            );
+            if (title.toLowerCase() == "overview") continue;
+            // Scroll + click
+            await btn.evaluate((el) =>
+                el.scrollIntoView({ block: "center", inline: "center" })
+            );
+            await btn.click({ delay: 10 });
+            // Đợi menu load
+            try {
+                await page.waitForSelector(
+                    'div[aria-label="Menu"][role="region"]',
+                    { timeout: 1000 }
+                );
+            } catch (e) {
+                continue;
             }
-            console.log("\nSuccess Menu", title, "(" + items.length + ")");
+            await page.waitForTimeout(100);
+            // Crawl menu items
+            const items = await page.evaluate(() => {
+                const domProduct = document.querySelector(
+                    'div[aria-label="Menu"][role="region"]'
+                );
+                if (!domProduct) return [];
+                return [...domProduct.children]
+                    .map((row) => {
+                        const name =
+                            row
+                                .querySelector("div.fontBodyMedium")
+                                ?.textContent?.trim() || "";
+                        const price =
+                            row.querySelector("h2")?.textContent?.trim() || "";
+                        return { name, price };
+                    })
+                    .filter((item) => item.name);
+            });
+            if (items.length > 0) {
+                count += items.length;
+                let relate_id = record.relate_id ?? 0;
+                let parentSlug = slugify(title, { lower: true });
+                let insertParentSql = `INSERT INTO ${
+                    table.product
+                } (title, slug, parent_id, relate_id, crawler_id) VALUES ('${convertStr(
+                    title
+                )}', '${convertStr(parentSlug)}', 0, ${relate_id}, ${
+                    record.id
+                })`;
+                let parentResult = await database.execute(insertParentSql);
+                let parentId = parentResult.insertId;
+                // 👉 Insert children
+                for (let child of items) {
+                    let childSlug = convertStr(
+                        slugify(child.name, { lower: true })
+                    );
+                    let insertChildSql = `INSERT INTO ${
+                        table.product
+                    } (title, slug, price , parent_id, relate_id, crawler_id) VALUES ('${convertStr(
+                        child.name
+                    )}', '${childSlug}', '${
+                        child.price
+                    }', ${parentId},  ${relate_id}, ${record.id})`;
+                    await database.execute(insertChildSql);
+                }
+            }
+            await page.waitForTimeout(100);
         }
-        await page.waitForTimeout(100);
+        console.log("✅ Crawled Menus: " + count + " record");
+    } else {
+        console.log(
+            "✅ Success Menus Exists: " + _count[0]["count('id')"] + " record"
+        );
     }
     return await safeClick(page, 'button[aria-label="Back"]');
 }
 
 async function crawler_about(page, record) {
+    await delay(200);
     let check = await clickArrayFindText(
         page,
         'div[role="tablist"] button[role="tab"]',
         "about"
     );
-    let abouts = await page.evaluate(() => {
-        const list = [];
-        // Cuộn nếu cần
-        const targetElement = document.querySelector(
-            'div[role="region"][tabindex="-1"]'
-        );
-        if (targetElement) {
-            let distance = 5;
-            for (let i = 0; i <= 15; i++) {
-                targetElement.scrollTop += distance;
+    let _select = `select count('id') from ${table.about} where crawler_id = ${record.id}`;
+    let _count = await database.execute(_select);
+    if (_count[0]["count('id')"] == 0) {
+        let abouts = await page.evaluate(() => {
+            const list = [];
+            // Cuộn nếu cần
+            const targetElement = document.querySelector(
+                'div[role="region"][tabindex="-1"]'
+            );
+            if (targetElement) {
+                let distance = 5;
+                for (let i = 0; i <= 15; i++) {
+                    targetElement.scrollTop += distance;
+                }
+                const elements =
+                    targetElement.querySelectorAll("h2.fontTitleSmall");
+
+                elements.forEach((element) => {
+                    const parentText = element.textContent?.trim();
+                    const liElements =
+                        element.parentElement.querySelectorAll("ul li");
+                    const childs = Array.from(liElements).map((li) => {
+                        li.querySelector('span[aria-hidden="true"]')?.remove(); // Xóa span nếu có
+                        return li.textContent?.trim(); // Trả về nội dung còn lại
+                    });
+                    list.push({
+                        parent: parentText,
+                        childs: childs,
+                    });
+                });
+                return list;
             }
-            const elements =
-                targetElement.querySelectorAll("h2.fontTitleSmall");
+            return [];
+        });
+        if (check) await safeClick(page, 'button[aria-label="Back"]');
 
-            elements.forEach((element) => {
-                const parentText = element.textContent?.trim();
-                const liElements =
-                    element.parentElement.querySelectorAll("ul li");
-                const childs = Array.from(liElements).map((li) => {
-                    li.querySelector('span[aria-hidden="true"]')?.remove(); // Xóa span nếu có
-                    return li.textContent?.trim(); // Trả về nội dung còn lại
-                });
-                list.push({
-                    parent: parentText,
-                    childs: childs,
-                });
-            });
-            return list;
-        }
-        return [];
-    });
-    if (check) await safeClick(page, 'button[aria-label="Back"]');
-
-    if (abouts.length > 0) {
-        const relate_id = record.relate_id ?? 0;
-        await database.execute(
-            `Delete from ${table.about} where crawler_id = ${record.id}`
-        );
-        for (const group of abouts) {
-            const parentTitle = group.parent;
-            const parentSlug = slugify(parentTitle, { lower: true });
-            // 👉 Insert parent
-            const insertParentSql = `
+        if (abouts.length > 0) {
+            const relate_id = record.relate_id ?? 0;
+            await database.execute(
+                `Delete from ${table.about} where crawler_id = ${record.id}`
+            );
+            for (const group of abouts) {
+                const parentTitle = group.parent;
+                const parentSlug = slugify(parentTitle, { lower: true });
+                // 👉 Insert parent
+                const insertParentSql = `
               INSERT INTO ${
                   table.about
               } (title, slug, parent_id, relate_id, crawler_id)
               VALUES ('${convertStr(parentTitle)}', '${convertStr(
-                parentSlug
-            )}', 0, ${relate_id}, ${record.id})
+                    parentSlug
+                )}', 0, ${relate_id}, ${record.id})
             `;
-            const parentResult = await database.execute(insertParentSql);
-            const parentId = parentResult.insertId;
+                const parentResult = await database.execute(insertParentSql);
+                const parentId = parentResult.insertId;
 
-            // 👉 Insert children
-            for (const childTitle of group.childs) {
-                const childSlug = convertStr(
-                    slugify(childTitle, { lower: true })
-                );
-                const insertChildSql = `
+                // 👉 Insert children
+                for (const childTitle of group.childs) {
+                    const childSlug = convertStr(
+                        slugify(childTitle, { lower: true })
+                    );
+                    const insertChildSql = `
                 INSERT INTO ${
                     table.about
                 } (title, slug, parent_id, relate_id, crawler_id)
@@ -339,16 +383,21 @@ async function crawler_about(page, record) {
                     childTitle
                 )}', '${childSlug}', ${parentId},  ${relate_id}, ${record.id})
               `;
-                await database.execute(insertChildSql);
+                    await database.execute(insertChildSql);
+                }
             }
+            console.log("✅ Crawled About: " + abouts.length + " record");
         }
-        console.log("==> Success download about");
+    } else {
+        console.log(
+            "✅ Success About Exists: " + _count[0]["count('id')"] + " record"
+        );
     }
-    return;
+    return await safeClick(page, 'button[aria-label="Back"]'); 
 }
 
 async function crawler_images(page, record) {
-    await page.waitForTimeout(WAIT_TIME_SHORT);
+    await delay(200);
     await page.evaluate(async () => {
         await new Promise((resolve) => setTimeout(resolve, 2000));
         let allButtons = Array.from(
@@ -413,7 +462,11 @@ async function crawler_images(page, record) {
         collect();
         return out;
     });
-    let check = await clickArrayFindText(page, 'div[role="tablist"] button[role="tab"]', "menu");
+    let check = await clickArrayFindText(
+        page,
+        'div[role="tablist"] button[role="tab"]',
+        "menu"
+    );
     // get image menus
     let menus = [];
     if (check) {
@@ -478,101 +531,136 @@ async function crawler_images(page, record) {
     if (menus.length > 0) {
         await downloadFile(menus, "menu", record);
     }
-    return await safeClick(page, 'button[aria-label="Back"]'); 
+    return await safeClick(page, 'button[aria-label="Back"]');
 }
 
 async function crawler_comment(page, record) {
-    // crawler comment:
+    await delay(300);
+
     try {
-        let check = await clickArrayFindText( page, 'div[role="tablist"] button[role="tab"]', "reviews");
-        if(!check) return;
+        // 1️⃣ Click tab Reviews
+        const opened = await clickArrayFindText(
+            page,
+            'div[role="tablist"] button[role="tab"]',
+            "reviews"
+        );
+        if (!opened) return;
+        await delay(500);
         let _select = `select count('id') from ${table.comment} where crawler_id = ${record.id}`;
         let _count = await database.execute(_select);
         if (_count[0]["count('id')"] == 0) {
-            let reviews = await page.evaluate(async () => {
-                // Đợi 2 giây để đảm bảo dữ liệu đã tải
-                await new Promise((resolve) => setTimeout(resolve, 1000));
-                let targetElement = document.querySelector(
+            const reviews = await page.evaluate(async () => {
+                const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+                const normalize = (str = "") =>
+                    str
+                        .toLowerCase()
+                        .replace(/\s+/g, " ")
+                        .replace(/[^\p{L}\p{N} ]/gu, "")
+                        .trim();
+
+                const container = document.querySelector(
                     'div[role="main"] div[tabindex="-1"]'
                 );
-                if (!targetElement) return [];
+                if (!container) return [];
 
-                let totalHeight = 0;
-                const distance = 300; // Khoảng cách cuộn mỗi lần
-                const maxScrolls = 10; // Số lần cuộn tối đa
-                let i = 0;
+                const results = [];
+                const seen = new Set();
 
-                while (i < maxScrolls) {
-                    // Cuộn nội dung
-                    targetElement.scrollTop += distance;
-                    totalHeight += distance;
+                const MAX_SCROLL = 40;
+                const SCROLL_STEP = 500;
 
-                    // Chờ để trang tải thêm nội dung
-                    await new Promise((resolve) => setTimeout(resolve, 300));
+                for (let i = 0; i < MAX_SCROLL; i++) {
+                    // scroll
+                    container.scrollTop += SCROLL_STEP;
+                    await sleep(100);
 
-                    // Tìm các nút và nhấp vào
-                    let buttons = document.querySelectorAll(
-                        "span > button[data-review-id]:first-of-type"
+                    // mở full content
+                    document
+                        .querySelectorAll("span > button[data-review-id]")
+                        .forEach((btn) => btn.click());
+
+                    await sleep(100);
+
+                    const reviewParents = document.querySelectorAll(
+                        "div[data-review-id][jsaction]"
                     );
-                    for (let element of buttons) {
-                        element.click(); // Nhấp vào các nút review
+                    for (const parent of reviewParents) {
+                        const nameBtn = parent.querySelector(
+                            'button[jsaction*="review.reviewerLink"]'
+                        );
+
+                        const contentEl = parent.querySelector(
+                            'div[tabindex="-1"][lang]'
+                        );
+
+                        const fullname =
+                            nameBtn
+                                ?.getAttribute("aria-label")
+                                ?.replace("Photo of ", "")
+                                ?.trim() || "Unknown";
+
+                        const content = contentEl?.innerText?.trim() || "";
+
+                        // 🔑 KEY CHỐNG TRÙNG (KHÔNG DÙNG review_id)
+                        const _key = normalize(
+                            fullname + " " + content.slice(0, 100)
+                        );
+
+                        if (!_key || seen.has(_key)) continue;
+
+                        seen.add(_key);
+                        results.push({
+                            _key,
+                            fullname,
+                            src: nameBtn?.querySelector("img")?.src || null,
+                            content,
+                        });
                     }
-                    i++;
                 }
 
-                // Thu thập dữ liệu từ các review
-                let links = [];
-                let all_reviews = document.querySelectorAll('div[tabindex="-1"][lang="en"]');
-
-                if (all_reviews.length > 0) {
-                    for (let element of all_reviews) {
-                        // Tìm cha chứa thông tin review
-                        let _parent = element.closest("div[data-review-id][jsaction]");
-                        if (!_parent) continue;
-
-                        // Khởi tạo đối tượng để lưu thông tin
-                        let obj = {};
-                        // Tìm button liên quan đến reviewer
-                        const first = _parent.querySelector('button[data-review-id][jsaction*="review.reviewerLink"]');
-                        if (!first) continue;     
-                        obj.fullname = (first.getAttribute("aria-label")?.trim() || "Unknown").replace("Photo of ", "");
-                        obj.src = first.querySelector("img").getAttribute("src"); 
-                        obj.content = element.querySelector("span")?.textContent.trim(); 
-                        links.push(obj);
-                    }
-                }
-
-                return links;
+                return results;
             });
 
-            if (reviews.length > 0) {
-                let values = reviews.slice(0, 5).map((element, index) => {
-                    let newContent = convertStr(element.content);
-                    let fullname = convertStr(element.fullname);
-                    return `('${fullname}', '${newContent}', 0, '${
-                        element.src
-                    }', '${record.relate_id ?? 0}', '${record.id}')`;
-                });
-                await database.execute(
-                    `delete from ${table.comment} where crawler_id = ${record.id}`
-                );
-                let _insert = `INSERT INTO ${
-                    table.comment
-                } (fullname, content, is_status , thumbnail, data_id, crawler_id) VALUES ${values.join(
-                    ", "
-                )};`;
-                await database.execute(_insert);
+            if (!reviews.length) {
+                console.log("No reviews found:", record.key_word);
+                return;
             }
-        } 
-        console.log("Success Reviews: " + record.key_word);
-        return await safeClick(page, 'button[aria-label="Back"]');
+
+            // 3️⃣ Insert DB (không delete all)
+            const values = reviews.slice(0, 50).map((r) => {
+                const fullname = convertStr(r.fullname);
+                const content = convertStr(r.content);
+                return `('${fullname}','${content}',0,'${r.src}', '${
+                    record.relate_id ?? 0
+                }','${record.id}')`;
+            });
+
+            if (values.length) {
+                const sql = `INSERT IGNORE INTO ${
+                    table.comment
+                } (fullname, content, is_status, thumbnail, data_id, crawler_id) VALUES ${values.join(
+                    ","
+                )} `;
+                await database.execute(sql);
+            }
+
+            console.log(`✅ Crawled Reviews: ${reviews.length} record`);
+        } else {
+            console.log(
+                "✅ Success Reviews Exists: " +
+                    _count[0]["count('id')"] +
+                    " record"
+            );
+        }
+        await safeClick(page, 'button[aria-label="Back"]');
     } catch (e) {
-        console.log("Error Reviews: " + record.key_word);
+        console.error("❌ Error Reviews:", record.key_word, e.message);
     }
 }
 
 async function getAllCrawlerDataBase(offset = 0) {
-     const query = `SELECT * FROM ${table.crawler} WHERE is_status = 0 ORDER BY id DESC LIMIT 500 offset ${offset}`;
+    const query = `SELECT * FROM ${table.crawler} WHERE is_status = 0 ORDER BY id DESC LIMIT 500 offset ${offset}`;
     return database.query(query);
 }
 
@@ -588,10 +676,10 @@ async function getAllCrawlerDataBase(offset = 0) {
     for (let element of list_data) {
         try {
             console.log("\n ===Start key: " + element.key_word);
-            await crawlerGoogleIframe(browser, element);
+            await crawlerGoogleIframe(browser, element); 
             console.log("Crawler_success key: " + element.key_word);
         } catch (e) {
-            console.error("\nCrawler_error: " + element.id + e);
+            console.error("Crawler_error: " + element.id + e);
             await database.update_crawler_map(element.id, { is_error: 1 }, 3);
         }
     }

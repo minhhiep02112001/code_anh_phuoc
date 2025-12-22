@@ -107,10 +107,8 @@ class HomeController extends Controller
             })->orderBy(!empty($post->publish_at) ? 'publish_at' : 'created_at', 'asc')->limit(5)->get();
 
             $data['relates'] = collect($relates2)->merge($relates)->sortBy(!empty($post->publish_at) ? 'publish_at' : 'created_at')->values()->all();
-            
-            $data['comments'] = $post->comment()->where([
-                'type' => 'post',
-            ])->limit(5)->get();
+
+            $data['comments'] = $post->comment()->where(['type' => 'post'])->get();
             $data['abouts'] = $post->about()->get();
             $data['products'] = $post->product()->get();
         }

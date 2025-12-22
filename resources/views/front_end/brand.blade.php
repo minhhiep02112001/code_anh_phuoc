@@ -17,9 +17,51 @@
             color: #fff;
             font-weight: 700;
         }
-        .nav-outer .mobile-nav-toggler{
+
+        .nav-outer .mobile-nav-toggler {
             margin-left: 5px;
         }
+
+        #reviews .comment {
+            position: relative;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgb(241, 243, 247);
+        }
+
+        #reviews .user-name {
+            font-size: 20px;
+            color: rgb(27, 32, 50);
+            line-height: normal;
+            margin-bottom: 10px;
+            text-transform: capitalize;
+            font-weight: 600;
+        }
+
+        .listing-block-two {
+            margin-bottom: 10px;
+        }
+
+        .timing-list li {
+            justify-content: end;
+        }
+
+        #reviews .show {
+            display: block;
+        }
+
+        #reviews .hide {
+            display: none;
+        }
+   button.loadmoreReview
+     {
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    background: bisque;
+    margin: 0 auto;
+    display: block;
+} 
     </style>
     <section class="listing-banner box-brand">
         <div class="background-layer banner-brand" style="background-image: url('{{ getImageThumb($post->thumbnail) }}');">
@@ -87,22 +129,21 @@
                                                         @foreach (collect($abouts)->where('parent_id', $about->id) as $child)
                                                             <li><span>{!! $child->title !!}</span></li>
                                                         @endforeach
-
                                                     </ul>
                                                 </li>
                                             @endif
                                         @endforeach
-
                                     </ul>
                                 </div>
+                                <button class="see-more-btn">See more</button>
                             </div>
                         @endif
                         @if (!empty($menus) || !empty($products))
-                            <div class="gallery-widget ls-widget" id="menus">
+                            <div class="gallery-widget   ls-widget" id="menus">
                                 <div class="widget-title">
                                     <h2><span class="icon flaticon-gallery"></span> Menus</h2>
                                 </div>
-                                <div class="widget-content">
+                                <div class="widget-content features-widget">
                                     @if (!empty($menus))
                                         <ul class="listing-gallery listing-gallery-photos">
                                             @foreach ($menus as $k => $item)
@@ -127,30 +168,29 @@
                                     @endif
 
                                     @if (!empty($products))
-                                        <ul class="listing-features" style="margin-top: 20px;">
-                                            @foreach (collect($products)->where('parent_id', 0) as $product)
-                                                @if (!empty($product->title))
-                                                    <li style="padding: 0 5px;">
-                                                        <span class="title-amenites">{{ $product->title }}</span>
-                                                        <ul class="listing-child">
-                                                            @foreach (collect($products)->where('parent_id', $product->id) as $child)
-                                                                <li
-                                                                    style="
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-">
-                                                                    <span>{!! trim($child->title) !!}</span>
-                                                                    @if (!empty($child->price))
-                                                                        <span>{!! trim($child->price) !!}</span>
-                                                                    @endif
-                                                                </li>
-                                                            @endforeach
-                                                        </ul>
-                                                    </li>
-                                                @endif
-                                            @endforeach
-                                        </ul>
+                                        <div class="widget-content ls-widget">
+                                            <ul class="listing-features" style="margin-top: 20px;">
+                                                @foreach (collect($products)->where('parent_id', 0) as $product)
+                                                    @if (!empty($product->title))
+                                                        <li style="padding: 0 5px;">
+                                                            <span class="title-amenites">{{ $product->title }}</span>
+                                                            <ul class="listing-child">
+                                                                @foreach (collect($products)->where('parent_id', $product->id) as $child)
+                                                                    <li
+                                                                        style="display: flex;justify-content: space-between;align-items: baseline;">
+                                                                        <span>{!! trim($child->title) !!}</span>
+                                                                        @if (!empty($child->price))
+                                                                            <span>{!! trim($child->price) !!}</span>
+                                                                        @endif
+                                                                    </li>
+                                                                @endforeach
+                                                            </ul>
+                                                        </li>
+                                                    @endif
+                                                @endforeach
+                                            </ul>
+                                            <button class="see-more-btn">See more</button>
+                                        </div>
                                     @endif
                                 </div>
                             </div>
@@ -191,10 +231,10 @@
                                     <h2><span class="icon flaticon-consulting-message"></span> Reviews {{ $post->title }}
                                     </h2>
                                 </div>
-                                <div class="widget-content">
+                                <div class="widget-content listReview">
 
-                                    @foreach ($comments as $item)
-                                        <div class="comment">
+                                    @foreach (collect($comments)->values()  as $k => $item) 
+                                        <div class="comment {{ $k < 5 ? 'show' : 'hide' }}" data-index="{{  $k }}">
                                             <div class="user-name"> {{ $item->fullname }}</div>
                                             <div class="comment-info listing-block-two">
                                                 <ul class="rating">
@@ -213,7 +253,11 @@
                                             </div>
                                         </div>
                                     @endforeach
+
                                 </div>
+                                @if (collect($comments)->count() > 0)
+                                    <button class="loadmoreReview">See more reviews</button>
+                                @endif
                             </div>
                         @endif
                         <div class="comments-form-widget ls-widget">
@@ -348,3 +392,36 @@
         </section>
     @endif
 @endsection
+@push('scripts')
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const btn = document.querySelector(".loadmoreReview");
+            const comments = document.querySelectorAll(".listReview .comment");
+            const STEP = 5;
+
+            if (!btn || comments.length === 0) return;
+
+            btn.addEventListener("click", function() {
+                let shown = 0;
+                for (let comment of comments) {
+                    if (comment.classList.contains("hide")) {
+                        comment.classList.remove("hide");
+                        comment.classList.add("show");
+                        shown++;
+
+                        if (shown === STEP) break;
+                    }
+                }
+
+                // ✅ Nếu đã show hết → ẩn nút
+                const stillHidden = document.querySelectorAll(
+                    ".listReview .comment.hide"
+                ).length;
+
+                if (stillHidden === 0) {
+                    btn.style.display = "none";
+                }
+            });
+        });
+    </script>
+@endpush

@@ -24132,7 +24132,7 @@ let Handle = (function () {
                 $(".show a").removeClass("active"), $(this).addClass("active");
             }),
                 $("body").on("click", ".see-more-btn", function () {
-                    $(".widget-content").toggleClass("active-business");
+                    $(this).closest('.features-widget').find(".widget-content").toggleClass("active-business");
                     const t = $(this);
                     "See more" === t.text().trim()
                         ? t.text("Hidden")
