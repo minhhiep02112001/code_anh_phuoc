@@ -665,7 +665,7 @@ async function getAllCrawlerDataBase(offset = 0) {
 }
 
 (async () => {
-    var list_data = await getAllCrawlerDataBase(0);
+    var list_data = await getAllCrawlerDataBase(1400);
 
     const browser = await puppeteer.launch({
         headless: false, // Hiển thị trình duyệt
