@@ -83,16 +83,7 @@ async function clickArrayFindText(
         textClick
     );
 }
-
-async function getText(page, selector) {
-    try {
-        await page.waitForSelector(selector, { timeout: 3000 });
-        return await page.$eval(selector, (el) => el.textContent.trim());
-    } catch {
-        return "";
-    }
-}
-
+ 
 async function simulateHumanBehavior(page) {
     const randomize = (min, max) =>
         Math.floor(Math.random() * (max - min + 1)) + min;
@@ -116,17 +107,15 @@ async function crawlerGoogleIframe(browser, record) {
         try {
             await setupPage(page);
             await page.goto(record.link_google_map);
-
             await simulateHumanBehavior(page);
             await delay(2000);
-            await page.goto(record.link_google_map);
-            // let data = await extractMainInfo(page);
             let data = {};
+            data = await extractMainInfo(page);
             await database.update_crawler_map(record.id, data, 1);
-            // if (crawlerData.comment) await crawler_comment(page, record);
-            // if (crawlerData.about) await crawler_about(page, record);
+            if (crawlerData.comment) await crawler_comment(page, record);
+            if (crawlerData.about) await crawler_about(page, record);
             if (crawlerData.menu) await crawlerMenu(page, record);
-            // if (crawlerData.images) await crawler_images(page, record);
+            if (crawlerData.images) await crawler_images(page, record);
             await page.close();
             return;
         } catch (e) {
@@ -136,12 +125,13 @@ async function crawlerGoogleIframe(browser, record) {
         }
     }
 }
+
 async function crawlIframeMap(page) {
     const clicked = await safeClick(page, 'button[data-value="Share"]');
     if (!clicked) return "";
     await page
         .waitForSelector('div[jsaction="focus:modal.focus.top"]', {
-            timeout: 10000,
+            timeout: 5000,
         })
         .catch(() => null);
     await safeClick(page, 'button[data-tooltip="Embed a map"]');
@@ -161,6 +151,7 @@ async function crawlIframeMap(page) {
     await safeClick(page, 'button[jsaction="modal.close"]');
     return iframe;
 }
+
 async function extractMainInfo(page) {
     // 2️⃣ Extract DOM info (Browser)
     const rawData = await page.evaluate(() => {
@@ -422,11 +413,7 @@ async function crawler_images(page, record) {
         collect();
         return out;
     });
-    let check = await clickArrayFindText(
-        page,
-        'div[role="tablist"] button[role="tab"]',
-        "menu"
-    );
+    let check = await clickArrayFindText(page, 'div[role="tablist"] button[role="tab"]', "menu");
     // get image menus
     let menus = [];
     if (check) {
@@ -491,36 +478,20 @@ async function crawler_images(page, record) {
     if (menus.length > 0) {
         await downloadFile(menus, "menu", record);
     }
-    return;
+    return await safeClick(page, 'button[aria-label="Back"]'); 
 }
+
 async function crawler_comment(page, record) {
     // crawler comment:
     try {
-        await page.evaluate(async () => {
-            let allButtons = Array.from(
-                document.querySelectorAll(
-                    'div[role="tablist"] button[role="tab"]'
-                )
-            );
-
-            let button = allButtons.find((button) => {
-                const text = button.textContent
-                    ? button.textContent.trim().toLowerCase()
-                    : "";
-                return text === "reviews" || text === "Reviews";
-            });
-            if (button) button.click();
-            return;
-        });
-
+        let check = await clickArrayFindText( page, 'div[role="tablist"] button[role="tab"]', "reviews");
+        if(!check) return;
         let _select = `select count('id') from ${table.comment} where crawler_id = ${record.id}`;
         let _count = await database.execute(_select);
-
         if (_count[0]["count('id')"] == 0) {
             let reviews = await page.evaluate(async () => {
                 // Đợi 2 giây để đảm bảo dữ liệu đã tải
-                await new Promise((resolve) => setTimeout(resolve, 2000));
-
+                await new Promise((resolve) => setTimeout(resolve, 1000));
                 let targetElement = document.querySelector(
                     'div[role="main"] div[tabindex="-1"]'
                 );
@@ -551,45 +522,22 @@ async function crawler_comment(page, record) {
 
                 // Thu thập dữ liệu từ các review
                 let links = [];
-                let all_reviews = document.querySelectorAll(
-                    'div[tabindex="-1"][lang="en"]'
-                );
+                let all_reviews = document.querySelectorAll('div[tabindex="-1"][lang="en"]');
 
                 if (all_reviews.length > 0) {
                     for (let element of all_reviews) {
                         // Tìm cha chứa thông tin review
-                        let _parent = element.closest(
-                            "div[data-review-id][jsaction]"
-                        );
+                        let _parent = element.closest("div[data-review-id][jsaction]");
                         if (!_parent) continue;
 
                         // Khởi tạo đối tượng để lưu thông tin
                         let obj = {};
-
                         // Tìm button liên quan đến reviewer
-                        const first = _parent.querySelector(
-                            'button[data-review-id][jsaction*="review.reviewerLink"]'
-                        );
-                        if (!first) continue;
-                        if (first) {
-                            // Lấy tên người dùng từ aria-label
-                            obj.fullname = (
-                                first.getAttribute("aria-label")?.trim() ||
-                                "Unknown"
-                            ).replace("Photo of ", "");
-                            obj.src = first
-                                .querySelector("img")
-                                .getAttribute("src");
-                        } else {
-                            continue;
-                        }
-
-                        // Lấy nội dung review
-                        obj.content = element
-                            .querySelector("span")
-                            ?.textContent.trim();
-
-                        // Thêm vào danh sách links
+                        const first = _parent.querySelector('button[data-review-id][jsaction*="review.reviewerLink"]');
+                        if (!first) continue;     
+                        obj.fullname = (first.getAttribute("aria-label")?.trim() || "Unknown").replace("Photo of ", "");
+                        obj.src = first.querySelector("img").getAttribute("src"); 
+                        obj.content = element.querySelector("span")?.textContent.trim(); 
                         links.push(obj);
                     }
                 }
@@ -615,20 +563,9 @@ async function crawler_comment(page, record) {
                 )};`;
                 await database.execute(_insert);
             }
-        }
-        await page.waitForTimeout(WAIT_TIME_SHORT);
-
-        await page.evaluate(async () => {
-            let allButtons = Array.from(
-                document.querySelectorAll(
-                    'div[role="tablist"] button[role="tab"]'
-                )
-            );
-            if (allButtons) allButtons[0].click();
-            return;
-        });
+        } 
         console.log("Success Reviews: " + record.key_word);
-        return;
+        return await safeClick(page, 'button[aria-label="Back"]');
     } catch (e) {
         console.log("Error Reviews: " + record.key_word);
     }
