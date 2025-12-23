@@ -177,8 +177,8 @@ class ConvertData extends Command
         foreach ($allComment as $comment) {
             // random created_at từ 1 năm trước tới bây giờ
             // Timestamp ngẫu nhiên trong 1 năm gần đây
-            $randomDate = Carbon::now()->subSeconds(
-                rand(0, 365 * 24 * 60 * 60)
+            $randomDate = Carbon::now()->addDays(
+                rand(1, 365 * 24 * 60 * 60)
             );
             $comment->created_at = $randomDate;
             $comment->updated_at = $randomDate; // nên đồng bộ
