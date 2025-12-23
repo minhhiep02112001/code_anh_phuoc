@@ -167,7 +167,7 @@
                                         </ul>
                                     @endif
 
-                                    @if (!empty($products))
+                                    @if (!empty($products) && collect($products)->count() > 0)
                                         <div class="widget-content ls-widget">
                                             <ul class="listing-features" style="margin-top: 20px;">
                                                 @foreach (collect($products)->where('parent_id', 0) as $product)
