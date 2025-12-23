@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\About;
 use App\Models\Category;
+use App\Models\Comment;
 use App\Models\Crawler;
 use App\Models\Language;
 use App\Models\Media;
@@ -11,6 +12,7 @@ use App\Models\Menu;
 use App\Models\Post;
 use App\Models\Product;
 use App\Models\Tag;
+use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
@@ -165,6 +167,23 @@ class ConvertData extends Command
         $allPost = Post::where('is_thumbnail', 1)->get();
         foreach ($allPost as $post) {
             $this->convertImageThumbnail($post->id, $post->thumbnail);
+        }
+    }
+
+    // php artisan convert:data --function=convertComment
+    public function convertComment()
+    {
+        $allComment = Comment::get();
+        foreach ($allComment as $comment) {
+            // random created_at từ 1 năm trước tới bây giờ
+            // Timestamp ngẫu nhiên trong 1 năm gần đây
+            $randomDate = Carbon::now()->addDays(
+                rand(1, 365 * 24 * 60 * 60)
+            );
+            $comment->created_at = $randomDate;
+            $comment->updated_at = $randomDate; // nên đồng bộ
+            $comment->save();
+            echo "\nDone {$comment->id}";
         }
     }
 
