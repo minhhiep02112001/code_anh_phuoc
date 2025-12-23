@@ -59,7 +59,7 @@ function update_crawler_map(id, item, is_status = 0) {
                 if (results.affectedRows === 0) {
                     return reject(new Error("No record found to update"));
                 }
-                console.log("Record updated successfully, ID:", id);
+                console.log("Updated successfully, ID:", id);
                 return resolve(results.affectedRows); // Trả về số bản ghi đã cập nhật
             }
         );

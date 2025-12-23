@@ -346,7 +346,7 @@
         <section class="listing-section-two appreciated-others">
             <div class="container-fluid">
                 <div class="sec-title text-center">
-                    <h2>Appreciated by Others</h2>
+                    <h2>MORE RESTAURANTS</h2>
                 </div>
                 <div class="carousel-outer">
                     <div class="four-items-carousel owl-carousel owl-theme default-nav light no-dots owl-loaded owl-drag">

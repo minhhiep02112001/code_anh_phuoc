@@ -1,19 +1,18 @@
 const puppeteer = require("puppeteer-extra");
 const database = require("./database");
 const folder_path = "/storage/photos/nails";
-const WAIT_TIME_SHORT = 1000;
-const WAIT_TIME_SHORTLONG = 3000;
+const WAIT_TIME_SHORT = 1000; 
 const WAIT_TIME_LONG = 3000;
 const slugify = require("slugify");
 const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 puppeteer.use(StealthPlugin());
 
 const crawlerData = {
-    menu: true,
+    menu: false,
     infor: false,
-    images: false,
+    images: true,
     about: false,
-    comment: true,
+    comment: false,
 };
 
 const table = {
@@ -70,6 +69,10 @@ async function clickArrayFindText(
         (selector, textClick) => {
             const targetText = textClick.toLowerCase();
             const elements = Array.from(document.querySelectorAll(selector));
+            if (elements.length > 0 && textClick == "") {
+                elements[0].click();
+                return true;
+            }
             const el = elements.find((e) =>
                 e.textContent?.trim().toLowerCase().includes(targetText)
             );
@@ -111,6 +114,7 @@ async function crawlerGoogleIframe(browser, record) {
             await simulateHumanBehavior(page);
             await delay(100);
             await page.goto(record.link_google_map);
+            await simulateHumanBehavior(page);
             await delay(1000);
             let data = {};
             if (crawlerData.infor) data = await extractMainInfo(page);
@@ -393,75 +397,85 @@ async function crawler_about(page, record) {
             "✅ Success About Exists: " + _count[0]["count('id')"] + " record"
         );
     }
-    return await safeClick(page, 'button[aria-label="Back"]'); 
+    return await safeClick(page, 'button[aria-label="Back"]');
 }
 
 async function crawler_images(page, record) {
-    await delay(200);
-    await page.evaluate(async () => {
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-        let allButtons = Array.from(
-            document.querySelectorAll(
-                'button[jslog][jsaction*="heroHeaderImage"]'
-            )
-        );
-        // Click vào nút nếu tồn tại
-        if (allButtons[0]) {
-            allButtons[0].click();
-            return true;
-        }
-        return false; // Không tìm thấy nút để click
+    await delay(1000);
+    const result = await clickArrayFindText(
+        page,
+        'button[jslog][jsaction*="heroHeaderImage"]'
+    );
+    const maxImage = 20;
+    if (!result) return;
+    await page.waitForSelector('div[role="main"] div[tabindex="-1"]', {
+        timeout: 10000,
     });
-
-    await page.waitForTimeout(WAIT_TIME_SHORT);
-    let thumbnails = await page.evaluate(async () => {
+    await delay(3000);
+    let thumbnails = await page.evaluate(async (maxImage) => {
         const seen = new Set();
         const out = [];
 
-        // Vùng cần scroll (fallback sang tài liệu nếu không có container)
         const feed =
             document.querySelector('div[role="main"] div[tabindex="-1"]') ||
             document.scrollingElement ||
             document.body;
 
-        const distance = 800; // px mỗi lần cuộn
-        const maxIdle = 10; // số lần cuộn liên tiếp không có ảnh mới -> dừng
+        const distance = 800;
+        const maxIdle = 6;
         let idle = 0;
 
-        // lấy URL từ <img> hoặc background-image
         const pickUrl = (a) => {
-            // 2) background-image
             const el = a.querySelector(
                 'div[role="img"] div[style*="background-image"]'
             )?.style?.backgroundImage;
             const m = el && el.match(/url\((['"]?)(.*?)\1\)/i);
-            if (m && m[2]) return m[2];
-            return null;
+            return m?.[2] || null;
         };
 
         const collect = () => {
+            let added = 0;
             const anchors = document.querySelectorAll("a[data-photo-index]");
-            anchors.forEach((a) => {
+            for (const a of anchors) {
+                if (out.length >= maxImage) break;
+
                 const url = pickUrl(a);
                 if (url && url.startsWith("https://lh") && !seen.has(url)) {
                     seen.add(url);
-                    out.push(url); // "push ảnh vào" ngay khi thấy
+                    out.push(url);
+                    added++;
                 }
-            });
+            }
+            return added;
         };
 
-        // vòng đời scroll + thu thập
-        collect(); // thu thập lần đầu
-        while (idle < maxIdle) {
-            feed.scrollTop += distance;
-            await new Promise((r) => setTimeout(r, 600));
-            collect();
-            idle++;
-        }
-        await new Promise((r) => setTimeout(r, 600));
+        // thu thập lần đầu
         collect();
-        return out;
-    });
+        if (out.length >= maxImage) return out.slice(0, maxImage);
+
+        while (idle < maxIdle && out.length < maxImage) {
+            const before = seen.size;
+
+            feed.scrollTop += distance;
+
+            let waited = 0;
+            while (waited < 5000 && out.length < maxImage) {
+                await new Promise((r) => setTimeout(r, 200));
+                collect();
+                if (seen.size > before) break;
+                waited += 200;
+            }
+
+            if (seen.size === before) {
+                idle++;
+            } else {
+                idle = 0;
+            }
+        }
+
+        return out.slice(0, maxImage);
+    }, maxImage); 
+     
     let check = await clickArrayFindText(
         page,
         'div[role="tablist"] button[role="tab"]',
@@ -469,62 +483,79 @@ async function crawler_images(page, record) {
     );
     // get image menus
     let menus = [];
+
+    await page.waitForSelector('div[role="main"] div[tabindex="-1"]', {
+        timeout: 10000,
+    });
+    await delay(2000);
+
     if (check) {
         await page.waitForTimeout(WAIT_TIME_LONG);
-        menus = await page.evaluate(async () => {
+        menus = await page.evaluate(async (maxImage) => {
             const seen = new Set();
             const out = [];
 
-            // Vùng cần scroll (fallback sang tài liệu nếu không có container)
             const feed =
                 document.querySelector('div[role="main"] div[tabindex="-1"]') ||
                 document.scrollingElement ||
                 document.body;
 
-            const distance = 800; // px mỗi lần cuộn
-            const maxIdle = 6; // số lần cuộn liên tiếp không có ảnh mới -> dừng
+            const distance = 700;
+            const maxIdle = 3;
             let idle = 0;
 
-            // lấy URL từ <img> hoặc background-image
             const pickUrl = (a) => {
-                // 2) background-image
-                const el = a.querySelector(
+                const bg = a.querySelector(
                     'div[role="img"] div[style*="background-image"]'
                 )?.style?.backgroundImage;
-                const m = el && el.match(/url\((['"]?)(.*?)\1\)/i);
-                if (m && m[2]) return m[2];
-                return null;
+                const m = bg && bg.match(/url\((['"]?)(.*?)\1\)/i);
+                return m?.[2] || null;
             };
 
             const collect = () => {
-                const anchors = document.querySelectorAll(
-                    'div[role="main"] div[tabindex="-1"] a[data-photo-index]'
-                );
-                anchors.forEach((a) => {
+                let added = 0;
+                const anchors = feed.querySelectorAll("a[data-photo-index]");
+                for (const a of anchors) {
+                    if (out.length >= maxImage) break;
+
                     const url = pickUrl(a);
                     if (url && url.startsWith("https://lh") && !seen.has(url)) {
                         seen.add(url);
-                        out.push(url); // "push ảnh vào" ngay khi thấy
+                        out.push(url);
+                        added++;
                     }
-                });
+                }
+                return added;
             };
 
-            // vòng đời scroll + thu thập
-            collect(); // thu thập lần đầu
-            while (idle < maxIdle) {
+            // lần đầu
+            collect();
+            if (out.length >= maxImage) return out.slice(0, maxImage);
+
+            while (idle < maxIdle && out.length < maxImage) {
+                const before = seen.size;
+
                 feed.scrollTop += distance;
-                await new Promise((r) => setTimeout(r, 600));
-                collect();
-                idle++;
+
+                // 🔥 chờ DOM load thật
+                let waited = 0;
+                while (waited < 4000 && out.length < maxImage) {
+                    await new Promise((r) => setTimeout(r, 200));
+                    collect();
+                    if (seen.size > before) break;
+                    waited += 200;
+                }
+
+                if (seen.size === before) {
+                    idle++;
+                } else {
+                    idle = 0;
+                }
             }
 
-            // chờ nốt lazy-load nếu còn
-            await new Promise((r) => setTimeout(r, 800));
-            collect();
-            return out;
-        });
+            return out.slice(0, maxImage);
+        }, maxImage);
     }
-
     if (thumbnails.length > 0) {
         await downloadFile(thumbnails, "photo", record, 20);
     }
@@ -660,12 +691,13 @@ async function crawler_comment(page, record) {
 }
 
 async function getAllCrawlerDataBase(offset = 0) {
+    // const query = `SELECT * FROM ${table.crawler} WHERE id = 139203 ORDER BY id ASC LIMIT 500 offset ${offset}`;
     const query = `SELECT * FROM ${table.crawler} WHERE is_status = 0 ORDER BY id DESC LIMIT 500 offset ${offset}`;
     return database.query(query);
 }
 
 (async () => {
-    var list_data = await getAllCrawlerDataBase(1400);
+    var list_data = await getAllCrawlerDataBase(0);
 
     const browser = await puppeteer.launch({
         headless: false, // Hiển thị trình duyệt
