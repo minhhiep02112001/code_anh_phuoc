@@ -183,6 +183,7 @@ class ConvertData extends Command
             $comment->created_at = $randomDate;
             $comment->updated_at = $randomDate; // nên đồng bộ
             $comment->save();
+            echo "\nDone {$comment->id}";
         }
     }
 
