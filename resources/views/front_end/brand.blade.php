@@ -375,7 +375,7 @@
                                     @if (!empty($item->phone))
                                         <div class="bottom-box">
                                             <div class="places">
-                                                <div class="place">Pizza Restaurant</div>
+                                                <div class="place">{{ $item->title }} Restaurant</div>
                                             </div>
                                             <div class="status"><span class="flaticon-phone-call"></span>
                                                 {{ $item->phone }}
