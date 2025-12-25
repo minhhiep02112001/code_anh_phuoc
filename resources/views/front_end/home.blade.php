@@ -1,10 +1,11 @@
 @php
     $config_home = getValueSetting('config_home');
-
+    $config_seo = getValueSetting('config_seo');
 @endphp
 
 @extends('front_end._index')
 @section('content')
+    <h1 style="display: none;">{{ $config_seo->meta_title ?? '' }}</h1>
     <section class="banner-section style-two">
         <div class="background-layer" style="background-image: url({{ convertPathImage($banner->thumbnail) }});"></div>
         <div class="auto-container">
@@ -33,7 +34,7 @@
                 </div>
             </div>
         </div>
-    </section> 
+    </section>
     <section class="explore-section">
         <div class="auto-container">
             <div class="sec-title text-center">
@@ -134,7 +135,8 @@
             <div class="auto-container">
                 <div class="sec-title text-center">
                     <h2>What People Love About {{ $config_website->website ?? '' }}</h2> <span class="divider"></span>
-                    <div class="text">See how users explore and discover great local spots with {{ $config_website->website ?? '' }}.</div>
+                    <div class="text">See how users explore and discover great local spots with
+                        {{ $config_website->website ?? '' }}.</div>
                 </div>
                 <div class="testimonial-outer">
                     <div class="client-thumb-outer">
