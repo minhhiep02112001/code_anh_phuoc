@@ -1,10 +1,11 @@
 @php
     $config_home = getValueSetting('config_home');
-
+    $config_seo = getValueSetting('config_seo');
 @endphp
 
 @extends('front_end._index')
 @section('content')
+    <h1 style="display: none;">{{ $config_seo->meta_title ?? '' }}</h1>
     <section class="banner-section style-two">
         <div class="background-layer" style="background-image: url({{ convertPathImage($banner->thumbnail) }});"></div>
         <div class="auto-container">
@@ -20,7 +21,7 @@
                             @csrf()
                             <div class="row">
                                 <div class="form-group col-lg-10 col-md-6 col-sm-12"> <input type="text"
-                                        name="listing-search" placeholder="What are you looking for?">
+                                        name="listing-search" placeholder="Discover Amazing Places For You?">
                                 </div>
 
                                 <div class="form-group col-lg-2 col-md-6 col-sm-12 text-right">
@@ -34,115 +35,10 @@
             </div>
         </div>
     </section>
-    {{-- <section class="listing-section-two">
-        <div class="container-fluid">
-            <div class="carousel-outer">
-                <div class="four-items-carousel owl-carousel owl-theme default-nav light no-dots">
-                    <div class="listing-block-two">
-                        <div class="inner-box">
-                            <div class="image-box">
-                                <figure class="image"><img src="https://static.goto-where.com/199063-albums-1.jpg"
-                                        alt="La Pour Meru" lazy="loading"></figure>
-                                <div class="tags"> <span>Featured</span> </div>
-                                <div class="content">
-                                    <div class="rating"> <span class="fa fa-star"></span>
-                                        <span class="fa fa-star"></span>
-                                        <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span
-                                            class="fa fa-star no-start"></span>
-                                        <span class="title">(710 review)</span>
-                                    </div>
-                                    <div class="title-brand"><a href="https://la-pour-meru.goto-where.com"
-                                            title="La Pour Meru">La Pour Meru</a>
-                                    </div>
-                                    <ul class="info mt-3">
-                                        <li><span class="flaticon-pin"></span>38a, Jln
-                                            Meru Bestari A4/1, 31200
-                                            Ipoh, Perak, Malaysia</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="bottom-box">
-                                <div class="places">
-                                    <div class="place">Restaurant</div>
-                                </div>
-                                <div class="status"><span class="flaticon-phone-call"></span>
-                                    +60 17-516 7360</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="listing-block-two">
-                        <div class="inner-box">
-                            <div class="image-box">
-                                <figure class="image"><img src="https://static.goto-where.com/198177-albums-1.jpg"
-                                        alt="Auberge De Daniel" lazy="loading"></figure>
-                                <div class="tags"> <span>Featured</span> </div>
-                                <div class="content">
-                                    <div class="rating"> <span class="fa fa-star"></span>
-                                        <span class="fa fa-star"></span>
-                                        <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span
-                                            class="fa fa-star no-start"></span>
-                                        <span class="title">(422 review)</span>
-                                    </div>
-                                    <div class="title-brand"><a href="https://auberge-de-daniel.goto-where.com"
-                                            title="Auberge De Daniel">Auberge De
-                                            Daniel</a></div>
-                                    <ul class="info mt-3">
-                                        <li><span class="flaticon-pin"></span>3 Pl. du
-                                            Jeu D'Arc, 60660 Mello,
-                                            France</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="bottom-box">
-                                <div class="places">
-                                    <div class="place">Restaurant</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="listing-block-two">
-                        <div class="inner-box">
-                            <div class="image-box">
-                                <figure class="image"><img src="https://static.goto-where.com/198118-albums-1.jpg"
-                                        alt="Restaurante Atrapallada" lazy="loading">
-                                </figure>
-                                <div class="tags"> <span>Featured</span> </div>
-                                <div class="content">
-                                    <div class="rating"> <span class="fa fa-star"></span>
-                                        <span class="fa fa-star"></span>
-                                        <span class="fa fa-star"></span> <span class="fa fa-star"></span> <span
-                                            class="fa fa-star no-start"></span>
-                                        <span class="title">(4123 review)</span>
-                                    </div>
-                                    <div class="title-brand"><a href="https://restaurante-atrapallada.goto-where.com"
-                                            title="Restaurante Atrapallada">Restaurante
-                                            Atrapallada</a></div>
-                                    <ul class="info mt-3">
-                                        <li><span class="flaticon-pin"></span>P.º de las
-                                            Acacias, 12, Arganzuela,
-                                            28005 Madrid, Spain</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="bottom-box">
-                                <div class="places">
-                                    <div class="place">Restaurant</div>
-                                </div>
-                                <div class="status"><span class="flaticon-phone-call"></span>
-                                    +34 915 39 08 92</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section> --}}
-
     <section class="explore-section">
         <div class="auto-container">
             <div class="sec-title text-center">
-                <h2>Popular Categories</h2> <span class="divider"></span>
+                <h2>Popular By City</h2> <span class="divider"></span>
                 <div class="text">Explore some of the best tips from around the city from our partners and
                     friends.
                 </div>
@@ -169,7 +65,7 @@
     <section class="listing-section home-list-brands">
         <div class="auto-container">
             <div class="sec-title text-center">
-                <h2>Explore Places</h2> <span class="divider"></span>
+                <h2>Discover Amazing Places</h2> <span class="divider"></span>
                 <div class="text">Explore some of the best tips from around the city from our partners and
                     friends.
                 </div>
@@ -239,7 +135,8 @@
             <div class="auto-container">
                 <div class="sec-title text-center">
                     <h2>What People Love About {{ $config_website->website ?? '' }}</h2> <span class="divider"></span>
-                    <div class="text">See how users explore and discover great local spots with {{ $config_website->website ?? '' }}.</div>
+                    <div class="text">See how users explore and discover great local spots with
+                        {{ $config_website->website ?? '' }}.</div>
                 </div>
                 <div class="testimonial-outer">
                     <div class="client-thumb-outer">
