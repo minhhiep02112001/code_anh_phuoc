@@ -533,3 +533,35 @@ function exportTimeOpen($html)
     }
     return $schedule;
 }
+
+function getPromatContentPost($post) {
+    return "Viết 1 đoạn giới thiệu ngắn bằng tiếng Anh khoảng 500 đến 700 từ về nhà hàng \"{$post->title}\" tại {$post->address}, đảm bảo thân thiện NLP, chuẩn Seo, tối ưu chuẩn Semantic content, unique 100%.";
+}
+function getContentGemini(string $prompt): string
+{
+    $key = config('gemini_key');
+    $model = 'models/gemini-2.0-flash'; // đổi sang model bạn muốn trong ListModels
+
+    $response = Http::timeout(30)
+        ->withHeaders([
+            'Content-Type'   => 'application/json',
+            'x-goog-api-key' => $key,
+        ])
+        ->post("https://generativelanguage.googleapis.com/v1beta/{$model}:generateContent", [
+            'contents' => [[
+                'parts' => [['text' => $prompt]]
+            ]],
+            // optional:
+            'generationConfig' => [
+                'temperature' => 0.7,
+                'maxOutputTokens' => 512,
+            ],
+        ]);
+
+    if ($response->failed()) {
+        // dd($response->status(), $response->body());
+        return '';
+    }
+
+    return trim(data_get($response->json(), 'candidates.0.content.parts.0.text', ''));
+}

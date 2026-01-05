@@ -75,6 +75,7 @@ class PostController extends BaseAdminController
                 $row['time_open'] = $item->time_open;
                 $row['email'] = $item->email;
                 $row['review_google'] = $item->review_google;
+                $row['is_crawler_content'] = $item->is_crawler_content;
                 $row['phone'] = $item->phone;
                 $row['review_yelp'] = $item->review_yelp;
                 $row['schema'] = $item->schema;

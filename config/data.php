@@ -1,5 +1,6 @@
 <?php
 return [
+    'gemini_key' => env('GEMINI_API_KEY', 'AIzaSyCZvljOBrXw-S7y8mf1KfDmHmERlv5RtQY'),
     'limit_paginate_admin' => 10,
     'config_menu' => [
         'Header',
@@ -48,6 +49,13 @@ return [
         0 => ['title' => 'Chờ crawler', 'class' => "badge badge-secondary"],
         1 =>  ['title' => 'Thành công', 'class' => "badge badge-success"],
         2 => ['title' => 'Crawler lỗi', 'class' => "badge badge-danger"],
+    ],
+    'status_content' => [
+        0 => ['title' => '', 'class' => "badge badge-secondary"],
+        2 => ['title' => 'Chờ chạy', 'class' => "badge badge-warning"],
+        1 =>  ['title' => 'Thành công', 'class' => "badge badge-success"],
+        3 => ['title' => 'Đang chạy', 'class' => "badge badge-danger"],
+        4 => ['title' => 'Lỗi', 'class' => "badge badge-danger"],
     ],
 
 ];

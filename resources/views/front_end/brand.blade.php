@@ -107,10 +107,10 @@
             <div class="row">
                 <div class="content-side col-lg-12 col-md-12 col-sm-12">
                     <div class="listing-single">
-                        @if (!empty($post->content_about))
+                        @if (!empty($post->content))
                             <div class="description-widget ls-widget">
                                 <div class="widget-content" id="overview">
-                                    {!! $post->content_about !!}
+                                    {!! $post->content !!}
                                 </div>
                             </div>
                         @endif

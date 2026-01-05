@@ -15,6 +15,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->command('convert:data --function=generateContent')->everyThreeMinutes();
+
         $schedule->command('sitemap:create --function=sitemapPost')->everyFiveMinutes();
         $schedule->command('sitemap:create --function=sitemapPage')->daily();
         // $schedule->command('google_search:index --function=index_google')->daily();

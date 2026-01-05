@@ -222,4 +222,30 @@ class ConvertData extends Command
         }
         return;
     }
+
+    // php artisan convert:data --function=generateContent
+    public function generateContent()
+    {
+        $posts = Post::where('is_crawler_content', 2)->limit(5)->get();
+        
+        foreach ($posts as $post) {
+            DB::table('st_post')->where('id', $post->id)->update([
+                'is_crawler_content' => 3
+            ]);
+            $promat = getPromatContentPost($post);
+            $content = getContentGemini($promat);
+           
+            if (!empty($content)) {
+                DB::table('st_post')->where('id', $post->id)->update([
+                    'content' => $content,
+                    'is_crawler_content' => 1
+                ]);
+            } else {
+                DB::table('st_post')->where('id', $post->id)->update([
+                    'is_crawler_content' => 4
+                ]);
+            }
+            echo "\n Done {$post->id}";
+        }
+    }
 }

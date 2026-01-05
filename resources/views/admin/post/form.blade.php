@@ -28,14 +28,24 @@
                             <label>Tóm tắt</label>
                             <textarea name="description" id="description" placeholder="Tóm tắt" class="form-control" rows="5"></textarea>
                         </div>
-                        <fieldset>
+                        {{-- <fieldset>
                             <div class="form-group">
                                 <label>Content about:</label>
                                 <textarea name="content_about" id="content_about about" rows="10" class="form-control tinymce"
                                     placeholder="Meta description"></textarea>
                             </div>
-                        </fieldset>
+                        </fieldset> --}}
                         <fieldset class="mt-3">
+                            <div class="form-group row">
+                                <label class="col-md-3 mb-0 col-12" style="color: #591313">Chạy content tự động:</label>
+                                <select class="col-md-9  col-12 form-control m-input m-input--square"
+                                    name="is_crawler_content">
+                                    @foreach (config('data.status_content') as $k => $item)
+                                        @continue($k == 4 || $k == 3)
+                                        <option value="{{ $k }}">{{ $item['title'] }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                             <div class="form-group">
                                 <label>Nội dung</label>
                                 <textarea name="content" id="content" placeholder="Nội dung" class="form-control tinymce" rows="5"></textarea>
