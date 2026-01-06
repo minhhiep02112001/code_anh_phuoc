@@ -229,8 +229,7 @@ class ConvertData extends Command
     {
         DB::table('st_post')->where('is_crawler_content', 2)->limit(10)->get()->each(function ($post) {
             $promat = $post->promat_content ?? convertStrPromat($post);
-            $content = getContentGemini($promat); 
-            dd($content); 
+            $content = getContentGemini($promat);  
             if (!empty($content)) {
                 DB::table('st_post')->where('id', $post->id)->update([
                     'content' => $content,

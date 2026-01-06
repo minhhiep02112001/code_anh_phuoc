@@ -558,9 +558,7 @@ function getContentGemini($prompt)
                 'temperature' => 0.7,
                 'maxOutputTokens' => 512,
             ],
-        ]); 
-        dd($response->json());
-         dd(data_get($response->json(), 'candidates.0.content.parts.0.text', ''));
+        ]);  
     if ($response->failed()) {
         return '';
     } 
