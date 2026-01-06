@@ -223,18 +223,14 @@ class ConvertData extends Command
         return;
     }
 
+
     // php artisan convert:data --function=generateContent
     public function generateContent()
     {
-        $posts = Post::where('is_crawler_content', 2)->limit(5)->get();
-        
-        foreach ($posts as $post) {
-            DB::table('st_post')->where('id', $post->id)->update([
-                'is_crawler_content' => 3
-            ]);
-            $promat = getPromatContentPost($post);
-            $content = getContentGemini($promat);
-           
+        DB::table('st_post')->where('is_crawler_content', 2)->limit(10)->get()->each(function ($post) {
+            $promat = $post->promat_content ?? convertStrPromat($post);
+            $content = getContentGemini($promat); 
+            dd($content); 
             if (!empty($content)) {
                 DB::table('st_post')->where('id', $post->id)->update([
                     'content' => $content,
@@ -246,6 +242,6 @@ class ConvertData extends Command
                 ]);
             }
             echo "\n Done {$post->id}";
-        }
+        });
     }
 }

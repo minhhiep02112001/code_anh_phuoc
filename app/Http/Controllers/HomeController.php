@@ -18,6 +18,7 @@ class HomeController extends Controller
     protected $model_tag;
     protected $model_post;
 
+    private $is_status = 1;
     public function __construct(
         public CategoryRepository $categoryRepository,
         public PostRepository $postRepository,
@@ -33,7 +34,7 @@ class HomeController extends Controller
         $data = [];
         $page = $request->page ?? 1;
         $filterBrand = [
-            // 'is_status' => 1,
+            'is_status' => $this->is_status,
             'type' => 'brand'
         ];
 
@@ -46,7 +47,7 @@ class HomeController extends Controller
         ]);
 
         $data['categories'] = $this->categoryRepository->getAll([
-            // 'is_status' => 1,
+            'is_status' =>  $this->is_status,
             'type' => 'home'
         ], [
             'order_by' => ['id', 'asc'],
@@ -64,9 +65,9 @@ class HomeController extends Controller
 
     public function post($slug, $id = 0)
     {
-        $status = 0;
+
         $post = $this->postRepository->findByField('slug', $slug)->first();
-        if (empty($post) || $post->is_status != $status) return abort(404);
+        if (empty($post) || $post->is_status != $this->is_status) return abort(404);
         $medias = $post->media()->select(['position', 'type', 'thumbnail'])->get()->groupBy('type');
 
         $SEO = [
@@ -92,7 +93,7 @@ class HomeController extends Controller
             $data['SEO']['favicon'] = getImageThumb($post->favicon ?? $post->thumbnail, 100, 100);
             $relates = Post::where([
                 'type' => 'brand',
-                'is_status' => $status,
+                'is_status' => $this->is_status
             ])->where(function ($q) use ($post) {
                 if (!empty($post->publish_at)) return $q->where('publish_at', '<', $post->publish_at ?? '');
                 return $q->where('created_at', '<', $post->created_at ?? '');
@@ -100,7 +101,7 @@ class HomeController extends Controller
 
             $relates2 = Post::where([
                 'type' => 'brand',
-                'is_status' => $status,
+                'is_status' =>  $this->is_status
             ])->where(function ($q) use ($post) {
                 if (!empty($post->publish_at)) return $q->where('publish_at', '>', $post->publish_at ?? '');
                 return $q->where('created_at', '>', $post->created_at ?? '');
@@ -151,7 +152,7 @@ class HomeController extends Controller
     {
         $post = $this->postRepository->findByField('slug', $slug)->first();
 
-        if (empty($post) || $post->is_status != 1)
+        if (empty($post) || $post->is_status != $this->is_status)
             return abort(404);
 
         $datas = [
@@ -200,7 +201,7 @@ class HomeController extends Controller
     {
         $page = $this->pageRepository->findByField('slug', $slug)->first();
 
-        if (empty($page) || $page->is_status != 1)
+        if (empty($page) || $page->is_status != $this->is_status)
             return abort(404);
 
         $SEO = [

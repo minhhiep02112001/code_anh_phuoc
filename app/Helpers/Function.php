@@ -534,12 +534,14 @@ function exportTimeOpen($html)
     return $schedule;
 }
 
-function getPromatContentPost($post) {
-    return "Viết 1 đoạn giới thiệu ngắn bằng tiếng Anh khoảng 500 đến 700 từ về nhà hàng \"{$post->title}\" tại {$post->address}, đảm bảo thân thiện NLP, chuẩn Seo, tối ưu chuẩn Semantic content, unique 100%.";
-}
-function getContentGemini(string $prompt): string
+function convertStrPromat($post)
 {
-    $key = config('gemini_key');
+    return "Viết 1 đoạn giới thiệu ngắn bằng tiếng anh khoảng 500 đến 700 từ về nhà hàng \"" . $post->title . "\" tại " . $post->address . ", đảm bảo thân thiện NLP, chuẩn Seo, tối ưu chuẩn Semantic content, unique 100%.";
+}
+
+function getContentGemini($prompt)
+{
+    $key = config('data.gemini_key');
     $model = 'models/gemini-2.0-flash'; // đổi sang model bạn muốn trong ListModels
 
     $response = Http::timeout(30)
@@ -556,12 +558,11 @@ function getContentGemini(string $prompt): string
                 'temperature' => 0.7,
                 'maxOutputTokens' => 512,
             ],
-        ]);
-
+        ]); 
+        dd($response->json());
+         dd(data_get($response->json(), 'candidates.0.content.parts.0.text', ''));
     if ($response->failed()) {
-        // dd($response->status(), $response->body());
         return '';
-    }
-
+    } 
     return trim(data_get($response->json(), 'candidates.0.content.parts.0.text', ''));
 }

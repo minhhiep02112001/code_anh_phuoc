@@ -1,6 +1,6 @@
 <?php
 return [
-    'gemini_key' => env('GEMINI_API_KEY', 'AIzaSyCZvljOBrXw-S7y8mf1KfDmHmERlv5RtQY'),
+    'gemini_key' => 'AIzaSyCZvljOBrXw-S7y8mf1KfDmHmERlv5RtQY',
     'limit_paginate_admin' => 10,
     'config_menu' => [
         'Header',
