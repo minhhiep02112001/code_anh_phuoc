@@ -57,10 +57,10 @@
     {!! $config_website->schema ?? '' !!}
 @endif
 
-<meta name="robots" content="noindex,nofollow" />
-<meta name="Googlebot-News" content="noindex,nofollow">
+{{-- <meta name="robots" content="noindex,nofollow" />
+<meta name="Googlebot-News" content="noindex,nofollow"> --}}
 
-{{-- <meta name="robots" content="{{ !empty($config_seo->index) ? 'index,follow' : 'noindex,nofollow' }}" />
-<meta name="Googlebot-News" content="{{ !empty($config_seo->index) ? 'index,follow' : 'noindex,nofollow' }}"> --}}
+<meta name="robots" content="{{ !empty($config_seo->index) ? 'index,follow' : 'noindex,nofollow' }}" />
+<meta name="Googlebot-News" content="{{ !empty($config_seo->index) ? 'index,follow' : 'noindex,nofollow' }}">
 <link rel="canonical" href="{{ url()->current() }}" />
 {!! $config_website->config_header ?? '' !!}
