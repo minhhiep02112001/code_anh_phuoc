@@ -229,18 +229,19 @@ class ConvertData extends Command
     {
         DB::table('st_post')->where('is_crawler_content', 2)->limit(10)->get()->each(function ($post) {
             $promat = $post->promat_content ?? convertStrPromat($post);
-            $content = getContentGemini($promat);  
-            if (!empty($content)) {
+            $result = getContentGemini($promat);
+            if (!empty($result['content'])) {
                 DB::table('st_post')->where('id', $post->id)->update([
-                    'content' => $content,
+                    'content' => $result['content'],
                     'is_crawler_content' => 1
                 ]);
+                echo "\n Done {$post->id}";
             } else {
                 DB::table('st_post')->where('id', $post->id)->update([
                     'is_crawler_content' => 4
                 ]);
+                echo "\n Error {$post->id}: {$result['message']}";
             }
-            echo "\n Done {$post->id}";
-        });
+        }); 
     }
 }

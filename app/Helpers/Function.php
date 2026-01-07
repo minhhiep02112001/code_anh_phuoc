@@ -560,7 +560,13 @@ function getContentGemini($prompt)
             ],
         ]);  
     if ($response->failed()) {
-        return '';
+        return [
+            'status' => 'error',
+            'message' => 'API request failed with status ' . $response->status(),
+        ];
     } 
-    return trim(data_get($response->json(), 'candidates.0.content.parts.0.text', ''));
+    return [
+        'status' => 'success',
+        'content' => trim(data_get($response->json(), 'candidates.0.content.parts.0.text', ''))
+    ];
 }
