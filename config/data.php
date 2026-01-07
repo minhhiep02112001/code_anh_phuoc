@@ -1,6 +1,6 @@
 <?php
 return [
-    'gemini_key' => 'AIzaSyCZvljOBrXw-S7y8mf1KfDmHmERlv5RtQY',
+    'gemini_key' => 'AIzaSyACeZWRe8UVfi9lYL60EpGSKNPOcc77TLM',
     'limit_paginate_admin' => 10,
     'config_menu' => [
         'Header',

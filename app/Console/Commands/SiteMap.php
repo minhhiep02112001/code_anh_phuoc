@@ -127,14 +127,14 @@ class SiteMap extends Command
             $sitemap->add(Url::create(route('page', ['slug' => $data->slug]))
                 ->setLastModificationDate($data->updated_at)
                 ->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY)
-                ->setPriority(0.8));
+                ->setPriority(0.3));
         }
         foreach ($posts as $post) {
             $time = Carbon::parse($post->publish_at);
             $sitemap->add(Url::create(route('post', ['slug' => $post->slug]))
                 ->setLastModificationDate($time)
                 ->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY)
-                ->setPriority(0.8));
+                ->setPriority(0.3));
         }
 
         $sitemap->writeToFile(public_path('sitemap_page.xml'));
@@ -164,7 +164,7 @@ class SiteMap extends Command
                 $sitemap->add(Url::create(route('post', ['slug' => $post->slug]))
                     ->setLastModificationDate( $time)
                     ->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY)
-                    ->setPriority(0.8));
+                    ->setPriority(0.3));
             }
             if (!empty($data)) {
                 $path = ($key == 0) ? 'sitemap_brand.xml' : "sitemap_brand_$key.xml";
