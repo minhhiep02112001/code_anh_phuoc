@@ -164,7 +164,7 @@ class SiteMap extends Command
                 $sitemap->add(Url::create(route('post', ['slug' => $post->slug]))
                     ->setLastModificationDate( $time)
                     ->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY)
-                    ->setPriority(0.3));
+                    ->setPriority(0.8));
             }
             if (!empty($data)) {
                 $path = ($key == 0) ? 'sitemap_brand.xml' : "sitemap_brand_$key.xml";
