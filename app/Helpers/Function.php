@@ -536,14 +536,42 @@ function exportTimeOpen($html)
 
 function convertStrPromat($post)
 {
-    return "Viết 1 đoạn giới thiệu ngắn bằng tiếng anh khoảng 500 đến 700 từ về nhà hàng \"" . $post->title . "\" tại " . $post->address . ", đảm bảo thân thiện NLP, chuẩn Seo, tối ưu chuẩn Semantic content, unique 100%.";
+    return <<<PROMPT
+Chỉ tạo HTML hợp lệ (không dùng Markdown, không cần giải thích).
+
+Yêu cầu:
+- Bọc nội dung trong thẻ `<div class="ai-content">...</div>`
+- Chỉ sử dụng các thẻ sau: `<h2>`, `<p>`, `<ul>`, `<li>`, `<strong>`
+- Ngôn ngữ: Tiếng Anh
+- Độ dài: 800 - 1000 từ (KHÔNG dài hơn)
+- Viết tự nhiên, không nhồi nhét từ khóa, không phải văn bản SEO máy móc
+- Ngữ nghĩa, dễ đọc, thân thiện với NLP
+- KHÔNG bịa đặt các thông tin cụ thể (thực đơn, giá cả, giải thưởng, giờ mở cửa)
+- KHÔNG bao gồm các tập lệnh, kiểu dáng, iframe, hình ảnh
+
+Nội dung:
+Viết phần giới thiệu về nhà hàng "{$post->title}" tại địa chỉ "{$post->address}".
+
+Bao gồm:
+1. Một đoạn giới thiệu ngắn
+2. Một danh sách 3-4 điểm nổi bật
+3. Một đoạn kết ngắn
+4. Đảm bảo thân thiện NLP, chuẩn Seo, tối ưu chuẩn Semantic content, unique 100%.
+
+Return HTML only.
+PROMPT;
 }
 
 function getContentGemini($prompt)
 {
-    $key = config('data.gemini_key');
-    $model = 'models/gemini-2.0-flash'; // đổi sang model bạn muốn trong ListModels
 
+    $key = config('data.gemini_key');
+    // $model = 'models/gemini-2.0-flash'; // đổi sang model bạn muốn trong ListModels
+    // $model = 'models/gemini-1.5-flash';
+    // $model = 'models/gemini-flash-latest';
+    // $model = 'models/gemini-3-pro-preview';
+    // $model = 'models/gemini-3-flash-preview';
+    $model = 'models/gemini-flash-latest';
     $response = Http::timeout(30)
         ->withHeaders([
             'Content-Type'   => 'application/json',
@@ -555,16 +583,20 @@ function getContentGemini($prompt)
             ]],
             // optional:
             'generationConfig' => [
-                'temperature' => 0.7,
-                'maxOutputTokens' => 512,
+                'temperature' => 0.3,
+                'maxOutputTokens' => 8096,
+                'thinkingConfig' => [
+                    'thinkingBudget' => 0
+                ],
             ],
-        ]);  
+        ]);
+            
     if ($response->failed()) {
         return [
             'status' => 'error',
             'message' => 'API request failed with status ' . $response->status(),
         ];
-    } 
+    }
     return [
         'status' => 'success',
         'content' => trim(data_get($response->json(), 'candidates.0.content.parts.0.text', ''))
