@@ -12,6 +12,7 @@ use App\Models\Menu;
 use App\Models\Post;
 use App\Models\Product;
 use App\Models\Tag;
+use App\Services\GeminiService;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
@@ -221,28 +222,5 @@ class ConvertData extends Command
             if (!empty($mediaThumbTemp)) $storage->delete(ltrim(str_replace('storage/', '', $mediaThumbTemp), '/'));
         }
         return;
-    }
-
-
-    // php artisan convert:data --function=generateContent
-    public function generateContent()
-    {
-        DB::table('st_post')->where('is_crawler_content', 2)->limit(10)->get()->each(function ($post) {
-            $promat = $post->promat_content ?? convertStrPromat($post); 
-            $result = getContentGemini($promat);
-            
-            if (!empty($result['content'])) {
-                DB::table('st_post')->where('id', $post->id)->update([
-                    'content' => $result['content'],
-                    'is_crawler_content' => 1
-                ]);
-                echo "\n Done {$post->id}";
-            } else {
-                DB::table('st_post')->where('id', $post->id)->update([
-                    'is_crawler_content' => 4
-                ]);
-                echo "\n Error {$post->id}: {$result['message']}";
-            }
-        }); 
-    }
+    } 
 }

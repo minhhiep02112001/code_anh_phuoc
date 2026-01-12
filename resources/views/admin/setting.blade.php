@@ -4,6 +4,7 @@
      $config_social = !empty($setting['config_social']) ? json_decode($setting['config_social']) : [];
      $config_home = !empty($setting['config_home']) ? json_decode($setting['config_home']) : [];
      $config_time_open = !empty($setting['config_time_open']) ? $setting['config_time_open'] : '';
+     $config_gemini = !empty($setting['config_gemini']) ? $setting['config_gemini'] : '';
  @endphp
 
  @extends('admin._index')
@@ -220,6 +221,14 @@
                                                      <div class="col-sm-9">
                                                          <textarea name="config_website[content_footer]" rows="5" class="form-control "
                                                              placeholder="Config footer ... ">{!! $config_website->content_footer ?? '' !!}</textarea>
+                                                     </div>
+                                                 </div>
+
+                                                 <div class="form-group mb-1 row">
+                                                     <label class="col-sm-3">Config Keys Gemini:</label>
+                                                     <div class="col-sm-9">
+                                                         <textarea name="config_gemini[keys]" rows="5" class="form-control "
+                                                             placeholder="Keys Gemini ... ">{!! $config_gemini->keys ?? '' !!}</textarea>
                                                      </div>
                                                  </div>
 

@@ -14,7 +14,8 @@ class SettingController extends Controller
         'config_website',
         'config_seo',
         'config_home',
-        'config_social'
+        'config_social',
+        'config_gemini'
     ];
 
     function setting(Request $request)
@@ -22,7 +23,7 @@ class SettingController extends Controller
         $key_cache = "setting" . \Str::slug(env('APP_URL'));
         if ($request->method() == "POST") {
             $data = $request->only($this->config);
-
+     
             foreach ($data as $key => $value) {
                 try {
                     $value = is_array($value) ? json_encode($value) : $value;

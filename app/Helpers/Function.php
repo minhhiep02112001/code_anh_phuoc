@@ -570,8 +570,8 @@ function getContentGemini($prompt)
     // $model = 'models/gemini-1.5-flash';
     // $model = 'models/gemini-flash-latest';
     // $model = 'models/gemini-3-pro-preview';
-    // $model = 'models/gemini-3-flash-preview';
-    $model = 'models/gemini-flash-latest';
+    $model = 'models/gemini-3-flash-preview';
+    // $model = 'models/gemini-flash-latest';
     $response = Http::timeout(30)
         ->withHeaders([
             'Content-Type'   => 'application/json',
@@ -590,7 +590,7 @@ function getContentGemini($prompt)
                 ],
             ],
         ]);
-            
+            dd($response->body());
     if ($response->failed()) {
         return [
             'status' => 'error',
