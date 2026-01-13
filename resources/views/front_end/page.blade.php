@@ -82,6 +82,7 @@
 
         .html-section {
             margin-top: 100px;
+            min-height: calc(100vh - 300px);
         }
 
         /* Thiết lập kiểu chữ cho thiết bị di động */
