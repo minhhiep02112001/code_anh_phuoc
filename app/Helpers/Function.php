@@ -561,6 +561,10 @@ Bao gồm:
 Return HTML only.
 PROMPT;
 }
+function convertStrPromatMetaDes($post)
+{
+    return "Write an SEO-friendly meta description (max 160 characters) for the {$post->title} restaurant.";
+}
 
 function getContentGemini($prompt)
 {
@@ -590,7 +594,7 @@ function getContentGemini($prompt)
                 ],
             ],
         ]);
-            dd($response->body());
+    dd($response->body());
     if ($response->failed()) {
         return [
             'status' => 'error',

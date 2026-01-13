@@ -20,7 +20,7 @@ class GenerateContentCommand extends Command
 
         $posts = DB::table('st_post')
             ->where('is_crawler_content', 2)
-            ->orderBy('id','desc')
+            ->orderBy('id', 'desc')
             ->limit($limit)
             ->get();
 
@@ -31,51 +31,66 @@ class GenerateContentCommand extends Command
 
         foreach ($posts as $post) {
 
-            // 👉 Claim tránh chạy trùng job
             DB::table('st_post')->where('id', $post->id)->update([
                 'is_crawler_content' => 3, // processing
             ]);
 
             try {
-                $prompt = $post->promat_content ?: convertStrPromat($post);
+                if (empty($post->content)) {
+                    // ===== Generate content =====
+                    $prompt = $post->promat_content ?: convertStrPromat($post);
 
-                $res = GeminiService::generate($prompt, [
-                    'maxOutputTokens' => 1200,
-                ]);
+                    $res = GeminiService::generate($prompt, [
+                        'maxOutputTokens' => 1200,
+                    ]);
 
-                // ✅ Thành công
-                if (!empty($res['ok'])) {
+                    if (empty($res['ok'])) {
+                        throw new \Exception(data_get($res, 'error.message', 'Unknown error'));
+                    }
+
                     DB::table('st_post')->where('id', $post->id)->update([
                         'content' => $res['text'] ?? '',
-                        'is_crawler_content' => 1, // done
                         'updated_at' => now(),
                     ]);
 
-                    $this->info("✅ Done #{$post->id}");
-                    continue;
+                    $this->info("✅ Done content #{$post->id}");
                 }
 
-                // ❌ Lỗi
-                $errMsg = data_get($res, 'error.message', 'Unknown error');
-                $http   = $res['http'] ?? 0;
+                // ===== Generate meta description =====
+                if (empty($post->meta_description)) {
+
+                    usleep(300_000); // 300ms tránh rate limit
+
+                    $metaPrompt = convertStrPromatMetaDes($post);
+
+                    $metaRes = GeminiService::generate($metaPrompt, [
+                        'maxOutputTokens' => 200,
+                    ]);
+
+                    if (!empty($metaRes['ok'])) {
+                        DB::table('st_post')->where('id', $post->id)->update([
+                            'meta_description' => trim($metaRes['text'] ?? ''),
+                        ]);
+
+                        $this->info("📝 Done meta_description #{$post->id}");
+                    }
+                }
+
+                // ===== Done =====
+                DB::table('st_post')->where('id', $post->id)->update([
+                    'is_crawler_content' => 1, // done
+                ]);
+            } catch (\Throwable $e) {
 
                 DB::table('st_post')->where('id', $post->id)->update([
                     'is_crawler_content' => 4, // error
                     'updated_at' => now(),
                 ]);
 
-                $this->error("❌ Error #{$post->id} (HTTP {$http}): {$errMsg}");
-
-            } catch (\Throwable $e) {
-
-                DB::table('st_post')->where('id', $post->id)->update([
-                    'is_crawler_content' => 4,
-                    'updated_at' => now(),
-                ]);
-
-                $this->error("💥 Exception #{$post->id}: " . $e->getMessage());
+                $this->error("💥 Error #{$post->id}: {$e->getMessage()}");
             }
         }
+
 
         $this->info("🎉 Done batch.");
 
