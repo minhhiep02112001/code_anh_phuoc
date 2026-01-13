@@ -563,7 +563,7 @@ PROMPT;
 }
 function convertStrPromatMetaDes($post)
 {
-    return "Write an SEO-friendly meta description (max 160 characters) for the {$post->title} restaurant.";
+    return "Write a concise, SEO-friendly meta description in English (maximum 160 characters) for the {$post->title} restaurant. Plain text only. No markdown. No explanations.";
 }
 
 function getContentGemini($prompt)
