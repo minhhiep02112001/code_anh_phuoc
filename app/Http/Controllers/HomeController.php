@@ -214,7 +214,7 @@ class HomeController extends Controller
             'url' => route('page', ['slug' => $page->slug]),
         ];
 
-        $view = $page->layout ?? 'theme_brand.theme_1.page';
+        $view = $page->layout ?? 'front_end.page';
         return view($view, ['page' => $page, 'SEO' => $SEO ?? [],]);
     }
 

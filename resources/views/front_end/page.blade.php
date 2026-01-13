@@ -43,7 +43,7 @@
 
         .article-content p {
             margin-bottom: 10px;
-            font-size: 16px; 
+            font-size: 16px;
         }
 
         h1 {
@@ -68,24 +68,28 @@
 
         /* Định dạng danh sách */
         .article-content ul {
-            margin:  0;
+            margin: 0;
             font-size: 16px;
             padding-left: 5px;
         }
 
-       
+
         /* Căn giữa văn bản */
         .article-content p,
         .article-content li {
             text-align: justify;
         }
 
+        .html-section {
+            margin-top: 100px;
+        }
+
         /* Thiết lập kiểu chữ cho thiết bị di động */
         @media only screen and (max-width: 768px) {
             h1 {
-    font-size: 30px;
-    font-weight: bold;
-}
+                font-size: 30px;
+                font-weight: bold;
+            }
 
             .article-content h2 {
                 font-size: 1.6rem;
@@ -96,7 +100,7 @@
                 font-size: 1.3rem;
                 /* 20px */
             }
- 
+
 
             /* Căn chỉnh hình ảnh và văn bản */
             .article-content img {
@@ -108,9 +112,13 @@
             .article-content a {
                 font-size: 0.9rem;
             }
+
+            .html-section {
+                margin-top: 50px;
+            }
         }
     </style>
-    <div id="html-section-product-template" class="html-section">
+    <div id="html-section-product-template" class="html-section auto-container">
         <div class="wrapper">
             <section class="bread-crumb">
 
@@ -118,22 +126,22 @@
                     @include('front_end.block.breadcrumb')
                 </div>
             </section>
-            <div class="article-wraper card py-2 border-0">
+            <div class="article-wraper  py-2 border-0">
                 <div class="wrap_background_aside padding-top-0 margin-bottom-40 ">
                     <div class="row">
                         <section class="right-content col-12 py-3 mx-auto">
                             <article class="article-main">
                                 <div class="article-details">
-                                    <h1 class="title-product">{{ $row->title }}</h1>
+                                    <h1 class="title-product">{{ $page->title }}</h1>
                                     <div class="media ">
                                         <div class="media-body ">
                                             <small class="text-muted font-weight-light">
-                                                {{ timeAgo($row->created_at) }}
+                                                {{ timeAgo($page->created_at) }}
                                             </small>
                                         </div>
                                     </div>
                                     <div class="article-content">
-                                        {!! $row->content !!}
+                                        {!! $page->content !!}
                                     </div>
                                 </div>
                             </article>
