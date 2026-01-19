@@ -253,7 +253,7 @@ class PostController extends BaseAdminController
                 $this->syncPostImagesByThumbnail($story->id, 'menu', $request->get('menus'));
             }
             if ($request->has('thumbnails') && !empty($request->get('thumbnails'))) {
-                $this->syncPostImagesByThumbnail($story->id, 'photo', $request->get('menus'));
+                $this->syncPostImagesByThumbnail($story->id, 'photo', $request->get('thumbnails'));
             }  
             DB::commit();
             return $this->responsiveSuccess('Sửa bài viết thành công');
@@ -268,7 +268,7 @@ class PostController extends BaseAdminController
         $items = collect($items)
             ->filter(fn($i) => !empty($i['thumb']))
             ->values();
-
+        
         if ($items->isEmpty()) {
             // Không có dữ liệu gửi lên → xóa hết theo type
             return DB::table('st_post_images')->where('post_id', $postId)->where('type', $type)->delete();
