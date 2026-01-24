@@ -11,14 +11,20 @@
                             <img src="{{ getImageThumb($config_website->logo_footer ?? '') }}" width="150"
                                 alt="{{ $config_website->website ?? '' }}">
                         </a>
+                        @if (!empty($config_website->content_footer))
+                            <div>
+                                {!! $config_website->content_footer !!}
+                            </div>
+                        @endif
                     </div>
                 </div>
                 <div class="col-lg-4 col-sm-12">
                     <div class="footer-list">
                         <h5 class="title-footer">About Us</h5>
                         <ul class="footer-nav">
-                            @foreach($menus_footer as $menu)
-                                <li><a href="{{ $menu->link }}" title="{{ $menu->title }}">{{ $menu->title }}</a></li>
+                            @foreach ($menus_footer as $menu)
+                                <li><a href="{{ $menu->link }}" title="{{ $menu->title }}">{{ $menu->title }}</a>
+                                </li>
                             @endforeach
                         </ul>
                     </div>
