@@ -211,7 +211,7 @@ class HomeController extends Controller
             'meta_keyword' => $page->meta_title ?? '',
             'is_robot' => $page->is_robot ?? 0,
             'image' => $page->thumbnail ?? '',
-            'url' => route('page', ['slug' => $page->slug]),
+            'url' => route('page', ['slug' => $page->slug, 'id' => $id]),
         ];
 
         $view = $page->layout ?? 'front_end.page';

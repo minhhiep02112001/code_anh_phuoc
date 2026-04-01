@@ -31,7 +31,7 @@ class PageController extends BaseAdminController
         if (!empty($list)) foreach ($list as $item) {
             $row = array();
             if ($item->is_status == 1) {
-                $title = "<a target='_blank' href='" . route('page', ['slug' => $item->slug]) . "' title='{$item->title}'>{$item->title}</a>";
+                $title = "<a target='_blank' href='" . route('page', ['slug' => $item->slug, 'id' => $item->id]) . "' title='{$item->title}'>{$item->title}</a>";
             }
             $row['checkID'] = $item->id;
             $row['id'] = $item->id;
