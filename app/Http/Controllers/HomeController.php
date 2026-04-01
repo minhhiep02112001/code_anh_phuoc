@@ -197,7 +197,7 @@ class HomeController extends Controller
 
 
 
-    public function page(Request $request, $slug)
+    public function page(Request $request, $slug, $id = 0)
     {
         $page = $this->pageRepository->findByField('slug', $slug)->first();
 

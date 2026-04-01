@@ -133,11 +133,11 @@ Route::get('/feeds/pinterestxxx.xml', [App\Http\Controllers\FeedController::clas
 Route::get('/feeds/rssxxx.xml', [App\Http\Controllers\FeedController::class, 'rssxxx'])->name('rssxxx');
 
 
-Route::domain('{slug}.' . env('DOMAIN'))->group(function () {
-    Route::get('/', [\App\Http\Controllers\HomeController::class, 'post'])->name('post')->middleware('cacheResponse:600');
-    // Route::get('/menu.html', [\App\Http\Controllers\HomeController::class, 'menu'])->name('menu');
-    Route::get('/sitemap.xml', [\App\Http\Controllers\HomeController::class, 'sitemapBrand']);
-});
+// Route::domain('{slug}.' . env('DOMAIN'))->group(function () {
+//     Route::get('/', [\App\Http\Controllers\HomeController::class, 'post'])->name('post')->middleware('cacheResponse:600');
+//     // Route::get('/menu.html', [\App\Http\Controllers\HomeController::class, 'menu'])->name('menu');
+//     Route::get('/sitemap.xml', [\App\Http\Controllers\HomeController::class, 'sitemapBrand']);
+// });
 
 
 Route::group([
@@ -145,12 +145,6 @@ Route::group([
 ], function () {
     Route::any('/', [App\Http\Controllers\HomeController::class, 'dashboard'])->name('homepage')->middleware('cacheResponse:300');
     // Route::get('/search', [App\Http\Controllers\HomeController::class, 'search'])->name('search');
-    if (\App::environment('local')) {
-        // ví dụ: tin-tuc-post.html
-        Route::get('{slug}-post.html', [App\Http\Controllers\HomeController::class, 'post'])
-            ->where('slug', '[a-z0-9-_]+')
-            ->name('post');
-    }
-    Route::get('/{slug}.html', [App\Http\Controllers\HomeController::class, 'page'])->name('page')->where(['slug' => '[a-z0-9-_]+']);
-    Route::get('{slug}', [App\Http\Controllers\HomeController::class, 'redirect301'])->name('redirect_301')->where(['slug' => '[a-z0-9-_]+']);
+    Route::get('/{slug}.html', [App\Http\Controllers\HomeController::class, 'page'])->name('page')->where(['slug' => '[a-z0-9-_]+', 'id' => '[0-9]+']);
+    Route::get('{slug}', [App\Http\Controllers\HomeController::class, 'post'])->where('slug', '[a-z0-9-_]+')->name('post');
 });
