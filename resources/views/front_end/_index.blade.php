@@ -1,9 +1,9 @@
 @php
-    $ver = 111368;
+    $ver = 1113168;
     $config_website = getValueSetting('config_website');
     $config_seo = getValueSetting('config_seo');
     $config_social = getValueSetting('config_social');
-@endphp 
+@endphp
 
 
 <!DOCTYPE html>

@@ -59,11 +59,17 @@ Route::group([
         'auth.admin'
     ]
 ], function () {
-    Route::any("clear-cache", function () {
+    Route::any('clear-cache', function () {
+        \Illuminate\Support\Facades\Artisan::call('cache:clear');
+        \Illuminate\Support\Facades\Artisan::call('config:clear');
+        \Illuminate\Support\Facades\Artisan::call('route:clear');
+        \Illuminate\Support\Facades\Artisan::call('view:clear');
+
         Cache::flush();
-        Cache::store(env("CONFIG_CACHE_MODEL", "file"))->flush();
+        Cache::store(env('CONFIG_CACHE_MODEL', 'file'))->flush();
         \ResponseCache::clear();
-        return redirect()->back();
+
+        return redirect()->back()->with('success', 'Đã xóa cache thành công.');
     })->name('clear.cache');
 
     Route::post('keyword/import', [App\Http\Controllers\Admin\KeywordController::class, 'import'])->name('keyword.import');
