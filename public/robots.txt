@@ -1,6 +1,6 @@
 User-agent: *
 Disallow: /admin/
 Allow: /
-Sitemap: https://here-restaurants.com/sitemap.xml
+Sitemap: https://restaurantsforme.com/sitemap.xml
 Disallow: /public/js/
 Disallow: /cdn-cgi/l/email-protection

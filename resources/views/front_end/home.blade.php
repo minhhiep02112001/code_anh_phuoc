@@ -21,7 +21,7 @@
                             @csrf()
                             <div class="row">
                                 <div class="form-group col-lg-10 col-md-6 col-sm-12"> <input type="text"
-                                        name="listing-search" placeholder="Discover Amazing Places For You?">
+                                        name="listing-search" placeholder="Find great places to stay, eat, shop, or visit from local experts">
                                 </div>
 
                                 <div class="form-group col-lg-2 col-md-6 col-sm-12 text-right">
