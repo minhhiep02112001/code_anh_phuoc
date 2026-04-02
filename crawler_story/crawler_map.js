@@ -8,11 +8,11 @@ const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 puppeteer.use(StealthPlugin());
 
 const crawlerData = {
-    menu: false,
+    menu: true,
     infor: true,
-    images: false,
-    about: false,
-    comment: false,
+    images: true,
+    about: true,
+    comment: true,
 };
 
 const table = {
@@ -119,6 +119,7 @@ async function crawlerGoogleIframe(browser, record) {
             await delay(1000);
             let data = {};
             if (crawlerData.infor) data = await extractMainInfo(page);
+            data.slug = record.slug = convertToSlug(record.title);
             await database.update_crawler_map(record.id, data, 1);
             if (crawlerData.comment) await crawler_comment(page, record);
             if (crawlerData.menu) await crawlerMenu(page, record);
