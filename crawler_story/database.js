@@ -2,10 +2,10 @@ const mysql = require("mysql2");
 
 const connection = mysql.createPool({
     connectionLimit: 100,
-    host: "212.56.45.0",
+    host: "207.180.215.206",
     user: "developer",
-    password: "developer123@",
-    database: "db_restaurant", 
+    password: "Developer123@",
+    database: "restaurant_restaurantsforme.com",
     port: 3306,
     waitForConnections: true,
     connectionLimit: 10,
@@ -14,7 +14,7 @@ const connection = mysql.createPool({
     queueLimit: 0,
     enableKeepAlive: true,
     keepAliveInitialDelay: 0,
-}); 
+});
 // Phương thức thực hiện truy vấn SQL SELECT
 function query(sql) {
     return new Promise((resolve, reject) => {
@@ -45,7 +45,7 @@ function execute(sql) {
 function closeConnection() {
     connection.end();
 }
-  
+
 function update_crawler_map(id, item, is_status = 0) {
     return new Promise((resolve, reject) => {
         connection.query(
