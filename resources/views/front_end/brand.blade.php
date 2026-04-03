@@ -348,8 +348,7 @@
 
                         @foreach ($relates as $item)
                             <div class="listing-block-two">
-                                <a href="{{ convertUrlPost($item->slug) }}" title="{{ $item->title }}">
-                                    <div class="inner-box">
+                                   <div class="inner-box">
                                         <div class="image-box">
                                             <figure class="image">
                                                 <img src="{{ getImageThumb($item->thumbnail) }}" alt="{{ $item->title }}"
@@ -379,7 +378,7 @@
                                             </div>
                                         @endif
                                     </div>
-                                </a>
+                                
                             </div>
                         @endforeach
 
