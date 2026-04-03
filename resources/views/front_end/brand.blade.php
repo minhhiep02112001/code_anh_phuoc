@@ -348,7 +348,7 @@
 
                         @foreach ($relates as $item)
                             <div class="listing-block-two">
-                                <a href="{{ convertUrlPost($item->slug) }}" class="inner-box">
+                                <a href="{{ convertUrlPost($item->slug) }}" title="{{ $item->title }}">
                                     <div class="inner-box">
                                         <div class="image-box">
                                             <figure class="image">
