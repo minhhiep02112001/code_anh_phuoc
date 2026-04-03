@@ -12,9 +12,9 @@
 {
   "@context": "https://schema.org",
   "@type": "Nail",
-  "@id": "{{ route('post', [$post->slug]) }}",
+  "@id": "{{ convertUrlPost($post->slug) }}",
   "name": "{{ $post->title }}",
-  "url": "{{ route('post', [$post->slug]) }}",
+  "url": "{{ convertUrlPost($post->slug) }}",
   "image": "{{ convertPathImage($post->thumbnail) }}",
   "telephone": "{{ $post->phone }}",
   "address": {
@@ -47,7 +47,7 @@
 {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
-  "@id": "{{ route('post', [$post->slug]) }}/#breadcrumb",
+  "@id": "{{ convertUrlPost($post->slug) }}/#breadcrumb",
   "itemListElement": [
     {
       "@type": "ListItem",
@@ -72,8 +72,8 @@
 {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  "@id": "{{ route('post', [$post->slug]) }}",
-  "url": "{{ route('post', [$post->slug]) }}",
+  "@id": "{{ convertUrlPost($post->slug) }}",
+  "url": "{{ convertUrlPost($post->slug) }}",
   "name": "{{ $post->title }}",
   "datePublished": "{{ $publish_at->format('Y-m-d\TH:i:sP') }}",
   "dateModified": "{{ $updated_at->format('Y-m-d\TH:i:sP') }}",

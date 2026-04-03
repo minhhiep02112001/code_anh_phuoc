@@ -606,3 +606,7 @@ function getContentGemini($prompt)
         'content' => trim(data_get($response->json(), 'candidates.0.content.parts.0.text', ''))
     ];
 }
+
+function convertUrlPost($slug){
+    return route('post', ['slug' => $slug]).'/';
+}

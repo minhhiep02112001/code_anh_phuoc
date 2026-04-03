@@ -51,8 +51,8 @@
                                          sizes="auto, (max-width: 1024px) 100vw, 1024px"/>
                         <div>{{ $sapo}}</div></div> ]]>
                 </description>
-                <link>{{ route('post', ['slug' => $item->slug]) }}</link>
-                <guid isPermaLink="false">{{ route('post', ['slug' => $item->slug]) }}</guid>
+                <link>{{ convertUrlPost($item->slug) }}</link>
+                <guid isPermaLink="false">{{ convertUrlPost($item->slug) }}</guid>
                 <dc:creator><![CDATA[{{env('APP_NAME')}}]]></dc:creator>
                 <pubDate>{{  $time->format('D, d M Y H:i:s O') }}</pubDate>
                 <media:content medium="image" url="{{ getImageThumb($item->thumbnail) }}"/>

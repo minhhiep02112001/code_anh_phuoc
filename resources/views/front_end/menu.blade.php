@@ -61,7 +61,7 @@
                                     <div class="content-asides-offset">
                                         <div class="flow-fix">
                                             <div class="header__logo">
-                                                <a href="{{ route('post', [$post->slug]) }}">
+                                                <a href="{{ convertUrlPost($post->slug) }}">
                                                     <img width="132px"
                                                         src="{{ getImageThumb($post->thumbnail, 200, 200) }}"
                                                         alt="Le Baratin Menu">

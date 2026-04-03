@@ -47,12 +47,12 @@
 
             <item>
                 <title>{{ $title }}</title>
-                <link>{{ route('post', ['slug' => $item->slug]) }}</link>
+                <link>{{ convertUrlPost($item->slug) }}</link>
                 <dc:creator>
                     <![CDATA[{{ env('APP_NAME') }}]]>
                 </dc:creator>
                 <pubDate>{{ $time->format('D, d M Y H:i:s O') }}</pubDate>
-                <guid isPermaLink="false">{{ route('post', ['slug' => $item->slug]) }}</guid>
+                <guid isPermaLink="false">{{ convertUrlPost($item->slug) }}</guid>
 
                 <description>
                     <![CDATA[{{ strip_tags($sapo) }}]]>

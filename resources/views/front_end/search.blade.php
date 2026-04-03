@@ -17,7 +17,7 @@
                                 </div>
                                 <div class="restaurant__desc">
                                     <h3 class="restaurant__title">
-                                        <a href="{{route('post', ['slug' => $item->slug])}}">
+                                        <a href="{{ convertUrlPost($item->slug) }}">
                                             {{ $item->title }}
                                         </a>
                                     </h3>
