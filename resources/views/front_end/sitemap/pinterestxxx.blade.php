@@ -42,12 +42,12 @@
                 <title>
                     <![CDATA[ {{ $title }} ]]>
                 </title>
-                <link>{{ route('post', ['slug' => $item->slug]) }}</link>
+                <link>{{ convertUrlPost($item->slug) }}</link>
                 <description>
                     <![CDATA[ <div><img src="{{ getImageThumb($item->thumbnail) }}" loading="lazy" decoding="async"  class="size-large wp-image-37"
                                         alt="{{ $title }}" width="1024" height="991" sizes="auto, (max-width: 1024px) 100vw, 1024px"/> </div> ]]>
                 </description>
-                <guid isPermaLink="false">{{ route('post', ['slug' => $item->slug]) }}</guid>
+                <guid isPermaLink="false">{{ convertUrlPost($item->slug) }}</guid>
                 <dc:creator>
                     <![CDATA[{{ env('APP_NAME') }}]]>
                 </dc:creator>

@@ -56,7 +56,7 @@ class PostController extends BaseAdminController
             foreach ($list as $item) {
                 $title = $item->title;
                 if ($item->is_status == 1) {
-                    $title = "<a target='_blank' href='" . route('post', ['slug' => $item->slug]) . "' title='{$item->title}'>{$item->title}</a>";
+                    $title = "<a target='_blank' href='" . convertUrlPost($item->slug) . "' title='{$item->title}'>{$item->title}</a>";
                 }
                 $row = array();
                 $row['checkID'] = $item->id;
@@ -180,7 +180,7 @@ class PostController extends BaseAdminController
         $story = $this->_repository->find($id);
         if (empty($story))
             return response()->json(['status' => 'error'], 500);
-        $story['url'] = route('post', ['slug' => $story->slug]);
+        $story['url'] = convertUrlPost($story->slug);
 
         $story['menus'] = $story->media()->where('type', 'menu')->get();
         $story['thumbnails'] = $story->media()->where('type', 'photo')->get();

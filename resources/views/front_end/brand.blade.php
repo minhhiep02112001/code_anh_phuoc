@@ -365,7 +365,7 @@
                                                 <span class="fa fa-star"></span> <span class="fa fa-star"></span>
                                                 <span class="title">({{ $item->review }} review)</span>
                                             </div>
-                                            <div class="title-brand"><a href="{{ route('post', $item->slug) }}"
+                                            <div class="title-brand"><a href="{{ convertUrlPost($item->slug) }}"
                                                     title="{{ $item->title }}">{{ $item->title }}</a></div>
                                             <ul class="info mt-3">
                                                 <li><span class="flaticon-pin"></span>{{ $item->address }}</li>

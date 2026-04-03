@@ -540,7 +540,7 @@ function convertStrPromat($post)
 Chỉ tạo HTML hợp lệ (không dùng Markdown, không cần giải thích).
 
 Yêu cầu:
-- Bọc nội dung trong thẻ `<div class="content">...</div>`
+- Bọc nội dung trong thẻ `<div class="ai-content">...</div>`
 - Chỉ sử dụng các thẻ sau: `<h2>`, `<p>`, `<ul>`, `<li>`, `<strong>`
 - Ngôn ngữ: Tiếng Anh
 - Độ dài: 800 - 1000 từ (KHÔNG dài hơn)
@@ -605,4 +605,8 @@ function getContentGemini($prompt)
         'status' => 'success',
         'content' => trim(data_get($response->json(), 'candidates.0.content.parts.0.text', ''))
     ];
+}
+
+function convertUrlPost($slug){
+    return route('post', ['slug' => $slug]).'/';
 }

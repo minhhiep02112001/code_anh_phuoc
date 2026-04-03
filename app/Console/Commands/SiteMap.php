@@ -131,7 +131,7 @@ class SiteMap extends Command
         }
         foreach ($posts as $post) {
             $time = Carbon::parse($post->publish_at);
-            $sitemap->add(Url::create(route('post', ['slug' => $post->slug]))
+            $sitemap->add(Url::create(convertUrlPost($post->slug))
                 ->setLastModificationDate($time)
                 ->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY)
                 ->setPriority(0.3));
@@ -161,7 +161,7 @@ class SiteMap extends Command
             // add home pages mặc định
             foreach ($data as $post) {
                 $time = Carbon::parse($post->publish_at);
-                $sitemap->add(Url::create(route('post', ['slug' => $post->slug]))
+                $sitemap->add(Url::create(convertUrlPost($post->slug))
                     ->setLastModificationDate( $time)
                     ->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY)
                     ->setPriority(0.8));
