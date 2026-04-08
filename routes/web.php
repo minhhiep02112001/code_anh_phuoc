@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('storage/images/{type}/{size}/{image_path}', [ResizeImageController::class, 'resize']);
 
 Route::group([
-    'prefix' => 'filemanager',
+    'prefix' => 'admin/filemanager',
     'middleware' => ['auth.admin']
 ], function () {
     Route::get('/', [\App\Http\Controllers\Admin\FileManager\LfmController::class, 'show'])->name('unisharp.lfm.show');

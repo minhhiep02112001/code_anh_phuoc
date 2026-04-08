@@ -53,7 +53,16 @@ class ConvertData extends Command
         $function = $this->option('function');
         $this->$function();
     }
-
+     // php artisan convert:data --function=convertCrawlerData
+    public function convertCrawlerData()
+    {
+        $crawlers = Crawler::whereNull('slug')->get();
+        foreach ($crawlers as $crawler) {
+            $crawler->slug = \Str::slug($crawler->key_word);
+            $crawler->save();
+            echo "\nDone {$crawler->id}";
+        }
+    }
     // php artisan convert:data --function=updatePost
     public function updatePost()
     {
@@ -87,7 +96,7 @@ class ConvertData extends Command
                 }
             }
 
-            // downloadFile 
+            // downloadFile
 
             Media::where('crawler_id', $data->id)->update([
                 'post_id' => $post->id
@@ -222,5 +231,5 @@ class ConvertData extends Command
             if (!empty($mediaThumbTemp)) $storage->delete(ltrim(str_replace('storage/', '', $mediaThumbTemp), '/'));
         }
         return;
-    } 
+    }
 }
