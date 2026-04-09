@@ -77,7 +77,7 @@ class HomeController extends Controller
             'meta_keyword' => $post->title ?? '',
             'is_robot' => $post->is_robot ?? 0,
             'image' => $post->thumbnail ?? '',
-            'url' => route('post', ['slug' => $post->slug]),
+            'url' => convertUrlPost($post->slug),
         ];
 
         $breadcrumbs = [array('url' => '', 'title' => $post->title)];
@@ -132,7 +132,7 @@ class HomeController extends Controller
             'meta_keyword' => __('config_data.pages.menus.menu') . ' ' . $post->title ?? '',
             'is_robot' => $post->is_robot ?? 0,
             'image' => $post->thumbnail ?? '',
-            'url' => route('post', ['slug' => $post->slug]),
+            'url' => convertUrlPost($post->slug),
         ];
 
         $breadcrumbs = [array('url' => '', 'title' => $post->title)];
@@ -157,7 +157,7 @@ class HomeController extends Controller
 
         $datas = [
             [
-                'url' => route('post', [$post->slug]),
+                'url' => convertUrlPost($post->slug),
                 'title' => $post->title,
                 'public_at' => $post->publish_at ?? $post->updated_at,
             ],

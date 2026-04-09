@@ -432,7 +432,7 @@
                                                         $address = explode(' ', trim($post->address));
                                                     @endphp
 
-                                                    <figure><a href="{{ route('post', ['slug' => $item->slug]) }}"
+                                                    <figure><a href="{{ convertUrlPost($item->slug) }}"
                                                             title="{{ $item->title }}"> <img
                                                                 src="{{ getImageThumb($item->thumbnail) }}"
                                                                 loading="lazy" class="img-fluid"
@@ -442,7 +442,7 @@
                                                     <div class="bus_adress">
                                                         <div style="display: flex; align-items: center;">
                                                             <h4 class="title-brand-sub"> <a
-                                                                    href="{{ route('post', ['slug' => $item->slug]) }}"
+                                                                    href="{{ convertUrlPost($item->slug) }}"
                                                                     title="{{ $item->title }}">{{ $item->title }}</a>
                                                             </h4>
                                                         </div> <span

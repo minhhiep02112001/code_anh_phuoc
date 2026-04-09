@@ -5,7 +5,7 @@
             $time = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $item->publish_at);
         @endphp
         <url>
-            <loc>{{ route('post', ['slug' => $item->slug]) }}</loc>
+            <loc>{{ convertUrlPost($item->slug) }}</loc>
             <news:news>
                 <news:publication>
                     <news:name>{{ env('APP_NAME')}}</news:name>

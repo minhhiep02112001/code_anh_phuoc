@@ -73,7 +73,7 @@
             <div class="row">
                 @foreach ($posts as $item)
                     <div class="listing-block col-lg-4 col-md-6 col-sm-12">
-                        <a href="{{ route('post', $item->slug) }}" title="{{ $item->title }}">
+                        <a href="{{ convertUrlPost($item->slug) }}" title="{{ $item->title }}">
                             <div class="inner-box">
                                 <div class="image-box">
                                     <figure class="image">
@@ -93,7 +93,7 @@
                                     <span class="title">({{ $item->google_review }} review)</span>
                                 </div>
                                 <h3 class="title-brand">
-                                    <a href="{{ route('post', $item->slug) }}"
+                                    <a href="{{ convertUrlPost($item->slug) }}"
                                         title="{{ $item->title }}">{{ $item->title }}</a>
                                 </h3>
                                 <div class="text">
