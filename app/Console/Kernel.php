@@ -16,6 +16,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('content:generate --limit=1')->everyFiveMinutes()->withoutOverlapping();
+        $schedule->command('crawler:data --function=crawler_images')->everyTenMinutes()->withoutOverlapping();
+
         $schedule->command('sitemap:create --function=sitemapPost')->everyFiveMinutes();
         $schedule->command('sitemap:create --function=sitemapPage')->everyTenMinutes();
         // $schedule->command('google_search:index --function=index_google')->daily();
