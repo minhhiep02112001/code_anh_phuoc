@@ -11,6 +11,16 @@
             margin-bottom: 50px;
         }
 
+        .listing-block-card .inner-box {
+            margin-bottom: 20px;
+        }
+
+        .listing-block-card .image img {
+            width: 100% !important;
+            height: 320px !important;
+            object-fit: cover;
+        }
+
         #banner_footer .card {
             background: #fff;
             border: 1px solid #ddd;
@@ -86,6 +96,7 @@
                             </div>
                         </div>
                     @endforeach
+
                 </div>
             </div>
         </section>
@@ -93,10 +104,22 @@
 
     @if (!empty($bannerCondi) && $bannerCondi->count() > 0)
         <div id="banner_footer" class="auto-container">
+            <div class="sec-title text-center">
+                <h2> Why choose Foodtrend.net?</h2>
+            </div>
             <div class="row">
                 @foreach ($bannerCondi as $banner)
                     <div class="col-md-6 col-sm-12 mb-3">
-                        <div class="card">
+                        <div class="card listing-block listing-block-card">
+                            <div class="inner-box">
+                                <div class="image-box">
+                                    <figure class="image">
+                                        <img src="{{ getImageThumb($banner->thumbnail) }}" alt="{{ $banner->title }}"
+                                            width="100%" lazy="loading">
+                                    </figure>
+
+                                </div>
+                            </div>
                             <h3>{{ $banner->title }}</h3>
                             <p class="text line-clamp-5">
                                 {!! $banner->description !!}
