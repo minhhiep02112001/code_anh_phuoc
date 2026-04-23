@@ -739,12 +739,12 @@ async function crawler_comment(page, record) {
 
 async function getAllCrawlerDataBase(offset = 0) {
     // const query = `SELECT * FROM ${table.crawler} WHERE is_status = 0 ORDER BY id ASC LIMIT 500 offset ${offset}`;
-    const query = `SELECT * FROM ${table.crawler} WHERE is_status = 0 ORDER BY id DESC LIMIT 500 offset ${offset}`;
+    const query = `SELECT * FROM ${table.crawler} WHERE is_status = 0 ORDER BY id ASC LIMIT 500 offset ${offset}`;
     return database.query(query);
 }
 
 (async () => {
-    var list_data = await getAllCrawlerDataBase(300);
+    var list_data = await getAllCrawlerDataBase(40);
 
     const browser = await puppeteer.launch({
         headless: false, // Hiển thị trình duyệt

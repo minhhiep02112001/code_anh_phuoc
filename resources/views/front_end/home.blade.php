@@ -5,6 +5,30 @@
 
 @extends('front_end._index')
 @section('content')
+    <style>
+        #banner_footer {
+            margin-top: 50px;
+            margin-bottom: 50px;
+        }
+
+        #banner_footer .card {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 22px;
+            padding: 24px 28px;
+            /* min-height: 200px; */
+            height: auto !important;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        }
+        #banner_footer .card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #111;
+            margin-bottom: 18px;
+            line-height: 1.2;
+        }
+    </style>
+
     <h1 style="display: none;">{{ $config_seo->meta_title ?? '' }}</h1>
     <section class="banner-section style-two">
         <div class="background-layer" style="background-image: url({{ convertPathImage($banner->thumbnail) }});"></div>
@@ -35,6 +59,38 @@
             </div>
         </div>
     </section>
+
+    @if (!empty($bannerAbout) && $bannerAbout->count() > 0)
+        <section class="explore-section">
+            <div class="auto-container">
+                <div class="sec-title text-center">
+                    <h2>Helping you find the best restaurants.</h2>
+                    <div class="text">Looking for the best restaurants nearby? Visit Here-Restaurants.com, and we'll help
+                        you.
+                    </div>
+                </div>
+                <div class="row">
+                    @foreach ($bannerAbout as $banner)
+                        <div class="col-xs-12 col-md-4">
+                            <div class="promo-item">
+                                <div class="image-promo"> <img src="{{ getImageThumb($banner->thumbnail) }}" loading="lazy"
+                                        alt="{{ $banner->title ?? '' }}"> </div>
+                                <div class="listing-block">
+                                    <div class="title-promo lower-content mt-3">
+                                        <h3 class="title-brand">
+                                            {{ $banner->title ?? '' }}
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+
+                </div>
+            </div>
+        </section>
+    @endif
+
     <section class="explore-section">
         <div class="auto-container">
             <div class="sec-title text-center">
@@ -165,5 +221,22 @@
                 </div>
             </div>
         </section>
+    @endif
+
+ @if (!empty($bannerCondi) && $bannerCondi->count() > 0)
+    <div id="banner_footer" class="auto-container">
+        <div class="row">
+           @foreach ($bannerCondi as $banner)
+                <div class="col-md-6 col-sm-12 mb-3">
+                    <div class="card">
+                        <h3>{{ $banner->title }}</h3>
+                        <p class="text line-clamp-5">
+                            {!! $banner->description !!}
+                        </p>
+                    </div>
+                </div>
+           @endforeach
+        </div>
+    </div>
     @endif
 @endsection

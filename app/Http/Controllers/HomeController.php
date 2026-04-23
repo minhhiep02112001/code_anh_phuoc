@@ -59,6 +59,8 @@ class HomeController extends Controller
         $data['banner'] = Banner::getType('home')->first();
         $data['exploreMore'] = Banner::getType('explore_more')->first();
         $data['bannerReview'] = Banner::getType('review_home');
+        $data['bannerAbout'] = Banner::getType('about_home');
+        $data['bannerCondi'] = Banner::getType('banner_condi');
 
         return view('front_end.home', $data);
     }

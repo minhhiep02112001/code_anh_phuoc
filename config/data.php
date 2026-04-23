@@ -1,6 +1,6 @@
 <?php
 return [
-    'gemini_key' => 'AIzaSyB6Tq9DtYHSdqaTlrj4JM4LepQSiJ4D7Do', 
+    'gemini_key' => 'AIzaSyB6Tq9DtYHSdqaTlrj4JM4LepQSiJ4D7Do',
     'limit_paginate_admin' => 10,
     'config_menu' => [
         'Header',
@@ -18,8 +18,10 @@ return [
     ],
     'banner_type' => [
         'home' => 'Trang chủ',
+        'about_home' => 'Banner About (trang chủ)',
         'explore_more' => 'Banner Explore More? (trang chủ)',
         'review_home' => 'Banner Love About (trang chủ)',
+        'banner_condi' => 'Banner Sau khối love about (trang chủ)',
     ],
     'setting_menu' => [
         0 => 'Menu Header',
