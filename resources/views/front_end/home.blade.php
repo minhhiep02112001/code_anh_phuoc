@@ -16,7 +16,7 @@
             border: 1px solid #ddd;
             border-radius: 22px;
             padding: 24px 28px;
-            min-height: 180px;
+            min-height: 180px!important;
             height: auto !important;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
         }
