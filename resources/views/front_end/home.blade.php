@@ -16,10 +16,11 @@
             border: 1px solid #ddd;
             border-radius: 22px;
             padding: 24px 28px;
-            min-height: 180px!important;
+            min-height: 180px !important;
             height: auto !important;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
         }
+
         #banner_footer .card h3 {
             font-size: 20px;
             font-weight: 700;
@@ -91,6 +92,22 @@
         </section>
     @endif
 
+    @if (!empty($bannerCondi) && $bannerCondi->count() > 0)
+        <div id="banner_footer" class="auto-container">
+            <div class="row">
+                @foreach ($bannerCondi as $banner)
+                    <div class="col-md-6 col-sm-12 mb-3">
+                        <div class="card">
+                            <h3>{{ $banner->title }}</h3>
+                            <p class="text line-clamp-5">
+                                {!! $banner->description !!}
+                            </p>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    @endif
     <section class="explore-section">
         <div class="auto-container">
             <div class="sec-title text-center">
@@ -199,8 +216,8 @@
                         <div class="client-thumbs-carousel owl-carousel owl-theme">
                             @foreach ($bannerReview as $banner)
                                 <div class="thumb-item">
-                                    <figure class="thumb-box"><img src="{{ getImageThumb($banner->thumbnail, 200, 200) }}"
-                                            alt="">
+                                    <figure class="thumb-box"><img
+                                            src="{{ getImageThumb($banner->thumbnail, 200, 200) }}" alt="">
                                     </figure>
                                     <div class="author-info">
                                         <div class="author-name">{{ $banner->title }}</div>
@@ -223,20 +240,4 @@
         </section>
     @endif
 
- @if (!empty($bannerCondi) && $bannerCondi->count() > 0)
-    <div id="banner_footer" class="auto-container">
-        <div class="row">
-           @foreach ($bannerCondi as $banner)
-                <div class="col-md-6 col-sm-12 mb-3">
-                    <div class="card">
-                        <h3>{{ $banner->title }}</h3>
-                        <p class="text line-clamp-5">
-                            {!! $banner->description !!}
-                        </p>
-                    </div>
-                </div>
-           @endforeach
-        </div>
-    </div>
-    @endif
 @endsection
