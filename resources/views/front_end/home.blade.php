@@ -71,7 +71,7 @@
                 </div>
                 <div class="row">
                     @foreach ($bannerAbout as $banner)
-                        <div class="col-xs-12 col-md-4">
+                        <div class="col-md-4 col-sm-12">
                             <div class="promo-item">
                                 <div class="image-promo"> <img src="{{ getImageThumb($banner->thumbnail) }}" loading="lazy"
                                         alt="{{ $banner->title ?? '' }}"> </div>
