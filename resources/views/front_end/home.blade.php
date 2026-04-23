@@ -11,7 +11,7 @@
             margin-bottom: 50px;
         }
 
-        .listing-block-card {
+        .listing-block-card .inner-box {
             margin-bottom: 20px;
         }
 
