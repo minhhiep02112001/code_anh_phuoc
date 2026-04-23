@@ -11,6 +11,10 @@
             margin-bottom: 50px;
         }
 
+        .listing-block-card {
+            margin-bottom: 20px;
+        }
+
         .listing-block-card .image img {
             width: 100% !important;
             height: 320px !important;
@@ -100,6 +104,9 @@
 
     @if (!empty($bannerCondi) && $bannerCondi->count() > 0)
         <div id="banner_footer" class="auto-container">
+            <div class="sec-title text-center">
+                <h2> Why choose Here-Restaurant.com?</h2>
+            </div>
             <div class="row">
                 @foreach ($bannerCondi as $banner)
                     <div class="col-md-6 col-sm-12 mb-3">
