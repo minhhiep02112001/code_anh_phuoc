@@ -174,7 +174,7 @@ class ConvertData extends Command
     // php artisan convert:data --function=convertSlugCrawler
     public function convertSlugCrawler()
     {
-        $allPost = Crawler::where('slug',   '')->orWhere('slug', null)->get();
+        $allPost = Crawler::where('slug', '')->orWhere('slug', null)->get();
         foreach ($allPost as $post) {
             $post->slug = \Str::slug($post->key_word);
             $post->save();

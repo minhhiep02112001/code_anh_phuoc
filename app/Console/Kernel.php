@@ -20,6 +20,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('sitemap:create --function=sitemapPage')->everyTenMinutes();
         // $schedule->command('google_search:index --function=index_google')->daily();
         $schedule->command('convert:data --function=updatePost')->everyTenMinutes();
+        $schedule->command('crawler:data --function=crawler_images')->everyTenMinutes();
         $schedule->command('sitemap:create --function=sitemap')->daily();
 
 

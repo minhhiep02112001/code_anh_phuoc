@@ -1,18 +1,18 @@
 const puppeteer = require("puppeteer-extra");
 const database = require("./database");
 const folder_path = "/storage/photos/nails";
-const WAIT_TIME_SHORT = 1000; 
+const WAIT_TIME_SHORT = 1000;
 const WAIT_TIME_LONG = 3000;
 const slugify = require("slugify");
 const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 puppeteer.use(StealthPlugin());
 
 const crawlerData = {
-    menu: false,
-    infor: false,
+    menu: true,
+    infor: true,
     images: true,
-    about: false,
-    comment: false,
+    about: true,
+    comment: true,
 };
 
 const table = {
@@ -38,32 +38,79 @@ function convertToSlug(text) {
 
 const delay = (ms) => new Promise((r) => setTimeout(r, ms));
 
-async function setupPage(page) {
-    await page.setExtraHTTPHeaders({
-        "Accept-Language": "en-US,en;q=0.9",
-    });
-    await page.setUserAgent(
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120 Safari/537.36"
-    );
-}
-
-async function safeClick(page, selector, timeout = 3000) {
+async function waitForSelectorSafe(
+    page,
+    selector,
+    timeout = 3000,
+    options = {},
+) {
     try {
-        await page.waitForSelector(selector, { timeout });
-        await page.click(selector);
+        await page.waitForSelector(selector, { timeout, ...options });
         return true;
     } catch {
         return false;
     }
 }
+
+async function setupPage(page) {
+    await page.setExtraHTTPHeaders({
+        "Accept-Language": "en-US,en;q=0.9",
+    });
+    await page.setUserAgent(
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120 Safari/537.36",
+    );
+}
+
+async function gotoAndWaitForPageReady(page, url) {
+    await page.goto(url, {
+        waitUntil: ["domcontentloaded", "load", "networkidle2"],
+        timeout: 60000,
+    });
+
+    await page.waitForFunction(
+        () => {
+            if (document.readyState !== "complete") return false;
+
+            const styleLinksLoaded = Array.from(
+                document.querySelectorAll('link[rel="stylesheet"]'),
+            ).every((link) => {
+                if (link.disabled) return true;
+                try {
+                    return !!link.sheet;
+                } catch {
+                    return true;
+                }
+            });
+
+            return styleLinksLoaded;
+        },
+        { timeout: 15000, polling: 250 },
+    );
+}
+
+async function safeClick(page, selector, timeout = 3000, retries = 3) {
+    for (let attempt = 1; attempt <= retries; attempt++) {
+        try {
+            await page.waitForSelector(selector, { timeout, visible: true });
+            await page.click(selector);
+            await delay(1000);
+            return true;
+        } catch {
+            if (attempt === retries) return false;
+            await delay(500);
+        }
+    }
+    return false;
+}
 async function clickArrayFindText(
     page,
     selector,
     textClick = "",
-    timeout = 3000
+    timeout = 3000,
 ) {
     // 1️⃣ Chờ selector xuất hiện
-    await page.waitForSelector(selector, { timeout }).catch(() => false);
+    const found = await waitForSelectorSafe(page, selector, timeout);
+    if (!found) return false;
     // 2️⃣ Truyền biến vào evaluate
     return page.evaluate(
         (selector, textClick) => {
@@ -74,7 +121,7 @@ async function clickArrayFindText(
                 return true;
             }
             const el = elements.find((e) =>
-                e.textContent?.trim().toLowerCase().includes(targetText)
+                e.textContent?.trim().toLowerCase().includes(targetText),
             );
             if (el) {
                 el.scrollIntoView({ block: "center", behavior: "instant" });
@@ -84,7 +131,7 @@ async function clickArrayFindText(
             return false;
         },
         selector,
-        textClick
+        textClick,
     );
 }
 
@@ -110,14 +157,12 @@ async function crawlerGoogleIframe(browser, record) {
         const page = await browser.newPage();
         try {
             await setupPage(page);
-            await page.goto(record.link_google_map);
+            await gotoAndWaitForPageReady(page, record.link_google_map);
             await simulateHumanBehavior(page);
-            await delay(100);
-            await page.goto(record.link_google_map);
-            await simulateHumanBehavior(page);
-            await delay(1000);
+            await delay(2000);
             let data = {};
             if (crawlerData.infor) data = await extractMainInfo(page);
+            if(!record.slug) data.slug = record.slug = convertToSlug(record.title);
             await database.update_crawler_map(record.id, data, 1);
             if (crawlerData.comment) await crawler_comment(page, record);
             if (crawlerData.menu) await crawlerMenu(page, record);
@@ -136,18 +181,20 @@ async function crawlerGoogleIframe(browser, record) {
 async function crawlIframeMap(page) {
     const clicked = await safeClick(page, 'button[data-value="Share"]');
     if (!clicked) return "";
-    await page
-        .waitForSelector('div[jsaction="focus:modal.focus.top"]', {
-            timeout: 5000,
-        })
-        .catch(() => null);
-    await safeClick(page, 'button[data-tooltip="Embed a map"]');
-    await delay(500);
-    await page
-        .waitForSelector('input[jsaction="pane.embedMap.clickInput"]', {
-            timeout: 5000,
-        })
-        .catch(() => null);
+    await waitForSelectorSafe(page, 'div[jsaction="focus:modal.focus.top"]', 5000);
+    await safeClick(
+        page,
+        'button[data-tooltip-only-on-overflow][data-tooltip="Embed a map"]',
+        2000,
+        3,
+    );
+
+    await waitForSelectorSafe(
+        page,
+        'input[jsaction="pane.embedMap.clickInput"]',
+        5000,
+    );
+
     let iframe = page.evaluate(() => {
         return (
             document
@@ -155,6 +202,7 @@ async function crawlIframeMap(page) {
                 ?.getAttribute("value") || ""
         );
     });
+
     await safeClick(page, 'button[jsaction="modal.close"]');
     return iframe;
 }
@@ -168,12 +216,12 @@ async function extractMainInfo(page) {
         var h1 = document.querySelector("h1");
         var reviewText =
             h1?.parentNode?.parentNode?.textContent?.match(
-                /\(([^)]+)\)/
+                /\(([^)]+)\)/,
             )?.[1] || "";
 
         let time_open = "";
         const openHoursEl = document.querySelector(
-            'div[data-hide-tooltip-on-mouse-move="true"][role="button"]'
+            'div[data-hide-tooltip-on-mouse-move="true"][role="button"]',
         );
 
         if (openHoursEl) {
@@ -186,7 +234,7 @@ async function extractMainInfo(page) {
             google_review: reviewText,
             phone: getAttr(
                 'button[data-tooltip="Copy phone number"]',
-                "aria-label"
+                "aria-label",
             ),
             address: getAttr('button[data-item-id="address"]', "aria-label"),
             thumbnail:
@@ -199,6 +247,7 @@ async function extractMainInfo(page) {
 
     // 1️⃣ Crawl iframe map TRƯỚC (NodeJS)
     const iframe_map = await crawlIframeMap(page);
+    console.log("IFRAME: ", iframe_map);
 
     // 3️⃣ Escape + normalize tại NodeJS
     return {
@@ -217,7 +266,7 @@ async function crawlerMenu(page, record) {
     let check = await clickArrayFindText(
         page,
         'div[role="tablist"] button[role="tab"]',
-        "menu"
+        "menu",
     );
     if (!check) return;
     await delay(1000);
@@ -236,28 +285,26 @@ async function crawlerMenu(page, record) {
         for (const btn of buttons) {
             await btn.click();
             const title = await btn.evaluate((el) =>
-                (el.textContent || "").trim()
+                (el.textContent || "").trim(),
             );
             if (title.toLowerCase() == "overview") continue;
             // Scroll + click
             await btn.evaluate((el) =>
-                el.scrollIntoView({ block: "center", inline: "center" })
+                el.scrollIntoView({ block: "center", inline: "center" }),
             );
             await btn.click({ delay: 10 });
             // Đợi menu load
-            try {
-                await page.waitForSelector(
-                    'div[aria-label="Menu"][role="region"]',
-                    { timeout: 1000 }
-                );
-            } catch (e) {
-                continue;
-            }
+            const menuLoaded = await waitForSelectorSafe(
+                page,
+                'div[aria-label="Menu"][role="region"]',
+                1000,
+            );
+            if (!menuLoaded) continue;
             await page.waitForTimeout(100);
             // Crawl menu items
             const items = await page.evaluate(() => {
                 const domProduct = document.querySelector(
-                    'div[aria-label="Menu"][role="region"]'
+                    'div[aria-label="Menu"][role="region"]',
                 );
                 if (!domProduct) return [];
                 return [...domProduct.children]
@@ -279,7 +326,7 @@ async function crawlerMenu(page, record) {
                 let insertParentSql = `INSERT INTO ${
                     table.product
                 } (title, slug, parent_id, relate_id, crawler_id) VALUES ('${convertStr(
-                    title
+                    title,
                 )}', '${convertStr(parentSlug)}', 0, ${relate_id}, ${
                     record.id
                 })`;
@@ -288,12 +335,12 @@ async function crawlerMenu(page, record) {
                 // 👉 Insert children
                 for (let child of items) {
                     let childSlug = convertStr(
-                        slugify(child.name, { lower: true })
+                        slugify(child.name, { lower: true }),
                     );
                     let insertChildSql = `INSERT INTO ${
                         table.product
                     } (title, slug, price , parent_id, relate_id, crawler_id) VALUES ('${convertStr(
-                        child.name
+                        child.name,
                     )}', '${childSlug}', '${
                         child.price
                     }', ${parentId},  ${relate_id}, ${record.id})`;
@@ -305,7 +352,7 @@ async function crawlerMenu(page, record) {
         console.log("✅ Crawled Menus: " + count + " record");
     } else {
         console.log(
-            "✅ Success Menus Exists: " + _count[0]["count('id')"] + " record"
+            "✅ Success Menus Exists: " + _count[0]["count('id')"] + " record",
         );
     }
     return await safeClick(page, 'button[aria-label="Back"]');
@@ -316,7 +363,7 @@ async function crawler_about(page, record) {
     let check = await clickArrayFindText(
         page,
         'div[role="tablist"] button[role="tab"]',
-        "about"
+        "about",
     );
     let _select = `select count('id') from ${table.about} where crawler_id = ${record.id}`;
     let _count = await database.execute(_select);
@@ -325,7 +372,7 @@ async function crawler_about(page, record) {
             const list = [];
             // Cuộn nếu cần
             const targetElement = document.querySelector(
-                'div[role="region"][tabindex="-1"]'
+                'div[role="region"][tabindex="-1"]',
             );
             if (targetElement) {
                 let distance = 5;
@@ -357,7 +404,7 @@ async function crawler_about(page, record) {
         if (abouts.length > 0) {
             const relate_id = record.relate_id ?? 0;
             await database.execute(
-                `Delete from ${table.about} where crawler_id = ${record.id}`
+                `Delete from ${table.about} where crawler_id = ${record.id}`,
             );
             for (const group of abouts) {
                 const parentTitle = group.parent;
@@ -368,8 +415,8 @@ async function crawler_about(page, record) {
                   table.about
               } (title, slug, parent_id, relate_id, crawler_id)
               VALUES ('${convertStr(parentTitle)}', '${convertStr(
-                    parentSlug
-                )}', 0, ${relate_id}, ${record.id})
+                  parentSlug,
+              )}', 0, ${relate_id}, ${record.id})
             `;
                 const parentResult = await database.execute(insertParentSql);
                 const parentId = parentResult.insertId;
@@ -377,14 +424,14 @@ async function crawler_about(page, record) {
                 // 👉 Insert children
                 for (const childTitle of group.childs) {
                     const childSlug = convertStr(
-                        slugify(childTitle, { lower: true })
+                        slugify(childTitle, { lower: true }),
                     );
                     const insertChildSql = `
                 INSERT INTO ${
                     table.about
                 } (title, slug, parent_id, relate_id, crawler_id)
                 VALUES ('${convertStr(
-                    childTitle
+                    childTitle,
                 )}', '${childSlug}', ${parentId},  ${relate_id}, ${record.id})
               `;
                     await database.execute(insertChildSql);
@@ -394,7 +441,7 @@ async function crawler_about(page, record) {
         }
     } else {
         console.log(
-            "✅ Success About Exists: " + _count[0]["count('id')"] + " record"
+            "✅ Success About Exists: " + _count[0]["count('id')"] + " record",
         );
     }
     return await safeClick(page, 'button[aria-label="Back"]');
@@ -404,7 +451,7 @@ async function crawler_images(page, record) {
     await delay(1000);
     const result = await clickArrayFindText(
         page,
-        'button[jslog][jsaction*="heroHeaderImage"]'
+        'button[jslog][jsaction*="heroHeaderImage"]',
     );
     const maxImage = 20;
     if (!result) return;
@@ -427,7 +474,7 @@ async function crawler_images(page, record) {
 
         const pickUrl = (a) => {
             const el = a.querySelector(
-                'div[role="img"] div[style*="background-image"]'
+                'div[role="img"] div[style*="background-image"]',
             )?.style?.backgroundImage;
             const m = el && el.match(/url\((['"]?)(.*?)\1\)/i);
             return m?.[2] || null;
@@ -474,12 +521,12 @@ async function crawler_images(page, record) {
         }
 
         return out.slice(0, maxImage);
-    }, maxImage); 
-     
+    }, maxImage);
+
     let check = await clickArrayFindText(
         page,
         'div[role="tablist"] button[role="tab"]',
-        "menu"
+        "menu",
     );
     // get image menus
     let menus = [];
@@ -506,7 +553,7 @@ async function crawler_images(page, record) {
 
             const pickUrl = (a) => {
                 const bg = a.querySelector(
-                    'div[role="img"] div[style*="background-image"]'
+                    'div[role="img"] div[style*="background-image"]',
                 )?.style?.backgroundImage;
                 const m = bg && bg.match(/url\((['"]?)(.*?)\1\)/i);
                 return m?.[2] || null;
@@ -573,7 +620,7 @@ async function crawler_comment(page, record) {
         const opened = await clickArrayFindText(
             page,
             'div[role="tablist"] button[role="tab"]',
-            "reviews"
+            "reviews",
         );
         if (!opened) return;
         await delay(500);
@@ -591,7 +638,7 @@ async function crawler_comment(page, record) {
                         .trim();
 
                 const container = document.querySelector(
-                    'div[role="main"] div[tabindex="-1"]'
+                    'div[role="main"] div[tabindex="-1"]',
                 );
                 if (!container) return [];
 
@@ -614,15 +661,15 @@ async function crawler_comment(page, record) {
                     await sleep(100);
 
                     const reviewParents = document.querySelectorAll(
-                        "div[data-review-id][jsaction]"
+                        "div[data-review-id][jsaction]",
                     );
                     for (const parent of reviewParents) {
                         const nameBtn = parent.querySelector(
-                            'button[jsaction*="review.reviewerLink"]'
+                            'button[jsaction*="review.reviewerLink"]',
                         );
 
                         const contentEl = parent.querySelector(
-                            'div[tabindex="-1"][lang]'
+                            'div[tabindex="-1"][lang]',
                         );
 
                         const fullname =
@@ -635,7 +682,7 @@ async function crawler_comment(page, record) {
 
                         // 🔑 KEY CHỐNG TRÙNG (KHÔNG DÙNG review_id)
                         const _key = normalize(
-                            fullname + " " + content.slice(0, 100)
+                            fullname + " " + content.slice(0, 100),
                         );
 
                         if (!_key || seen.has(_key)) continue;
@@ -671,7 +718,7 @@ async function crawler_comment(page, record) {
                 const sql = `INSERT IGNORE INTO ${
                     table.comment
                 } (fullname, content, is_status, thumbnail, data_id, crawler_id) VALUES ${values.join(
-                    ","
+                    ",",
                 )} `;
                 await database.execute(sql);
             }
@@ -681,7 +728,7 @@ async function crawler_comment(page, record) {
             console.log(
                 "✅ Success Reviews Exists: " +
                     _count[0]["count('id')"] +
-                    " record"
+                    " record",
             );
         }
         await safeClick(page, 'button[aria-label="Back"]');
@@ -691,13 +738,13 @@ async function crawler_comment(page, record) {
 }
 
 async function getAllCrawlerDataBase(offset = 0) {
-    // const query = `SELECT * FROM ${table.crawler} WHERE id = 139203 ORDER BY id ASC LIMIT 500 offset ${offset}`;
+    // const query = `SELECT * FROM ${table.crawler} WHERE is_status = 0 ORDER BY id ASC LIMIT 500 offset ${offset}`;
     const query = `SELECT * FROM ${table.crawler} WHERE is_status = 0 ORDER BY id DESC LIMIT 500 offset ${offset}`;
     return database.query(query);
 }
 
 (async () => {
-    var list_data = await getAllCrawlerDataBase(0);
+    var list_data = await getAllCrawlerDataBase(300);
 
     const browser = await puppeteer.launch({
         headless: false, // Hiển thị trình duyệt
@@ -708,7 +755,7 @@ async function getAllCrawlerDataBase(offset = 0) {
     for (let element of list_data) {
         try {
             console.log("\n ===Start key: " + element.key_word);
-            await crawlerGoogleIframe(browser, element); 
+            await crawlerGoogleIframe(browser, element);
             console.log("Crawler_success key: " + element.key_word);
         } catch (e) {
             console.error("Crawler_error: " + element.id + e);
@@ -743,6 +790,6 @@ async function downloadFile(results = [], _type = "photo", record, max = 10) {
     VALUES ${values.join(", ")};`;
     await database.execute(_insert);
     console.log(
-        `==> Insert success [${_type}] image: ${values.length} crawler_id = ${record.id}`
+        `==> Insert success [${_type}] image: ${values.length} crawler_id = ${record.id}`,
     );
 }
