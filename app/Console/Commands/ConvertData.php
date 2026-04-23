@@ -87,7 +87,7 @@ class ConvertData extends Command
                 }
             }
 
-            // downloadFile 
+            // downloadFile
 
             Media::where('crawler_id', $data->id)->update([
                 'post_id' => $post->id
@@ -171,6 +171,18 @@ class ConvertData extends Command
         }
     }
 
+    // php artisan convert:data --function=convertSlugCrawler
+    public function convertSlugCrawler()
+    {
+        $allPost = Crawler::where('slug',   '')->orWhere('slug', null)->get();
+        foreach ($allPost as $post) {
+            $post->slug = \Str::slug($post->key_word);
+            $post->save();
+            echo "\nDone {$post->key_word}";
+        }
+    }
+
+
     // php artisan convert:data --function=convertComment
     public function convertComment()
     {
@@ -222,5 +234,5 @@ class ConvertData extends Command
             if (!empty($mediaThumbTemp)) $storage->delete(ltrim(str_replace('storage/', '', $mediaThumbTemp), '/'));
         }
         return;
-    } 
+    }
 }
