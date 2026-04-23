@@ -98,6 +98,9 @@
                 @foreach ($bannerCondi as $banner)
                     <div class="col-md-6 col-sm-12 mb-3">
                         <div class="card">
+                            <figure class="image">
+                                <img src="{{ getImageThumb($banner->thumbnail) }}" alt="{{ $banner->title }}" lazy="loading">
+                            </figure>
                             <h3>{{ $banner->title }}</h3>
                             <p class="text line-clamp-5">
                                 {!! $banner->description !!}
