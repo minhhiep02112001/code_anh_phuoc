@@ -10,11 +10,13 @@
             margin-top: 50px;
             margin-bottom: 50px;
         }
-.listing-block-card .image img {
 
-    height: 320px !important;
-    object-fit: cover;
-}
+        .listing-block-card .image img {
+            width: 100% !important;
+            height: 320px !important;
+            object-fit: cover;
+        }
+
         #banner_footer .card {
             background: #fff;
             border: 1px solid #ddd;
