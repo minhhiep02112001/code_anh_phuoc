@@ -80,28 +80,25 @@
 
                 <ul class="rs make-right fs-16 tt-u top-nav-l">
                     <li>
-                        <a href="#about"
-                            class="navigation__item">{{ __('config_data.pages.menus.about') }}</a>
+                        <a href="#about" class="navigation__item">{{ __('config_data.pages.menus.about') }}</a>
                     </li>
+                    @if ($comments->count() > 0)
+                        <li>
+
+                            <a href="#review" class="navigation__item">{{ __('config_data.pages.menus.review') }}</a>
+                        </li>
+                    @endif
                     <li>
                         <a href="#menu"
                             class="navigation__item navigation__item_active">{{ __('config_data.pages.menus.menu') }}</a>
                     </li>
                     <li>
-                        <a href="#photo"
-                            class="navigation__item">{{ __('config_data.pages.menus.photo') }}</a>
+                        <a href="#photo" class="navigation__item">{{ __('config_data.pages.menus.photo') }}</a>
                     </li>
-                    @if ($comments->count() > 0)
-                        <li>
 
-                            <a href="#review"
-                                class="navigation__item">{{ __('config_data.pages.menus.review') }}</a>
-                        </li>
-                    @endif
                     <li>
 
-                        <a href="#information"
-                            class="navigation__item">{{ __('config_data.pages.menus.infor') }}</a>
+                        <a href="#information" class="navigation__item">{{ __('config_data.pages.menus.infor') }}</a>
                     </li>
                 </ul>
             </div>
@@ -123,9 +120,16 @@
                         <ul class="rs fs-25 fw-rb">
 
                             <li class="overlay-menu-itm border-top">
-                                <a href="#about"
-                                    class="navigation__item">{{ __('config_data.pages.menus.about') }}</a>
+                                <a href="#about" class="navigation__item">{{ __('config_data.pages.menus.about') }}</a>
                             </li>
+
+                            @if ($comments->count() > 0)
+                                <li class="overlay-menu-itm border-top">
+
+                                    <a href="#review"
+                                        class="navigation__item">{{ __('config_data.pages.menus.review') }}</a>
+                                </li>
+                            @endif
                             <li class="overlay-menu-itm border-top">
                                 <a href="#menu"
                                     class="navigation__item navigation__item_active">{{ __('config_data.pages.menus.menu') }}</a>
@@ -136,13 +140,6 @@
                                     class="navigation__item">{{ __('config_data.pages.menus.photo') }}</a>
                             </li>
 
-                            @if ($comments->count() > 0)
-                                <li class="overlay-menu-itm border-top">
-
-                                    <a href="#review"
-                                        class="navigation__item">{{ __('config_data.pages.menus.review') }}</a>
-                                </li>
-                            @endif
 
                             <li class="overlay-menu-itm border-top">
 
@@ -253,66 +250,6 @@
                 </div>
             </div>
 
-
-            @if (!empty($menus))
-                <div id="menu" class="box-container max-width-container content-asides-offset" itemscope=""
-                    itemtype="http://schema.org/ImageGallery" data-pswp-uid="1">
-
-                    <div class="section__item" data-v-f6930fca>
-                        <h2 class="about-restaurant__title-section" data-v-f6930fca>
-                            {{ __('config_data.pages.menus.menu') }} {{ $post->title }}</h2>
-                    </div>
-
-                    <div class=" hot-box-wrap clearfix">
-                        <ul class="slide-menu">
-                            @foreach ($menus as $k => $image)
-                                <li>
-                                    <div class="item-slide">
-                                        <div class="item-banner">
-                                            {!! getThumbnail($image, 300, 400, 'img-item-slide', "{$post->title} menu {$k}") !!}
-                                        </div>
-                                    </div>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
-                </div>
-            @endif
-
-            @if (!empty($_medias))
-
-                <div id="photo" class="box-container max-width-container content-asides-offset" itemscope=""
-                    itemtype="http://schema.org/ImageGallery" data-pswp-uid="1">
-                    <div class="section__item" data-v-f6930fca>
-                        <h2 class="about-restaurant__title-section" data-v-f6930fca>
-                            {{ __('config_data.pages.menus.photo') }} {{ $post->title }}</h2>
-                    </div>
-
-                    <div class=" hot-box-wrap clearfix">
-                        <div class="box-list-photo">
-                            <figure class="list-photos">
-                                @php
-                                    $i = 0;
-                                @endphp
-                                @foreach ($_medias as $k => $image)
-                                    @php
-                                        $i++;
-                                        if ($i > 6) {
-                                            break;
-                                        }
-                                    @endphp
-                                    <div class="item-img">
-                                        {!! getThumbnail($image, 400, 300, 'image-photo', "{$post->title} image {$k}") !!}
-                                    </div>
-                                @endforeach
-
-                            </figure>
-                        </div>
-                    </div>
-                </div>
-            @endif
-
-
             @if ($comments->count() > 0)
                 <div class="review box-container" id="reviews">
                     <div class="section__item" data-v-f6930fca>
@@ -399,6 +336,63 @@
                 </div>
             @endif
 
+            @if (!empty($menus))
+                <div id="menu" class="box-container max-width-container content-asides-offset" itemscope=""
+                    itemtype="http://schema.org/ImageGallery" data-pswp-uid="1">
+
+                    <div class="section__item" data-v-f6930fca>
+                        <h2 class="about-restaurant__title-section" data-v-f6930fca>
+                            {{ __('config_data.pages.menus.menu') }} {{ $post->title }}</h2>
+                    </div>
+
+                    <div class=" hot-box-wrap clearfix">
+                        <ul class="slide-menu">
+                            @foreach ($menus as $k => $image)
+                                <li>
+                                    <div class="item-slide">
+                                        <div class="item-banner">
+                                            {!! getThumbnail($image, 300, 400, 'img-item-slide', "{$post->title} menu {$k}") !!}
+                                        </div>
+                                    </div>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            @endif
+
+            @if (!empty($_medias))
+
+                <div id="photo" class="box-container max-width-container content-asides-offset" itemscope=""
+                    itemtype="http://schema.org/ImageGallery" data-pswp-uid="1">
+                    <div class="section__item" data-v-f6930fca>
+                        <h2 class="about-restaurant__title-section" data-v-f6930fca>
+                            {{ __('config_data.pages.menus.photo') }} {{ $post->title }}</h2>
+                    </div>
+
+                    <div class=" hot-box-wrap clearfix">
+                        <div class="box-list-photo">
+                            <figure class="list-photos">
+                                @php
+                                    $i = 0;
+                                @endphp
+                                @foreach ($_medias as $k => $image)
+                                    @php
+                                        $i++;
+                                        if ($i > 6) {
+                                            break;
+                                        }
+                                    @endphp
+                                    <div class="item-img">
+                                        {!! getThumbnail($image, 400, 300, 'image-photo', "{$post->title} image {$k}") !!}
+                                    </div>
+                                @endforeach
+
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+            @endif
 
             <div id="information" class="box-container">
                 <div class="  hot-box-wrap clearfix ">
@@ -573,14 +567,14 @@
                     breakpoint: 1024,
                     settings: {
                         slidesToShow: 3, // Hiển thị 3 hình trên 1 màn
-                        slidesToScroll: 3, // Lướt 3 hình mỗi lần 
+                        slidesToScroll: 3, // Lướt 3 hình mỗi lần
                     }
                 },
                 {
                     breakpoint: 600,
                     settings: {
                         slidesToShow: 2, // Hiển thị 3 hình trên 1 màn
-                        slidesToScroll: 2, // Lướt 3 hình mỗi lần 
+                        slidesToScroll: 2, // Lướt 3 hình mỗi lần
                     }
                 }
             ]
