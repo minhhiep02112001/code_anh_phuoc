@@ -71,9 +71,9 @@
                 <div class="menu-item header-fixed">
                     <ul>
                         <li class="show"><a class="active" href="#overview" title="Overview">Overview</a></li>
-                        <li class="show"><a href="#photos" title="Photos">Photos</a></li>
-                        <li class="show"><a href="#menu" title="Menu">Menu</a></li>
                         <li class="show"><a href="#reviews" title="Reviews">Reviews</a></li>
+                        <li class="show"><a href="#menu" title="Menu">Menu</a></li>
+                        <li class="show"><a href="#photos" title="Photos">Photos</a></li>
                         <li class="show"><a href="#location" title="Location">Location</a></li>
                     </ul>
                 </div>
@@ -138,6 +138,46 @@
                                 <button class="see-more-btn">See more</button>
                             </div>
                         @endif
+
+                        @if (!empty($comments))
+                            <div class="comments-widget ls-widget" id="reviews">
+                                <div class="widget-title">
+                                    <h2><span class="icon flaticon-consulting-message"></span> Reviews {{ $post->title }}
+                                    </h2>
+                                </div>
+                                <div class="widget-content listReview">
+
+                                    @foreach (collect($comments)->values() as $k => $item)
+                                        <div class="comment {{ $k < 5 ? 'show' : 'hide' }}"
+                                            data-index="{{ $k }}">
+                                            <div class="user-name"> {{ $item->fullname }}</div>
+                                            <div class="comment-info listing-block-two">
+                                                <ul class="rating">
+                                                    <span class="fa fa-star"></span>
+                                                    <span class="fa fa-star"></span>
+                                                    <span class="fa fa-star"></span>
+                                                    <span class="fa fa-star"></span>
+                                                    <span class="fa fa-star"></span>
+                                                </ul>
+                                                <div class="comment-time">
+                                                    {{ format_date($item->created_at, 'd-m-Y') }}
+                                                </div>
+                                            </div>
+                                            <div class="text">
+                                                {!! $item->content ?? '' !!}
+                                            </div>
+                                        </div>
+                                    @endforeach
+
+                                </div>
+                                @if (collect($comments)->count() > 0)
+                                    <button class="loadmoreReview">See more reviews</button>
+                                @endif
+                            </div>
+                        @endif
+
+
+
                         @if (!empty($menus) || !empty($products))
                             <div class="gallery-widget   ls-widget" id="menus">
                                 <div class="widget-title">
@@ -149,11 +189,14 @@
                                             @foreach ($menus as $k => $item)
                                                 <li class="gallery-item photo-item-{{ $indexImg++ }}">
                                                     <div class="inner-box">
-                                                        <figure class="image"> <img class="" src="{{ getImageThumb($item->thumbnail) }}"
+                                                        <figure class="image"> <img class=""
+                                                                src="{{ getImageThumb($item->thumbnail) }}"
                                                                 alt="Menu {{ $post->title }} - {{ $k }}"
-                                                                data-src="{{ getImageThumb($item->thumbnail) }}" lazy="loading">
+                                                                data-src="{{ getImageThumb($item->thumbnail) }}"
+                                                                lazy="loading">
                                                         </figure>
-                                                        <div class="overlay"> <a href="{{ getImageThumb($item->thumbnail) }}"
+                                                        <div class="overlay"> <a
+                                                                href="{{ getImageThumb($item->thumbnail) }}"
                                                                 class="lightbox-image" data-fancybox="ls-gallery-photos"
                                                                 title="Menu {{ $post->title }} - {{ $k }}"><span
                                                                     class="icon flaticon-magnifying-glass"></span></a>
@@ -193,7 +236,6 @@
                             </div>
                         @endif
 
-
                         @if (!empty($photos))
                             <div class="gallery-widget ls-widget" id="photos">
                                 <div class="widget-title">
@@ -204,9 +246,11 @@
                                         @foreach ($photos as $k => $item)
                                             <li class="gallery-item photo-item-{{ $indexImg++ }}">
                                                 <div class="inner-box">
-                                                    <figure class="image"> <img class="" src="{{ getImageThumb($item->thumbnail) }}"
+                                                    <figure class="image"> <img class=""
+                                                            src="{{ getImageThumb($item->thumbnail) }}"
                                                             alt="Photo {{ $post->title }} - {{ $k }}"
-                                                            data-src="{{ getImageThumb($item->thumbnail) }}" lazy="loading">
+                                                            data-src="{{ getImageThumb($item->thumbnail) }}"
+                                                            lazy="loading">
                                                     </figure>
                                                     <div class="overlay"> <a href="{{ getImageThumb($item->thumbnail) }}"
                                                             class="lightbox-image" data-fancybox="ls-gallery-photos"
@@ -220,41 +264,6 @@
                             </div>
                         @endif
 
-                        @if (!empty($comments))
-                            <div class="comments-widget ls-widget" id="reviews">
-                                <div class="widget-title">
-                                    <h2><span class="icon flaticon-consulting-message"></span> Reviews {{ $post->title }}
-                                    </h2>
-                                </div>
-                                <div class="widget-content listReview">
-
-                                    @foreach (collect($comments)->values() as $k => $item)
-                                        <div class="comment {{ $k < 5 ? 'show' : 'hide' }}" data-index="{{  $k }}">
-                                            <div class="user-name"> {{ $item->fullname }}</div>
-                                            <div class="comment-info listing-block-two">
-                                                <ul class="rating">
-                                                    <span class="fa fa-star"></span>
-                                                    <span class="fa fa-star"></span>
-                                                    <span class="fa fa-star"></span>
-                                                    <span class="fa fa-star"></span>
-                                                    <span class="fa fa-star"></span>
-                                                </ul>
-                                                <div class="comment-time">
-                                                    {{ format_date($item->created_at, 'd-m-Y') }}
-                                                </div>
-                                            </div>
-                                            <div class="text">
-                                                {!! $item->content ?? '' !!}
-                                            </div>
-                                        </div>
-                                    @endforeach
-
-                                </div>
-                                @if (collect($comments)->count() > 0)
-                                    <button class="loadmoreReview">See more reviews</button>
-                                @endif
-                            </div>
-                        @endif
                         <div class="comments-form-widget ls-widget">
                             <div class="widget-title">
                                 <h4><span class="icon flaticon-consulting-message"></span> Add a Review</h4>
@@ -266,11 +275,12 @@
                                         <div class="sub-rating-title">Space</div>
                                         <div class="sub-rating-stars">
                                             <div class="clearfix"></div>
-                                            <form class="leave-rating"> <input type="radio" name="rating" id="rating-31"
-                                                    value="1"> <label for="rating-31" class="fa fa-star"></label> <input
-                                                    type="radio" name="rating" id="rating-32" value="2"> <label
-                                                    for="rating-32" class="fa fa-star"></label> <input type="radio"
-                                                    name="rating" id="rating-33" value="3"> <label for="rating-33"
+                                            <form class="leave-rating"> <input type="radio" name="rating"
+                                                    id="rating-31" value="1"> <label for="rating-31"
+                                                    class="fa fa-star"></label> <input type="radio" name="rating"
+                                                    id="rating-32" value="2"> <label for="rating-32"
+                                                    class="fa fa-star"></label> <input type="radio" name="rating"
+                                                    id="rating-33" value="3"> <label for="rating-33"
                                                     class="fa fa-star"></label> <input type="radio" name="rating"
                                                     id="rating-34" value="4"> <label for="rating-34"
                                                     class="fa fa-star"></label> <input type="radio" name="rating"
@@ -289,8 +299,7 @@
                                             <div class="col-lg-6 col-md-12 col-sm-12 form-group"> <input type="email"
                                                     name="email" placeholder="Email" required=""> </div>
                                             <div class="col-lg-12 col-md-12 col-sm-12 form-group">
-                                                <textarea class="darma" name="message"
-                                                    placeholder="Write Comment"></textarea>
+                                                <textarea class="darma" name="message" placeholder="Write Comment"></textarea>
                                             </div>
                                             <div class="col-lg-12 col-md-12 col-sm-12 form-group"> <button
                                                     class="theme-btn btn-style-two" type="submit" name="submit-form"
@@ -307,8 +316,8 @@
                     <aside class="sidebar">
                         <div class="timing-widget ls-widget" id="hours">
                             <div class="widget-title">
-                                <h2><span class="icon flaticon-menu"></span>Opening Hours</h2> <span class="status"><strong
-                                        class="time-status text-danger"
+                                <h2><span class="icon flaticon-menu"></span>Opening Hours</h2> <span
+                                    class="status"><strong class="time-status text-danger"
                                         data-time="10:00 AM - 11:00 PM">Closed</strong></span>
                             </div>
                             <div class="widget-content">
@@ -348,37 +357,37 @@
 
                         @foreach ($relates as $item)
                             <div class="listing-block-two">
-                                   <div class="inner-box">
-                                        <div class="image-box">
-                                            <figure class="image">
-                                                <img src="{{ getImageThumb($item->thumbnail) }}" alt="{{ $item->title }}"
-                                                    lazy="loading">
-                                            </figure>
-                                            <div class="content">
-                                                <div class="rating"> <span class="fa fa-star"></span> <span
-                                                        class="fa fa-star"></span> <span class="fa fa-star"></span>
-                                                    <span class="fa fa-star"></span> <span class="fa fa-star"></span>
-                                                    <span class="title">({{ $item->review }} review)</span>
-                                                </div>
-                                                <div class="title-brand"><a href="{{ convertUrlPost($item->slug) }}"
-                                                        title="{{ $item->title }}">{{ $item->title }}</a></div>
-                                                <ul class="info mt-3">
-                                                    <li><span class="flaticon-pin"></span>{{ $item->address }}</li>
-                                                </ul>
+                                <div class="inner-box">
+                                    <div class="image-box">
+                                        <figure class="image">
+                                            <img src="{{ getImageThumb($item->thumbnail) }}" alt="{{ $item->title }}"
+                                                lazy="loading">
+                                        </figure>
+                                        <div class="content">
+                                            <div class="rating"> <span class="fa fa-star"></span> <span
+                                                    class="fa fa-star"></span> <span class="fa fa-star"></span>
+                                                <span class="fa fa-star"></span> <span class="fa fa-star"></span>
+                                                <span class="title">({{ $item->review }} review)</span>
+                                            </div>
+                                            <div class="title-brand"><a href="{{ convertUrlPost($item->slug) }}"
+                                                    title="{{ $item->title }}">{{ $item->title }}</a></div>
+                                            <ul class="info mt-3">
+                                                <li><span class="flaticon-pin"></span>{{ $item->address }}</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    @if (!empty($item->phone))
+                                        <div class="bottom-box">
+                                            <div class="places">
+                                                <div class="place">{{ $item->title }} Restaurant</div>
+                                            </div>
+                                            <div class="status"><span class="flaticon-phone-call"></span>
+                                                {{ $item->phone }}
                                             </div>
                                         </div>
-                                        @if (!empty($item->phone))
-                                            <div class="bottom-box">
-                                                <div class="places">
-                                                    <div class="place">{{ $item->title }} Restaurant</div>
-                                                </div>
-                                                <div class="status"><span class="flaticon-phone-call"></span>
-                                                    {{ $item->phone }}
-                                                </div>
-                                            </div>
-                                        @endif
-                                    </div>
-                                
+                                    @endif
+                                </div>
+
                             </div>
                         @endforeach
 
@@ -390,14 +399,14 @@
 @endsection
 @push('scripts')
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             const btn = document.querySelector(".loadmoreReview");
             const comments = document.querySelectorAll(".listReview .comment");
             const STEP = 5;
 
             if (!btn || comments.length === 0) return;
 
-            btn.addEventListener("click", function () {
+            btn.addEventListener("click", function() {
                 let shown = 0;
                 for (let comment of comments) {
                     if (comment.classList.contains("hide")) {
