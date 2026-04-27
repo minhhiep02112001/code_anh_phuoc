@@ -80,28 +80,25 @@
 
                 <ul class="rs make-right fs-16 tt-u top-nav-l">
                     <li>
-                        <a href="#about"
-                            class="navigation__item">{{ __('config_data.pages.menus.about') }}</a>
+                        <a href="#about" class="navigation__item">{{ __('config_data.pages.menus.about') }}</a>
                     </li>
                     <li>
                         <a href="#menu"
                             class="navigation__item navigation__item_active">{{ __('config_data.pages.menus.menu') }}</a>
                     </li>
-                    <li>
-                        <a href="#photo"
-                            class="navigation__item">{{ __('config_data.pages.menus.photo') }}</a>
-                    </li>
                     @if ($comments->count() > 0)
                         <li>
 
-                            <a href="#review"
-                                class="navigation__item">{{ __('config_data.pages.menus.review') }}</a>
+                            <a href="#review" class="navigation__item">{{ __('config_data.pages.menus.review') }}</a>
                         </li>
                     @endif
                     <li>
+                        <a href="#photo" class="navigation__item">{{ __('config_data.pages.menus.photo') }}</a>
+                    </li>
 
-                        <a href="#information"
-                            class="navigation__item">{{ __('config_data.pages.menus.infor') }}</a>
+                    <li>
+
+                        <a href="#information" class="navigation__item">{{ __('config_data.pages.menus.infor') }}</a>
                     </li>
                 </ul>
             </div>
@@ -123,19 +120,12 @@
                         <ul class="rs fs-25 fw-rb">
 
                             <li class="overlay-menu-itm border-top">
-                                <a href="#about"
-                                    class="navigation__item">{{ __('config_data.pages.menus.about') }}</a>
+                                <a href="#about" class="navigation__item">{{ __('config_data.pages.menus.about') }}</a>
                             </li>
                             <li class="overlay-menu-itm border-top">
                                 <a href="#menu"
                                     class="navigation__item navigation__item_active">{{ __('config_data.pages.menus.menu') }}</a>
                             </li>
-
-                            <li class="overlay-menu-itm border-top">
-                                <a href="#photo"
-                                    class="navigation__item">{{ __('config_data.pages.menus.photo') }}</a>
-                            </li>
-
                             @if ($comments->count() > 0)
                                 <li class="overlay-menu-itm border-top">
 
@@ -143,6 +133,13 @@
                                         class="navigation__item">{{ __('config_data.pages.menus.review') }}</a>
                                 </li>
                             @endif
+
+                            <li class="overlay-menu-itm border-top">
+                                <a href="#photo"
+                                    class="navigation__item">{{ __('config_data.pages.menus.photo') }}</a>
+                            </li>
+
+
 
                             <li class="overlay-menu-itm border-top">
 
@@ -367,7 +364,7 @@
                 </div>
             @endif
 
-             @if (!empty($_medias))
+            @if (!empty($_medias))
 
                 <div id="photo" class="box-container max-width-container content-asides-offset" itemscope=""
                     itemtype="http://schema.org/ImageGallery" data-pswp-uid="1">
