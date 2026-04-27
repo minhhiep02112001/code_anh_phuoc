@@ -279,38 +279,6 @@
                 </div>
             @endif
 
-            @if (!empty($_medias))
-
-                <div id="photo" class="box-container max-width-container content-asides-offset" itemscope=""
-                    itemtype="http://schema.org/ImageGallery" data-pswp-uid="1">
-                    <div class="section__item" data-v-f6930fca>
-                        <h2 class="about-restaurant__title-section" data-v-f6930fca>
-                            {{ __('config_data.pages.menus.photo') }} {{ $post->title }}</h2>
-                    </div>
-
-                    <div class=" hot-box-wrap clearfix">
-                        <div class="box-list-photo">
-                            <figure class="list-photos">
-                                @php
-                                    $i = 0;
-                                @endphp
-                                @foreach ($_medias as $k => $image)
-                                    @php
-                                        $i++;
-                                        if ($i > 6) {
-                                            break;
-                                        }
-                                    @endphp
-                                    <div class="item-img">
-                                        {!! getThumbnail($image, 400, 300, 'image-photo', "{$post->title} image {$k}") !!}
-                                    </div>
-                                @endforeach
-
-                            </figure>
-                        </div>
-                    </div>
-                </div>
-            @endif
 
 
             @if ($comments->count() > 0)
@@ -394,6 +362,39 @@
                                     </div>
                                 @endforeach
                             </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
+             @if (!empty($_medias))
+
+                <div id="photo" class="box-container max-width-container content-asides-offset" itemscope=""
+                    itemtype="http://schema.org/ImageGallery" data-pswp-uid="1">
+                    <div class="section__item" data-v-f6930fca>
+                        <h2 class="about-restaurant__title-section" data-v-f6930fca>
+                            {{ __('config_data.pages.menus.photo') }} {{ $post->title }}</h2>
+                    </div>
+
+                    <div class=" hot-box-wrap clearfix">
+                        <div class="box-list-photo">
+                            <figure class="list-photos">
+                                @php
+                                    $i = 0;
+                                @endphp
+                                @foreach ($_medias as $k => $image)
+                                    @php
+                                        $i++;
+                                        if ($i > 6) {
+                                            break;
+                                        }
+                                    @endphp
+                                    <div class="item-img">
+                                        {!! getThumbnail($image, 400, 300, 'image-photo', "{$post->title} image {$k}") !!}
+                                    </div>
+                                @endforeach
+
+                            </figure>
                         </div>
                     </div>
                 </div>
@@ -573,14 +574,14 @@
                     breakpoint: 1024,
                     settings: {
                         slidesToShow: 3, // Hiển thị 3 hình trên 1 màn
-                        slidesToScroll: 3, // Lướt 3 hình mỗi lần 
+                        slidesToScroll: 3, // Lướt 3 hình mỗi lần
                     }
                 },
                 {
                     breakpoint: 600,
                     settings: {
                         slidesToShow: 2, // Hiển thị 3 hình trên 1 màn
-                        slidesToScroll: 2, // Lướt 3 hình mỗi lần 
+                        slidesToScroll: 2, // Lướt 3 hình mỗi lần
                     }
                 }
             ]
