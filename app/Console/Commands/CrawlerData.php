@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Media;
+use App\Models\Post;
 use App\Services\Crawlers;
 use App\Services\CrawlersRestaurants;
 use App\Services\CrawlersYelp;
@@ -57,7 +58,7 @@ class CrawlerData extends Command
         foreach ($datas->groupBy('post_id')->toArray() as $post_id => $data) {
             foreach (array_values($data) as $k => $item) {
                 $thumb =   preg_replace('/=(.*?)w\d+-h\d+(-)?/', '=$1', $item->crawler_href);
-                
+
                 if (!empty($thumb)) {
                     $path = saveImageUrlStorage($thumb, "photos/restaurants/{$item->slug}", "{$item->slug}-{$item->type}-{$k}.jpg");
                     $dataUpdate = [
@@ -116,5 +117,22 @@ class CrawlerData extends Command
     {
         $service = \App::make(CrawlersYelp::class);
         $service->index();
+    }
+
+
+      // php artisan crawler:data --function=convertTitle
+    public function convertTitle()
+    {
+       $dataPost = Post::all();
+         foreach($dataPost as $item){
+            $address = explode(',', $item->address);
+            dd($address, $item->address);
+            dd($item);
+            $title = str_replace(' - Here Restaurants', '', $item->title);
+            DB::table('st_post')->where('id', $item->id)->update([
+                'title' => $title
+            ]);
+             echo "\n Done {$item->id}";
+         }
     }
 }
