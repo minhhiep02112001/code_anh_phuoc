@@ -52,13 +52,13 @@ class CrawlerData extends Command
                 $thumb =   preg_replace('/=(.*?)w\d+-h\d+(-)?/', '=$1', $item->crawler_href);
 
                 if (!empty($thumb)) {
-                    $path = saveImageUrlStorage($thumb, "photos/restaurants/{$item->slug}", "{$item->slug}-{$item->type}-{$k}.jpg");
-                    $dataUpdate = [
-                        'is_crawler' => 1,
-                        'thumbnail' => "/{$path}",
-                        'position' => $k
-                    ];
-                    if (empty($path)) {
+                    $name = rand(1, 1000000);
+                    $path = saveImageUrlStorage($thumb, "photos/restaurants/{$item->slug}", "{$item->slug}-{$item->type}-{$name}.jpg");
+
+                    $thumbnail = str_replace(['storage', '//'], '', trim($path, '/'));
+                    if (Storage::disk('public')->exists($thumbnail)) {
+                        $dataUpdate = ['is_crawler' => 1,'thumbnail' => "/{$path}",'position' => $k];
+                    } else {
                         $dataUpdate = ['is_crawler' => 2, 'position' => $k];
                     }
                     DB::table('st_post_images')->where('id', $item->id)->update($dataUpdate);
