@@ -89,9 +89,10 @@ class CrawlerData extends Command
     public function deleteImageNotExist()
     {
         for ($i = 1; $i < 1000; $i++) {
-            $data = DB::table('st_post_images')->limit(1000)->offset(($i - 1) * 1000)->get();
+            $data = DB::table('st_post_images')->orderBy('id', 'asc')->limit(1000)->offset(($i - 1) * 1000)->get();
             foreach ($data as $item) {
-                if (Storage::disk('public')->exists($item->thumbnail)) continue;
+                $thumbnail = str_replace(['storage', '//'], '', trim($item->thumbnail, '/'));
+                if (Storage::disk('public')->exists($thumbnail)) continue;
                 DB::table('st_post_images')->where('id', $item->id)->delete();
                 echo "\n ================ DeleteSuccess {$item->id}";
             }
