@@ -8,6 +8,7 @@ use App\Services\CrawlersRestaurants;
 use App\Services\CrawlersYelp;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\DomCrawler\Crawler;
 
 class CrawlerData extends Command
@@ -38,14 +39,6 @@ class CrawlerData extends Command
         $this->$function();
     }
 
-    public function category()
-    {
-        $url = $this->option('url') ?? '';
-        $page = $this->option('page') ?? 1;
-        $crawler = new CrawlersRestaurants();
-        $crawler->index($url, $page);
-        return "Done All";
-    }
 
     // php artisan crawler:data --function=crawler_images
     public function crawler_images()
@@ -57,7 +50,7 @@ class CrawlerData extends Command
         foreach ($datas->groupBy('post_id')->toArray() as $post_id => $data) {
             foreach (array_values($data) as $k => $item) {
                 $thumb =   preg_replace('/=(.*?)w\d+-h\d+(-)?/', '=$1', $item->crawler_href);
-                
+
                 if (!empty($thumb)) {
                     $path = saveImageUrlStorage($thumb, "photos/restaurants/{$item->slug}", "{$item->slug}-{$item->type}-{$k}.jpg");
                     $dataUpdate = [
@@ -89,6 +82,20 @@ class CrawlerData extends Command
                     echo "\n ================ Done {$post_id} {$item->id}";
                 }
             }
+        }
+    }
+
+    // php artisan crawler:data --function=deleteImageNotExist
+    public function deleteImageNotExist()
+    {
+        for ($i = 1; $i < 1000; $i++) {
+            $data = DB::table('st_post_images')->limit(1000)->offset(($i - 1) * 1000)->get();
+            foreach ($data as $item) {
+                if (Storage::disk('public')->exists($item->thumbnail)) continue;
+                DB::table('st_post_images')->where('id', $item->id)->delete();
+                echo "\n ================ DeleteSuccess {$item->id}";
+            }
+            echo "\n ================ Done {$i}";
         }
     }
     // php artisan crawler:data --function=crawler_images_comment
