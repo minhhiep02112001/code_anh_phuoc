@@ -34,6 +34,7 @@
     @if (!empty($page->schema))
         {!! $page->schema ?? '' !!}
     @endif
+    <link rel="canonical" href="{{ !empty($SEO['url']) ? $SEO['url'] : url()->current() }}" />
 @else
     @php
         $meta_title = $config_seo->meta_title ?? '';
@@ -55,6 +56,7 @@
     <meta name="twitter:description" content="{{ $meta_description }}" />
     <meta name="twitter:image" content="{{ convertPathImage($config_website->logo ?? '') }}" />
     {!! $config_website->schema ?? '' !!}
+    <link rel="canonical" href="{{ url()->current() }}" />
 @endif
 
 {{-- <meta name="robots" content="noindex,nofollow" />
@@ -62,5 +64,5 @@
 
 <meta name="robots" content="{{ !empty($config_seo->index) ? 'index,follow' : 'noindex,nofollow' }}" />
 <meta name="Googlebot-News" content="{{ !empty($config_seo->index) ? 'index,follow' : 'noindex,nofollow' }}">
-<link rel="canonical" href="{{ url()->current() }}" />
+
 {!! $config_website->config_header ?? '' !!}
