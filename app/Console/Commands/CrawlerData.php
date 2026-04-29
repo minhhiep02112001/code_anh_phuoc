@@ -2,7 +2,9 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Media;
+use App\Models\Crawler as ModelsCrawler;
+use App\Models\Post;
+use use App\Models\Media;
 use App\Services\Crawlers;
 use App\Services\CrawlersRestaurants;
 use App\Services\CrawlersYelp;
@@ -125,4 +127,17 @@ class CrawlerData extends Command
         $service = \App::make(CrawlersYelp::class);
         $service->index();
     }
+      public function convertThumbnail()
+    {
+        $dataPost = Post::all();
+        foreach ($dataPost as $item) {
+            $thumbnail = str_replace(['storage', '//'], '/', $item->thumbnail);
+            if (Storage::disk('public')->exists(trim($thumbnail, '/'))) {
+                continue;
+            }
+            ModelsCrawler::where('relate_id' , $item->id)->update(['is_status' => 0]);
+            echo "\n Done {$item->id}";
+        }
+    }
 }
+
