@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Crawler as ModelsCrawler;
 use App\Models\Media;
 use App\Models\Post;
 use App\Services\Crawlers;
@@ -9,6 +10,7 @@ use App\Services\CrawlersRestaurants;
 use App\Services\CrawlersYelp;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\DomCrawler\Crawler;
 
 class CrawlerData extends Command
@@ -120,11 +122,11 @@ class CrawlerData extends Command
     }
 
 
-      // php artisan crawler:data --function=convertTitle
+    // php artisan crawler:data --function=convertTitle
     public function convertTitle()
     {
-       $dataPost = Post::all();
-         foreach($dataPost as $item){
+        $dataPost = Post::all();
+        foreach ($dataPost as $item) {
             $address = explode(',', $item->address);
             dd($address, $item->address);
             dd($item);
@@ -132,7 +134,21 @@ class CrawlerData extends Command
             DB::table('st_post')->where('id', $item->id)->update([
                 'title' => $title
             ]);
-             echo "\n Done {$item->id}";
-         }
+            echo "\n Done {$item->id}";
+        }
+    }
+
+    // php artisan crawler:data --function=convertThumbnail
+    public function convertThumbnail()
+    {
+        $dataPost = Post::all();
+        foreach ($dataPost as $item) {
+            $thumbnail = str_replace(['storage', '//'], '/', $item->thumbnail);
+            if (Storage::disk('public')->exists(trim($thumbnail, '/'))) {
+                continue;
+            }
+            ModelsCrawler::where('relate_id' , $item->id)->update(['is_status' => 0]);
+            echo "\n Done {$item->id}";
+        }
     }
 }
