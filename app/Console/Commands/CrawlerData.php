@@ -133,10 +133,11 @@ class CrawlerData extends Command
         foreach ($dataPost as $item) {
             $thumbnail = str_replace(['storage', '//'], '/', $item->thumbnail);
             if (Storage::disk('public')->exists(trim($thumbnail, '/'))) {
+                echo "\nExisting {$item->id}";
                 continue;
             }
             ModelsCrawler::where('relate_id' , $item->id)->update(['is_status' => 0]);
-            echo "\n Done {$item->id}";
+            echo "\n ==== Not Existing {$item->id}";
         }
     }
 }
