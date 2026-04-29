@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Crawler as ModelsCrawler;
 use App\Models\Post;
-use use App\Models\Media;
+use App\Models\Media;
 use App\Services\Crawlers;
 use App\Services\CrawlersRestaurants;
 use App\Services\CrawlersYelp;
