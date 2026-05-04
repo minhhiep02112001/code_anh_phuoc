@@ -71,9 +71,9 @@
                 <div class="menu-item header-fixed">
                     <ul>
                         <li class="show"><a class="active" href="#overview" title="Overview">Overview</a></li>
-                        <li class="show"><a href="#reviews" title="Reviews">Reviews</a></li>
-                        <li class="show"><a href="#menu" title="Menu">Menu</a></li>
                         <li class="show"><a href="#photos" title="Photos">Photos</a></li>
+                        <li class="show"><a href="#menu" title="Menu">Menu</a></li>
+                        <li class="show"><a href="#reviews" title="Reviews">Reviews</a></li>
                         <li class="show"><a href="#location" title="Location">Location</a></li>
                     </ul>
                 </div>
@@ -138,45 +138,6 @@
                                 <button class="see-more-btn">See more</button>
                             </div>
                         @endif
-
-                        @if (!empty($comments))
-                            <div class="comments-widget ls-widget" id="reviews">
-                                <div class="widget-title">
-                                    <h2><span class="icon flaticon-consulting-message"></span> Reviews {{ $post->title }}
-                                    </h2>
-                                </div>
-                                <div class="widget-content listReview">
-
-                                    @foreach (collect($comments)->values() as $k => $item)
-                                        <div class="comment {{ $k < 5 ? 'show' : 'hide' }}"
-                                            data-index="{{ $k }}">
-                                            <div class="user-name"> {{ $item->fullname }}</div>
-                                            <div class="comment-info listing-block-two">
-                                                <ul class="rating">
-                                                    <span class="fa fa-star"></span>
-                                                    <span class="fa fa-star"></span>
-                                                    <span class="fa fa-star"></span>
-                                                    <span class="fa fa-star"></span>
-                                                    <span class="fa fa-star"></span>
-                                                </ul>
-                                                <div class="comment-time">
-                                                    {{ format_date($item->created_at, 'd-m-Y') }}
-                                                </div>
-                                            </div>
-                                            <div class="text">
-                                                {!! $item->content ?? '' !!}
-                                            </div>
-                                        </div>
-                                    @endforeach
-
-                                </div>
-                                @if (collect($comments)->count() > 0)
-                                    <button class="loadmoreReview">See more reviews</button>
-                                @endif
-                            </div>
-                        @endif
-
-
 
                         @if (!empty($menus) || !empty($products))
                             <div class="gallery-widget   ls-widget" id="menus">
@@ -263,6 +224,45 @@
                                 </div>
                             </div>
                         @endif
+
+                        @if (!empty($comments))
+                            <div class="comments-widget ls-widget" id="reviews">
+                                <div class="widget-title">
+                                    <h2><span class="icon flaticon-consulting-message"></span> Reviews {{ $post->title }}
+                                    </h2>
+                                </div>
+                                <div class="widget-content listReview">
+
+                                    @foreach (collect($comments)->values() as $k => $item)
+                                        <div class="comment {{ $k < 5 ? 'show' : 'hide' }}"
+                                            data-index="{{ $k }}">
+                                            <div class="user-name"> {{ $item->fullname }}</div>
+                                            <div class="comment-info listing-block-two">
+                                                <ul class="rating">
+                                                    <span class="fa fa-star"></span>
+                                                    <span class="fa fa-star"></span>
+                                                    <span class="fa fa-star"></span>
+                                                    <span class="fa fa-star"></span>
+                                                    <span class="fa fa-star"></span>
+                                                </ul>
+                                                <div class="comment-time">
+                                                    {{ format_date($item->created_at, 'd-m-Y') }}
+                                                </div>
+                                            </div>
+                                            <div class="text">
+                                                {!! $item->content ?? '' !!}
+                                            </div>
+                                        </div>
+                                    @endforeach
+
+                                </div>
+                                @if (collect($comments)->count() > 0)
+                                    <button class="loadmoreReview">See more reviews</button>
+                                @endif
+                            </div>
+                        @endif
+
+
 
                         <div class="comments-form-widget ls-widget">
                             <div class="widget-title">
