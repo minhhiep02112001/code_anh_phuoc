@@ -71,9 +71,9 @@
                 <div class="menu-item header-fixed">
                     <ul>
                         <li class="show"><a class="active" href="#overview" title="Overview">Overview</a></li>
+                        <li class="show"><a href="#photos" title="Photos">Photos</a></li>
                         <li class="show"><a href="#menu" title="Menu">Menu</a></li>
                         <li class="show"><a href="#reviews" title="Reviews">Reviews</a></li>
-                        <li class="show"><a href="#photos" title="Photos">Photos</a></li>
                         <li class="show"><a href="#location" title="Location">Location</a></li>
                     </ul>
                 </div>
@@ -196,6 +196,35 @@
                             </div>
                         @endif
 
+
+                        @if (!empty($photos))
+                            <div class="gallery-widget ls-widget" id="photos">
+                                <div class="widget-title">
+                                    <h2><span class="icon flaticon-gallery"></span> Photos</h2>
+                                </div>
+                                <div class="widget-content">
+                                    <ul class="listing-gallery listing-gallery-photos">
+                                        @foreach ($photos as $k => $item)
+                                            <li class="gallery-item photo-item-{{ $indexImg++ }}">
+                                                <div class="inner-box">
+                                                    <figure class="image"> <img class=""
+                                                            src="{{ getImageThumb($item->thumbnail) }}"
+                                                            alt="Photo {{ $post->title }} - {{ $k }}"
+                                                            data-src="{{ getImageThumb($item->thumbnail) }}"
+                                                            lazy="loading">
+                                                    </figure>
+                                                    <div class="overlay"> <a href="{{ getImageThumb($item->thumbnail) }}"
+                                                            class="lightbox-image" data-fancybox="ls-gallery-photos"
+                                                            title="Photo {{ $post->title }} - {{ $k }}"><span
+                                                                class="icon flaticon-magnifying-glass"></span></a> </div>
+                                                </div>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                        @endif
+
                         @if (!empty($comments))
                             <div class="comments-widget ls-widget" id="reviews">
                                 <div class="widget-title">
@@ -230,34 +259,6 @@
                                 @if (collect($comments)->count() > 0)
                                     <button class="loadmoreReview">See more reviews</button>
                                 @endif
-                            </div>
-                        @endif
-
-                        @if (!empty($photos))
-                            <div class="gallery-widget ls-widget" id="photos">
-                                <div class="widget-title">
-                                    <h2><span class="icon flaticon-gallery"></span> Photos</h2>
-                                </div>
-                                <div class="widget-content">
-                                    <ul class="listing-gallery listing-gallery-photos">
-                                        @foreach ($photos as $k => $item)
-                                            <li class="gallery-item photo-item-{{ $indexImg++ }}">
-                                                <div class="inner-box">
-                                                    <figure class="image"> <img class=""
-                                                            src="{{ getImageThumb($item->thumbnail) }}"
-                                                            alt="Photo {{ $post->title }} - {{ $k }}"
-                                                            data-src="{{ getImageThumb($item->thumbnail) }}"
-                                                            lazy="loading">
-                                                    </figure>
-                                                    <div class="overlay"> <a href="{{ getImageThumb($item->thumbnail) }}"
-                                                            class="lightbox-image" data-fancybox="ls-gallery-photos"
-                                                            title="Photo {{ $post->title }} - {{ $k }}"><span
-                                                                class="icon flaticon-magnifying-glass"></span></a> </div>
-                                                </div>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </div>
                             </div>
                         @endif
 
