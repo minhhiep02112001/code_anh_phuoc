@@ -3,8 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Models\Crawler as ModelsCrawler;
-use App\Models\Media;
 use App\Models\Post;
+use App\Models\Media;
 use App\Services\Crawlers;
 use App\Services\CrawlersRestaurants;
 use App\Services\CrawlersYelp;
@@ -41,14 +41,6 @@ class CrawlerData extends Command
         $this->$function();
     }
 
-    public function category()
-    {
-        $url = $this->option('url') ?? '';
-        $page = $this->option('page') ?? 1;
-        $crawler = new CrawlersRestaurants();
-        $crawler->index($url, $page);
-        return "Done All";
-    }
 
     // php artisan crawler:data --function=crawler_images
     public function crawler_images()
@@ -62,13 +54,13 @@ class CrawlerData extends Command
                 $thumb =   preg_replace('/=(.*?)w\d+-h\d+(-)?/', '=$1', $item->crawler_href);
 
                 if (!empty($thumb)) {
-                    $path = saveImageUrlStorage($thumb, "photos/restaurants/{$item->slug}", "{$item->slug}-{$item->type}-{$k}.jpg");
-                    $dataUpdate = [
-                        'is_crawler' => 1,
-                        'thumbnail' => "/{$path}",
-                        'position' => $k
-                    ];
-                    if (empty($path)) {
+                    $name = rand(1, 1000000);
+                    $path = saveImageUrlStorage($thumb, "photos/restaurants/{$item->slug}", "{$item->slug}-{$item->type}-{$name}.jpg");
+
+                    $thumbnail = str_replace(['storage', '//'], '', trim($path, '/'));
+                    if (Storage::disk('public')->exists($thumbnail)) {
+                        $dataUpdate = ['is_crawler' => 1,'thumbnail' => "/{$path}",'position' => $k];
+                    } else {
                         $dataUpdate = ['is_crawler' => 2, 'position' => $k];
                     }
                     DB::table('st_post_images')->where('id', $item->id)->update($dataUpdate);
@@ -92,6 +84,21 @@ class CrawlerData extends Command
                     echo "\n ================ Done {$post_id} {$item->id}";
                 }
             }
+        }
+    }
+
+    // php artisan crawler:data --function=deleteImageNotExist
+    public function deleteImageNotExist()
+    {
+        for ($i = 1; $i < 1000; $i++) {
+            $data = DB::table('st_post_images')->orderBy('id', 'asc')->limit(1000)->offset(($i - 1) * 1000)->get();
+            foreach ($data as $item) {
+                $thumbnail = str_replace(['storage', '//'], '', trim($item->thumbnail, '/'));
+                if (Storage::disk('public')->exists($thumbnail)) continue;
+                DB::table('st_post_images')->where('id', $item->id)->delete();
+                echo "\n ================ DeleteSuccess {$item->id}";
+            }
+            echo "\n ================ Done {$i}";
         }
     }
     // php artisan crawler:data --function=crawler_images_comment
@@ -120,35 +127,18 @@ class CrawlerData extends Command
         $service = \App::make(CrawlersYelp::class);
         $service->index();
     }
-
-
-    // php artisan crawler:data --function=convertTitle
-    public function convertTitle()
-    {
-        $dataPost = Post::all();
-        foreach ($dataPost as $item) {
-            $address = explode(',', $item->address);
-            dd($address, $item->address);
-            dd($item);
-            $title = str_replace(' - Here Restaurants', '', $item->title);
-            DB::table('st_post')->where('id', $item->id)->update([
-                'title' => $title
-            ]);
-            echo "\n Done {$item->id}";
-        }
-    }
-
-    // php artisan crawler:data --function=convertThumbnail
-    public function convertThumbnail()
+      public function convertThumbnail()
     {
         $dataPost = Post::all();
         foreach ($dataPost as $item) {
             $thumbnail = str_replace(['storage', '//'], '/', $item->thumbnail);
             if (Storage::disk('public')->exists(trim($thumbnail, '/'))) {
+                echo "\nExisting {$item->id}";
                 continue;
             }
             ModelsCrawler::where('relate_id' , $item->id)->update(['is_status' => 0]);
-            echo "\n Done {$item->id}";
+            echo "\n ==== Not Existing {$item->id}";
         }
     }
 }
+
