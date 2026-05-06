@@ -142,3 +142,14 @@ class CrawlerData extends Command
     }
 }
 
+
+// UPDATE crawler_map cm
+// LEFT JOIN (
+//     SELECT crawler_id, COUNT(*) total
+//     FROM st_post_images
+//     WHERE type = 'photo'
+//     GROUP BY crawler_id
+// ) img ON img.crawler_id = cm.id
+// SET cm.is_status = 0
+// WHERE img.total < 10
+//    OR img.total IS NULL;
