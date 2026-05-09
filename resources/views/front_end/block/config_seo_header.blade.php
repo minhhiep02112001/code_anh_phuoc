@@ -10,7 +10,7 @@
 
 
 @if (!empty($SEO))
-    <title>{{ !empty($SEO['title']) ? replace_title($SEO['title']) : '' }}</title>
+    <title>{{ !empty($SEO['title']) ? $SEO['title'] : '' }}</title>
     <meta name="keyword" content="{{ !empty($SEO['meta_description']) ? replace_title($SEO['meta_keyword']) : '' }}">
     <meta name="description"
         content="{{ !empty($SEO['meta_description']) ? replace_title($SEO['meta_description']) : '' }}" />
