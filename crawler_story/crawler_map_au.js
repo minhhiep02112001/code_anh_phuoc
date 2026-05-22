@@ -52,13 +52,44 @@ async function waitForSelectorSafe(
     }
 }
 
+const REGION_AU = {
+    acceptLanguage: "en-AU,en;q=0.9",
+    locale: "en-AU",
+    timezone: "Australia/Sydney",
+    geolocation: { latitude: -33.8688, longitude: 151.2093 },
+    userAgent:
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+};
+
+async function getCdpSession(page) {
+    if (typeof page.createCDPSession === "function") {
+        return page.createCDPSession();
+    }
+    return page.target().createCDPSession();
+}
+
 async function setupPage(page) {
     await page.setExtraHTTPHeaders({
-        "Accept-Language": "en-US,en;q=0.9",
+        "Accept-Language": REGION_AU.acceptLanguage,
     });
-    await page.setUserAgent(
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120 Safari/537.36",
-    );
+    await page.setUserAgent(REGION_AU.userAgent);
+
+    if (typeof page.emulateTimezone === "function") {
+        await page.emulateTimezone(REGION_AU.timezone);
+    }
+
+    try {
+        const client = await getCdpSession(page);
+        await client.send("Emulation.setLocaleOverride", {
+            locale: REGION_AU.locale,
+        });
+        await client.send("Emulation.setGeolocationOverride", {
+            ...REGION_AU.geolocation,
+            accuracy: 50,
+        });
+    } catch (e) {
+        console.warn("CDP locale/geolocation skipped:", e.message);
+    }
 }
 
 async function gotoAndWaitForPageReady(page, url) {
@@ -86,14 +117,24 @@ async function gotoAndWaitForPageReady(page, url) {
         },
         { timeout: 15000, polling: 250 },
     );
+
+    await waitForSelectorSafe(page, 'button[data-value="Share"], h1', 20000, {
+        visible: true,
+    });
+    await delay(500);
 }
 
 async function safeClick(page, selector, timeout = 3000, retries = 3) {
     for (let attempt = 1; attempt <= retries; attempt++) {
         try {
             await page.waitForSelector(selector, { timeout, visible: true });
-            await page.click(selector);
-            await delay(1000);
+            const el = await page.$(selector);
+            if (!el) throw new Error("not found");
+            await el.evaluate((node) =>
+                node.scrollIntoView({ block: "center", inline: "center" }),
+            );
+            await el.click({ delay: 30 });
+            await delay(800);
             return true;
         } catch {
             if (attempt === retries) return false;
@@ -159,10 +200,19 @@ async function crawlerGoogleIframe(browser, record) {
             await setupPage(page);
             await gotoAndWaitForPageReady(page, record.link_google_map);
             await simulateHumanBehavior(page);
-            await delay(2000);
+            await safeClick(page, 'button[aria-label="Back"]');
+            await delay(1500);
+
             let data = {};
-            if (crawlerData.infor) data = await extractMainInfo(page);
-            if(!record.slug) data.slug = record.slug = convertToSlug(record.title);
+            const iframe_map = await crawlIframeMap(page);
+            data.iframe_map = convertStr(iframe_map);
+            console.log("IFRAME:", data.iframe_map || "(empty)");
+
+            if (crawlerData.infor) {
+                const info = await extractMainInfo(page);
+                data = { ...data, ...info };
+            }
+            data.slug = record.slug = convertToSlug(record.title);
             await database.update_crawler_map(record.id, data, 1);
             if (crawlerData.comment) await crawler_comment(page, record);
             if (crawlerData.menu) await crawlerMenu(page, record);
@@ -178,33 +228,101 @@ async function crawlerGoogleIframe(browser, record) {
     }
 }
 
-async function crawlIframeMap(page) {
-    const clicked = await safeClick(page, 'button[data-value="Share"]');
-    if (!clicked) return "";
-    await waitForSelectorSafe(page, 'div[jsaction="focus:modal.focus.top"]', 5000);
-    await safeClick(
-        page,
-        'button[data-tooltip-only-on-overflow][data-tooltip="Embed a map"]',
-        2000,
-        3,
-    );
-
-    await waitForSelectorSafe(
-        page,
-        'input[jsaction="pane.embedMap.clickInput"]',
-        5000,
-    );
-
-    let iframe = page.evaluate(() => {
-        return (
-            document
-                .querySelector('input[jsaction="pane.embedMap.clickInput"]')
-                ?.getAttribute("value") || ""
-        );
+async function clickEmbedTab(page) {
+    return page.evaluate(() => {
+        const selectors = [
+            'button[data-tooltip="Embed a map"]',
+            'button[aria-label="Embed a map"]',
+            'button[data-tooltip-only-on-overflow][data-tooltip="Embed a map"]',
+            'button[data-tab-index="1"]',
+        ];
+        for (const sel of selectors) {
+            const btn = document.querySelector(sel);
+            if (btn) {
+                btn.scrollIntoView({ block: "center" });
+                btn.click();
+                return true;
+            }
+        }
+        const btn = [...document.querySelectorAll("button")].find((b) => {
+            const label = `${b.getAttribute("aria-label") || ""} ${b.getAttribute("data-tooltip") || ""} ${b.textContent || ""}`;
+            return /embed/i.test(label);
+        });
+        if (btn) {
+            btn.click();
+            return true;
+        }
+        return false;
     });
+}
 
-    await safeClick(page, 'button[jsaction="modal.close"]');
-    return iframe;
+async function readEmbedInput(page) {
+    return page.evaluate(() => {
+        const input =
+            document.querySelector(
+                'input[jsaction="pane.embedMap.clickInput"]',
+            ) ||
+            document.querySelector(
+                'input[readonly][value*="google.com/maps"]',
+            ) ||
+            document.querySelector("motion-less-dialog input[readonly]");
+        if (!input) return "";
+        return input.value || input.getAttribute("value") || "";
+    });
+}
+
+async function crawlIframeMap(page) {
+    const shareSelector = 'button[data-value="Share"]';
+    const inputSelector = 'input[jsaction="pane.embedMap.clickInput"]';
+
+    for (let attempt = 1; attempt <= 4; attempt++) {
+        const shareOk = await safeClick(page, shareSelector, 8000, 2);
+        if (!shareOk) {
+            await delay(1000);
+            continue;
+        }
+
+        await waitForSelectorSafe(
+            page,
+            'motion-less-dialog, div[role="dialog"], div[jsaction*="modal"]',
+            8000,
+        );
+
+        const embedOk = await clickEmbedTab(page);
+        if (!embedOk) {
+            await delay(800);
+            continue;
+        }
+
+        const hasValue = await page
+            .waitForFunction(
+                (sel) => {
+                    const input =
+                        document.querySelector(sel) ||
+                        document.querySelector(
+                            'input[readonly][value*="google.com/maps"]',
+                        );
+                    const val =
+                        input?.value || input?.getAttribute("value") || "";
+                    return val.length > 30;
+                },
+                { timeout: 12000, polling: 200 },
+                inputSelector,
+            )
+            .then(() => true)
+            .catch(() => false);
+
+        if (hasValue) {
+            const iframe = await readEmbedInput(page);
+            await safeClick(page, 'button[jsaction="modal.close"]', 3000, 1);
+            return iframe;
+        }
+
+        await safeClick(page, 'button[jsaction="modal.close"]', 2000, 1);
+        await delay(600);
+    }
+
+    return "";
 }
 
 async function extractMainInfo(page) {
@@ -245,14 +363,9 @@ async function extractMainInfo(page) {
         };
     });
 
-    // 1️⃣ Crawl iframe map TRƯỚC (NodeJS)
-    const iframe_map = await crawlIframeMap(page);
-    console.log("IFRAME: ", iframe_map);
-
-    // 3️⃣ Escape + normalize tại NodeJS
+    // 3️⃣ Escape + normalize tại NodeJS (iframe crawl ở crawlerGoogleIframe, trước hàm này)
     return {
         ...rawData,
-        iframe_map: convertStr(iframe_map),
         google_review: convertStr(rawData.google_review),
         phone: convertStr(rawData.phone),
         address: convertStr(rawData.address),
@@ -739,7 +852,7 @@ async function crawler_comment(page, record) {
 
 async function getAllCrawlerDataBase(offset = 0) {
     // const query = `SELECT * FROM ${table.crawler} WHERE is_status = 0 ORDER BY id ASC LIMIT 500 offset ${offset}`;
-    const query = `SELECT * FROM ${table.crawler} WHERE is_status = 0 ORDER BY id DESC LIMIT 100 offset ${offset}`;
+    const query = `SELECT * FROM ${table.crawler} WHERE is_status = 0 and language = 'au'  ORDER BY id ASC LIMIT 100 offset ${offset}`;
     return database.query(query);
 }
 
@@ -747,10 +860,18 @@ async function getAllCrawlerDataBase(offset = 0) {
     var list_data = await getAllCrawlerDataBase(0);
 
     const browser = await puppeteer.launch({
-        headless: false, // Hiển thị trình duyệt
-        args: ["--start-maximized", "--lang=en-US"], // Mở trình duyệt ở chế độ toàn màn hình
-        defaultViewport: null, // Tắt viewport mặc định
+        headless: false,
+        args: ["--start-maximized", "--lang=en-AU", "--accept-lang=en-AU"],
+        defaultViewport: null,
     });
+
+    const ctx = browser.defaultBrowserContext();
+    for (const origin of [
+        "https://www.google.com",
+        "https://maps.google.com",
+    ]) {
+        await ctx.overridePermissions(origin, ["geolocation"]);
+    }
 
     for (let element of list_data) {
         try {
@@ -769,7 +890,7 @@ async function getAllCrawlerDataBase(offset = 0) {
 
 async function downloadFile(results = [], _type = "photo", record, max = 10) {
     //crawler_href
-    record.slug = convertStr(convertToSlug(record.slug));
+    record.slug = convertStr(convertToSlug(record.key_word));
     let values = results
         .map((element, index) => {
             let path = `${folder_path}/${record.slug}/${record.slug}-${_type}-${index}.jpg`;
