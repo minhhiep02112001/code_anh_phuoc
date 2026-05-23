@@ -8,11 +8,11 @@ const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 puppeteer.use(StealthPlugin());
 
 const crawlerData = {
-    menu: false,
+    menu: true,
     infor: true,
-    images: false,
-    about: false,
-    comment: false,
+    images: true,
+    about: true,
+    comment: true,
 };
 
 const table = {
@@ -95,7 +95,7 @@ async function setupPage(page) {
 async function gotoAndWaitForPageReady(page, url) {
     await page.goto(url, {
         waitUntil: ["domcontentloaded", "load", "networkidle2"],
-        timeout: 60000,
+        timeout: 30000,
     });
 
     await page.waitForFunction(
@@ -115,10 +115,10 @@ async function gotoAndWaitForPageReady(page, url) {
 
             return styleLinksLoaded;
         },
-        { timeout: 15000, polling: 250 },
+        { timeout: 8000, polling: 250 },
     );
 
-    await waitForSelectorSafe(page, 'button[data-value="Share"], h1', 20000, {
+    await waitForSelectorSafe(page, 'button[data-value="Share"], h1', 10000, {
         visible: true,
     });
     await delay(500);
@@ -199,11 +199,13 @@ async function crawlerGoogleIframe(browser, record) {
         try {
             await setupPage(page);
             await gotoAndWaitForPageReady(page, record.link_google_map);
+            await delay(1500);
             await simulateHumanBehavior(page);
             await safeClick(page, 'button[aria-label="Back"]');
             await delay(1500);
 
             let data = {};
+
             const iframe_map = await crawlIframeMap(page);
             data.iframe_map = convertStr(iframe_map);
             console.log("IFRAME:", data.iframe_map || "(empty)");
@@ -212,7 +214,7 @@ async function crawlerGoogleIframe(browser, record) {
                 const info = await extractMainInfo(page);
                 data = { ...data, ...info };
             }
-            data.slug = record.slug = convertToSlug(record.title);
+            data.slug = record.slug = convertToSlug(record.key_word);
             await database.update_crawler_map(record.id, data, 1);
             if (crawlerData.comment) await crawler_comment(page, record);
             if (crawlerData.menu) await crawlerMenu(page, record);
@@ -372,12 +374,12 @@ async function extractMainInfo(page) {
 
     // 3️⃣ Escape + normalize tại NodeJS (iframe crawl ở crawlerGoogleIframe, trước hàm này)
     return {
-        // ...rawData,
-        // google_review: convertStr(rawData.google_review),
-        // phone: convertStr(rawData.phone),
-        // address: convertStr(rawData.address),
-        // thumbnail: convertStr(rawData.thumbnail),
-        // time_open: convertStr(rawData.time_open),
+        ...rawData,
+        google_review: convertStr(rawData.google_review),
+        phone: convertStr(rawData.phone),
+        address: convertStr(rawData.address),
+        thumbnail: convertStr(rawData.thumbnail),
+        time_open: convertStr(rawData.time_open),
         type_restaurant: convertStr(rawData.type_restaurant),
     };
 }
