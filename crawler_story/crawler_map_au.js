@@ -8,11 +8,11 @@ const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 puppeteer.use(StealthPlugin());
 
 const crawlerData = {
-    menu: true,
+    menu: false,
     infor: true,
-    images: true,
-    about: true,
-    comment: true,
+    images: false,
+    about: false,
+    comment: false,
 };
 
 const table = {
@@ -337,6 +337,12 @@ async function extractMainInfo(page) {
                 /\(([^)]+)\)/,
             )?.[1] || "";
 
+        var typeRes = [...document.querySelectorAll("[jsaction]")]
+            .find((el) =>
+                /^pane\..*\.category$/.test(el.getAttribute("jsaction")),
+            )
+            ?.textContent.trim();
+
         let time_open = "";
         const openHoursEl = document.querySelector(
             'div[data-hide-tooltip-on-mouse-move="true"][role="button"]',
@@ -360,17 +366,19 @@ async function extractMainInfo(page) {
                 "",
             link_google_map: location.href,
             time_open,
+            type_restaurant: typeRes
         };
     });
 
     // 3️⃣ Escape + normalize tại NodeJS (iframe crawl ở crawlerGoogleIframe, trước hàm này)
     return {
-        ...rawData,
-        google_review: convertStr(rawData.google_review),
-        phone: convertStr(rawData.phone),
-        address: convertStr(rawData.address),
-        thumbnail: convertStr(rawData.thumbnail),
-        time_open: convertStr(rawData.time_open),
+        // ...rawData,
+        // google_review: convertStr(rawData.google_review),
+        // phone: convertStr(rawData.phone),
+        // address: convertStr(rawData.address),
+        // thumbnail: convertStr(rawData.thumbnail),
+        // time_open: convertStr(rawData.time_open),
+        type_restaurant: convertStr(rawData.type_restaurant),
     };
 }
 
@@ -852,7 +860,7 @@ async function crawler_comment(page, record) {
 
 async function getAllCrawlerDataBase(offset = 0) {
     // const query = `SELECT * FROM ${table.crawler} WHERE is_status = 0 ORDER BY id ASC LIMIT 500 offset ${offset}`;
-    const query = `SELECT * FROM ${table.crawler} WHERE is_status = 0 and language = 'au'  ORDER BY id ASC LIMIT 100 offset ${offset}`;
+    const query = `SELECT * FROM ${table.crawler} WHERE language = 'au'  ORDER BY id ASC LIMIT 300 offset ${offset}`;
     return database.query(query);
 }
 
