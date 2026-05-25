@@ -3,24 +3,15 @@
 namespace App\Console\Commands;
 
 use App\Models\About;
-use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Crawler;
-use App\Models\Language;
 use App\Models\Media;
-use App\Models\Menu;
 use App\Models\Post;
 use App\Models\Product;
-use App\Models\Tag;
-use App\Services\GeminiService;
 use Carbon\Carbon;
-use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use OpenAI\Laravel\Facades\OpenAI;
 use Str;
 
 class ConvertData extends Command
