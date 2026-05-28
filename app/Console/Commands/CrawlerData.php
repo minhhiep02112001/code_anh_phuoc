@@ -52,14 +52,16 @@ class CrawlerData extends Command
         foreach ($datas->groupBy('post_id')->toArray() as $post_id => $data) {
             foreach (array_values($data) as $k => $item) {
                 $thumb =   preg_replace('/=(.*?)w\d+-h\d+(-)?/', '=$1', $item->crawler_href);
-
                 if (!empty($thumb)) {
                     $name = rand(1, 1000000);
                     $path = saveImageUrlStorage($thumb, "photos/restaurants/{$item->slug}", "{$item->slug}-{$item->type}-{$name}.jpg");
-
+                    if (empty($path)) {
+                        DB::table('st_post_images')->where('id', $item->id)->delete();
+                        continue;
+                    }
                     $thumbnail = str_replace(['storage', '//'], '', trim($path, '/'));
                     if (Storage::disk('public')->exists($thumbnail)) {
-                        $dataUpdate = ['is_crawler' => 1,'thumbnail' => "/{$path}",'position' => $k];
+                        $dataUpdate = ['is_crawler' => 1, 'thumbnail' => "/{$path}", 'position' => $k];
                     } else {
                         $dataUpdate = ['is_crawler' => 2, 'position' => $k];
                     }
@@ -127,7 +129,7 @@ class CrawlerData extends Command
         $service = \App::make(CrawlersYelp::class);
         $service->index();
     }
-      public function convertThumbnail()
+    public function convertThumbnail()
     {
         $dataPost = Post::all();
         foreach ($dataPost as $item) {
@@ -136,7 +138,7 @@ class CrawlerData extends Command
                 echo "\nExisting {$item->id}";
                 continue;
             }
-            ModelsCrawler::where('relate_id' , $item->id)->update(['is_status' => 0]);
+            ModelsCrawler::where('relate_id', $item->id)->update(['is_status' => 0]);
             echo "\n ==== Not Existing {$item->id}";
         }
     }
