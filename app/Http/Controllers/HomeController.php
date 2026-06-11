@@ -40,7 +40,7 @@ class HomeController extends Controller
 
         $data['posts'] = $this->postRepository->getAll($filterBrand, [
             'order_by' => ['publish_at', 'desc'],
-            'with' => ['category'],
+            // 'with' => ['category'],
             'limit' => 30,
             'pagination' => $page,
             'select' => ['id', 'title', 'slug', 'thumbnail', 'category_id', 'address', 'email', 'phone', 'description', 'publish_at'],
@@ -55,12 +55,13 @@ class HomeController extends Controller
             'pagination' => $page,
             'select' => ['id', 'title', 'slug', 'thumbnail', 'description'],
         ]);
+        $banners = Banner::getTypeArr(['home', 'explore_more','review_home', 'about_home', 'banner_condi']);
 
-        $data['banner'] = Banner::getType('home')->first();
-        $data['exploreMore'] = Banner::getType('explore_more')->first();
-        $data['bannerReview'] = Banner::getType('review_home');
-        $data['bannerAbout'] = Banner::getType('about_home');
-        $data['bannerCondi'] = Banner::getType('banner_condi');
+        $data['banner'] = $banners->where('type', 'home')->first();
+        $data['exploreMore'] = $banners->where('type', 'explore_more')->first();
+        $data['bannerReview'] = $banners->where('type', 'review_home') ;
+        $data['bannerAbout'] = $banners->where('type', 'about_home') ;
+        $data['bannerCondi'] = $banners->where('type', 'banner_condi') ;
 
         return view('front_end.home', $data);
     }

@@ -162,7 +162,7 @@ async function crawlerGoogleIframe(browser, record) {
             await delay(2000);
             let data = {};
             if (crawlerData.infor) data = await extractMainInfo(page);
-            if(!record.slug) data.slug = record.slug = convertToSlug(record.title);
+            if(!record.slug) data.slug = record.slug = convertToSlug(record.key_word);
             await database.update_crawler_map(record.id, data, 1);
             if (crawlerData.comment) await crawler_comment(page, record);
             if (crawlerData.menu) await crawlerMenu(page, record);
