@@ -101,6 +101,10 @@ class ConvertData extends Command
                 'relate_id' => $post->id
             ]);
 
+            Comment::where('crawler_id', $data->id)->update([
+                'data_id' => $post->id
+            ]);
+
             if (!empty($data->time_open)) {
                 $data_update['time_open']  = convertTimeOpen($data->time_open);
             }
