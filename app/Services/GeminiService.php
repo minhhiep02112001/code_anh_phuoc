@@ -93,9 +93,11 @@ class GeminiService
             'maxOutputTokens' => (int)$maxOutputTokens,
         ];
 
-        $thinking = data_get($cfg, 'generation.thinkingConfig');
-        if (is_array($thinking)) {
-            $generationConfig['thinkingConfig'] = $thinking;
+        $thinking = $options['thinkingConfig'] ?? data_get($cfg, 'generation.thinkingConfig');
+        if (is_array($thinking) && array_key_exists('thinkingBudget', $thinking)) {
+            $generationConfig['thinkingConfig'] = [
+                'thinkingBudget' => (int) $thinking['thinkingBudget'],
+            ];
         }
 
         if (!empty($options['response_mime_type'])) {
@@ -110,6 +112,7 @@ class GeminiService
         ];
 
         $attempts = 3;
+        $retriedWithoutThinking = false;
 
         for ($i = 1; $i <= $attempts; $i++) {
             /** @var Response $response */
@@ -163,6 +166,27 @@ class GeminiService
                     'error' => data_get($json, 'error'),
                     'raw' => $json,
                 ];
+            }
+
+            // 400 INVALID_ARGUMENT + thinkingConfig => bỏ thinking rồi thử lại 1 lần
+            $errMsg = (string) data_get($json, 'error.message', '');
+            if (
+                $http === 400
+                && !$retriedWithoutThinking
+                && isset($payload['generationConfig']['thinkingConfig'])
+                && (
+                    self::messageContains($errMsg, 'invalid argument')
+                    || self::messageContains($errMsg, 'thinking')
+                    || self::messageContains($errMsg, 'Budget')
+                )
+            ) {
+                unset($payload['generationConfig']['thinkingConfig']);
+                $retriedWithoutThinking = true;
+                Log::warning('Gemini retry without thinkingConfig', [
+                    'model' => $model,
+                    'error' => data_get($json, 'error'),
+                ]);
+                continue;
             }
 
             // 429: chờ đúng Retry-After / "retry in Xs" rồi retry (cùng key+model)

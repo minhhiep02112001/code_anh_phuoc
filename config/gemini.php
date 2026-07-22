@@ -20,9 +20,10 @@ return [
         'temperature' => (float) env('GEMINI_TEMPERATURE', 0.3),
         'maxOutputTokens' => (int) env('GEMINI_MAX_OUTPUT_TOKENS', 1200),
 
-        // Tắt thinking để đỡ ăn token (nếu model hỗ trợ)
-        'thinkingConfig' => [
-            'thinkingBudget' => 0,
-        ],
+        // Chỉ bật khi model hỗ trợ. Nhiều model (flash-lite/latest) sẽ 400 nếu gửi thinkingBudget.
+        // Set GEMINI_THINKING_BUDGET=-1 hoặc số > 0 để bật; để trống = không gửi thinkingConfig.
+        'thinkingConfig' => env('GEMINI_THINKING_BUDGET') !== null && env('GEMINI_THINKING_BUDGET') !== ''
+            ? ['thinkingBudget' => (int) env('GEMINI_THINKING_BUDGET')]
+            : null,
     ],
 ];
