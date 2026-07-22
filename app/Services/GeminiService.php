@@ -25,8 +25,7 @@ class GeminiService
     public static function generate(string $prompt, array $options = []): array
     {
         $cfg = config('gemini');
-
-        $keys = self::getAliveKeys($cfg['keys'] ?? []);
+        $keys = self::getAliveKeys([]);
         if (empty($keys)) {
             return self::fail('No alive GEMINI_KEYS (all blacklisted or missing).');
         }
@@ -263,7 +262,7 @@ class GeminiService
         }
 
         // ===== 2. Merge key từ ENV + DB =====
-        $allKeys = array_unique(array_merge($keys, $dbKeys)); 
+        $allKeys = array_unique(array_merge($keys, $dbKeys));
         // ===== 3. Filter key còn sống (chưa blacklist) =====
         foreach ($allKeys as $k) {
             $k = trim((string) $k);
