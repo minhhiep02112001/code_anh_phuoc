@@ -8,11 +8,11 @@ const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 puppeteer.use(StealthPlugin());
 
 const crawlerData = {
-    menu: false,
+    menu: true,
     infor: true,
-    images: false,
-    about: false,
-    comment: false,
+    images: true,
+    about: true,
+    comment: true,
 };
 
 const table = {
@@ -202,17 +202,15 @@ async function crawlerGoogleIframe(browser, record) {
             await simulateHumanBehavior(page);
             await safeClick(page, 'button[aria-label="Back"]');
             await delay(1500);
-
             let data = {};
-            const iframe_map = await crawlIframeMap(page);
-            data.iframe_map = convertStr(iframe_map);
-            console.log("IFRAME:", data.iframe_map || "(empty)");
-
             if (crawlerData.infor) {
+                const iframe_map = await crawlIframeMap(page);
+                data.iframe_map = convertStr(iframe_map);
+                console.log("IFRAME:", data.iframe_map || "(empty)");
                 const info = await extractMainInfo(page);
                 data = { ...data, ...info };
             }
-            data.slug = record.slug = convertToSlug(record.title);
+            data.slug = record.slug = convertToSlug(record.key_word);
             await database.update_crawler_map(record.id, data, 1);
             if (crawlerData.comment) await crawler_comment(page, record);
             if (crawlerData.menu) await crawlerMenu(page, record);
@@ -355,6 +353,7 @@ async function extractMainInfo(page) {
         }
 
         return {
+            key_word: h1.textContent?.trim(),
             google_review: reviewText,
             phone: getAttr(
                 'button[data-tooltip="Copy phone number"]',
@@ -366,18 +365,18 @@ async function extractMainInfo(page) {
                 "",
             link_google_map: location.href,
             time_open,
-            type_restaurant: typeRes
+            type_restaurant: typeRes,
         };
     });
 
     // 3️⃣ Escape + normalize tại NodeJS (iframe crawl ở crawlerGoogleIframe, trước hàm này)
     return {
-        // ...rawData,
-        // google_review: convertStr(rawData.google_review),
-        // phone: convertStr(rawData.phone),
-        // address: convertStr(rawData.address),
-        // thumbnail: convertStr(rawData.thumbnail),
-        // time_open: convertStr(rawData.time_open),
+        ...rawData,
+        google_review: convertStr(rawData.google_review),
+        phone: convertStr(rawData.phone),
+        address: convertStr(rawData.address),
+        thumbnail: convertStr(rawData.thumbnail),
+        time_open: convertStr(rawData.time_open),
         type_restaurant: convertStr(rawData.type_restaurant),
     };
 }
@@ -812,6 +811,7 @@ async function crawler_comment(page, record) {
                         results.push({
                             _key,
                             fullname,
+                            is_status: 1,
                             src: nameBtn?.querySelector("img")?.src || null,
                             content,
                         });
@@ -859,8 +859,8 @@ async function crawler_comment(page, record) {
 }
 
 async function getAllCrawlerDataBase(offset = 0) {
-    // const query = `SELECT * FROM ${table.crawler} WHERE is_status = 0 ORDER BY id ASC LIMIT 500 offset ${offset}`;
-    const query = `SELECT * FROM ${table.crawler} WHERE language = 'au'  ORDER BY id ASC LIMIT 300 offset ${offset}`;
+    const query = `SELECT * FROM ${table.crawler} WHERE is_status = 0 and language = 'au' ORDER BY id ASC LIMIT 200 offset ${offset}`;
+    // const query = `SELECT * FROM ${table.crawler} WHERE language = 'au'  ORDER BY id ASC LIMIT 200 offset ${offset}`;
     return database.query(query);
 }
 

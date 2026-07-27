@@ -41,17 +41,20 @@ class CrawlerData extends Command
         $this->$function();
     }
 
-
+    function resizeGoogleImageUrl(string $url, int $size = 1000): string
+    {
+        return preg_replace('/=[swh]\d+(?=-|$)/', '=s' . $size, $url) ?? $url;
+    }
     // php artisan crawler:data --function=crawler_images
     public function crawler_images()
     {
         $datas = DB::table('st_post_images')->join('st_post', 'st_post_images.post_id', '=', 'st_post.id')
             ->select(['st_post_images.*', 'st_post.slug'])
-            ->where('st_post_images.is_crawler', 0)->whereNotNull('st_post_images.crawler_href')->get();
+            ->where('st_post_images.is_crawler', 1)->whereNotNull('st_post_images.crawler_href')->orderBy('id', 'desc')->get();
 
         foreach ($datas->groupBy('post_id')->toArray() as $post_id => $data) {
             foreach (array_values($data) as $k => $item) {
-                $thumb =   preg_replace('/=(.*?)w\d+-h\d+(-)?/', '=$1', $item->crawler_href);
+                $thumb =  $this->resizeGoogleImageUrl($item->crawler_href);
                 if (!empty($thumb)) {
                     $name = rand(1, 1000000);
                     $path = saveImageUrlStorage($thumb, "photos/restaurants/{$item->slug}", "{$item->slug}-{$item->type}-{$name}.jpg");
