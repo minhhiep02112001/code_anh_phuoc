@@ -13,19 +13,31 @@ class Kernel extends ConsoleKernel
      * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
      * @return void
      */
-    protected function schedule(Schedule $schedule)
+    protected function schedule(Schedule $schedule): void
     {
-        $schedule->command('content:generate --limit=1')->everyFiveMinutes()->withoutOverlapping();
-        $schedule->command('sitemap:create --function=sitemapPost')->everyFiveMinutes();
-        $schedule->command('sitemap:create --function=sitemapPage')->everyTenMinutes();
-        // $schedule->command('google_search:index --function=index_google')->daily();
-        $schedule->command('convert:data --function=updatePost')->everyTenMinutes();
-        $schedule->command('crawler:data --function=crawler_images')->everyTenMinutes();
-        $schedule->command('sitemap:create --function=sitemap')->daily();
+        $schedule->command('content:generate --limit=1')
+            ->everyFiveMinutes()
+            ->withoutOverlapping(30);
 
+        $schedule->command('sitemap:create --function=sitemapPost')
+            ->everyFiveMinutes()
+            ->withoutOverlapping(30);
 
-        // $schedule->command('crawler:data --function=category')->everyFourHours();
-        // $schedule->command('convert:data --function=renderStoryToCategory')->daily();
+        $schedule->command('sitemap:create --function=sitemapPage')
+            ->everyTenMinutes()
+            ->withoutOverlapping(60);
+
+        $schedule->command('convert:data --function=updatePost')
+            ->everyTenMinutes()
+            ->withoutOverlapping(120);
+
+        $schedule->command('crawler:data --function=crawler_images')
+            ->everyTenMinutes()
+            ->withoutOverlapping(360);
+
+        $schedule->command('sitemap:create --function=sitemap')
+            ->daily()
+            ->withoutOverlapping(1440);
     }
 
     /**
