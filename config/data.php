@@ -17,7 +17,18 @@ return [
 
     ],
     'banner_type' => [
-        'home' => 'Trang chủ',
+        // Menujoys home sections (mỗi section = 1 key banner)
+        'banner_hero_chip' => 'Home · Hero chips (search gợi ý)',
+        'banner_hero_board' => 'Home · Hero board cards',
+        'banner_value' => 'Home · Value cards',
+        'banner_mood' => 'Home · Food moods',
+        'banner_country' => 'Home · Countries',
+        'banner_city' => 'Home · Cities',
+        'banner_cuisine' => 'Home · Cuisines',
+        'banner_trust' => 'Home · Trust items',
+        'banner_guide' => 'Home · Field notes / Guides',
+        // legacy (giữ để không gãy data cũ)
+        'home' => 'Trang chủ (legacy)',
         'about_home' => 'Banner About (trang chủ)',
         'explore_more' => 'Banner Explore More? (trang chủ)',
         'review_home' => 'Banner Love About (trang chủ)',

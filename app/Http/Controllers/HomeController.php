@@ -55,13 +55,41 @@ class HomeController extends Controller
             'pagination' => $page,
             'select' => ['id', 'title', 'slug', 'thumbnail', 'description'],
         ]);
-        $banners = Banner::getTypeArr(['home', 'explore_more','review_home', 'about_home', 'banner_condi']);
+        $bannerTypes = [
+            'banner_hero_chip',
+            'banner_hero_board',
+            'banner_value',
+            'banner_mood',
+            'banner_country',
+            'banner_city',
+            'banner_cuisine',
+            'banner_trust',
+            'banner_guide',
+            // legacy
+            'home',
+            'explore_more',
+            'review_home',
+            'about_home',
+            'banner_condi',
+        ];
+        $banners = Banner::getTypeArr($bannerTypes);
 
+        $data['bannerHeroChips'] = $banners->where('type', 'banner_hero_chip');
+        $data['bannerHeroBoard'] = $banners->where('type', 'banner_hero_board');
+        $data['bannerValue'] = $banners->where('type', 'banner_value');
+        $data['bannerMood'] = $banners->where('type', 'banner_mood');
+        $data['bannerCountry'] = $banners->where('type', 'banner_country');
+        $data['bannerCity'] = $banners->where('type', 'banner_city');
+        $data['bannerCuisine'] = $banners->where('type', 'banner_cuisine');
+        $data['bannerTrust'] = $banners->where('type', 'banner_trust');
+        $data['bannerGuide'] = $banners->where('type', 'banner_guide');
+
+        // legacy keys (nếu template cũ còn dùng)
         $data['banner'] = $banners->where('type', 'home')->first();
         $data['exploreMore'] = $banners->where('type', 'explore_more')->first();
-        $data['bannerReview'] = $banners->where('type', 'review_home') ;
-        $data['bannerAbout'] = $banners->where('type', 'about_home') ;
-        $data['bannerCondi'] = $banners->where('type', 'banner_condi') ;
+        $data['bannerReview'] = $banners->where('type', 'review_home');
+        $data['bannerAbout'] = $banners->where('type', 'about_home');
+        $data['bannerCondi'] = $banners->where('type', 'banner_condi');
 
         return view('front_end.home', $data);
     }

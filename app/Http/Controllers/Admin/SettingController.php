@@ -14,6 +14,7 @@ class SettingController extends Controller
         'config_website',
         'config_seo',
         'config_home',
+        'config_banner',
         'config_social',
         'config_gemini'
     ];
@@ -34,6 +35,7 @@ class SettingController extends Controller
                         'key' => $key,
                         'domain' => env('APP_URL')
                     ]);
+                    Cache::forget($key);
                     DB::commit();
                 } catch (\Exception $ex) {
                     DB::rollBack();

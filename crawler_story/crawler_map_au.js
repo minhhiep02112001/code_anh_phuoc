@@ -8,11 +8,11 @@ const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 puppeteer.use(StealthPlugin());
 
 const crawlerData = {
-    menu: true,
-    infor: true,
+    menu: false,
+    infor: false,
     images: true,
-    about: true,
-    comment: true,
+    about: false,
+    comment: false,
 };
 
 const table = {
