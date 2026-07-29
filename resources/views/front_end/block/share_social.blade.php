@@ -1,7 +1,7 @@
 
- 
+
 @if (!empty($config_social))
-    <ul class="socials">
+    <ul class="mj-footer-social" aria-label="Social media">
         @if (!empty($config_social->yelp))
             <li>
                 <a href="{{ $config_social->yelp }}" rel="nofollow" target="_blank">
@@ -29,7 +29,7 @@
                     <img src="/assets/images/Pinterest-icon.png" alt="pinterest" width="30px" height="30px">
                 </a></li>
         @endif
-        
+
         @if (!empty($config_social->instagram))
             <li>
                 <a href="{{ $config_social->instagram }}" rel="nofollow" target="_blank">

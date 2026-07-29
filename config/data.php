@@ -27,12 +27,13 @@ return [
         'banner_cuisine' => 'Home · Cuisines',
         'banner_trust' => 'Home · Trust items',
         'banner_guide' => 'Home · Field notes / Guides',
+        'banner_passport' => 'Home · Food Passport (ảnh)',
         // legacy (giữ để không gãy data cũ)
-        'home' => 'Trang chủ (legacy)',
-        'about_home' => 'Banner About (trang chủ)',
-        'explore_more' => 'Banner Explore More? (trang chủ)',
-        'review_home' => 'Banner Love About (trang chủ)',
-        'banner_condi' => 'Banner Sau khối love about (trang chủ)',
+        // 'home' => 'Trang chủ (legacy)',
+        // 'about_home' => 'Banner About (trang chủ)',
+        // 'explore_more' => 'Banner Explore More? (trang chủ)',
+        // 'review_home' => 'Banner Love About (trang chủ)',
+        // 'banner_condi' => 'Banner Sau khối love about (trang chủ)',
     ],
     'setting_menu' => [
         0 => 'Menu Header',

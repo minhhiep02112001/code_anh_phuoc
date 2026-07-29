@@ -2,398 +2,497 @@
     $ver = 126;
     $config_website = getValueSetting('config_website');
     $config_seo = getValueSetting('config_seo');
-    $medias = $post->media->all();
-    $photos = collect($medias)->where('type', 'photo')->all();
-    $menus = collect($medias)->where('type', 'menu')->all();
-    $indexImg = 0;
+    $medias = $medias ?? collect();
+    $photos = collect($medias['photo'] ?? $medias->get('photo', []));
+    $menus = collect($medias['menu'] ?? $medias->get('menu', []));
+    $products = $products ?? collect();
+    $relates = collect($relates ?? []);
+
+    $header = json_decode($post->content_header ?? '', true);
+    if (!is_array($header)) {
+        $header = [];
+    }
+
+    $parseList = function ($value) {
+        if (empty($value)) {
+            return [];
+        }
+        if (is_array($value)) {
+            return array_values(array_filter(array_map('trim', $value)));
+        }
+
+        return array_values(array_filter(array_map('trim', preg_split('/\r\n|\r|\n/', (string) $value))));
+    };
+
+    $knownFor = $parseList($header['known_for'] ?? []);
+    $goodFor = $parseList($header['good_for'] ?? []);
+    $moments = $header['moments'] ?? [];
+    $glanceFacts = $header['glance'] ?? [];
+
+    $priceRange = $header['price_range'] ?? '';
+    $dossierId = $header['dossier_id'] ?? '№ MJ-' . str_pad($post->id, 4, '0', STR_PAD_LEFT);
+    $siteUrl =
+        $header['site_url'] ?? ($post->website ?: parse_url(route('post', ['slug' => $post->slug]), PHP_URL_HOST));
+    $siteUrl = str_replace(['https://', 'http://'], '', rtrim((string) $siteUrl, '/'));
+
+    $menuUrl = !empty($post->website) ? rtrim($post->website, '/') . '/menu' : '#';
+    $directionsUrl = $post->link_map ?: '#';
+    $updatedAt = !empty($post->publish_at)
+        ? \Carbon\Carbon::parse($post->publish_at)->format('F Y')
+        : \Carbon\Carbon::parse($post->updated_at)->format('F Y');
+    $timeSchedule = exportTimeOpen($post->time_open ?? '');
+    $todayHours = $timeSchedule[0]['hours'] ?? '';
+    $highlights = $products->isNotEmpty() ? $products : $menus;
+    $comments = collect($comments ?? []);
+    $reviews = $comments->where('parent_id', 0)->values();
 @endphp
 
 @extends('front_end._index')
 
 @section('content')
-    <style>
-        .mobile-header .logo a {
-            font-size: 20px;
-            color: #fff;
-            font-weight: 700;
-        }
-
-        .nav-outer .mobile-nav-toggler {
-            margin-left: 5px;
-        }
-
-        #reviews .comment {
-            position: relative;
-            margin-bottom: 30px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgb(241, 243, 247);
-        }
-
-        #reviews .user-name {
-            font-size: 20px;
-            color: rgb(27, 32, 50);
-            line-height: normal;
-            margin-bottom: 10px;
-            text-transform: capitalize;
-            font-weight: 600;
-        }
-
-        .listing-block-two {
-            margin-bottom: 10px;
-        }
-
-        .timing-list li {
-            justify-content: end;
-        }
-
-        #reviews .show {
-            display: block;
-        }
-
-        #reviews .hide {
-            display: none;
-        }
-
-        button.loadmoreReview {
-            padding: 10px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            background: bisque;
-            margin: 0 auto;
-            display: block;
-        }
-    </style>
-    <section class="listing-banner box-brand">
-        <div class="background-layer banner-brand" style="background-image: url('{{ getImageThumb($post->thumbnail) }}');">
-        </div>
-        <div class="auto-container info-brand">
-            <div class="content-box">
-                <div class="menu-item header-fixed">
-                    <ul>
-                        <li class="show"><a class="active" href="#overview" title="Overview">Overview</a></li>
-                        <li class="show"><a href="#photos" title="Photos">Photos</a></li>
-                        <li class="show"><a href="#menu" title="Menu">Menu</a></li>
-                        <li class="show"><a href="#reviews" title="Reviews">Reviews</a></li>
-                        <li class="show"><a href="#location" title="Location">Location</a></li>
-                    </ul>
-                </div>
-                <div class="brand-info">
-                    <h1>{{ $post->title }}</h1>
-                    <div class="listing-block-two">
-                        <div class="rating">
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="avg-vote">5</span>
-                            <span class="title">({{ $post->viewed }} reviews )</span>
-                        </div>
-                    </div>
-
-                    <div class="address">
-                        <span class="flaticon-pin"></span> <a href="#location" title="Location">{{ $post->address }}</a>
-                    </div>
-                    @if ($post->phone)
-                        <div class="phone"><span class="flaticon-phone-call"></span> {{ $post->phone }}</div>
-                    @endif
-                </div>
+    <main id="main" class="52d67487a9ae3a088d95" aria="Rjhc831193">
+        <nav class="mj-breadcrumb" aria-label="Breadcrumb">
+            <div class="container-xxl">
+                <ol class="mj-crumb-list">
+                    <li class="mj-crumb"><a href="{{ url('/') }}"
+                            title="{{ $config_website->website ?? 'Menujoys' }}">{{ $config_website->website ?? 'Menujoys' }}</a>
+                    </li>
+                    <li class="mj-crumb mj-crumb-current">{{ $post->title }}</li>
+                </ol>
             </div>
-        </div>
-    </section>
-
-    <div class="sidebar-page-container bg_alice">
-        <div class="auto-container">
-            <div class="row">
-                <div class="content-side col-lg-12 col-md-12 col-sm-12">
-                    <div class="listing-single">
-                        @if (!empty($post->content))
-                            <div class="description-widget ls-widget">
-                                <div class="widget-content" id="overview">
-                                    {!! $post->content !!}
-                                </div>
-                            </div>
-                        @endif
-                        @if (!empty($abouts))
-                            <div class="features-widget ls-widget" id="business">
-                                <div class="widget-title">
-                                    <h2><span class="icon flaticon-list"></span> Amenities and More</h2>
-                                </div>
-                                <div class="widget-content">
-                                    <ul class="listing-features">
-                                        @foreach (collect($abouts)->where('parent_id', 0) as $about)
-                                            @if (!empty($about->title))
-                                                <li>
-                                                    <span class="title-amenites">{{ $about->title }}</span>
-                                                    <ul class="listing-child">
-                                                        @foreach (collect($abouts)->where('parent_id', $about->id) as $child)
-                                                            <li><span>{!! $child->title !!}</span></li>
-                                                        @endforeach
-                                                    </ul>
-                                                </li>
-                                            @endif
-                                        @endforeach
-                                    </ul>
-                                </div>
-                                <button class="see-more-btn">See more</button>
-                            </div>
-                        @endif
-                        @if (!empty($menus) || !empty($products))
-                            <div class="gallery-widget   ls-widget" id="menus">
-                                <div class="widget-title">
-                                    <h2><span class="icon flaticon-gallery"></span> Menus</h2>
-                                </div>
-                                <div class="widget-content features-widget">
-                                    @if (!empty($menus))
-                                        <ul class="listing-gallery listing-gallery-photos">
-                                            @foreach ($menus as $k => $item)
-                                                <li class="gallery-item photo-item-{{ $indexImg++ }}">
-                                                    <div class="inner-box">
-                                                        <figure class="image"> <img class=""
-                                                                src="{{ getImageThumb($item->thumbnail) }}"
-                                                                alt="Menu {{ $post->title }} - {{ $k }}"
-                                                                data-src="{{ getImageThumb($item->thumbnail) }}"
-                                                                lazy="loading">
-                                                        </figure>
-                                                        <div class="overlay"> <a
-                                                                href="{{ getImageThumb($item->thumbnail) }}"
-                                                                class="lightbox-image" data-fancybox="ls-gallery-photos"
-                                                                title="Menu {{ $post->title }} - {{ $k }}"><span
-                                                                    class="icon flaticon-magnifying-glass"></span></a>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    @endif
-
-                                    @if (!empty($products) && collect($products)->count() > 0)
-                                        <div class="widget-content ls-widget">
-                                            <ul class="listing-features" style="margin-top: 20px;">
-                                                @foreach (collect($products)->where('parent_id', 0) as $product)
-                                                    @if (!empty($product->title))
-                                                        <li style="padding: 0 5px;">
-                                                            <span class="title-amenites">{{ $product->title }}</span>
-                                                            <ul class="listing-child">
-                                                                @foreach (collect($products)->where('parent_id', $product->id) as $child)
-                                                                    <li
-                                                                        style="display: flex;justify-content: space-between;align-items: baseline;">
-                                                                        <span>{!! trim($child->title) !!}</span>
-                                                                        @if (!empty($child->price))
-                                                                            <span>{!! trim($child->price) !!}</span>
-                                                                        @endif
-                                                                    </li>
-                                                                @endforeach
-                                                            </ul>
-                                                        </li>
-                                                    @endif
-                                                @endforeach
-                                            </ul>
-                                            <button class="see-more-btn">See more</button>
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
-                        @endif
-
-
-                        @if (!empty($photos))
-                            <div class="gallery-widget ls-widget" id="photos">
-                                <div class="widget-title">
-                                    <h2><span class="icon flaticon-gallery"></span> Photos</h2>
-                                </div>
-                                <div class="widget-content">
-                                    <ul class="listing-gallery listing-gallery-photos">
-                                        @foreach ($photos as $k => $item)
-                                            <li class="gallery-item photo-item-{{ $indexImg++ }}">
-                                                <div class="inner-box">
-                                                    <figure class="image"> <img class=""
-                                                            src="{{ getImageThumb($item->thumbnail) }}"
-                                                            alt="Photo {{ $post->title }} - {{ $k }}"
-                                                            data-src="{{ getImageThumb($item->thumbnail) }}"
-                                                            lazy="loading">
-                                                    </figure>
-                                                    <div class="overlay"> <a href="{{ getImageThumb($item->thumbnail) }}"
-                                                            class="lightbox-image" data-fancybox="ls-gallery-photos"
-                                                            title="Photo {{ $post->title }} - {{ $k }}"><span
-                                                                class="icon flaticon-magnifying-glass"></span></a> </div>
-                                                </div>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            </div>
-                        @endif
-
-                        @if (!empty($comments))
-                            <div class="comments-widget ls-widget" id="reviews">
-                                <div class="widget-title">
-                                    <h2><span class="icon flaticon-consulting-message"></span> Reviews {{ $post->title }}
-                                    </h2>
-                                </div>
-                                <div class="widget-content listReview">
-
-                                    @foreach (collect($comments)->values() as $k => $item)
-                                        <div class="comment {{ $k < 5 ? 'show' : 'hide' }}"
-                                            data-index="{{ $k }}">
-                                            <div class="user-name"> {{ $item->fullname }}</div>
-                                            <div class="comment-info listing-block-two">
-                                                <ul class="rating">
-                                                    <span class="fa fa-star"></span>
-                                                    <span class="fa fa-star"></span>
-                                                    <span class="fa fa-star"></span>
-                                                    <span class="fa fa-star"></span>
-                                                    <span class="fa fa-star"></span>
-                                                </ul>
-                                                <div class="comment-time">
-                                                    {{ format_date($item->created_at, 'd-m-Y') }}
-                                                </div>
-                                            </div>
-                                            <div class="text">
-                                                {!! $item->content ?? '' !!}
-                                            </div>
-                                        </div>
-                                    @endforeach
-
-                                </div>
-                                @if (collect($comments)->count() > 0)
-                                    <button class="loadmoreReview">See more reviews</button>
-                                @endif
-                            </div>
-                        @endif
-
-
-                        <div class="comments-form-widget ls-widget">
-                            <div class="widget-title">
-                                <h4><span class="icon flaticon-consulting-message"></span> Add a Review</h4>
-                            </div>
-                            <div class="widget-content">
-                                <div class="sub-ratings-container">
-
-                                    <div class="add-sub-rating">
-                                        <div class="sub-rating-title">Space</div>
-                                        <div class="sub-rating-stars">
-                                            <div class="clearfix"></div>
-                                            <form class="leave-rating"> <input type="radio" name="rating"
-                                                    id="rating-31" value="1"> <label for="rating-31"
-                                                    class="fa fa-star"></label> <input type="radio" name="rating"
-                                                    id="rating-32" value="2"> <label for="rating-32"
-                                                    class="fa fa-star"></label> <input type="radio" name="rating"
-                                                    id="rating-33" value="3"> <label for="rating-33"
-                                                    class="fa fa-star"></label> <input type="radio" name="rating"
-                                                    id="rating-34" value="4"> <label for="rating-34"
-                                                    class="fa fa-star"></label> <input type="radio" name="rating"
-                                                    id="rating-35" value="5"> <label for="rating-35"
-                                                    class="fa fa-star"></label> </form>
-                                        </div>
-                                    </div>
-
-
-                                </div>
-                                <div class="comment-form default-form">
-                                    <form>
-                                        <div class="row clearfix">
-                                            <div class="col-lg-6 col-md-12 col-sm-12 form-group"> <input type="text"
-                                                    name="username" placeholder="Name" required=""> </div>
-                                            <div class="col-lg-6 col-md-12 col-sm-12 form-group"> <input type="email"
-                                                    name="email" placeholder="Email" required=""> </div>
-                                            <div class="col-lg-12 col-md-12 col-sm-12 form-group">
-                                                <textarea class="darma" name="message" placeholder="Write Comment"></textarea>
-                                            </div>
-                                            <div class="col-lg-12 col-md-12 col-sm-12 form-group"> <button
-                                                    class="theme-btn btn-style-two" type="submit" name="submit-form"
-                                                    disabled="">Submit Review</button> </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="sidebar-side col-lg-6 col-md-12 col-sm-12">
-                    <aside class="sidebar">
-                        <div class="timing-widget ls-widget" id="hours">
-                            <div class="widget-title">
-                                <h2><span class="icon flaticon-menu"></span>Opening Hours</h2> <span
-                                    class="status"><strong class="time-status text-danger"
-                                        data-time="10:00 AM - 11:00 PM">Closed</strong></span>
-                            </div>
-                            <div class="widget-content">
-                                @if (!empty($post->time_open))
-                                    <div id="time_open" class="timing-list">
-                                        {!! $post->time_open !!}
-                                    </div>
-                                @endif
-
-                            </div>
-                        </div>
-                    </aside>
-                </div>
-                <div class="sidebar-side col-lg-6 col-md-12 col-sm-12">
-                    <div class="business-info-widget ls-widget" id="location">
-                        <div class="widget-title">
-                            <h2><span class="icon flaticon-menu"></span>Location</h2>
-                        </div>
-                        <div class="widget-content">
-                            <div class="map-box">
-                                {!! getIframeSrcFromString($post->iframe_map) !!}
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        </nav>
+        <section class="mj-page-hero mj-brand-hero" id="overview" aria-labelledby="brandTitle">
+            <div class="mj-hero-bg">
+                <div class="mj-hero-grain"></div>
+                <div class="mj-hero-blob mj-hero-blob-1"></div>
+                <div class="mj-hero-blob mj-hero-blob-2"></div>
             </div>
-        </div>
-    </div>
-    @if (!empty($relates))
-        <section class="listing-section-two appreciated-others">
-            <div class="container-fluid">
-                <div class="sec-title text-center">
-                    <h2>MORE RESTAURANTS</h2>
-                </div>
-                <div class="carousel-outer">
-                    <div class="four-items-carousel owl-carousel owl-theme default-nav light no-dots owl-loaded owl-drag">
-
-                        @foreach ($relates as $item)
-                            <div class="listing-block-two">
-                                <div class="inner-box">
-                                    <div class="image-box">
-                                        <figure class="image">
-                                            <img src="{{ getImageThumb($item->thumbnail) }}" alt="{{ $item->title }}"
-                                                lazy="loading">
-                                        </figure>
-                                        <div class="content">
-                                            <div class="rating"> <span class="fa fa-star"></span> <span
-                                                    class="fa fa-star"></span> <span class="fa fa-star"></span>
-                                                <span class="fa fa-star"></span> <span class="fa fa-star"></span>
-                                                <span class="title">({{ $item->review }} review)</span>
-                                            </div>
-                                            <div class="title-brand"><a href="{{ route('post', $item->slug) }}"
-                                                    title="{{ $item->title }}">{{ $item->title }}</a></div>
-                                            <ul class="info mt-3">
-                                                <li><span class="flaticon-pin"></span>{{ $item->address }}</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    @if (!empty($item->phone))
-                                        <div class="bottom-box">
-                                            <div class="places">
-                                                <div class="place">{{ $item->title }} Restaurant</div>
-                                            </div>
-                                            <div class="status"><span class="flaticon-phone-call"></span>
-                                                {{ $item->phone }}
-                                            </div>
-                                        </div>
-                                    @endif
-                                </div>
+            <div class="container-xxl">
+                <div class="row align-items-center g-5">
+                    <div class="col-lg-7 mj-page-hero-copy">
+                        <h1 id="brandTitle" class="mj-page-title">{{ $post->title }}</h1>
+                        @if (!empty($post->description))
+                            <p class="mj-page-lede">{{ $post->description }}</p>
+                        @endif
+                        <ul class="mj-info-chips" aria-label="Restaurant facts">
+                            @if (!empty($post->address))
+                                <li><i class="bi bi-geo-alt-fill"></i> {{ $post->address }}</li>
+                            @endif
+                            <li><i class="bi bi-pencil-square"></i> Updated {{ $updatedAt }}</li>
+                        </ul>
+                        <div class="mj-page-actions">
+                            @if ($menuUrl !== '#')
+                                <a href="{{ $menuUrl }}" title="View Menu" class="mj-btn mj-btn-primary mj-btn-lg">
+                                    <i class="bi bi-journal-richtext"></i>
+                                    <span>View Menu</span>
+                                </a>
+                            @endif
+                            @if ($directionsUrl !== '#')
+                                <a href="{{ $directionsUrl }}" target="_blank" rel="noopener"
+                                    class="mj-btn mj-btn-outline mj-btn-lg gbmm">
+                                    <i class="bi bi-signpost-2"></i>
+                                    <span>Get Directions</span>
+                                </a>
+                            @endif
+                            <a href="#update" class="mj-btn mj-btn-ghost mj-btn-lg">
+                                <i class="bi bi-pencil"></i>
+                                <span>Suggest Update</span>
+                            </a>
+                        </div>
+                    </div>
+                    {{-- thumbnail: ảnh đại diện post --}}
+                    <div class="col-lg-5 mj-brand-hero-visual">
+                        @if (!empty($post->thumbnail))
+                            <div class="mj-brand-hero-thumb">
+                                <img src="{{ getImageThumb($post->thumbnail) }}" alt="{{ $post->title }}"
+                                    class="img-fluid w-100 rounded-4">
                             </div>
-                        @endforeach
-
+                        @endif
                     </div>
                 </div>
             </div>
         </section>
-    @endif
+        @php
+            $defaultGlance = array_values(
+                array_filter([
+                    !empty($post->address)
+                        ? ['icon' => 'bi-geo-alt', 'title' => 'Location', 'text' => $post->address]
+                        : null,
+                    !empty($post->phone)
+                        ? ['icon' => 'bi-telephone', 'title' => 'Contact', 'text' => $post->phone]
+                        : null,
+                    !empty($post->time_open)
+                        ? ['icon' => 'bi-clock', 'title' => 'Opening Hours', 'text' => strip_tags($post->time_open)]
+                        : null,
+                    !empty($priceRange)
+                        ? ['icon' => 'bi-cash-stack', 'title' => 'Price Range', 'text' => $priceRange]
+                        : null,
+                    !empty($post->review_google)
+                        ? ['icon' => 'bi-star-half', 'title' => 'Rating', 'text' => $post->review_google]
+                        : null,
+                ]),
+            );
+            $glanceItems = !empty($glanceFacts) ? $glanceFacts : $defaultGlance;
+        @endphp
+        @if (!empty($glanceItems))
+            <section class="mj-section mj-glance" aria-labelledby="glanceTitle">
+                <div class="container-xxl">
+                    <div class="mj-section-head mj-section-head-row">
+                        <div>
+                            <span class="mj-eyebrow">Quick Facts</span>
+                            <h2 id="glanceTitle" class="mj-section-title" data-h-script="Glance.">At a Glance.</h2>
+                            <p class="mj-section-text">Six quick facts to help you decide before you visit.</p>
+                        </div>
+                    </div>
+                    <div class="row g-3 g-lg-4">
+                        @foreach ($glanceItems as $fact)
+                            <div class="col-sm-6 col-lg-4">
+                                <article class="mj-fact-card">
+                                    <span class="mj-fact-icon mj-icon-cacao"><i
+                                            class="bi {{ $fact['icon'] ?? 'bi-info-circle' }}"></i></span>
+                                    <h3 class="mj-fact-title">{{ $fact['title'] ?? '' }}</h3>
+                                    <p class="mj-fact-text">{{ $fact['text'] ?? '' }}</p>
+                                </article>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </section>
+        @endif
+        @if ($highlights->count() > 0)
+            <section class="mj-section mj-highlights" id="highlights" aria-labelledby="highlightsTitle">
+                <div class="container-xxl">
+                    <div class="mj-section-head">
+                        <span class="mj-eyebrow">Featured Items</span>
+                        <h2 id="highlightsTitle" class="mj-section-title" data-h-script="Highlights.">Menu Highlights.</h2>
+                        <p class="mj-section-text">A quick look at popular items and menu categories before you open the
+                            full menu.</p>
+                    </div>
+                    <div class="row g-4 justify-content-center">
+                        @foreach ($highlights->take(6) as $item)
+                            <div class="col-md-6 col-lg-4">
+                                <article class="mj-highlight-card mj-highlight-card-simple">
+                                    <div class="mj-highlight-art mj-highlight-art--photo">
+                                        <img class="lazy mj-photo-img" src="{{ asset('public/dot.jpg') }}"
+                                            data-src="{{ getImageThumb($item->thumbnail ?? '') }}"
+                                            alt="{{ $item->title ?? '' }}" width="600" height="600" />
+                                    </div>
+                                    <div class="mj-highlight-body">
+                                        <h3 class="mj-highlight-name">{{ $item->title ?? '' }}</h3>
+                                    </div>
+                                </article>
+                            </div>
+                        @endforeach
+                    </div>
+                    @if ($menuUrl !== '#')
+                        <div class="mj-highlights-cta">
+                            <a href="{{ $menuUrl }}" title="View Full Menu" class="mj-btn mj-btn-primary mj-btn-lg">
+                                <i class="bi bi-journal-richtext"></i>
+                                <span>View Full Menu</span>
+                            </a>
+                        </div>
+                    @endif
+                </div>
+            </section>
+        @endif
+        @if (!empty($post->content) || !empty($post->content_about) || !empty($post->content_footer))
+            <section class="mj-section mj-about" aria-labelledby="aboutTitle">
+                <div class="container-xxl">
+                    <div class="row align-items-center g-5">
+                        <div class="col-lg-7">
+                            <span class="mj-eyebrow">About</span>
+                            <h2 id="aboutTitle" class="mj-section-title" data-h-script="{{ $post->title }}.">About
+                                {{ $post->title }}.</h2>
+                            @if (!empty($post->content))
+                                <div>{!! $post->content !!}</div>
+                            @elseif (!empty($post->content_about))
+                                <div>{!! $post->content_about !!}</div>
+                            @endif
+                        </div>
+                        @if (!empty($post->content_footer))
+                            <div class="col-lg-5">
+                                <figure class="mj-quote-card">
+                                    <span class="mj-quote-mark">"</span>
+                                    <blockquote>
+                                        <div>{!! $post->content_footer !!}</div>
+                                    </blockquote>
+                                </figure>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            </section>
+        @endif
+        @if (!empty($moments))
+            <section class="mj-section mj-moments" aria-labelledby="momentsTitle">
+                <div class="container-xxl">
+                    <div class="mj-section-head">
+                        <span class="mj-eyebrow">Food Moments</span>
+                        <h2 id="momentsTitle" class="mj-section-title" data-h-script="food moments.">Best for these food
+                            moments.</h2>
+                        @if (!empty($header['moments_text']))
+                            <p class="mj-section-text">{{ $header['moments_text'] }}</p>
+                        @endif
+                    </div>
+                    <div class="row g-3 g-lg-4">
+                        @foreach ($moments as $moment)
+                            <div class="col-6 col-lg-3">
+                                <article class="mj-moment-card">
+                                    <span class="mj-moment-icon"><i
+                                            class="bi {{ $moment['icon'] ?? 'bi-stars' }}"></i></span>
+                                    <h3 class="mj-moment-title">{{ $moment['title'] ?? '' }}</h3>
+                                    <p class="mj-moment-text">{{ $moment['text'] ?? '' }}</p>
+                                </article>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </section>
+        @endif
+        @if (!empty($post->address) || !empty($post->time_open) || !empty($post->iframe_map))
+            <section class="mj-section mj-location" id="location" aria-labelledby="locationTitle">
+                <div class="container-xxl">
+                    <div class="mj-section-head">
+                        <span class="mj-eyebrow">Find &amp; Visit</span>
+                        <h2 id="locationTitle" class="mj-section-title" data-h-script="Opening Hours.">Location &amp;
+                            Opening Hours.</h2>
+                        <p class="mj-section-text">Address, contact, and weekly opening times at a glance.</p>
+                    </div>
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <article class="mj-location-card">
+                                <div class="mj-location-card-head">
+                                    <span class="mj-location-icon"><i class="bi bi-pin-map-fill"></i></span>
+                                    <h3 class="mj-location-card-title">Address &amp; Contact</h3>
+                                </div>
+                                @if (!empty($post->iframe_map))
+                                    <div class="mj-map-embed">
+                                        {!! $post->iframe_map !!}
+                                    </div>
+                                @endif
+                                <dl class="mj-location-list">
+                                    @if (!empty($post->address))
+                                        <div>
+                                            <dt>Address</dt>
+                                            <dd>{{ $post->address }}</dd>
+                                        </div>
+                                    @endif
+                                    @if (!empty($post->phone))
+                                        <div>
+                                            <dt>Phone</dt>
+                                            <dd><a
+                                                    href="tel:{{ preg_replace('/\s+/', '', $post->phone) }}">{{ $post->phone }}</a>
+                                            </dd>
+                                        </div>
+                                    @endif
+                                </dl>
+                                @if ($directionsUrl !== '#')
+                                    <a href="{{ $directionsUrl }}" target="_blank" rel="noopener"
+                                        class="mj-btn mj-btn-primary gbmm">
+                                        <i class="bi bi-signpost-2"></i>
+                                        <span>Get Directions</span>
+                                    </a>
+                                @endif
+                            </article>
+                        </div>
+                        @if (!empty($timeSchedule))
+                            <div class="col-lg-6">
+                                <article class="mj-location-card">
+                                    <div class="mj-location-card-head">
+                                        <span class="mj-location-icon"><i class="bi bi-clock-fill"></i></span>
+                                        <h3 class="mj-location-card-title">Opening Hours</h3>
+                                        @if (!empty($todayHours))
+                                            <span class="mj-location-status time-status"
+                                                data-time="{{ $todayHours }}"></span>
+                                        @endif
+                                    </div>
+                                    <ul class="mj-hours-table" aria-label="Weekly opening hours">
+                                        @foreach ($timeSchedule as $row)
+                                            <li>
+                                                <span class="mj-hours-day">{{ $row['day'] ?? '' }}</span>
+                                                <span class="mj-hours-time"><span>{{ $row['hours'] ?? '' }}</span></span>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                    <p class="mj-hours-note">
+                                        <i class="bi bi-info-circle"></i> Opening hours may vary.
+                                        <a href="#update">Suggest an update</a> if this information has changed.
+                                    </p>
+                                </article>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            </section>
+        @endif
+
+        @if ($reviews->count() > 0 || !empty($post->review_google))
+            <style>
+                .mj-reviews .comment {
+                    display: flex;
+                }
+
+                .mj-reviews .mj-testimonial {
+                    width: 100%;
+                    min-height: 260px;
+                    height: 100%;
+                }
+
+                .mj-reviews .mj-testimonial blockquote {
+                    flex: 1 1 auto;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 6;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    word-break: break-word;
+                }
+            </style>
+            <section class="mj-section mj-reviews" id="reviews" aria-labelledby="reviewsTitle">
+                <div class="container-xxl">
+                    <div class="mj-section-head">
+                        <span class="mj-eyebrow">Guest Reviews</span>
+                        <h2 id="reviewsTitle" class="mj-section-title" data-h-script="say.">What diners say.</h2>
+                        @php
+                            $reviewSummary = !empty($post->review_google)
+                                ? trim(
+                                    $post->review_google .
+                                        ($reviews->count() > 0 ? ' · ' . $reviews->count() . ' recent reviews' : ''),
+                                )
+                                : 'Recent guest feedback for ' . $post->title . '.';
+                        @endphp
+                        <p class="mj-section-text">{{ $reviewSummary }}</p>
+                    </div>
+
+                    @if ($reviews->count() > 0)
+                        <div class="listReview row g-4">
+                            @foreach ($reviews as $i => $review)
+                                <div class="col-md-6 col-lg-4 comment h-100 {{ $i >= 6 ? 'hide' : 'show' }}">
+                                    <article class="mj-testimonial h-100">
+                                        <blockquote>{{ $review->content }}</blockquote>
+                                        <div class="mj-testimonial-by">
+                                            @if (!empty($review->thumbnail))
+                                                <img class="mj-testimonial-avatar"
+                                                    src="{{ getImageThumb($review->thumbnail, 44, 44) }}"
+                                                    alt="{{ $review->fullname ?? 'Guest' }}" loading="lazy"
+                                                    width="44" height="44" />
+                                            @endif
+                                            <div>
+                                                @if (!empty($review->fullname))
+                                                    <strong>{{ $review->fullname }}</strong>
+                                                @endif
+                                                @if (!empty($review->title))
+                                                    <span>{{ $review->title }}</span>
+                                                @endif
+                                                @if (!empty($review->created_at))
+                                                    <span>{{ timeAgo($review->created_at) }}</span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </article>
+                                </div>
+                            @endforeach
+                        </div>
+                        @if ($reviews->count() > 6)
+                            <div class="text-center mt-4">
+                                <button type="button" class="mj-btn mj-btn-outline mj-btn-lg loadmoreReview">
+                                    <span>Load more reviews</span>
+                                    <i class="bi bi-arrow-down" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        @endif
+                    @endif
+                </div>
+            </section>
+        @endif
+
+        @if ($relates->count() > 0)
+            <section class="mj-section mj-related" id="similar" aria-labelledby="similarTitle">
+                <div class="container-xxl">
+                    <div class="mj-section-head mj-section-head-row">
+                        <div>
+                            <span class="mj-eyebrow">Discover Nearby</span>
+                            <h2 id="similarTitle" class="mj-section-title" data-h-script="nearby.">Similar local food
+                                nearby.</h2>
+                            <p class="mj-section-text">Keep exploring with brands that match this craving.</p>
+                        </div>
+                    </div>
+                    <div class="mj-brand-slider-wrap">
+                        <button type="button" class="mj-slider-btn mj-slider-btn-edge mj-slider-btn-prev" data-slide-prev
+                            aria-label="Previous brands">
+                            <i class="bi bi-arrow-left"></i>
+                        </button>
+                        <div class="mj-brand-slider" data-brand-slider role="region"
+                            aria-label="Nearby brands carousel">
+                            @foreach ($relates as $relate)
+                                @php
+                                    $relateUrl = !empty($relate->website)
+                                        ? rtrim($relate->website, '/')
+                                        : route('post', ['slug' => $relate->slug]);
+                                @endphp
+                                <article class="mj-brand-card">
+                                    <a href="{{ $relateUrl }}" title="{{ $relate->title }}"
+                                        class="mj-brand-card-link">
+                                        <div class="mj-brand-card-photo">
+                                            <img class="lazy" src="{{ asset('public/dot.jpg') }}"
+                                                data-src="{{ getImageThumb($relate->thumbnail) }}"
+                                                alt="{{ $relate->title }}" />
+                                        </div>
+                                        <span class="mj-brand-card-body">
+                                            <h3 class="mj-brand-card-name">{{ $relate->title }}</h3>
+                                            @if (!empty($relate->address))
+                                                <p class="mj-brand-card-meta">
+                                                    <i class="bi bi-geo-alt-fill"></i> {{ $relate->address }}
+                                                </p>
+                                            @endif
+                                            @if (!empty($relate->review_google))
+                                                <span class="mj-brand-card-foot">
+                                                    <span class="mj-brand-card-rating">
+                                                        <i class="bi bi-star-fill"></i> {{ $relate->review_google }}
+                                                    </span>
+                                                </span>
+                                            @endif
+                                        </span>
+                                    </a>
+                                </article>
+                            @endforeach
+                        </div>
+                        <button type="button" class="mj-slider-btn mj-slider-btn-edge mj-slider-btn-next" data-slide-next
+                            aria-label="Next brands">
+                            <i class="bi bi-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+        @endif
+        <section class="mj-section mj-final-cta" id="update" aria-labelledby="finalTitle">
+            <div class="container-xxl">
+                <div class="mj-final-card">
+                    <div class="mj-final-deco">
+                        <span class="mj-final-spark mj-final-spark-1">✦</span>
+                        <span class="mj-final-spark mj-final-spark-2">✦</span>
+                    </div>
+                    <span class="mj-eyebrow">Next Step</span>
+                    <h2 id="finalTitle" class="mj-final-title" data-h-script="menu?">Ready to explore the menu?</h2>
+                    <p class="mj-final-text">View dishes, prices, popular picks, and menu categories for
+                        {{ $post->title }}.</p>
+                    <div class="mj-final-actions">
+                        @if ($menuUrl !== '#')
+                            <a href="{{ $menuUrl }}" title="View Full Menu"
+                                class="mj-btn mj-btn-primary mj-btn-lg">
+                                <i class="bi bi-journal-richtext"></i>
+                                <span>View Full Menu</span>
+                            </a>
+                        @endif
+                        <a href="{{ url('#l') }}" title="Suggest Update" class="mj-btn mj-btn-outline mj-btn-lg">
+                            <i class="bi bi-pencil"></i>
+                            <span>Suggest Update</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 @endsection
 @push('scripts')
     <script>

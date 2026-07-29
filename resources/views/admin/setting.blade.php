@@ -9,7 +9,7 @@
      }
      $config_time_open = !empty($setting['config_time_open']) ? $setting['config_time_open'] : '';
      $config_gemini = !empty($setting['config_gemini']) ? json_decode($setting['config_gemini']) : [];
- @endphp 
+ @endphp
  @extends('admin._index')
  @section('content')
      <!-- Main content -->
@@ -431,17 +431,19 @@
                                      </div>
                                      <div class="card-body p-2">
                                          <p class="text-muted mb-3">
-                                             Text section = key trong <code>config_banner</code>.
-                                             Card/list items lấy từ module Banner với type:
-                                             <code>banner_hero_chip</code>, <code>banner_value</code>, <code>banner_mood</code>,
-                                             <code>banner_country</code>, <code>banner_city</code>, <code>banner_cuisine</code>,
-                                             <code>banner_trust</code>, <code>banner_guide</code>...
+                                             Text khối dưới = text section trong <code>config_banner</code>.
+                                             Card/list lấy từ module <strong>Banner</strong> theo <code>type</code>
+                                             trùng tên với tiêu đề (vd: <code>banner_mood</code>).
                                          </p>
                                          <div class="row">
                                              {{-- HERO --}}
                                              <div class="col-md-6 mb-3">
                                                  <fieldset>
-                                                     <legend>hero</legend>
+                                                     <legend class="w-auto ">
+                                                         {{ config('data.banner_type.banner_hero_chip') }}
+                                                         <small class="text-muted">/ {{ config('data.banner_type.banner_hero_board') }}</small>
+                                                         <code class="d-block mt-1">banner_hero_chip · banner_hero_board</code>
+                                                     </legend>
                                                      <div class="form-group">
                                                          <label>Eyebrow</label>
                                                          <input class="form-control" name="config_banner[hero][eyebrow]" value="{{ data_get($config_banner, 'hero.eyebrow', '') }}">
@@ -469,7 +471,10 @@
                                              {{-- MOODS --}}
                                              <div class="col-md-6 mb-3">
                                                  <fieldset>
-                                                     <legend>moods</legend>
+                                                     <legend class="w-auto ">
+                                                         {{ config('data.banner_type.banner_mood') }}
+                                                         <code class="d-block mt-1">banner_mood</code>
+                                                     </legend>
                                                      <div class="form-group">
                                                          <label>Eyebrow</label>
                                                          <input class="form-control" name="config_banner[moods][eyebrow]" value="{{ data_get($config_banner, 'moods.eyebrow', '') }}">
@@ -488,7 +493,10 @@
                                              {{-- COUNTRIES --}}
                                              <div class="col-md-6 mb-3">
                                                  <fieldset>
-                                                     <legend>countries</legend>
+                                                     <legend class="w-auto ">
+                                                         {{ config('data.banner_type.banner_country') }}
+                                                         <code class="d-block mt-1">banner_country</code>
+                                                     </legend>
                                                      <div class="form-group">
                                                          <label>Eyebrow</label>
                                                          <input class="form-control" name="config_banner[countries][eyebrow]" value="{{ data_get($config_banner, 'countries.eyebrow', '') }}">
@@ -516,7 +524,10 @@
                                              {{-- CITIES --}}
                                              <div class="col-md-6 mb-3">
                                                  <fieldset>
-                                                     <legend>cities</legend>
+                                                     <legend class="w-auto ">
+                                                         {{ config('data.banner_type.banner_city') }}
+                                                         <code class="d-block mt-1">banner_city</code>
+                                                     </legend>
                                                      <div class="form-group">
                                                          <label>Eyebrow</label>
                                                          <input class="form-control" name="config_banner[cities][eyebrow]" value="{{ data_get($config_banner, 'cities.eyebrow', '') }}">
@@ -535,7 +546,10 @@
                                              {{-- FEATURED --}}
                                              <div class="col-md-6 mb-3">
                                                  <fieldset>
-                                                     <legend>featured</legend>
+                                                     <legend class="w-auto ">
+                                                         Home · Featured Menus
+                                                         <code class="d-block mt-1">posts (brand)</code>
+                                                     </legend>
                                                      <div class="form-group">
                                                          <label>Eyebrow</label>
                                                          <input class="form-control" name="config_banner[featured][eyebrow]" value="{{ data_get($config_banner, 'featured.eyebrow', '') }}">
@@ -554,7 +568,10 @@
                                              {{-- PASSPORT --}}
                                              <div class="col-md-6 mb-3">
                                                  <fieldset>
-                                                     <legend>passport</legend>
+                                                     <legend class="w-auto ">
+                                                         {{ config('data.banner_type.banner_passport') }}
+                                                         <code class="d-block mt-1">config_banner.passport · banner_passport (ảnh)</code>
+                                                     </legend>
                                                      <div class="form-group">
                                                          <label>Eyebrow</label>
                                                          <input class="form-control" name="config_banner[passport][eyebrow]" value="{{ data_get($config_banner, 'passport.eyebrow', '') }}">
@@ -577,7 +594,10 @@
                                              {{-- CUISINES --}}
                                              <div class="col-md-6 mb-3">
                                                  <fieldset>
-                                                     <legend>cuisines</legend>
+                                                     <legend class="w-auto ">
+                                                         {{ config('data.banner_type.banner_cuisine') }}
+                                                         <code class="d-block mt-1">banner_cuisine</code>
+                                                     </legend>
                                                      <div class="form-group">
                                                          <label>Eyebrow</label>
                                                          <input class="form-control" name="config_banner[cuisines][eyebrow]" value="{{ data_get($config_banner, 'cuisines.eyebrow', '') }}">
@@ -593,26 +613,13 @@
                                                  </fieldset>
                                              </div>
 
-                                             {{-- RECENT --}}
-                                             <div class="col-md-6 mb-3">
-                                                 <fieldset>
-                                                     <legend>recent</legend>
-                                                     <div class="form-group">
-                                                         <label>Eyebrow / Title</label>
-                                                         <input class="form-control mb-1" name="config_banner[recent][eyebrow]" value="{{ data_get($config_banner, 'recent.eyebrow', '') }}">
-                                                         <input class="form-control" name="config_banner[recent][title]" value="{{ data_get($config_banner, 'recent.title', '') }}">
-                                                     </div>
-                                                     <div class="form-group">
-                                                         <label>Text</label>
-                                                         <textarea class="form-control" rows="2" name="config_banner[recent][text]">{{ data_get($config_banner, 'recent.text', '') }}</textarea>
-                                                     </div>
-                                                 </fieldset>
-                                             </div>
-
                                              {{-- OWNERS --}}
                                              <div class="col-md-6 mb-3">
                                                  <fieldset>
-                                                     <legend>owners</legend>
+                                                     <legend class="w-auto ">
+                                                         Home · For Restaurants
+                                                         <code class="d-block mt-1">config_banner.owners (text only)</code>
+                                                     </legend>
                                                      <div class="form-group">
                                                          <label>Eyebrow / Title</label>
                                                          <input class="form-control mb-1" name="config_banner[owners][eyebrow]" value="{{ data_get($config_banner, 'owners.eyebrow', '') }}">
@@ -639,7 +646,10 @@
                                              {{-- TRUST --}}
                                              <div class="col-md-6 mb-3">
                                                  <fieldset>
-                                                     <legend>trust</legend>
+                                                     <legend class="w-auto ">
+                                                         {{ config('data.banner_type.banner_trust') }}
+                                                         <code class="d-block mt-1">banner_trust</code>
+                                                     </legend>
                                                      <div class="form-group">
                                                          <label>Eyebrow</label>
                                                          <input class="form-control" name="config_banner[trust][eyebrow]" value="{{ data_get($config_banner, 'trust.eyebrow', '') }}">
@@ -658,7 +668,10 @@
                                              {{-- GUIDES --}}
                                              <div class="col-md-6 mb-3">
                                                  <fieldset>
-                                                     <legend>guides</legend>
+                                                     <legend class="w-auto ">
+                                                         {{ config('data.banner_type.banner_guide') }}
+                                                         <code class="d-block mt-1">banner_guide</code>
+                                                     </legend>
                                                      <div class="form-group">
                                                          <label>Eyebrow</label>
                                                          <input class="form-control" name="config_banner[guides][eyebrow]" value="{{ data_get($config_banner, 'guides.eyebrow', '') }}">
@@ -677,7 +690,10 @@
                                              {{-- FINAL --}}
                                              <div class="col-md-6 mb-3">
                                                  <fieldset>
-                                                     <legend>final</legend>
+                                                     <legend class="w-auto ">
+                                                         Home · Final CTA
+                                                         <code class="d-block mt-1">config_banner.final (text only)</code>
+                                                     </legend>
                                                      <div class="form-group">
                                                          <label>Title HTML</label>
                                                          <textarea class="form-control" rows="2" name="config_banner[final][title_html]">{{ data_get($config_banner, 'final.title_html', '') }}</textarea>

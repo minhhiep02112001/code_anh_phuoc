@@ -62,6 +62,7 @@ class HomeController extends Controller
             'banner_cuisine',
             'banner_trust',
             'banner_guide',
+            'banner_passport',
         ];
         $banners = Banner::getTypeArr($bannerTypes);
         $data['bannerHeroChips'] = $banners->where('type', 'banner_hero_chip');
@@ -73,6 +74,7 @@ class HomeController extends Controller
         $data['bannerCuisine'] = $banners->where('type', 'banner_cuisine');
         $data['bannerTrust'] = $banners->where('type', 'banner_trust');
         $data['bannerGuide'] = $banners->where('type', 'banner_guide');
+        $data['bannerPassport'] = $banners->where('type', 'banner_passport');
         return view('front_end.home', $data);
     }
 
@@ -122,7 +124,7 @@ class HomeController extends Controller
 
             $data['relates'] = collect($relates2)->merge($relates)->sortBy(!empty($post->publish_at) ? 'publish_at' : 'created_at')->values()->all();
 
-            $data['comments'] = $post->comment()->where(['type' => 'post'])->orderBy('created_at', 'desc')->get();
+            $data['comments'] = $post->comment()->where(['type' => 'post'])->orderBy('created_at', 'desc')->limit(9)->get();
             $data['abouts'] = $post->about()->get();
             $data['products'] = $post->product()->get();
         }
