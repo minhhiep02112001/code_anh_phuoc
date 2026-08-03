@@ -64,7 +64,7 @@
                                         autocomplete="off" />
                                 </div>
                             </div>
-                            <button type="submit" class="mj-btn mj-btn-primary mj-btn-lg mj-search-submit">
+                            <button type="button" class="mj-btn mj-btn-primary mj-btn-lg mj-search-submit">
                                 <span>{{ data_get($cb, 'hero.btn_text', 'Find Menus') }}</span>
                                 <i class="bi bi-arrow-right" aria-hidden="true"></i>
                             </button>
