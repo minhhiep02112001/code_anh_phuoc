@@ -99,9 +99,8 @@
                 <li><a href="content-policy.html" title="Content Policy">Content Policy</a></li>
             </ul>
             @if (!empty($config_social))
-            @dd($config_social);
                 @include('front_end.block.share_social', [
-                    'config_social' => !empty($config_social) ? json_decode($config_social) : null,
+                    'config_social' => !empty($config_social) ? $config_social : null,
                 ])
             @endif
         </div>
