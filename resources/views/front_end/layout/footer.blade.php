@@ -100,7 +100,7 @@
             </ul>
             @if (!empty($config_social))
                 @include('front_end.block.share_social', [
-                    'config_social' => !empty($config_social) ? json_decode($config_website->config_social) : null,
+                    'config_social' => !empty($config_social) ? json_decode($config_social) : null,
                 ])
             @endif
         </div>
