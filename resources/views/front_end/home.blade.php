@@ -355,8 +355,6 @@
                                 <div class="mj-city-art" aria-hidden="true">
                                     @if (!empty($item->thumbnail))
                                         <img src="{{ getImageThumb($item->thumbnail) }}" alt="{{ $item->title ?? '' }}">
-                                    @else
-                                        <span class="mj-city-skyline"></span>
                                     @endif
                                 </div>
                                 <div class="mj-city-body">
