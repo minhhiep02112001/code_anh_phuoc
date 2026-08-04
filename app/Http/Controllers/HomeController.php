@@ -84,7 +84,6 @@ class HomeController extends Controller
         $post = $this->postRepository->findByField('slug', $slug)->first();
         if (empty($post) || $post->is_status != $this->is_status) return abort(404);
         $medias = $post->media()->select(['position', 'type', 'thumbnail'])->get()->groupBy('type');
-
         $SEO = [
             'title' => $post->meta_title,
             'meta_title' => $post->meta_title,
@@ -123,10 +122,9 @@ class HomeController extends Controller
             })->orderBy(!empty($post->publish_at) ? 'publish_at' : 'created_at', 'asc')->limit(5)->get();
 
             $data['relates'] = collect($relates2)->merge($relates)->sortBy(!empty($post->publish_at) ? 'publish_at' : 'created_at')->values()->all();
-
             $data['comments'] = $post->comment()->where(['type' => 'post'])->orderBy('created_at', 'desc')->limit(9)->get();
             $data['abouts'] = $post->about()->get();
-            $data['products'] = $post->product()->get();
+            $data['products'] = $post->product()->orderBy('id', 'asc')->get();
         }
         $view = $post->type == 'top_list' ? 'front_end.topList' : 'front_end.brand';
         return view($view, $data);

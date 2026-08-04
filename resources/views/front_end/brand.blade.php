@@ -42,7 +42,35 @@
         : \Carbon\Carbon::parse($post->updated_at)->format('F Y');
     $timeSchedule = exportTimeOpen($post->time_open ?? '');
     $todayHours = $timeSchedule[0]['hours'] ?? '';
-    $highlights = $products->isNotEmpty() ? $products : $menus;
+    $menuGallery = collect($menus)
+        ->filter(function ($item) {
+            return !empty($item->thumbnail);
+        })
+        ->sortBy('position')
+        ->values();
+    $photoGallery = collect($photos)
+        ->filter(function ($item) {
+            return !empty($item->thumbnail);
+        })
+        ->sortBy('position')
+        ->values();
+    $hasMenuGallery = $menuGallery->isNotEmpty();
+    $hasPhotoGallery = $photoGallery->isNotEmpty();
+    $photoCards = $photoGallery->take(8);
+    $highlightCards = $hasMenuGallery ? $menuGallery->take(6) : collect();
+    $menuCategories = $products->where('parent_id', 0)->sortBy('id')->values();
+    $menuItemsByParent = $products->where('parent_id', '>', 0)->groupBy('parent_id');
+    $menuSections = $menuCategories
+        ->filter(function ($cat) use ($menuItemsByParent) {
+            return ($menuItemsByParent->get($cat->id) ?? collect())->isNotEmpty();
+        })
+        ->values();
+    $menuItems = $products->where('parent_id', '>', 0);
+    if (!$hasMenuGallery) {
+        $highlightCards = ($menuItems->isNotEmpty() ? $menuItems : $products)->take(6);
+    }
+    $highlights = $highlightCards;
+    $viewMenuUrl = $hasMenuGallery ? null : ($menuSections->isNotEmpty() ? '#menu' : $menuUrl);
     $comments = collect($comments ?? []);
     $reviews = $comments->where('parent_id', 0)->values();
 @endphp
@@ -81,8 +109,14 @@
                             <li><i class="bi bi-pencil-square"></i> Updated {{ $updatedAt }}</li>
                         </ul>
                         <div class="mj-page-actions">
-                            @if ($menuUrl !== '#')
-                                <a href="{{ $menuUrl }}" title="View Menu" class="mj-btn mj-btn-primary mj-btn-lg">
+                            @if ($hasMenuGallery)
+                                <button type="button" title="View Menu"
+                                    class="mj-btn mj-btn-primary mj-btn-lg js-open-menu-gallery">
+                                    <i class="bi bi-journal-richtext"></i>
+                                    <span>View Menu</span>
+                                </button>
+                            @elseif ($viewMenuUrl !== '#')
+                                <a href="{{ $viewMenuUrl }}" title="View Menu" class="mj-btn mj-btn-primary mj-btn-lg">
                                     <i class="bi bi-journal-richtext"></i>
                                     <span>View Menu</span>
                                 </a>
@@ -94,7 +128,7 @@
                                     <span>Get Directions</span>
                                 </a>
                             @endif
-                            <a href="#update" class="mj-btn mj-btn-ghost mj-btn-lg">
+                            <a href="#" class="mj-btn mj-btn-ghost mj-btn-lg">
                                 <i class="bi bi-pencil"></i>
                                 <span>Suggest Update</span>
                             </a>
@@ -159,39 +193,159 @@
                 </div>
             </section>
         @endif
-        @if ($highlights->count() > 0)
+        @if ($highlightCards->count() > 0)
             <section class="mj-section mj-highlights" id="highlights" aria-labelledby="highlightsTitle">
                 <div class="container-xxl">
                     <div class="mj-section-head">
                         <span class="mj-eyebrow">Featured Items</span>
                         <h2 id="highlightsTitle" class="mj-section-title" data-h-script="Highlights.">Menu Highlights.</h2>
                         <p class="mj-section-text">A quick look at popular items and menu categories before you open the
-                            full menu.</p>
+                            full menu.@if ($hasMenuGallery && $menuGallery->count() > 6)
+                                <span class="d-block mt-1">Showing 6 of {{ $menuGallery->count() }} menu pages — open the
+                                    gallery to browse all.</span>
+                            @endif
+                        </p>
                     </div>
                     <div class="row g-4 justify-content-center">
-                        @foreach ($highlights->take(6) as $item)
+                        @foreach ($highlightCards as $i => $item)
+                            @php
+                                $galleryIndex = $hasMenuGallery ? $i : 0;
+                                $highlightTitle =
+                                    $item->title ?? $post->title . ' Menu ' . str_pad($i + 1, 2, '0', STR_PAD_LEFT);
+                                $highlightImage = convertPathImage($item->thumbnail ?? '');
+                            @endphp
                             <div class="col-md-6 col-lg-4">
-                                <article class="mj-highlight-card mj-highlight-card-simple">
+                                <article
+                                    class="mj-highlight-card mj-highlight-card-simple{{ $hasMenuGallery ? ' mj-highlight-card--gallery mj-highlight-card--full-hover' : '' }}"
+                                    @if ($hasMenuGallery) role="button" tabindex="0" data-menu-lightbox="{{ $galleryIndex }}"
+                                    aria-label="View menu page {{ $i + 1 }} of {{ $menuGallery->count() }}" @endif>
                                     <div class="mj-highlight-art mj-highlight-art--photo">
-                                        <img class="lazy mj-photo-img" src="{{ asset('public/dot.jpg') }}"
-                                            data-src="{{ getImageThumb($item->thumbnail ?? '') }}"
-                                            alt="{{ $item->title ?? '' }}" width="600" height="600" />
+                                        @if ($hasMenuGallery)
+                                            <img class="mj-photo-img mj-highlight-img-full" src="{{ $highlightImage }}"
+                                                alt="{{ $highlightTitle }}" width="600" height="600" loading="lazy" />
+                                            <div class="mj-highlight-caption">
+                                                <h3 class="mj-highlight-name">{{ $highlightTitle }}</h3>
+                                            </div>
+                                        @else
+                                            <img class="lazy mj-photo-img mj-highlight-img-full"
+                                                src="{{ asset('public/dot.jpg') }}" data-src="{{ $highlightImage }}"
+                                                alt="{{ $highlightTitle }}" width="600" height="600" loading="lazy" />
+                                        @endif
                                     </div>
-                                    <div class="mj-highlight-body">
-                                        <h3 class="mj-highlight-name">{{ $item->title ?? '' }}</h3>
-                                    </div>
+                                    @unless ($hasMenuGallery)
+                                        <div class="mj-highlight-body">
+                                            <h3 class="mj-highlight-name">{{ $highlightTitle }}</h3>
+                                        </div>
+                                    @endunless
                                 </article>
                             </div>
                         @endforeach
                     </div>
-                    @if ($menuUrl !== '#')
+                    @if ($hasMenuGallery && $menuGallery->count() > 6)
                         <div class="mj-highlights-cta">
-                            <a href="{{ $menuUrl }}" title="View Full Menu" class="mj-btn mj-btn-primary mj-btn-lg">
-                                <i class="bi bi-journal-richtext"></i>
-                                <span>View Full Menu</span>
-                            </a>
+                            <button type="button" title="View all menu pages"
+                                class="mj-btn mj-btn-primary mj-btn-lg js-open-menu-gallery">
+                                <i class="bi bi-images"></i>
+                                <span>View all {{ $menuGallery->count() }} menu pages</span>
+                            </button>
                         </div>
                     @endif
+                </div>
+            </section>
+        @endif
+        @if ($hasPhotoGallery)
+            <section class="mj-section mj-album" id="photos" aria-labelledby="albumTitle">
+                <div class="container-xxl">
+                    <div class="mj-section-head">
+                        <span class="mj-eyebrow"><span class="mj-eyebrow-dot"></span> Photos</span>
+                        <h2 id="albumTitle" class="mj-section-title" data-h-script="the restaurant.">A look at
+                            {{ $post->title }}.</h2>
+                        <p class="mj-section-text">Tap any photo to zoom in. Use ← / → or swipe to browse the album.
+                            @if ($photoGallery->count() > 6)
+                                <span class="d-block mt-1">Showing 6 of {{ $photoGallery->count() }} photos — open the
+                                    album to browse all.</span>
+                            @endif
+                        </p>
+                    </div>
+                    <div class="mj-album-grid" id="mjAlbum">
+                        @foreach ($photoCards as $i => $photo)
+                            @php
+                                $photoAlt = $post->title . ' Photo ' . str_pad($i + 1, 2, '0', STR_PAD_LEFT);
+                                $photoSrc = convertPathImage($photo->thumbnail);
+                            @endphp
+                            <button type="button" class="mj-album-tile" data-photo-lightbox="{{ $i }}"
+                                aria-label="Open photo: {{ $photoAlt }}">
+                                <img src="{{ $photoSrc }}" alt="{{ $photoAlt }}" loading="lazy" width="600"
+                                    height="600" data-caption="{{ $photoAlt }}">
+                            </button>
+                        @endforeach
+                    </div>
+                    @if ($photoGallery->count() > 6)
+                        <div class="text-center mt-4">
+                            <button type="button" title="View all photos"
+                                class="mj-btn mj-btn-primary mj-btn-lg js-open-photo-gallery">
+                                <i class="bi bi-images"></i>
+                                <span>View all {{ $photoGallery->count() }} photos</span>
+                            </button>
+                        </div>
+                    @endif
+                </div>
+            </section>
+        @endif
+        @if ($menuSections->isNotEmpty())
+            <nav class="mj-cat-index" id="catIndex" aria-label="Menu categories">
+                <div class="container-xxl">
+                    <div class="mj-cat-index-inner">
+                        <span class="mj-cat-index-label">
+                            <i class="bi bi-list-ul"></i>
+                            Sections
+                        </span>
+                        <div class="mj-cat-pills" role="tablist">
+                            @foreach ($menuSections as $i => $category)
+                                @php
+                                    $sectionId = 'sec-' . \Illuminate\Support\Str::slug($category->title);
+                                @endphp
+                                <a class="mj-cat-pill {{ $i === 0 ? 'is-active' : '' }}" href="#{{ $sectionId }}"
+                                    data-target="{{ $sectionId }}">{{ $category->title }}</a>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <section class="mj-section mj-menu-sections" id="menu" aria-labelledby="menuSectionsTitle">
+                <div class="container-xxl">
+                    <h2 id="menuSectionsTitle" class="visually-hidden">Full Menu</h2>
+                    @foreach ($menuSections as $i => $category)
+                        @php
+                            $sectionId = 'sec-' . \Illuminate\Support\Str::slug($category->title);
+                            $items = ($menuItemsByParent->get($category->id) ?? collect())->sortBy('id')->values();
+                        @endphp
+                        <article class="mj-menu-section" id="{{ $sectionId }}">
+                            <div class="mj-menu-section-head">
+                                <span class="mj-menu-section-num">{{ str_pad($i + 1, 2, '0', STR_PAD_LEFT) }}</span>
+                                <div>
+                                    <h3 class="mj-menu-section-title">{{ $category->title }}</h3>
+                                </div>
+                                <span class="mj-menu-section-count">{{ $items->count() }}
+                                    {{ $items->count() === 1 ? 'item' : 'items' }}</span>
+                            </div>
+                            <ul class="mj-menu-rows">
+                                @foreach ($items as $item)
+                                    <li class="mj-menu-row">
+                                        <div class="mj-menu-row-main">
+                                            <h4 class="mj-menu-row-name">{{ $item->title }}</h4>
+                                            @if (!empty($item->description))
+                                                <p class="mj-menu-row-desc">{!! nl2br(e(strip_tags($item->description))) !!}</p>
+                                            @endif
+                                        </div>
+                                        @if (!empty($item->price))
+                                            <div class="mj-menu-row-price">{{ $item->price }}</div>
+                                        @endif
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </article>
+                    @endforeach
                 </div>
             </section>
         @endif
@@ -477,8 +631,14 @@
                     <p class="mj-final-text">View dishes, prices, popular picks, and menu categories for
                         {{ $post->title }}.</p>
                     <div class="mj-final-actions">
-                        @if ($menuUrl !== '#')
-                            <a href="{{ $menuUrl }}" title="View Full Menu"
+                        @if ($hasMenuGallery)
+                            <button type="button" title="View Full Menu"
+                                class="mj-btn mj-btn-primary mj-btn-lg js-open-menu-gallery">
+                                <i class="bi bi-journal-richtext"></i>
+                                <span>View Full Menu</span>
+                            </button>
+                        @elseif ($viewMenuUrl !== '#')
+                            <a href="{{ $viewMenuUrl }}" title="View Full Menu"
                                 class="mj-btn mj-btn-primary mj-btn-lg">
                                 <i class="bi bi-journal-richtext"></i>
                                 <span>View Full Menu</span>
@@ -493,37 +653,365 @@
             </div>
         </section>
     </main>
+
+    @if ($hasMenuGallery)
+        <script type="application/json" id="mjMenuGalleryData">
+            {!! json_encode(
+                $menuGallery->map(function ($image, $i) use ($post) {
+                    return [
+                        'src' => convertPathImage($image->thumbnail),
+                        'alt' => $post->title . ' Menu ' . str_pad($i + 1, 2, '0', STR_PAD_LEFT),
+                    ];
+                })->values(),
+                JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES,
+            ) !!}
+        </script>
+        <div class="mj-lightbox" id="mjLightbox" role="dialog" aria-modal="true" aria-hidden="true"
+            aria-label="Menu photo viewer">
+            <button type="button" class="mj-lightbox-prev" aria-label="Previous menu photo">
+                <i class="bi bi-arrow-left"></i>
+            </button>
+            <div class="mj-lightbox-stage">
+                <img class="mj-lightbox-img" src="" alt="" />
+                <span class="mj-lightbox-counter" id="mjLightboxCounter" aria-live="polite"></span>
+                <button type="button" class="mj-lightbox-close" aria-label="Close menu viewer">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+            <button type="button" class="mj-lightbox-next" aria-label="Next menu photo">
+                <i class="bi bi-arrow-right"></i>
+            </button>
+        </div>
+    @endif
+
+    @if ($hasPhotoGallery)
+        <script type="application/json" id="mjPhotoGalleryData">
+            {!! json_encode(
+                $photoGallery->map(function ($image, $i) use ($post) {
+                    return [
+                        'src' => convertPathImage($image->thumbnail),
+                        'alt' => $post->title . ' Photo ' . str_pad($i + 1, 2, '0', STR_PAD_LEFT),
+                    ];
+                })->values(),
+                JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES,
+            ) !!}
+        </script>
+        <div class="mj-lightbox" id="mjPhotoLightbox" role="dialog" aria-modal="true" aria-hidden="true"
+            aria-label="Photo viewer">
+            <button type="button" class="mj-lightbox-prev" aria-label="Previous photo">
+                <i class="bi bi-arrow-left"></i>
+            </button>
+            <div class="mj-lightbox-stage">
+                <img class="mj-lightbox-img" src="" alt="" />
+                <span class="mj-lightbox-counter" id="mjPhotoLightboxCounter" aria-live="polite"></span>
+                <button type="button" class="mj-lightbox-close" aria-label="Close photo viewer">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+            <button type="button" class="mj-lightbox-next" aria-label="Next photo">
+                <i class="bi bi-arrow-right"></i>
+            </button>
+        </div>
+    @endif
 @endsection
+
 @push('scripts')
+    <style>
+        .mj-highlight-card--gallery {
+            cursor: pointer;
+        }
+
+        .mj-highlight-card--gallery:focus-visible {
+            outline: 2px solid var(--mj-cacao, #3e2723);
+            outline-offset: 4px;
+        }
+
+        .mj-highlight-card--full-hover {
+            overflow: hidden;
+        }
+
+        .mj-highlight-card--full-hover .mj-highlight-art--photo {
+            position: relative;
+            height: clamp(220px, 28vw, 320px);
+            padding: 0;
+            overflow: hidden;
+            background: var(--mj-paper-3, #f6efe5);
+        }
+
+        .mj-highlight-card--full-hover .mj-highlight-img-full {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            min-height: 0;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            transition: transform .45s ease;
+        }
+
+        .mj-highlight-card--full-hover:hover .mj-highlight-img-full,
+        .mj-highlight-card--full-hover:focus-visible .mj-highlight-img-full {
+            transform: scale(1.03);
+        }
+
+        .mj-highlight-card--full-hover .mj-highlight-caption {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 2;
+            padding: 18px 20px 20px;
+            background: linear-gradient(180deg, rgba(28, 14, 10, 0) 0%, rgba(28, 14, 10, 0.78) 45%, rgba(28, 14, 10, 0.92) 100%);
+            transform: translateY(100%);
+            transition: transform .35s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .mj-highlight-card--full-hover:hover .mj-highlight-caption,
+        .mj-highlight-card--full-hover:focus-visible .mj-highlight-caption {
+            transform: translateY(0);
+        }
+
+        .mj-highlight-card--full-hover .mj-highlight-caption .mj-highlight-name {
+            margin: 0;
+            color: #fff;
+            font-size: clamp(18px, 1.6vw, 22px);
+            text-align: center;
+        }
+
+        .mj-highlight-card-simple .mj-highlight-art--photo {
+            overflow: hidden;
+            background: var(--mj-paper-3, #f6efe5);
+        }
+
+        .mj-highlight-art--photo .mj-highlight-img-full {
+            width: 100%;
+            height: 100%;
+            min-height: 200px;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+
+        .mj-lightbox-counter {
+            position: absolute;
+            bottom: 1.25rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            padding: 0.35rem 0.85rem;
+            border-radius: 999px;
+            background: rgba(0, 0, 0, 0.55);
+            color: #fff;
+            font-size: 0.875rem;
+            letter-spacing: 0.04em;
+            pointer-events: none;
+        }
+
+        .mj-lightbox>.mj-lightbox-prev,
+        .mj-lightbox>.mj-lightbox-next {
+            position: fixed;
+            top: 50%;
+            z-index: 1082;
+            transform: translateY(-50%);
+        }
+
+        .mj-lightbox>.mj-lightbox-prev {
+            left: clamp(16px, 4vw, 48px);
+            right: auto;
+        }
+
+        .mj-lightbox>.mj-lightbox-next {
+            right: clamp(16px, 4vw, 48px);
+            left: auto;
+        }
+
+        .mj-lightbox>.mj-lightbox-prev:hover {
+            transform: translateY(-50%) translateX(-3px);
+        }
+
+        .mj-lightbox>.mj-lightbox-next:hover {
+            transform: translateY(-50%) translateX(3px);
+        }
+
+        @media (max-width: 575.98px) {
+            .mj-lightbox>.mj-lightbox-prev {
+                left: 12px;
+            }
+
+            .mj-lightbox>.mj-lightbox-next {
+                right: 12px;
+            }
+        }
+    </style>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
+            function initMjGalleryLightbox(config) {
+                const lightbox = document.getElementById(config.lightboxId);
+                const dataEl = document.getElementById(config.dataId);
+                if (!lightbox || !dataEl) return;
+
+                let album = [];
+                try {
+                    album = JSON.parse(dataEl.textContent || "[]");
+                } catch (e) {
+                    return;
+                }
+                if (!album.length) return;
+
+                const imgEl = lightbox.querySelector(".mj-lightbox-img");
+                const btnClose = lightbox.querySelector(".mj-lightbox-close");
+                const btnPrev = lightbox.querySelector(".mj-lightbox-prev");
+                const btnNext = lightbox.querySelector(".mj-lightbox-next");
+                const counterEl = config.counterId ? document.getElementById(config.counterId) : null;
+                if (!imgEl) return;
+
+                let current = 0;
+                let lastFocus = null;
+
+                function updateCounter() {
+                    if (!counterEl) return;
+                    counterEl.textContent = (current + 1) + " / " + album.length;
+                }
+
+                function show(index) {
+                    current = (index + album.length) % album.length;
+                    const item = album[current];
+                    imgEl.style.animation = "none";
+                    imgEl.offsetWidth;
+                    imgEl.style.animation = "";
+                    imgEl.src = item.src;
+                    imgEl.alt = item.alt || "";
+                    updateCounter();
+                }
+
+                function open(index) {
+                    lastFocus = document.activeElement;
+                    show(index);
+                    lightbox.classList.add("is-open");
+                    lightbox.setAttribute("aria-hidden", "false");
+                    document.body.classList.add("mj-lightbox-open");
+                    if (btnClose) btnClose.focus();
+                }
+
+                function close() {
+                    lightbox.classList.remove("is-open");
+                    lightbox.setAttribute("aria-hidden", "true");
+                    document.body.classList.remove("mj-lightbox-open");
+                    imgEl.src = "";
+                    if (lastFocus && lastFocus.focus) lastFocus.focus();
+                }
+
+                if (config.globalOpenName) {
+                    window[config.globalOpenName] = open;
+                }
+
+                (config.openButtons || []).forEach(function(selector) {
+                    document.querySelectorAll(selector).forEach(function(btn) {
+                        btn.addEventListener("click", function(e) {
+                            e.preventDefault();
+                            open(0);
+                        });
+                    });
+                });
+
+                if (config.itemSelector) {
+                    document.querySelectorAll(config.itemSelector).forEach(function(el) {
+                        const index = parseInt(el.getAttribute(config.itemAttr), 10) || 0;
+                        el.addEventListener("click", function(e) {
+                            if (el.tagName === "BUTTON") e.preventDefault();
+                            open(index);
+                        });
+                        if (config.itemSelector === "[data-menu-lightbox]") {
+                            el.addEventListener("keydown", function(e) {
+                                if (e.key === "Enter" || e.key === " ") {
+                                    e.preventDefault();
+                                    open(index);
+                                }
+                            });
+                        }
+                    });
+                }
+
+                if (btnClose) btnClose.addEventListener("click", close);
+                if (btnPrev) btnPrev.addEventListener("click", function() {
+                    show(current - 1);
+                });
+                if (btnNext) btnNext.addEventListener("click", function() {
+                    show(current + 1);
+                });
+
+                lightbox.addEventListener("click", function(e) {
+                    if (e.target === lightbox) close();
+                });
+
+                document.addEventListener("keydown", function(e) {
+                    if (!lightbox.classList.contains("is-open")) return;
+                    if (e.key === "Escape") {
+                        e.preventDefault();
+                        close();
+                    } else if (e.key === "ArrowLeft") {
+                        e.preventDefault();
+                        show(current - 1);
+                    } else if (e.key === "ArrowRight") {
+                        e.preventDefault();
+                        show(current + 1);
+                    }
+                });
+
+                let touchStartX = 0;
+                lightbox.addEventListener("touchstart", function(e) {
+                    if (e.touches.length === 1) touchStartX = e.touches[0].clientX;
+                }, {
+                    passive: true
+                });
+                lightbox.addEventListener("touchend", function(e) {
+                    const diff = e.changedTouches[0].clientX - touchStartX;
+                    if (Math.abs(diff) > 40) show(diff < 0 ? current + 1 : current - 1);
+                }, {
+                    passive: true
+                });
+            }
+
+            initMjGalleryLightbox({
+                lightboxId: "mjLightbox",
+                dataId: "mjMenuGalleryData",
+                counterId: "mjLightboxCounter",
+                globalOpenName: "openMenuGallery",
+                openButtons: [".js-open-menu-gallery"],
+                itemSelector: "[data-menu-lightbox]",
+                itemAttr: "data-menu-lightbox",
+            });
+
+            initMjGalleryLightbox({
+                lightboxId: "mjPhotoLightbox",
+                dataId: "mjPhotoGalleryData",
+                counterId: "mjPhotoLightboxCounter",
+                openButtons: [".js-open-photo-gallery"],
+                itemSelector: "[data-photo-lightbox]",
+                itemAttr: "data-photo-lightbox",
+            });
+
             const btn = document.querySelector(".loadmoreReview");
             const comments = document.querySelectorAll(".listReview .comment");
             const STEP = 5;
 
-            if (!btn || comments.length === 0) return;
-
-            btn.addEventListener("click", function() {
-                let shown = 0;
-                for (let comment of comments) {
-                    if (comment.classList.contains("hide")) {
-                        comment.classList.remove("hide");
-                        comment.classList.add("show");
-                        shown++;
-
-                        if (shown === STEP) break;
+            if (btn && comments.length > 0) {
+                btn.addEventListener("click", function() {
+                    let shown = 0;
+                    for (let comment of comments) {
+                        if (comment.classList.contains("hide")) {
+                            comment.classList.remove("hide");
+                            comment.classList.add("show");
+                            shown++;
+                            if (shown === STEP) break;
+                        }
                     }
-                }
 
-                // ✅ Nếu đã show hết → ẩn nút
-                const stillHidden = document.querySelectorAll(
-                    ".listReview .comment.hide"
-                ).length;
-
-                if (stillHidden === 0) {
-                    btn.style.display = "none";
-                }
-            });
+                    const stillHidden = document.querySelectorAll(".listReview .comment.hide").length;
+                    if (stillHidden === 0) btn.style.display = "none";
+                });
+            }
         });
     </script>
 @endpush

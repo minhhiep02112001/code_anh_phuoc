@@ -26,6 +26,7 @@
     </main>
     @include('front_end.layout.footer')
     <script type="text/javascript" src="{{ asset('/assets/js/menujoys-all-js.min.js') }}?v={{ $ver }}"></script>
+    @stack('scripts')
     {{-- <script type="module"
         src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496"
         integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ=="
