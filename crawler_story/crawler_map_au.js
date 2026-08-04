@@ -9,7 +9,7 @@ puppeteer.use(StealthPlugin());
 
 const crawlerData = {
     menu: false,
-    infor: false,
+    infor: true,
     images: true,
     about: false,
     comment: false,
@@ -859,7 +859,7 @@ async function crawler_comment(page, record) {
 }
 
 async function getAllCrawlerDataBase(offset = 0) {
-    const query = `SELECT * FROM ${table.crawler} WHERE is_status = 0 and language = 'au' ORDER BY id ASC LIMIT 200 offset ${offset}`;
+    const query = `SELECT * FROM ${table.crawler} WHERE is_status = 0 and language = 'au' ORDER BY id DESC LIMIT 200 offset ${offset}`;
     // const query = `SELECT * FROM ${table.crawler} WHERE language = 'au'  ORDER BY id ASC LIMIT 200 offset ${offset}`;
     return database.query(query);
 }
