@@ -73,6 +73,33 @@
     $viewMenuUrl = $hasMenuGallery ? null : ($menuSections->isNotEmpty() ? '#menu' : $menuUrl);
     $comments = collect($comments ?? []);
     $reviews = $comments->where('parent_id', 0)->values();
+    $hasMenuSection = $highlightCards->count() > 0 || $menuSections->isNotEmpty();
+    $menuNavHref = $highlightCards->count() > 0 ? '#highlights' : '#menu';
+    $menuNavSections = array_values(
+        array_filter([
+            $highlightCards->count() > 0 ? 'highlights' : null,
+            $menuSections->isNotEmpty() ? 'menu' : null,
+        ]),
+    );
+    $hasReviewsSection = $reviews->count() > 0 || !empty($post->review_google);
+    $hasLocationSection = !empty($post->address) || !empty($post->time_open) || !empty($post->iframe_map);
+    $pageNavItems = array_values(
+        array_filter([
+            ['label' => 'Overview', 'href' => '#overview', 'sections' => ['overview']],
+            $hasPhotoGallery ? ['label' => 'Photos', 'href' => '#photos', 'sections' => ['photos']] : null,
+            $hasMenuSection
+                ? [
+                    'label' => 'Menu',
+                    'href' => $menuNavHref,
+                    'sections' => $menuNavSections,
+                ]
+                : null,
+            $hasReviewsSection ? ['label' => 'Reviews', 'href' => '#reviews', 'sections' => ['reviews']] : null,
+            $hasLocationSection
+                ? ['label' => 'Location', 'href' => '#location', 'sections' => ['location']]
+                : null,
+        ]),
+    );
 @endphp
 
 @extends('front_end._index')
@@ -108,31 +135,17 @@
                             @endif
                             <li><i class="bi bi-pencil-square"></i> Updated {{ $updatedAt }}</li>
                         </ul>
-                        <div class="mj-page-actions">
-                            @if ($hasMenuGallery)
-                                <button type="button" title="View Menu"
-                                    class="mj-btn mj-btn-primary mj-btn-lg js-open-menu-gallery">
-                                    <i class="bi bi-journal-richtext"></i>
-                                    <span>View Menu</span>
-                                </button>
-                            @elseif ($viewMenuUrl !== '#')
-                                <a href="{{ $viewMenuUrl }}" title="View Menu" class="mj-btn mj-btn-primary mj-btn-lg">
-                                    <i class="bi bi-journal-richtext"></i>
-                                    <span>View Menu</span>
-                                </a>
-                            @endif
-                            @if ($directionsUrl !== '#')
-                                <a href="{{ $directionsUrl }}" target="_blank" rel="noopener"
-                                    class="mj-btn mj-btn-outline mj-btn-lg gbmm">
-                                    <i class="bi bi-signpost-2"></i>
-                                    <span>Get Directions</span>
-                                </a>
-                            @endif
-                            <a href="#" class="mj-btn mj-btn-ghost mj-btn-lg">
-                                <i class="bi bi-pencil"></i>
-                                <span>Suggest Update</span>
-                            </a>
-                        </div>
+                        @if (!empty($pageNavItems))
+                            <nav class="mj-section-nav" aria-label="Page sections">
+                                <div class="mj-section-nav-inner">
+                                    @foreach ($pageNavItems as $navItem)
+                                        <a href="{{ $navItem['href'] }}"
+                                            class="mj-section-nav-pill{{ $loop->first ? ' is-active' : '' }}"
+                                            data-sections="{{ implode(',', $navItem['sections']) }}">{{ $navItem['label'] }}</a>
+                                    @endforeach
+                                </div>
+                            </nav>
+                        @endif
                     </div>
                     {{-- thumbnail: ảnh đại diện post --}}
                     <div class="col-lg-5 mj-brand-hero-visual">
@@ -168,26 +181,67 @@
             );
             $glanceItems = !empty($glanceFacts) ? $glanceFacts : $defaultGlance;
         @endphp
-        @if (!empty($glanceItems))
-            <section class="mj-section mj-glance" aria-labelledby="glanceTitle">
+
+        @php
+            $abouts = collect($abouts ?? []);
+            $aboutParents = $abouts->where('parent_id', 0)->values();
+            $aboutChildrenByParent = $abouts->where('parent_id', '>', 0)->groupBy('parent_id');
+            $aboutGroupsWithItems = $aboutParents
+                ->map(function ($parent) use ($aboutChildrenByParent) {
+                    $items = ($aboutChildrenByParent->get($parent->id) ?? collect())->values();
+
+                    return [
+                        'parent' => $parent,
+                        'items' => $items,
+                        'sectionId' => 'about-' . \Illuminate\Support\Str::slug($parent->title),
+                    ];
+                })
+                ->filter(function ($group) {
+                    return $group['items']->isNotEmpty();
+                })
+                ->values();
+        @endphp
+        @if ($aboutGroupsWithItems->isNotEmpty())
+            <section class="mj-section mj-about-panel" id="about" aria-labelledby="aboutGlanceTitle">
+                <nav class="mj-cat-index mj-about-cat-index" id="aboutCatIndex" aria-label="About categories"
+                    aria-hidden="true">
+                    <div class="container-xxl">
+                        <div class="mj-cat-index-inner">
+                            <span class="mj-cat-index-label">
+                                <i class="bi bi-info-circle"></i>
+                                About
+                            </span>
+                            <div class="mj-cat-pills mj-about-cat-pills" role="tablist">
+                                @foreach ($aboutGroupsWithItems as $i => $aboutGroup)
+                                    <a class="mj-cat-pill mj-about-cat-pill {{ $i === 0 ? 'is-active' : '' }}"
+                                        href="#{{ $aboutGroup['sectionId'] }}"
+                                        data-target="{{ $aboutGroup['sectionId'] }}">{{ $aboutGroup['parent']->title }}</a>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </nav>
                 <div class="container-xxl">
                     <div class="mj-section-head mj-section-head-row">
                         <div>
-                            <span class="mj-eyebrow">Quick Facts</span>
-                            <h2 id="glanceTitle" class="mj-section-title" data-h-script="Glance.">At a Glance.</h2>
-                            <p class="mj-section-text">Six quick facts to help you decide before you visit.</p>
+                            <span class="mj-eyebrow">About</span>
+                            <h2 id="aboutGlanceTitle" class="mj-section-title" data-h-script="{{ $post->title }}.">About
+                                {{ $post->title }}.</h2>
                         </div>
                     </div>
-                    <div class="row g-3 g-lg-4">
-                        @foreach ($glanceItems as $fact)
-                            <div class="col-sm-6 col-lg-4">
-                                <article class="mj-fact-card">
-                                    <span class="mj-fact-icon mj-icon-cacao"><i
-                                            class="bi {{ $fact['icon'] ?? 'bi-info-circle' }}"></i></span>
-                                    <h3 class="mj-fact-title">{{ $fact['title'] ?? '' }}</h3>
-                                    <p class="mj-fact-text">{{ $fact['text'] ?? '' }}</p>
-                                </article>
-                            </div>
+                    <div class="mj-about-panel-body" id="aboutPanelBody">
+                        @foreach ($aboutGroupsWithItems as $aboutGroup)
+                            <article class="mj-about-block" id="{{ $aboutGroup['sectionId'] }}">
+                                <h3 class="mj-about-block-title">{{ $aboutGroup['parent']->title }}</h3>
+                                <ul class="mj-about-checklist">
+                                    @foreach ($aboutGroup['items'] as $aboutItem)
+                                        <li>
+                                            <i class="bi bi-check-lg" aria-hidden="true"></i>
+                                            <span>{{ $aboutItem->title }}</span>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </article>
                         @endforeach
                     </div>
                 </div>
@@ -197,14 +251,9 @@
             <section class="mj-section mj-highlights" id="highlights" aria-labelledby="highlightsTitle">
                 <div class="container-xxl">
                     <div class="mj-section-head">
-                        <span class="mj-eyebrow">Featured Items</span>
-                        <h2 id="highlightsTitle" class="mj-section-title" data-h-script="Highlights.">Menu Highlights.</h2>
-                        <p class="mj-section-text">A quick look at popular items and menu categories before you open the
-                            full menu.@if ($hasMenuGallery && $menuGallery->count() > 6)
-                                <span class="d-block mt-1">Showing 6 of {{ $menuGallery->count() }} menu pages — open the
-                                    gallery to browse all.</span>
-                            @endif
-                        </p>
+                        <span class="mj-eyebrow">Menu</span>
+                        <h2 id="highlightsTitle" class="mj-section-title" data-h-script="{{ $post->title }}.">Menu
+                            {{ $post->title }}.</h2>
                     </div>
                     <div class="row g-4 justify-content-center">
                         @foreach ($highlightCards as $i => $item)
@@ -258,14 +307,8 @@
                 <div class="container-xxl">
                     <div class="mj-section-head">
                         <span class="mj-eyebrow"><span class="mj-eyebrow-dot"></span> Photos</span>
-                        <h2 id="albumTitle" class="mj-section-title" data-h-script="the restaurant.">A look at
+                        <h2 id="albumTitle" class="mj-section-title" data-h-script="{{ $post->title }}.">Photo of
                             {{ $post->title }}.</h2>
-                        <p class="mj-section-text">Tap any photo to zoom in. Use ← / → or swipe to browse the album.
-                            @if ($photoGallery->count() > 6)
-                                <span class="d-block mt-1">Showing 6 of {{ $photoGallery->count() }} photos — open the
-                                    album to browse all.</span>
-                            @endif
-                        </p>
                     </div>
                     <div class="mj-album-grid" id="mjAlbum">
                         @foreach ($photoCards as $i => $photo)
@@ -349,30 +392,16 @@
                 </div>
             </section>
         @endif
-        @if (!empty($post->content) || !empty($post->content_about) || !empty($post->content_footer))
+        @if (!empty($post->content))
             <section class="mj-section mj-about" aria-labelledby="aboutTitle">
                 <div class="container-xxl">
                     <div class="row align-items-center g-5">
-                        <div class="col-lg-7">
-                            <span class="mj-eyebrow">About</span>
-                            <h2 id="aboutTitle" class="mj-section-title" data-h-script="{{ $post->title }}.">About
+                        <div class="col-lg-12">
+                            <span class="mj-eyebrow">Information</span>
+                            <h2 id="aboutTitle" class="mj-section-title" data-h-script="{{ $post->title }}.">Information
                                 {{ $post->title }}.</h2>
-                            @if (!empty($post->content))
-                                <div>{!! $post->content !!}</div>
-                            @elseif (!empty($post->content_about))
-                                <div>{!! $post->content_about !!}</div>
-                            @endif
+                            <div>{!! $post->content !!}</div>
                         </div>
-                        @if (!empty($post->content_footer))
-                            <div class="col-lg-5">
-                                <figure class="mj-quote-card">
-                                    <span class="mj-quote-mark">"</span>
-                                    <blockquote>
-                                        <div>{!! $post->content_footer !!}</div>
-                                    </blockquote>
-                                </figure>
-                            </div>
-                        @endif
                     </div>
                 </div>
             </section>
@@ -619,39 +648,6 @@
                 </div>
             </section>
         @endif
-        <section class="mj-section mj-final-cta" id="update" aria-labelledby="finalTitle">
-            <div class="container-xxl">
-                <div class="mj-final-card">
-                    <div class="mj-final-deco">
-                        <span class="mj-final-spark mj-final-spark-1">✦</span>
-                        <span class="mj-final-spark mj-final-spark-2">✦</span>
-                    </div>
-                    <span class="mj-eyebrow">Next Step</span>
-                    <h2 id="finalTitle" class="mj-final-title" data-h-script="menu?">Ready to explore the menu?</h2>
-                    <p class="mj-final-text">View dishes, prices, popular picks, and menu categories for
-                        {{ $post->title }}.</p>
-                    <div class="mj-final-actions">
-                        @if ($hasMenuGallery)
-                            <button type="button" title="View Full Menu"
-                                class="mj-btn mj-btn-primary mj-btn-lg js-open-menu-gallery">
-                                <i class="bi bi-journal-richtext"></i>
-                                <span>View Full Menu</span>
-                            </button>
-                        @elseif ($viewMenuUrl !== '#')
-                            <a href="{{ $viewMenuUrl }}" title="View Full Menu"
-                                class="mj-btn mj-btn-primary mj-btn-lg">
-                                <i class="bi bi-journal-richtext"></i>
-                                <span>View Full Menu</span>
-                            </a>
-                        @endif
-                        <a href="{{ url('#l') }}" title="Suggest Update" class="mj-btn mj-btn-outline mj-btn-lg">
-                            <i class="bi bi-pencil"></i>
-                            <span>Suggest Update</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
     </main>
 
     @if ($hasMenuGallery)
@@ -717,6 +713,111 @@
 
 @push('scripts')
     <style>
+        .mj-about-panel-body {
+            background: #fff;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .mj-about-cat-index {
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 78px;
+            z-index: 50;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: translateY(-6px);
+            transition: opacity 0.25s ease, visibility 0.25s ease, transform 0.25s ease;
+        }
+
+        .mj-about-cat-index.is-visible {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        .mj-about-cat-pills {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .mj-about-cat-pills::-webkit-scrollbar {
+            display: none;
+        }
+
+        .mj-about-cat-index .mj-cat-index-inner {
+            position: relative;
+        }
+
+        .mj-about-cat-index .mj-cat-index-inner::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 56px;
+            background: linear-gradient(90deg, rgba(246, 239, 229, 0) 0%, rgba(246, 239, 229, 0.95) 78%);
+            pointer-events: none;
+        }
+
+        .mj-about-block {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid #eee;
+            scroll-margin-top: 180px;
+        }
+
+        .mj-about-block:last-child {
+            border-bottom: 0;
+        }
+
+        .mj-about-block-title {
+            margin: 0 0 0.85rem;
+            font-size: 1rem;
+            font-weight: 700;
+            line-height: 1.35;
+            color: #1f2937;
+        }
+
+        .mj-about-checklist {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.65rem 1.25rem;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .mj-about-checklist li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.45rem;
+            font-size: 0.9375rem;
+            line-height: 1.45;
+            color: #374151;
+        }
+
+        .mj-about-checklist li i {
+            flex: 0 0 auto;
+            margin-top: 0.1rem;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        @media (max-width: 575.98px) {
+            .mj-about-block {
+                padding: 1.1rem 1rem;
+            }
+
+            .mj-about-checklist {
+                gap: 0.55rem 0.85rem;
+            }
+        }
+
         .mj-highlight-card--gallery {
             cursor: pointer;
         }
@@ -843,9 +944,286 @@
                 right: 12px;
             }
         }
+
+        .mj-section-nav {
+            margin-top: 1.75rem;
+        }
+
+        .mj-section-nav-inner {
+            display: inline-flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.35rem;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 999px;
+            background: #fff;
+            box-shadow: 0 4px 18px rgba(28, 14, 10, 0.06);
+        }
+
+        .mj-section-nav-pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.55rem 1.15rem;
+            border-radius: 999px;
+            background: #f3f4f6;
+            color: #1f2937;
+            font-size: 0.9375rem;
+            font-weight: 600;
+            line-height: 1.2;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: background-color .2s ease, color .2s ease, box-shadow .2s ease;
+        }
+
+        .mj-section-nav-pill:hover,
+        .mj-section-nav-pill:focus-visible {
+            color: #111827;
+            background: #e5e7eb;
+        }
+
+        .mj-section-nav-pill.is-active {
+            background: #22c55e;
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(34, 197, 94, 0.35);
+        }
+
+        .mj-section-nav-pill.is-active:hover,
+        .mj-section-nav-pill.is-active:focus-visible {
+            color: #fff;
+            background: #16a34a;
+        }
+
+        @media (max-width: 575.98px) {
+            .mj-section-nav-inner {
+                width: 100%;
+                justify-content: flex-start;
+                overflow-x: auto;
+                flex-wrap: nowrap;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+            }
+
+            .mj-section-nav-inner::-webkit-scrollbar {
+                display: none;
+            }
+        }
     </style>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
+            const sectionNav = document.querySelector(".mj-section-nav");
+            if (sectionNav) {
+                const navLinks = Array.from(sectionNav.querySelectorAll(".mj-section-nav-pill"));
+                const navEntries = navLinks.map(function(link) {
+                    const sectionIds = (link.getAttribute("data-sections") || "")
+                        .split(",")
+                        .map(function(id) {
+                            return id.trim();
+                        })
+                        .filter(Boolean);
+                    const elements = sectionIds
+                        .map(function(id) {
+                            return document.getElementById(id);
+                        })
+                        .filter(Boolean);
+
+                    link.addEventListener("click", function(e) {
+                        const target = elements[0];
+                        if (!target) return;
+                        e.preventDefault();
+                        target.scrollIntoView({
+                            behavior: "smooth",
+                            block: "start",
+                        });
+                        navLinks.forEach(function(item) {
+                            item.classList.remove("is-active");
+                        });
+                        link.classList.add("is-active");
+                    });
+
+                    return {
+                        link: link,
+                        elements: elements,
+                    };
+                }).filter(function(entry) {
+                    return entry.elements.length > 0;
+                });
+
+                const setActiveNav = function() {
+                    const offset = window.innerHeight * 0.35;
+                    let activeEntry = navEntries[0] || null;
+
+                    navEntries.forEach(function(entry) {
+                        entry.elements.forEach(function(section) {
+                            const top = section.getBoundingClientRect().top;
+                            if (top - offset <= 0) {
+                                activeEntry = entry;
+                            }
+                        });
+                    });
+
+                    if (!activeEntry) return;
+                    navLinks.forEach(function(item) {
+                        item.classList.toggle("is-active", item === activeEntry.link);
+                    });
+                };
+
+                window.addEventListener("scroll", setActiveNav, {
+                    passive: true,
+                });
+                setActiveNav();
+            }
+
+            function initAboutCatIndex() {
+                const aboutSection = document.getElementById("about");
+                const panelBody = document.getElementById("aboutPanelBody");
+                const nav = document.getElementById("aboutCatIndex");
+                const pillsWrap = nav ? nav.querySelector(".mj-about-cat-pills") : null;
+                const pills = nav ? Array.from(nav.querySelectorAll(".mj-about-cat-pill")) : [];
+                const pairs = [];
+
+                if (!aboutSection || !panelBody || !nav || !pills.length) return;
+
+                function getHeaderBottom() {
+                    const header = document.getElementById("mjHeader");
+                    return header ? header.getBoundingClientRect().bottom : 78;
+                }
+
+                function syncNavTop() {
+                    const header = document.getElementById("mjHeader");
+                    if (header) {
+                        nav.style.top = header.offsetHeight + "px";
+                    }
+                }
+
+                function updateAboutNavVisibility() {
+                    const headerBottom = getHeaderBottom();
+                    const panelTop = panelBody.getBoundingClientRect().top;
+                    const sectionBottom = aboutSection.getBoundingClientRect().bottom;
+                    const show = panelTop <= headerBottom && sectionBottom > headerBottom;
+
+                    nav.classList.toggle("is-visible", show);
+                    nav.setAttribute("aria-hidden", show ? "false" : "true");
+                }
+
+                syncNavTop();
+                updateAboutNavVisibility();
+                window.addEventListener("scroll", updateAboutNavVisibility, {
+                    passive: true,
+                });
+                window.addEventListener("resize", function() {
+                    syncNavTop();
+                    updateAboutNavVisibility();
+                });
+
+                function getScrollOffset() {
+                    const header = document.getElementById("mjHeader");
+                    let offset = (header ? header.offsetHeight : 78) + (nav.classList.contains("is-visible") ? nav.offsetHeight : 0) + 16;
+                    const menuNav = document.getElementById("catIndex");
+                    if (menuNav) offset += menuNav.offsetHeight;
+                    return offset;
+                }
+
+                function centerPill(pill) {
+                    if (!pillsWrap || !pill) return;
+                    const left = pill.offsetLeft - pillsWrap.clientWidth / 2 + pill.offsetWidth / 2;
+                    const maxLeft = pillsWrap.scrollWidth - pillsWrap.clientWidth;
+                    const nextLeft = Math.max(0, Math.min(left, maxLeft));
+                    if (typeof pillsWrap.scrollTo === "function") {
+                        pillsWrap.scrollTo({
+                            left: nextLeft,
+                            behavior: "smooth",
+                        });
+                    } else {
+                        pillsWrap.scrollLeft = nextLeft;
+                    }
+                }
+
+                let lockActive = false;
+                let lockTimer = null;
+
+                function lockScrollSpy(ms) {
+                    lockActive = true;
+                    clearTimeout(lockTimer);
+                    lockTimer = setTimeout(function() {
+                        lockActive = false;
+                    }, ms || 800);
+                }
+
+                function setActivePill(pill) {
+                    if (!pill) return;
+                    pills.forEach(function(item) {
+                        item.classList.remove("is-active");
+                    });
+                    pill.classList.add("is-active");
+                    centerPill(pill);
+                }
+
+                pills.forEach(function(pill) {
+                    const targetId = pill.dataset.target || (pill.getAttribute("href") || "").replace("#", "");
+                    const section = targetId ? document.getElementById(targetId) : null;
+                    if (!section) return;
+
+                    pairs.push({
+                        pill: pill,
+                        section: section,
+                    });
+
+                    pill.addEventListener("click", function(e) {
+                        e.preventDefault();
+                        setActivePill(pill);
+                        lockScrollSpy(800);
+                        const top = section.getBoundingClientRect().top + window.pageYOffset - getScrollOffset();
+                        window.scrollTo({
+                            top: Math.max(0, top),
+                            behavior: "smooth",
+                        });
+                        if (history.replaceState) {
+                            history.replaceState(null, "", "#" + targetId);
+                        }
+                    });
+                });
+
+                if ("IntersectionObserver" in window && pairs.length) {
+                    const sectionObserver = new IntersectionObserver(function(entries) {
+                        if (lockActive) return;
+                        const visible = entries
+                            .filter(function(entry) {
+                                return entry.isIntersecting;
+                            })
+                            .sort(function(a, b) {
+                                return a.boundingClientRect.top - b.boundingClientRect.top;
+                            });
+                        if (!visible.length) return;
+                        const match = pairs.find(function(item) {
+                            return item.section === visible[0].target;
+                        });
+                        if (match) setActivePill(match.pill);
+                    }, {
+                        rootMargin: "-30% 0px -55% 0px",
+                        threshold: 0,
+                    });
+
+                    pairs.forEach(function(item) {
+                        sectionObserver.observe(item.section);
+                    });
+                }
+
+                if (pillsWrap) {
+                    pillsWrap.addEventListener("wheel", function(e) {
+                        if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+                            pillsWrap.scrollLeft += e.deltaY;
+                            e.preventDefault();
+                        }
+                    }, {
+                        passive: false,
+                    });
+                }
+            }
+
+            initAboutCatIndex();
+
             function initMjGalleryLightbox(config) {
                 const lightbox = document.getElementById(config.lightboxId);
                 const dataEl = document.getElementById(config.dataId);
