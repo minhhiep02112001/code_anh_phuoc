@@ -105,16 +105,22 @@
             $aboutGroupsWithItems->isNotEmpty()
                 ? ['label' => 'Services', 'href' => '#service', 'sections' => ['service']]
                 : null,
-            $hasPhotoGallery ? ['label' => 'Photos', 'href' => '#photos', 'sections' => ['photos']] : null,
+            $hasPhotoGallery ? ['label' => 'Photos', 'href' => '#photo', 'sections' => ['photos']] : null,
             $hasMenuSection ? ['label' => 'Menu', 'href' => $menuNavHref, 'sections' => $menuNavSections] : null,
-            $hasReviewsSection ? ['label' => 'Reviews', 'href' => '#reviews', 'sections' => ['reviews']] : null,
+            $hasReviewsSection ? ['label' => 'Reviews', 'href' => '#review', 'sections' => ['reviews']] : null,
             $hasLocationSection ? ['label' => 'Location', 'href' => '#location', 'sections' => ['location']] : null,
         ]),
     );
 @endphp
 
 @extends('front_end._index')
-
+@section('menu_brand')
+    @foreach ($pageNavItems as $navItem)
+        <li class="nav-item">
+            <a class="mj-nav-link" href="{{ $navItem['href'] }}">{{ $navItem['label'] }}</a>
+        </li>
+    @endforeach
+@endsection
 @section('content')
     <main id="main" class="52d67487a9ae3a088d95" aria="Rjhc831193">
         <section class="mj-page-hero mj-brand-hero" id="overview" aria-labelledby="brandTitle">
@@ -127,6 +133,11 @@
                 <div class="row align-items-center g-5">
                     <div class="col-lg-7 mj-page-hero-copy">
                         <h1 id="brandTitle" class="mj-page-title">{{ $post->title }}</h1>
+                        <div class="mj-brand-trust-rating mb-4" aria-label="5 out of 5 trusted rating">
+                            @for ($s = 1; $s <= 5; $s++)
+                                <i class="bi bi-star-fill" aria-hidden="true"></i>
+                            @endfor
+                        </div>
                         @if (!empty($post->description))
                             <p class="mj-page-lede">{{ $post->description }}</p>
                         @endif
@@ -246,7 +257,7 @@
             @endif
         </section>
         @if ($hasPhotoGallery)
-            <section class="mj-section mj-album" id="photos" aria-labelledby="albumTitle">
+            <section class="mj-section mj-album" id="photo" aria-labelledby="albumTitle">
                 <div class="container-xxl">
                     <div class="mj-section-head">
                         <h2 id="albumTitle" class="mj-section-title" data-h-script="{{ $post->title }}.">
@@ -278,7 +289,7 @@
             </section>
         @endif
         @if ($highlightCards->count() > 0)
-            <section class="mj-section mj-highlights" id="highlights" aria-labelledby="highlightsTitle">
+            <section class="mj-section mj-highlights" id="highlight" aria-labelledby="highlightsTitle">
                 <div class="container-xxl">
                     <div class="mj-section-head">
                         <h2 id="highlightsTitle" class="mj-section-title" data-h-script="{{ $post->title }}.">
@@ -392,33 +403,6 @@
                 </div>
             </section>
         @endif
-
-        @if (!empty($moments))
-            <section class="mj-section mj-moments" aria-labelledby="momentsTitle">
-                <div class="container-xxl">
-                    <div class="mj-section-head">
-                        <span class="mj-eyebrow">Food Moments</span>
-                        <h2 id="momentsTitle" class="mj-section-title" data-h-script="food moments.">Best for these food
-                            moments.</h2>
-                        @if (!empty($header['moments_text']))
-                            <p class="mj-section-text">{{ $header['moments_text'] }}</p>
-                        @endif
-                    </div>
-                    <div class="row g-3 g-lg-4">
-                        @foreach ($moments as $moment)
-                            <div class="col-6 col-lg-3">
-                                <article class="mj-moment-card">
-                                    <span class="mj-moment-icon"><i
-                                            class="bi {{ $moment['icon'] ?? 'bi-stars' }}"></i></span>
-                                    <h3 class="mj-moment-title">{{ $moment['title'] ?? '' }}</h3>
-                                    <p class="mj-moment-text">{{ $moment['text'] ?? '' }}</p>
-                                </article>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            </section>
-        @endif
         @if (!empty($post->address) || !empty($post->time_open) || !empty($post->iframe_map))
             <section class="mj-section mj-location" id="location" aria-labelledby="locationTitle">
                 <div class="container-xxl">
@@ -426,7 +410,7 @@
                         <h2 id="locationTitle" class="mj-section-title"
                             data-h-script="{{ !empty($timeSchedule) ? 'Opening Hours.' : __('config_data.menus.location') }}">
                             {{ __('config_data.menus.location') }}
-                            {{ !empty($timeSchedule) ? ' &amp; Opening Hours.' : '' }}</h2>
+                            {!! !empty($timeSchedule) ? ' &amp; Opening Hours.' : '' !!}</h2>
                     </div>
                     <div class="row g-4">
                         <div class="{{ !empty($timeSchedule) ? 'col-lg-6' : 'col-lg-12' }}">
@@ -498,6 +482,10 @@
 
         @if ($reviews->count() > 0 || !empty($post->review_google))
             <style>
+                .mj-reviews .listReview {
+                    align-items: stretch;
+                }
+
                 .mj-reviews .comment {
                     display: flex;
                 }
@@ -508,21 +496,30 @@
 
                 .mj-reviews .mj-testimonial {
                     width: 100%;
-                    min-height: 260px;
-                    height: 100%;
+                    flex: 1 1 auto;
+                    display: flex;
+                    flex-direction: column;
+                    min-height: 0;
                 }
 
                 .mj-reviews .mj-testimonial blockquote {
-                    flex: 1 1 auto;
+                    flex: 0 0 auto;
                     display: -webkit-box;
-                    -webkit-line-clamp: 6;
+                    -webkit-line-clamp: 5;
                     -webkit-box-orient: vertical;
                     overflow: hidden;
                     text-overflow: ellipsis;
                     word-break: break-word;
+                    height: calc(1.5em * 5);
+                    min-height: calc(1.5em * 5);
+                    max-height: calc(1.5em * 5);
+                }
+
+                .mj-reviews .mj-testimonial-by {
+                    margin-top: auto;
                 }
             </style>
-            <section class="mj-section mj-reviews" id="reviews" aria-labelledby="reviewsTitle">
+            <section class="mj-section mj-reviews" id="review" aria-labelledby="reviewsTitle">
                 <div class="container-xxl">
                     <div class="mj-section-head">
                         <h2 id="reviewsTitle" class="mj-section-title" data-h-script="{{ $post->title }}.">
@@ -532,8 +529,8 @@
                     @if ($reviews->count() > 0)
                         <div class="listReview row g-4">
                             @foreach ($reviews as $i => $review)
-                                <div class="col-md-6 col-lg-4 comment h-100 {{ $i >= 6 ? 'hide' : 'show' }}">
-                                    <article class="mj-testimonial h-100">
+                                <div class="col-md-6 col-lg-4 comment {{ $i >= 6 ? 'hide' : 'show' }}">
+                                    <article class="mj-testimonial">
                                         <blockquote>{{ $review->content }}</blockquote>
                                         <div class="mj-testimonial-by">
                                             @php
@@ -695,6 +692,29 @@
 
 @push('scripts')
     <style>
+        .mj-brand-trust-rating {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin: 0 0 18px;
+            color: #e6a317;
+            font-size: 18px;
+            line-height: 1;
+        }
+
+        .mj-brand-trust-rating .bi {
+            color: #e6a317;
+        }
+
+        .mj-brand-trust-label {
+            margin-left: 6px;
+            font-family: var(--mj-font-display, Georgia, "Times New Roman", serif);
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--mj-cacao, #3e2723);
+            letter-spacing: -0.01em;
+        }
+
         .mj-brand-card-photo--logo {
             display: flex;
             align-items: center;

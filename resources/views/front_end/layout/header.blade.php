@@ -22,24 +22,7 @@
             <div class="collapse navbar-collapse mj-nav" id="mjNav">
                 <ul class="navbar-nav mx-lg-auto mj-nav-list" role="menubar">
                     @if (!empty($post))
-                        <li class="nav-item">
-                            <a class="mj-nav-link" href="#about">{{ __('config_data.menus.about') }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="mj-nav-link" href="#service">{{ __('config_data.menus.service') }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="mj-nav-link" href="#photo">{{ __('config_data.menus.photo') }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="mj-nav-link" href="#menu">{{ __('config_data.menus.menu') }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="mj-nav-link" href="#review">{{ __('config_data.menus.review') }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="mj-nav-link" href="#location">{{ __('config_data.menus.location') }}</a>
-                        </li>
+                        @yield('menu_brand')
                     @else
                         @foreach ($menus_header as $menu)
                             <li class="nav-item">
