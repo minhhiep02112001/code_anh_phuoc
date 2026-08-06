@@ -56,8 +56,7 @@ class CrawlerData extends Command
             foreach (array_values($data) as $k => $item) {
                 $thumb =  $this->resizeGoogleImageUrl($item->crawler_href);
                 if (!empty($thumb)) {
-                    $name = rand(1, 1000000);
-                    $path = saveImageUrlStorage($thumb, "photos/restaurants/{$item->slug}", "{$item->slug}-{$item->type}-{$name}.jpg");
+                    $path = saveImageUrlStorage($thumb, "photos/restaurants/{$item->slug}", "{$item->slug}-{$item->type}-{$item->id}.jpg");
                     if (empty($path)) {
                         DB::table('st_post_images')->where('id', $item->id)->delete();
                         continue;
