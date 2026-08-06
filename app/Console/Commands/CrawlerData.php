@@ -50,7 +50,11 @@ class CrawlerData extends Command
     {
         $datas = DB::table('st_post_images')->join('st_post', 'st_post_images.post_id', '=', 'st_post.id')
             ->select(['st_post_images.*', 'st_post.slug'])
-            ->where('st_post_images.is_crawler', 1)->whereNotNull('st_post_images.crawler_href')->orderBy('id', 'desc')->get();
+            ->where('st_post_images.is_crawler', 0)
+            ->whereNotNull('st_post_images.crawler_href')
+            ->limit(200)
+            ->orderBy('id', 'desc')
+            ->get();
 
         foreach ($datas->groupBy('post_id')->toArray() as $post_id => $data) {
             foreach (array_values($data) as $k => $item) {
