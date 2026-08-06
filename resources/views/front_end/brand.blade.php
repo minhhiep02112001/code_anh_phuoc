@@ -289,7 +289,7 @@
             </section>
         @endif
         @if ($highlightCards->count() > 0)
-            <section class="mj-section mj-highlights" id="highlight" aria-labelledby="highlightsTitle">
+            <section class="mj-section mj-highlights" id="highlights" aria-labelledby="highlightsTitle">
                 <div class="container-xxl">
                     <div class="mj-section-head">
                         <h2 id="highlightsTitle" class="mj-section-title" data-h-script="{{ $post->title }}.">
