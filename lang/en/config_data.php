@@ -1,7 +1,17 @@
 <?php
 
 return [
-
+    'menus' => [
+        '_home' => 'Home',
+        'about' => 'About',
+        'service' => 'Service',
+        'menu' => 'Menu',
+        'location' => 'Location',
+        'review' => 'Review',
+        'infor' => 'Infor',
+        'contact' => 'Contact',
+        'photo' => 'Photo',
+    ],
     'setting' => [
         'address' => 'Address:',
         'phone' => 'Phone',
@@ -65,7 +75,7 @@ return [
             'footer_email' => 'Email',
             'footer_phone' => 'Phone',
             'footer_button_see_menu' => 'SEE MENU',
-            'footer_button_sendamessage' => 'SEND A MESSAGE', 
+            'footer_button_sendamessage' => 'SEND A MESSAGE',
         ],
 
         'page' => [],
@@ -73,6 +83,6 @@ return [
         'footer_hour_open' => 'Horaires',
         'footer_contact_detail' => 'Contactez-nous',
         'footer_content_suggest' => "Ce n'est pas le site officiel. Le contenu est mis à jour par la communauté. Si vous êtes le propriétaire, veuillez nous envoyer un e-mail afin que nous puissions modifier le contenu.",
-    ],  
+    ],
     ]
 ];

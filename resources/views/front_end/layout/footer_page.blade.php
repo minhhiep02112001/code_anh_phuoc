@@ -1,42 +1,77 @@
- 
-<div id="footer-full" class="footer-full section clearfix">
-    <div class="footer-t-le footer-t2 clearfix">
-        <div class="container clearfix">
-            <div class="footer-tcol footer-tl make-left margin-lf40">
-                <h3><span class="text-logo">{{ ucfirst($post->title) }}</span></h3>
-                <div class="content-footer">
-                    <p> {{ $post->content_footer }}</p>
-                    <ul>
-                        <li>{{ __('config_data.setting.address') }}:
-                            {{ str_replace(['Address', 'address'], '', $post->address) }}
-                        </li>
-                        <li>{{ __('config_data.setting.phone') }}: {{ $post->phone }}</li>
-                    </ul>
+@php
+    $menus_footer = getMenuParent(0, 1);
+    $title = $SEO['title'] ?? ($config_website->website ?? '');
+@endphp
+
+<footer class="mj-footer" role="contentinfo">
+    <div class="container-xxl">
+        <div class="mj-footer-top">
+            <div class="row g-5">
+                <div class="col-lg-4">
+                    @if (!empty($post))
+                        <a class="mj-brand logo-text-header" href="{{ env('APP_URL', '/') }}"
+                            aria-label="{{ $title }}">
+                            {{ $post->title }}
+                        </a>
+                    @else
+                        <a class="mj-brand mj-brand-light" href="{{ $SEO['url'] ?? '/' }}"
+                            aria-label="{{ $title }} home">
+                            <img class="mj-brand-img"
+                                src="{{ getImageThumb($config_website->logo_footer ? $config_website->logo_header : '') }}"
+                                alt="{{ $title }}" width="165" height="44" />
+                        </a>
+                        <div class="mj-footer-blurb"> {!! $config_website->content_footer !!} </div>
+                    @endif
+
+
+                    <form class="mj-footer-news" onsubmit="return false;"
+                        aria-label="Subscribe to {{ $title }} updates">
+                        <label for="footerEmail" class="visually-hidden">Email</label>
+                        <input type="email" id="footerEmail" placeholder="Your email" required />
+                        <button type="submit" class="mj-btn mj-btn-gold">Subscribe</button>
+                    </form>
+                    @if (!empty($config_website->email))
+                        <p class="mj-footer-contact"> <i class="bi bi-envelope" aria-hidden="true"></i> <a
+                                href="mailto:{{ $config_website->email }}">{{ $config_website->email }}</a>
+                        </p>
+                    @endif
                 </div>
-                <div class="social-icons follow-icons full-width text-center">
-                    <h4>Contact:<h4>
-                            @include('front_end.block.share_social', [
-                                'config_social' => json_decode($post->config_social),
-                            ])
-                </div>
+                @if (!empty($menus_footer))
+                    @foreach ($menus_footer as $menu)
+                        @php
+                            $childs = getMenuParent($menu->id, 0);
+                        @endphp
+                        <div class="col-6 col-md-3 col-lg-2">
+                            <h3 class="mj-footer-title">{{ $menu->title }}</h3>
+                            @if (!empty($childs))
+                                <ul class="mj-footer-links">
+                                    @foreach ($childs as $child)
+                                        <li>
+                                            <a href="{{ $child->link }}" title="{{ $child->title }}">
+                                                {{ $child->title }}
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            @endif
+                        </div>
+                    @endforeach
+                @endif
             </div>
         </div>
-        <div class="footer-tcol-full entry-head"><a href="{{ url('/') }}"
-                title="Suggest an edit">
-                <svg width="40" height="40" viewBox="-2.4 -2.4 28.80 28.80"
-                    fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor"
-                    transform="rotate(0)" stroke-width="0.00024000000000000003">
-                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"
-                        stroke="#CCCCCC" stroke-width="0.768"></g>
-                    <g id="SVGRepo_iconCarrier">
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                            d="M21.1213 2.70705C19.9497 1.53548 18.0503 1.53547 16.8787 2.70705L15.1989 4.38685L7.29289 12.2928C7.16473 12.421 7.07382 12.5816 7.02986 12.7574L6.02986 16.7574C5.94466 17.0982 6.04451 17.4587 6.29289 17.707C6.54127 17.9554 6.90176 18.0553 7.24254 17.9701L11.2425 16.9701C11.4184 16.9261 11.5789 16.8352 11.7071 16.707L19.5556 8.85857L21.2929 7.12126C22.4645 5.94969 22.4645 4.05019 21.2929 2.87862L21.1213 2.70705ZM18.2929 4.12126C18.6834 3.73074 19.3166 3.73074 19.7071 4.12126L19.8787 4.29283C20.2692 4.68336 20.2692 5.31653 19.8787 5.70705L18.8622 6.72357L17.3068 5.10738L18.2929 4.12126ZM15.8923 6.52185L17.4477 8.13804L10.4888 15.097L8.37437 15.6256L8.90296 13.5112L15.8923 6.52185ZM4 7.99994C4 7.44766 4.44772 6.99994 5 6.99994H10C10.5523 6.99994 11 6.55223 11 5.99994C11 5.44766 10.5523 4.99994 10 4.99994H5C3.34315 4.99994 2 6.34309 2 7.99994V18.9999C2 20.6568 3.34315 21.9999 5 21.9999H16C17.6569 21.9999 19 20.6568 19 18.9999V13.9999C19 13.4477 18.5523 12.9999 18 12.9999C17.4477 12.9999 17 13.4477 17 13.9999V18.9999C17 19.5522 16.5523 19.9999 16 19.9999H5C4.44772 19.9999 4 19.5522 4 18.9999V7.99994Z"
-                            fill="currentColor"></path>
-                    </g>
-                </svg>
-                <strong class="title-edit">{{ __('config_data.pages.post.title_footer_end') }}</strong> </a>
-            <p class="footer-note">{{ __('config_data.pages.post.des_footer_end') }}</p>
+
+        <div class="mj-footer-bottom">
+            <p class="mj-footer-copy">© <span id="mjYear">2026</span> Menujoys. Menus That Spark Joy.</p>
+            <ul class="mj-footer-legal" aria-label="Legal">
+                <li><a href="privacy-policy.html" title="Privacy Policy">Privacy Policy</a></li>
+                <li><a href="terms-of-service.html" title="Terms of Service">Terms of Service</a></li>
+                <li><a href="content-policy.html" title="Content Policy">Content Policy</a></li>
+            </ul>
+            @if (!empty($config_social))
+                @include('front_end.block.share_social', [
+                    'config_social' => !empty($config_social) ? $config_social : null,
+                ])
+            @endif
         </div>
     </div>
-</div>
+</footer>

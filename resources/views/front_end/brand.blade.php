@@ -76,28 +76,39 @@
     $hasMenuSection = $highlightCards->count() > 0 || $menuSections->isNotEmpty();
     $menuNavHref = $highlightCards->count() > 0 ? '#highlights' : '#menu';
     $menuNavSections = array_values(
-        array_filter([
-            $highlightCards->count() > 0 ? 'highlights' : null,
-            $menuSections->isNotEmpty() ? 'menu' : null,
-        ]),
+        array_filter([$highlightCards->count() > 0 ? 'highlights' : null, $menuSections->isNotEmpty() ? 'menu' : null]),
     );
     $hasReviewsSection = $reviews->count() > 0 || !empty($post->review_google);
     $hasLocationSection = !empty($post->address) || !empty($post->time_open) || !empty($post->iframe_map);
+
+    $abouts = collect($abouts ?? []);
+    $aboutParents = $abouts->where('parent_id', 0)->values();
+    $aboutChildrenByParent = $abouts->where('parent_id', '>', 0)->groupBy('parent_id');
+    $aboutGroupsWithItems = $aboutParents
+        ->map(function ($parent) use ($aboutChildrenByParent) {
+            $items = ($aboutChildrenByParent->get($parent->id) ?? collect())->values();
+
+            return [
+                'parent' => $parent,
+                'items' => $items,
+                'sectionId' => 'about-' . \Illuminate\Support\Str::slug($parent->title),
+            ];
+        })
+        ->filter(function ($group) {
+            return $group['items']->isNotEmpty();
+        })
+        ->values();
+
     $pageNavItems = array_values(
         array_filter([
-            ['label' => 'Overview', 'href' => '#overview', 'sections' => ['overview']],
+            ['label' => 'About', 'href' => '#about', 'sections' => ['about']],
+            $aboutGroupsWithItems->isNotEmpty()
+                ? ['label' => 'Services', 'href' => '#service', 'sections' => ['service']]
+                : null,
             $hasPhotoGallery ? ['label' => 'Photos', 'href' => '#photos', 'sections' => ['photos']] : null,
-            $hasMenuSection
-                ? [
-                    'label' => 'Menu',
-                    'href' => $menuNavHref,
-                    'sections' => $menuNavSections,
-                ]
-                : null,
+            $hasMenuSection ? ['label' => 'Menu', 'href' => $menuNavHref, 'sections' => $menuNavSections] : null,
             $hasReviewsSection ? ['label' => 'Reviews', 'href' => '#reviews', 'sections' => ['reviews']] : null,
-            $hasLocationSection
-                ? ['label' => 'Location', 'href' => '#location', 'sections' => ['location']]
-                : null,
+            $hasLocationSection ? ['label' => 'Location', 'href' => '#location', 'sections' => ['location']] : null,
         ]),
     );
 @endphp
@@ -106,16 +117,6 @@
 
 @section('content')
     <main id="main" class="52d67487a9ae3a088d95" aria="Rjhc831193">
-        <nav class="mj-breadcrumb" aria-label="Breadcrumb">
-            <div class="container-xxl">
-                <ol class="mj-crumb-list">
-                    <li class="mj-crumb"><a href="{{ url('/') }}"
-                            title="{{ $config_website->website ?? 'Menujoys' }}">{{ $config_website->website ?? 'Menujoys' }}</a>
-                    </li>
-                    <li class="mj-crumb mj-crumb-current">{{ $post->title }}</li>
-                </ol>
-            </div>
-        </nav>
         <section class="mj-page-hero mj-brand-hero" id="overview" aria-labelledby="brandTitle">
             <div class="mj-hero-bg">
                 <div class="mj-hero-grain"></div>
@@ -133,7 +134,9 @@
                             @if (!empty($post->address))
                                 <li><i class="bi bi-geo-alt-fill"></i> {{ $post->address }}</li>
                             @endif
-                            <li><i class="bi bi-pencil-square"></i> Updated {{ $updatedAt }}</li>
+                            @if (!empty($post->phone))
+                                <li><i class="bi bi-telephone-fill"></i> {{ $post->phone }}</li>
+                            @endif
                         </ul>
                         @if (!empty($pageNavItems))
                             <nav class="mj-section-nav" aria-label="Page sections">
@@ -182,133 +185,72 @@
             $glanceItems = !empty($glanceFacts) ? $glanceFacts : $defaultGlance;
         @endphp
 
-        @php
-            $abouts = collect($abouts ?? []);
-            $aboutParents = $abouts->where('parent_id', 0)->values();
-            $aboutChildrenByParent = $abouts->where('parent_id', '>', 0)->groupBy('parent_id');
-            $aboutGroupsWithItems = $aboutParents
-                ->map(function ($parent) use ($aboutChildrenByParent) {
-                    $items = ($aboutChildrenByParent->get($parent->id) ?? collect())->values();
 
-                    return [
-                        'parent' => $parent,
-                        'items' => $items,
-                        'sectionId' => 'about-' . \Illuminate\Support\Str::slug($parent->title),
-                    ];
-                })
-                ->filter(function ($group) {
-                    return $group['items']->isNotEmpty();
-                })
-                ->values();
-        @endphp
-        @if ($aboutGroupsWithItems->isNotEmpty())
-            <section class="mj-section mj-about-panel" id="about" aria-labelledby="aboutGlanceTitle">
-                <nav class="mj-cat-index mj-about-cat-index" id="aboutCatIndex" aria-label="About categories"
-                    aria-hidden="true">
+        <section id="about">
+            @if (!empty($post->content))
+                <section class="mj-section mj-about" aria-labelledby="aboutTitle">
                     <div class="container-xxl">
-                        <div class="mj-cat-index-inner">
-                            <span class="mj-cat-index-label">
-                                <i class="bi bi-info-circle"></i>
-                                About
-                            </span>
-                            <div class="mj-cat-pills mj-about-cat-pills" role="tablist">
-                                @foreach ($aboutGroupsWithItems as $i => $aboutGroup)
-                                    <a class="mj-cat-pill mj-about-cat-pill {{ $i === 0 ? 'is-active' : '' }}"
-                                        href="#{{ $aboutGroup['sectionId'] }}"
-                                        data-target="{{ $aboutGroup['sectionId'] }}">{{ $aboutGroup['parent']->title }}</a>
-                                @endforeach
+                        <div class="mj-section-head">
+                            <h2 id="aboutTitle" class="mj-section-title" data-h-script="{{ $post->title }}.">
+                                {{ __('config_data.menus.about') }} {{ $post->title }}.
+                            </h2>
+                        </div>
+                        <div class="row align-items-center g-5">
+                            <div class="col-lg-12">
+                                <div>{!! $post->content !!}</div>
                             </div>
                         </div>
                     </div>
-                </nav>
-                <div class="container-xxl">
-                    <div class="mj-section-head mj-section-head-row">
-                        <div>
-                            <span class="mj-eyebrow">About</span>
-                            <h2 id="aboutGlanceTitle" class="mj-section-title" data-h-script="{{ $post->title }}.">About
-                                {{ $post->title }}.</h2>
-                        </div>
-                    </div>
-                    <div class="mj-about-panel-body" id="aboutPanelBody">
-                        @foreach ($aboutGroupsWithItems as $aboutGroup)
-                            <article class="mj-about-block" id="{{ $aboutGroup['sectionId'] }}">
-                                <h3 class="mj-about-block-title">{{ $aboutGroup['parent']->title }}</h3>
-                                <ul class="mj-about-checklist">
-                                    @foreach ($aboutGroup['items'] as $aboutItem)
-                                        <li>
-                                            <i class="bi bi-check-lg" aria-hidden="true"></i>
-                                            <span>{{ $aboutItem->title }}</span>
-                                        </li>
+                </section>
+            @endif
+
+            @if ($aboutGroupsWithItems->isNotEmpty())
+                <section class="mj-section mj-about-panel pt-0" id="service" aria-labelledby="aboutGlanceTitle">
+                    <nav class="mj-cat-index mj-about-cat-index" id="aboutCatIndex" aria-label="About categories"
+                        aria-hidden="true">
+                        <div class="container-xxl">
+                            <div class="mj-cat-index-inner">
+                                <div class="mj-cat-pills mj-about-cat-pills" role="tablist">
+                                    @foreach ($aboutGroupsWithItems as $i => $aboutGroup)
+                                        <a class="mj-cat-pill mj-about-cat-pill {{ $i === 0 ? 'is-active' : '' }}"
+                                            href="#{{ $aboutGroup['sectionId'] }}"
+                                            data-target="{{ $aboutGroup['sectionId'] }}">{{ $aboutGroup['parent']->title }}</a>
                                     @endforeach
-                                </ul>
-                            </article>
-                        @endforeach
-                    </div>
-                </div>
-            </section>
-        @endif
-        @if ($highlightCards->count() > 0)
-            <section class="mj-section mj-highlights" id="highlights" aria-labelledby="highlightsTitle">
-                <div class="container-xxl">
-                    <div class="mj-section-head">
-                        <span class="mj-eyebrow">Menu</span>
-                        <h2 id="highlightsTitle" class="mj-section-title" data-h-script="{{ $post->title }}.">Menu
-                            {{ $post->title }}.</h2>
-                    </div>
-                    <div class="row g-4 justify-content-center">
-                        @foreach ($highlightCards as $i => $item)
-                            @php
-                                $galleryIndex = $hasMenuGallery ? $i : 0;
-                                $highlightTitle =
-                                    $item->title ?? $post->title . ' Menu ' . str_pad($i + 1, 2, '0', STR_PAD_LEFT);
-                                $highlightImage = convertPathImage($item->thumbnail ?? '');
-                            @endphp
-                            <div class="col-md-6 col-lg-4">
-                                <article
-                                    class="mj-highlight-card mj-highlight-card-simple{{ $hasMenuGallery ? ' mj-highlight-card--gallery mj-highlight-card--full-hover' : '' }}"
-                                    @if ($hasMenuGallery) role="button" tabindex="0" data-menu-lightbox="{{ $galleryIndex }}"
-                                    aria-label="View menu page {{ $i + 1 }} of {{ $menuGallery->count() }}" @endif>
-                                    <div class="mj-highlight-art mj-highlight-art--photo">
-                                        @if ($hasMenuGallery)
-                                            <img class="mj-photo-img mj-highlight-img-full" src="{{ $highlightImage }}"
-                                                alt="{{ $highlightTitle }}" width="600" height="600" loading="lazy" />
-                                            <div class="mj-highlight-caption">
-                                                <h3 class="mj-highlight-name">{{ $highlightTitle }}</h3>
-                                            </div>
-                                        @else
-                                            <img class="lazy mj-photo-img mj-highlight-img-full"
-                                                src="{{ asset('public/dot.jpg') }}" data-src="{{ $highlightImage }}"
-                                                alt="{{ $highlightTitle }}" width="600" height="600" loading="lazy" />
-                                        @endif
-                                    </div>
-                                    @unless ($hasMenuGallery)
-                                        <div class="mj-highlight-body">
-                                            <h3 class="mj-highlight-name">{{ $highlightTitle }}</h3>
-                                        </div>
-                                    @endunless
-                                </article>
+                                </div>
                             </div>
-                        @endforeach
-                    </div>
-                    @if ($hasMenuGallery && $menuGallery->count() > 6)
-                        <div class="mj-highlights-cta">
-                            <button type="button" title="View all menu pages"
-                                class="mj-btn mj-btn-primary mj-btn-lg js-open-menu-gallery">
-                                <i class="bi bi-images"></i>
-                                <span>View all {{ $menuGallery->count() }} menu pages</span>
-                            </button>
                         </div>
-                    @endif
-                </div>
-            </section>
-        @endif
+                    </nav>
+                    <div class="container-xxl">
+                        <div class="mj-section-head">
+                            <h2 id="highlightsTitle" class="mj-section-title" data-h-script="{{ $post->title }}.">
+                                Services of {{ $post->title }}.
+                            </h2>
+                        </div>
+                        <div class="mj-about-panel-body" id="aboutPanelBody">
+                            @foreach ($aboutGroupsWithItems as $aboutGroup)
+                                <article class="mj-about-block" id="{{ $aboutGroup['sectionId'] }}">
+                                    <h3 class="mj-about-block-title">{{ $aboutGroup['parent']->title }}</h3>
+                                    <ul class="mj-about-checklist">
+                                        @foreach ($aboutGroup['items'] as $aboutItem)
+                                            <li>
+                                                <i class="bi bi-check-lg" aria-hidden="true"></i>
+                                                <span>{{ $aboutItem->title }}</span>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </article>
+                            @endforeach
+                        </div>
+                    </div>
+                </section>
+            @endif
+        </section>
         @if ($hasPhotoGallery)
             <section class="mj-section mj-album" id="photos" aria-labelledby="albumTitle">
                 <div class="container-xxl">
                     <div class="mj-section-head">
-                        <span class="mj-eyebrow"><span class="mj-eyebrow-dot"></span> Photos</span>
-                        <h2 id="albumTitle" class="mj-section-title" data-h-script="{{ $post->title }}.">Photo of
-                            {{ $post->title }}.</h2>
+                        <h2 id="albumTitle" class="mj-section-title" data-h-script="{{ $post->title }}.">
+                            {{ __('config_data.menus.photo') }} {{ $post->title }}.</h2>
                     </div>
                     <div class="mj-album-grid" id="mjAlbum">
                         @foreach ($photoCards as $i => $photo)
@@ -335,13 +277,71 @@
                 </div>
             </section>
         @endif
+        @if ($highlightCards->count() > 0)
+            <section class="mj-section mj-highlights" id="highlights" aria-labelledby="highlightsTitle">
+                <div class="container-xxl">
+                    <div class="mj-section-head">
+                        <h2 id="highlightsTitle" class="mj-section-title" data-h-script="{{ $post->title }}.">
+                            {{ __('config_data.menus.menu') }} {{ $post->title }}.
+                        </h2>
+                    </div>
+                    <div class="row g-4 justify-content-center">
+                        @foreach ($highlightCards as $i => $item)
+                            @php
+                                $galleryIndex = $hasMenuGallery ? $i : 0;
+                                $highlightTitle =
+                                    $item->title ?? $post->title . ' Menu ' . str_pad($i + 1, 2, '0', STR_PAD_LEFT);
+                                $highlightImage = convertPathImage($item->thumbnail ?? '');
+                            @endphp
+                            <div class="col-md-6 col-lg-4">
+                                <article
+                                    class="mj-highlight-card mj-highlight-card-simple{{ $hasMenuGallery ? ' mj-highlight-card--gallery mj-highlight-card--full-hover' : '' }}"
+                                    @if ($hasMenuGallery) role="button" tabindex="0" data-menu-lightbox="{{ $galleryIndex }}"
+                                    aria-label="View menu page {{ $i + 1 }} of {{ $menuGallery->count() }}" @endif>
+                                    <div class="mj-highlight-art mj-highlight-art--photo">
+                                        @if ($hasMenuGallery)
+                                            <img class="mj-photo-img mj-highlight-img-full" src="{{ $highlightImage }}"
+                                                alt="{{ $highlightTitle }}" width="600" height="600"
+                                                loading="lazy" />
+                                            <div class="mj-highlight-caption">
+                                                <h3 class="mj-highlight-name">{{ $highlightTitle }}</h3>
+                                            </div>
+                                        @else
+                                            <img class="lazy mj-photo-img mj-highlight-img-full"
+                                                src="{{ asset('public/dot.jpg') }}" data-src="{{ $highlightImage }}"
+                                                alt="{{ $highlightTitle }}" width="600" height="600"
+                                                loading="lazy" />
+                                        @endif
+                                    </div>
+                                    @unless ($hasMenuGallery)
+                                        <div class="mj-highlight-body">
+                                            <h3 class="mj-highlight-name">{{ $highlightTitle }}</h3>
+                                        </div>
+                                    @endunless
+                                </article>
+                            </div>
+                        @endforeach
+                    </div>
+                    @if ($hasMenuGallery && $menuGallery->count() > 6)
+                        <div class="mj-highlights-cta">
+                            <button type="button" title="View all menu pages"
+                                class="mj-btn mj-btn-primary mj-btn-lg js-open-menu-gallery">
+                                <i class="bi bi-images"></i>
+                                <span>View all {{ $menuGallery->count() }} menu pages</span>
+                            </button>
+                        </div>
+                    @endif
+                </div>
+            </section>
+        @endif
+
         @if ($menuSections->isNotEmpty())
             <nav class="mj-cat-index" id="catIndex" aria-label="Menu categories">
                 <div class="container-xxl">
                     <div class="mj-cat-index-inner">
                         <span class="mj-cat-index-label">
                             <i class="bi bi-list-ul"></i>
-                            Sections
+                            {{ __('config_data.menus.menu') }}
                         </span>
                         <div class="mj-cat-pills" role="tablist">
                             @foreach ($menuSections as $i => $category)
@@ -392,20 +392,7 @@
                 </div>
             </section>
         @endif
-        @if (!empty($post->content))
-            <section class="mj-section mj-about" aria-labelledby="aboutTitle">
-                <div class="container-xxl">
-                    <div class="row align-items-center g-5">
-                        <div class="col-lg-12">
-                            <span class="mj-eyebrow">Information</span>
-                            <h2 id="aboutTitle" class="mj-section-title" data-h-script="{{ $post->title }}.">Information
-                                {{ $post->title }}.</h2>
-                            <div>{!! $post->content !!}</div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        @endif
+
         @if (!empty($moments))
             <section class="mj-section mj-moments" aria-labelledby="momentsTitle">
                 <div class="container-xxl">
@@ -436,13 +423,13 @@
             <section class="mj-section mj-location" id="location" aria-labelledby="locationTitle">
                 <div class="container-xxl">
                     <div class="mj-section-head">
-                        <span class="mj-eyebrow">Find &amp; Visit</span>
-                        <h2 id="locationTitle" class="mj-section-title" data-h-script="Opening Hours.">Location &amp;
-                            Opening Hours.</h2>
-                        <p class="mj-section-text">Address, contact, and weekly opening times at a glance.</p>
+                        <h2 id="locationTitle" class="mj-section-title"
+                            data-h-script="{{ !empty($timeSchedule) ? 'Opening Hours.' : __('config_data.menus.location') }}">
+                            {{ __('config_data.menus.location') }}
+                            {{ !empty($timeSchedule) ? ' &amp; Opening Hours.' : '' }}</h2>
                     </div>
                     <div class="row g-4">
-                        <div class="col-lg-6">
+                        <div class="{{ !empty($timeSchedule) ? 'col-lg-6' : 'col-lg-12' }}">
                             <article class="mj-location-card">
                                 <div class="mj-location-card-head">
                                     <span class="mj-location-icon"><i class="bi bi-pin-map-fill"></i></span>
@@ -499,7 +486,7 @@
                                     </ul>
                                     <p class="mj-hours-note">
                                         <i class="bi bi-info-circle"></i> Opening hours may vary.
-                                        <a href="#update">Suggest an update</a> if this information has changed.
+                                        <a href="#">Suggest an update</a> if this information has changed.
                                     </p>
                                 </article>
                             </div>
@@ -513,6 +500,10 @@
             <style>
                 .mj-reviews .comment {
                     display: flex;
+                }
+
+                .mj-reviews .comment.hide {
+                    display: none !important;
                 }
 
                 .mj-reviews .mj-testimonial {
@@ -534,17 +525,8 @@
             <section class="mj-section mj-reviews" id="reviews" aria-labelledby="reviewsTitle">
                 <div class="container-xxl">
                     <div class="mj-section-head">
-                        <span class="mj-eyebrow">Guest Reviews</span>
-                        <h2 id="reviewsTitle" class="mj-section-title" data-h-script="say.">What diners say.</h2>
-                        @php
-                            $reviewSummary = !empty($post->review_google)
-                                ? trim(
-                                    $post->review_google .
-                                        ($reviews->count() > 0 ? ' · ' . $reviews->count() . ' recent reviews' : ''),
-                                )
-                                : 'Recent guest feedback for ' . $post->title . '.';
-                        @endphp
-                        <p class="mj-section-text">{{ $reviewSummary }}</p>
+                        <h2 id="reviewsTitle" class="mj-section-title" data-h-script="{{ $post->title }}.">
+                            {{ __('config_data.menus.review') }} {{ $post->title }}.</h2>
                     </div>
 
                     @if ($reviews->count() > 0)
@@ -554,12 +536,12 @@
                                     <article class="mj-testimonial h-100">
                                         <blockquote>{{ $review->content }}</blockquote>
                                         <div class="mj-testimonial-by">
-                                            @if (!empty($review->thumbnail))
-                                                <img class="mj-testimonial-avatar"
-                                                    src="{{ getImageThumb($review->thumbnail, 44, 44) }}"
-                                                    alt="{{ $review->fullname ?? 'Guest' }}" loading="lazy"
-                                                    width="44" height="44" />
-                                            @endif
+                                            @php
+                                                $reviewName = trim($review->fullname ?? '') ?: 'Guest';
+                                                $reviewInitial = mb_strtoupper(mb_substr($reviewName, 0, 1));
+                                            @endphp
+                                            <span class="mj-testimonial-avatar"
+                                                aria-hidden="true">{{ $reviewInitial }}</span>
                                             <div>
                                                 @if (!empty($review->fullname))
                                                     <strong>{{ $review->fullname }}</strong>
@@ -713,6 +695,35 @@
 
 @push('scripts')
     <style>
+        .mj-brand-card-photo--logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(145deg, var(--mj-paper-2, #f3ebe0) 0%, var(--mj-cream, #efe4d4) 55%, #e6d7c4 100%);
+        }
+
+        .mj-brand-card-photo--logo::after {
+            display: none;
+        }
+
+        .mj-brand-card-logo {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            border: 1px solid rgba(62, 39, 35, 0.12);
+            background: rgba(255, 255, 255, 0.55);
+            font-family: var(--mj-font-display, Georgia, "Times New Roman", serif);
+            font-size: 34px;
+            font-weight: 500;
+            font-style: italic;
+            line-height: 1;
+            color: var(--mj-cacao, #3e2723);
+            letter-spacing: -0.02em;
+        }
+
         .mj-about-panel-body {
             background: #fff;
             border: 1px solid rgba(0, 0, 0, 0.06);
@@ -727,6 +738,7 @@
             top: 78px;
             z-index: 50;
             opacity: 0;
+            display: none;
             visibility: hidden;
             pointer-events: none;
             transform: translateY(-6px);
@@ -735,6 +747,7 @@
 
         .mj-about-cat-index.is-visible {
             opacity: 1;
+            display: block;
             visibility: visible;
             pointer-events: auto;
             transform: translateY(0);
@@ -1009,6 +1022,15 @@
                 display: none;
             }
         }
+
+        span.mj-testimonial-avatar {
+            display: block;
+            justify-content: center;
+            text-align: center;
+            align-content: center;
+            font-size: 20px;
+            font-weight: 700;
+        }
     </style>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -1119,7 +1141,8 @@
 
                 function getScrollOffset() {
                     const header = document.getElementById("mjHeader");
-                    let offset = (header ? header.offsetHeight : 78) + (nav.classList.contains("is-visible") ? nav.offsetHeight : 0) + 16;
+                    let offset = (header ? header.offsetHeight : 78) + (nav.classList.contains("is-visible") ? nav
+                        .offsetHeight : 0) + 16;
                     const menuNav = document.getElementById("catIndex");
                     if (menuNav) offset += menuNav.offsetHeight;
                     return offset;
@@ -1161,7 +1184,8 @@
                 }
 
                 pills.forEach(function(pill) {
-                    const targetId = pill.dataset.target || (pill.getAttribute("href") || "").replace("#", "");
+                    const targetId = pill.dataset.target || (pill.getAttribute("href") || "").replace("#",
+                        "");
                     const section = targetId ? document.getElementById(targetId) : null;
                     if (!section) return;
 
@@ -1174,7 +1198,8 @@
                         e.preventDefault();
                         setActivePill(pill);
                         lockScrollSpy(800);
-                        const top = section.getBoundingClientRect().top + window.pageYOffset - getScrollOffset();
+                        const top = section.getBoundingClientRect().top + window.pageYOffset -
+                            getScrollOffset();
                         window.scrollTo({
                             top: Math.max(0, top),
                             behavior: "smooth",
@@ -1371,23 +1396,15 @@
             });
 
             const btn = document.querySelector(".loadmoreReview");
-            const comments = document.querySelectorAll(".listReview .comment");
-            const STEP = 5;
+            const comments = document.querySelectorAll(".listReview .comment.hide");
 
             if (btn && comments.length > 0) {
                 btn.addEventListener("click", function() {
-                    let shown = 0;
-                    for (let comment of comments) {
-                        if (comment.classList.contains("hide")) {
-                            comment.classList.remove("hide");
-                            comment.classList.add("show");
-                            shown++;
-                            if (shown === STEP) break;
-                        }
-                    }
-
-                    const stillHidden = document.querySelectorAll(".listReview .comment.hide").length;
-                    if (stillHidden === 0) btn.style.display = "none";
+                    comments.forEach(function(comment) {
+                        comment.classList.remove("hide");
+                        comment.classList.add("show");
+                    });
+                    btn.style.display = "none";
                 });
             }
         });
