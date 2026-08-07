@@ -10,7 +10,7 @@
                 <a class="mj-brand logo-text-header" href="{{ env('APP_URL', '/') }}" aria-label="{{ $title }}">
                     {{ $post->title }}
                 </a>
-            @else<a class="mj-brand" href="{{ env('APP_URL', '/') }}" aria-label="{{ $title }}">
+            @else<a class="mj-brand" href="{{ $SEO['url'] ?? '/' }}" aria-label="{{ $title }}">
                     <img class="mj-brand-img" src="{{ getImageThumb($config_website->logo_header ?? '') }}"
                         alt="{{ $title }}" width="165" height="44" />
                 </a>
@@ -38,7 +38,9 @@
 <style>
     .logo-text-header {
         display: block;
-        max-width: 400px;
+        flex: 1 1 auto;
+        min-width: 0;
+        max-width: calc(100% - 56px);
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
@@ -47,5 +49,16 @@
         font-weight: 600;
         color: #49362d;
         text-decoration: none;
+    }
+
+    @media (max-width: 991.98px) {
+        .mj-navbar {
+            flex-wrap: nowrap;
+        }
+
+        .logo-text-header {
+            font-size: 18px;
+            max-width: calc(100vw - 96px);
+        }
     }
 </style>

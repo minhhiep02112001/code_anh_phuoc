@@ -1,5 +1,5 @@
 @php
-    $ver = 126;
+    $ver = 127;
     $config_website = getValueSetting('config_website');
     $config_seo = getValueSetting('config_seo');
     $medias = $medias ?? collect();
@@ -66,9 +66,7 @@
         })
         ->values();
     $menuItems = $products->where('parent_id', '>', 0);
-    if (!$hasMenuGallery) {
-        $highlightCards = ($menuItems->isNotEmpty() ? $menuItems : $products)->take(6);
-    }
+
     $highlights = $highlightCards;
     $viewMenuUrl = $hasMenuGallery ? null : ($menuSections->isNotEmpty() ? '#menu' : $menuUrl);
     $comments = collect($comments ?? []);
@@ -715,6 +713,26 @@
             letter-spacing: -0.01em;
         }
 
+        @media (max-width: 991.98px) {
+            .mj-brand-hero .mj-page-title {
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                max-width: 100%;
+            }
+
+            .mj-brand-hero .mj-info-chips {
+                width: 100%;
+            }
+
+            .mj-brand-hero .mj-info-chips li {
+                max-width: 100%;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+        }
+
         .mj-brand-card-photo--logo {
             display: flex;
             align-items: center;
@@ -1028,18 +1046,40 @@
             background: #16a34a;
         }
 
-        @media (max-width: 575.98px) {
+        @media (max-width: 991.98px) {
+            .mj-section-nav {
+                position: fixed;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                z-index: 90;
+                margin: 0;
+                padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px));
+                background: linear-gradient(
+                    180deg,
+                    rgba(246, 239, 229, 0) 0%,
+                    rgba(246, 239, 229, 0.88) 35%,
+                    rgba(246, 239, 229, 0.98) 100%
+                );
+            }
+
             .mj-section-nav-inner {
+                display: flex;
                 width: 100%;
                 justify-content: flex-start;
                 overflow-x: auto;
                 flex-wrap: nowrap;
                 -webkit-overflow-scrolling: touch;
                 scrollbar-width: none;
+                box-shadow: 0 10px 28px rgba(28, 14, 10, 0.14);
             }
 
             .mj-section-nav-inner::-webkit-scrollbar {
                 display: none;
+            }
+
+            main#main {
+                padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px));
             }
         }
 
