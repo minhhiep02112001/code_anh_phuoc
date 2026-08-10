@@ -1,5 +1,5 @@
 @php
-    $v = 136;
+    $v = 1368;
 @endphp
 
 <!DOCTYPE html>
@@ -44,31 +44,33 @@
         <link href="{{ asset('admins/css/css_minified.css') }}?v={{ $v }}" rel="stylesheet" media="all">
 
         <style>
-            .gallery-list{
+            .gallery-list {
                 display: flex;
                 flex-wrap: wrap;
             }
-             .gallery-list .upload-box{
+
+            .gallery-list .upload-box {
                 margin-bottom: 10px;
             }
-            .upload_box_item{
-                width:120px;
-                margin:5px 10px;
-                padding:10px;
-                background:beige;
-                position:relative;
+
+            .upload_box_item {
+                width: 120px;
+                margin: 5px 10px;
+                padding: 10px;
+                background: beige;
+                position: relative;
             }
 
-            .upload_box_item input[type="number"]{
+            .upload_box_item input[type="number"] {
                 border: 1px solid;
-                border-radius:5px;
+                border-radius: 5px;
                 padding-left: 5px;
             }
 
-            .upload_box_item .removeInputImages{
-                position:absolute;
-                top:0;
-                right:0;
+            .upload_box_item .removeInputImages {
+                position: absolute;
+                top: 0;
+                right: 0;
             }
         </style>
     </head>
@@ -129,8 +131,8 @@
             //     $("#page-content").LoadingOverlay("hide");
             // });
 
-            $(document).ready(function() {
-                $(document).on('click', '.btn-show-sidebar, .btn-hide-sidebar', function() {
+            $(document).ready(function () {
+                $(document).on('click', '.btn-show-sidebar, .btn-hide-sidebar', function () {
                     let _type = $(this).attr('data-type');
 
                     if (_type == 'show') {
