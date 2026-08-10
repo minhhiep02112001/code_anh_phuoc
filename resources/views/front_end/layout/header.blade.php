@@ -2,7 +2,6 @@
     $menus_header = getMenuParent(0, 0);
     $title = !empty($post) ? $post->title : $config_website->website;
 @endphp
-
 <header class="mj-header" id="mjHeader">
     <div class="container-xxl">
         <nav class="navbar navbar-expand-lg mj-navbar" aria-label="Primary">
@@ -10,7 +9,8 @@
                 <a class="mj-brand logo-text-header" href="{{ env('APP_URL', '/') }}" aria-label="{{ $title }}">
                     {{ $post->title }}
                 </a>
-            @else<a class="mj-brand" href="{{ $SEO['url'] ?? '/' }}" aria-label="{{ $title }}">
+            @else
+                <a class="mj-brand" href="{{ $SEO['url'] ?? '/' }}" aria-label="{{ $title }}">
                     <img class="mj-brand-img" src="{{ getImageThumb($config_website->logo_header ?? '') }}"
                         alt="{{ $title }}" width="165" height="44" />
                 </a>
