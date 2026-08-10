@@ -225,8 +225,8 @@
                 <section class="mj-section mj-about" aria-labelledby="aboutTitle">
                     <div class="container-xxl">
                         <div class="mj-section-head">
-                            <h2 id="aboutTitle" class="mj-section-title" data-h-script="{{ $post->title }}.">
-                                {{ __('config_data.menus.about') }} {{ $post->title }}.
+                            <h2 id="aboutTitle" class="mj-section-title">
+                                {{ __('config_data.menus.about') }} <span class="mj-h-script">{{ $post->title }}.</span>
                             </h2>
                         </div>
                         <div class="row align-items-center g-5">
@@ -256,8 +256,8 @@
                     </nav>
                     <div class="container-xxl">
                         <div class="mj-section-head">
-                            <h2 id="highlightsTitle" class="mj-section-title" data-h-script="{{ $post->title }}.">
-                                Services of {{ $post->title }}.
+                            <h2 id="highlightsTitle" class="mj-section-title">
+                                Services of <span class="mj-h-script">{{ $post->title }}.</span>
                             </h2>
                         </div>
                         <div class="mj-about-panel-body" id="aboutPanelBody">
@@ -283,8 +283,9 @@
             <section class="mj-section mj-album" id="photo" aria-labelledby="albumTitle">
                 <div class="container-xxl">
                     <div class="mj-section-head">
-                        <h2 id="albumTitle" class="mj-section-title" data-h-script="{{ $post->title }}.">
-                            {{ __('config_data.menus.photo') }} {{ $post->title }}.</h2>
+                        <h2 id="albumTitle" class="mj-section-title">
+                            {{ __('config_data.menus.photo') }} <span class="mj-h-script">{{ $post->title }}.</span>
+                        </h2>
                     </div>
                     <div class="mj-album-grid" id="mjAlbum">
                         @foreach ($photoCards as $i => $photo)
@@ -315,8 +316,8 @@
             <section class="mj-section mj-highlights" id="highlights" aria-labelledby="highlightsTitle">
                 <div class="container-xxl">
                     <div class="mj-section-head">
-                        <h2 id="highlightsTitle" class="mj-section-title" data-h-script="{{ $post->title }}.">
-                            {{ __('config_data.menus.menu') }} {{ $post->title }}.
+                        <h2 id="highlightsTitle" class="mj-section-title">
+                            {{ __('config_data.menus.menu') }} <span class="mj-h-script">{{ $post->title }}.</span>
                         </h2>
                     </div>
                     <div class="row g-4 justify-content-center">
@@ -430,10 +431,11 @@
             <section class="mj-section mj-location" id="location" aria-labelledby="locationTitle">
                 <div class="container-xxl">
                     <div class="mj-section-head">
-                        <h2 id="locationTitle" class="mj-section-title"
-                            data-h-script="{{ !empty($timeSchedule) ? 'Opening Hours.' : __('config_data.menus.location') }}">
-                            {{ __('config_data.menus.location') }}
-                            {!! !empty($timeSchedule) ? ' &amp; Opening Hours.' : '' !!}</h2>
+                        <h2 id="highlightsTitle" class="mj-section-title">
+                            {{ __('config_data.menus.location') }} <span class="mj-h-script">
+                                {!! !empty($timeSchedule) ? ' &amp; Opening Hours.' : '' !!}
+                            </span>
+                        </h2>
                     </div>
                     <div class="row g-4">
                         <div class="{{ !empty($timeSchedule) ? 'col-lg-6' : 'col-lg-12' }}">
@@ -545,8 +547,9 @@
             <section class="mj-section mj-reviews" id="review" aria-labelledby="reviewsTitle">
                 <div class="container-xxl">
                     <div class="mj-section-head">
-                        <h2 id="reviewsTitle" class="mj-section-title" data-h-script="{{ $post->title }}.">
-                            {{ __('config_data.menus.review') }} {{ $post->title }}.</h2>
+                        <h2 id="reviewsTitle" class="mj-section-title">
+                            {{ __('config_data.menus.review') }} <span class="mj-h-script">{{ $post->title }}.</span>
+                        </h2>
                     </div>
 
                     @if ($reviews->count() > 0)
@@ -596,10 +599,9 @@
                 <div class="container-xxl">
                     <div class="mj-section-head mj-section-head-row">
                         <div>
-                            <span class="mj-eyebrow">Discover Nearby</span>
-                            <h2 id="similarTitle" class="mj-section-title" data-h-script="nearby.">Similar local food
-                                nearby.</h2>
-                            <p class="mj-section-text">Keep exploring with brands that match this craving.</p>
+                            <h2 id="similarTitle" class="mj-section-title">
+                                Similar local food <span class="mj-h-script">nearby.</span>
+                            </h2>
                         </div>
                     </div>
                     <div class="mj-brand-slider-wrap">
@@ -774,12 +776,10 @@
                 display: flex;
                 flex-wrap: nowrap;
                 gap: 8px;
-                background: linear-gradient(
-                    180deg,
-                    rgba(246, 239, 229, 0) 0%,
-                    rgba(246, 239, 229, 0.88) 35%,
-                    rgba(246, 239, 229, 0.98) 100%
-                );
+                background: linear-gradient(180deg,
+                        rgba(246, 239, 229, 0) 0%,
+                        rgba(246, 239, 229, 0.88) 35%,
+                        rgba(246, 239, 229, 0.98) 100%);
             }
 
             .mj-hero-actions .mj-btn {
@@ -1091,46 +1091,53 @@
             display: inline-flex;
             flex-wrap: wrap;
             align-items: center;
-            gap: 0.35rem;
-            padding: 0.35rem;
-            border: 1px solid rgba(0, 0, 0, 0.08);
-            border-radius: 999px;
-            background: #fff;
-            box-shadow: 0 4px 18px rgba(28, 14, 10, 0.06);
+            gap: 10px;
+            padding: 0;
+            border: 0;
+            border-radius: 0;
+            background: transparent;
+            box-shadow: none;
         }
 
         .mj-section-nav-pill {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 0.55rem 1.15rem;
+            gap: 10px;
+            padding: 12px 22px;
             border-radius: 999px;
-            background: #f3f4f6;
-            color: #1f2937;
-            font-size: 0.9375rem;
+            border: 1px solid var(--mj-line-2, rgba(61, 35, 24, 0.22));
+            background: transparent;
+            color: var(--mj-cacao, #3e2723);
+            font-size: 15px;
             font-weight: 600;
             line-height: 1.2;
+            letter-spacing: -0.005em;
             text-decoration: none;
             white-space: nowrap;
-            transition: background-color .2s ease, color .2s ease, box-shadow .2s ease;
+            transition: transform .25s ease, box-shadow .25s ease, background .25s ease, color .25s ease, border-color .25s ease;
         }
 
         .mj-section-nav-pill:hover,
         .mj-section-nav-pill:focus-visible {
-            color: #111827;
-            background: #e5e7eb;
+            background: var(--mj-cacao, #3e2723);
+            border-color: var(--mj-cacao, #3e2723);
+            color: var(--mj-paper, #f6efe5);
+            transform: translateY(-2px);
         }
 
         .mj-section-nav-pill.is-active {
-            background: #22c55e;
-            color: #fff;
-            box-shadow: 0 2px 8px rgba(34, 197, 94, 0.35);
+            background: var(--mj-cacao, #3e2723);
+            border-color: var(--mj-cacao, #3e2723);
+            color: var(--mj-paper, #f6efe5);
+            box-shadow: 0 12px 26px rgba(61, 35, 24, 0.22);
         }
 
         .mj-section-nav-pill.is-active:hover,
         .mj-section-nav-pill.is-active:focus-visible {
-            color: #fff;
-            background: #16a34a;
+            background: var(--mj-cacao-2, #5d4037);
+            border-color: var(--mj-cacao-2, #5d4037);
+            color: var(--mj-paper, #f6efe5);
         }
 
         @media (max-width: 991.98px) {
@@ -1140,12 +1147,19 @@
                 justify-content: flex-start;
                 overflow-x: auto;
                 flex-wrap: nowrap;
+                gap: 8px;
                 -webkit-overflow-scrolling: touch;
                 scrollbar-width: none;
             }
 
             .mj-section-nav-inner::-webkit-scrollbar {
                 display: none;
+            }
+
+            .mj-section-nav-pill {
+                padding: 11px 14px;
+                font-size: 11px;
+                gap: 4px;
             }
         }
 
