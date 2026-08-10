@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\ResizeImageController;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
@@ -121,13 +120,6 @@ Route::group([
 });
 
 
-// Route::get('/sitemap_news.xml', function () {
-//     $posts =  \App\Models\Post::where([
-//         'is_status' => 1,
-//     ])->orderBy('updated_at', 'desc')->limit(100)->offset(0)->get();
-//     return response()->view('front_end.sitemap.sitemap_new', ['data' => $posts])->header('Content-Type', 'text/xml');
-// });
-
 Route::get('/rss', [App\Http\Controllers\FeedController::class, 'feed_rss'])->name('google-news');
 Route::get('/feeds/pinterestxxx.xml', [App\Http\Controllers\FeedController::class, 'pinterestxxx'])->name('pinterestxxx');
 Route::get('/feeds/rssxxx.xml', [App\Http\Controllers\FeedController::class, 'rssxxx'])->name('rssxxx');
@@ -135,7 +127,6 @@ Route::get('/feeds/rssxxx.xml', [App\Http\Controllers\FeedController::class, 'rs
 
 Route::domain('{slug}.' . env('DOMAIN'))->group(function () {
     Route::get('/', [\App\Http\Controllers\HomeController::class, 'post'])->name('post')->middleware('cacheResponse:600');
-    // Route::get('/menu.html', [\App\Http\Controllers\HomeController::class, 'menu'])->name('menu');
     Route::get('/sitemap.xml', [\App\Http\Controllers\HomeController::class, 'sitemapBrand']);
 });
 
@@ -144,7 +135,6 @@ Route::group([
     'middleware' => ['redirect_301']
 ], function () {
     Route::any('/', [App\Http\Controllers\HomeController::class, 'dashboard'])->name('homepage')->middleware('cacheResponse:300');
-    // Route::get('/search', [App\Http\Controllers\HomeController::class, 'search'])->name('search');
     if (\App::environment('local')) {
         // ví dụ: tin-tuc-post.html
         Route::get('{slug}-post.html', [App\Http\Controllers\HomeController::class, 'post'])
