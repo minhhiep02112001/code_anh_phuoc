@@ -39,7 +39,7 @@
                 @if (!empty($menus_footer))
                     @foreach ($menus_footer as $menu)
                         @php
-                            $childs = getMenuParent($menu->id, 0);
+                            $childs = getMenuParent($menu->id, 1);
                         @endphp
                         <div class="col-6 col-md-3 col-lg-2">
                             <h3 class="mj-footer-title">{{ $menu->title }}</h3>
