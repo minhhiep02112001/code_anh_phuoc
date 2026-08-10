@@ -67,7 +67,6 @@ class PostController extends BaseAdminController
                 $row['is_status'] = $item->is_status;
                 $row['is_robot'] = $item->is_robot;
                 $row['is_thumbnail'] = $item->is_thumbnail;
-                $row['is_thumb_block_1'] = $item->is_thumb_block_1;
                 $row['thumbnail'] = getThumbnail($item, 100, 100);
                 $row['address'] = $item->address;
                 $row['link_map'] = $item->link_map;
@@ -130,7 +129,6 @@ class PostController extends BaseAdminController
         }
 
         $input['is_thumbnail'] = (empty($input['thumbnail']) || !Storage::disk('public')->exists(str_replace(['storage', '//'], '', trim($input['thumbnail'], '/')))) ? 1 : 0;
-        $input['is_thumb_block_1'] = (empty($input['image_block_1']) || !Storage::disk('public')->exists(str_replace(['storage', '//'], '', trim($input['image_block_1'], '/')))) ? 1 : 0;
 
         try {
             DB::beginTransaction();
@@ -243,7 +241,6 @@ class PostController extends BaseAdminController
         }
 
         $input['is_thumbnail'] = (empty($input['thumbnail']) || !Storage::disk('public')->exists(str_replace(['storage', '//'], '', trim($input['thumbnail'], '/')))) ? 1 : 0;
-        $input['is_thumb_block_1'] = (empty($input['image_block_1']) || !Storage::disk('public')->exists(str_replace(['storage', '//'], '', trim($input['image_block_1'], '/')))) ? 1 : 0;
 
         try {
             DB::beginTransaction();
@@ -254,7 +251,7 @@ class PostController extends BaseAdminController
             }
             if ($request->has('thumbnails') && !empty($request->get('thumbnails'))) {
                 $this->syncPostImagesByThumbnail($story->id, 'photo', $request->get('thumbnails'));
-            }  
+            }
             DB::commit();
             return $this->responsiveSuccess('Sửa bài viết thành công');
         } catch (\Exception $ex) {
@@ -268,7 +265,7 @@ class PostController extends BaseAdminController
         $items = collect($items)
             ->filter(fn($i) => !empty($i['thumb']))
             ->values();
-        
+
         if ($items->isEmpty()) {
             // Không có dữ liệu gửi lên → xóa hết theo type
             return DB::table('st_post_images')->where('post_id', $postId)->where('type', $type)->delete();
@@ -290,7 +287,7 @@ class PostController extends BaseAdminController
                     'thumbnail' => $item['thumb'],
                     'position'  => $item['position'] ?? 0,
                 ];
-            })->toArray(); 
+            })->toArray();
             Media::upsert(
                 $rows,
                 ['post_id', 'thumbnail', 'type'],

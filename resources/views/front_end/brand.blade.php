@@ -158,6 +158,31 @@
                                 </div>
                             </nav>
                         @endif
+                        <div class="mj-page-actions mj-hero-actions">
+                            <a href="#menu" class="mj-btn mj-btn-primary" rel="noopener">
+                                <i class="bi bi-journal-richtext" aria-hidden="true"></i>
+                                <span>VIEW MENU</span>
+                            </a>
+
+                            @php
+                                $orderUrl = !empty($post->redirect_order) ? $post->redirect_order : '#';
+                                $reserveUrl = !empty($post->redirect_reserve_table)
+                                    ? $post->redirect_reserve_table
+                                    : '#';
+                            @endphp
+
+                            <a href="{{ $orderUrl }}" class="mj-btn mj-btn-outline"
+                                @if ($orderUrl !== '#') target="_blank" rel="noopener" @endif>
+                                <i class="bi bi-bag-check" aria-hidden="true"></i>
+                                <span>ORDER ONLINE</span>
+                            </a>
+
+                            <a href="{{ $reserveUrl }}" class="mj-btn mj-btn-outline"
+                                @if ($reserveUrl !== '#') target="_blank" rel="noopener" @endif>
+                                <i class="bi bi-calendar2-check" aria-hidden="true"></i>
+                                <span>RESERVE TABLE</span>
+                            </a>
+                        </div>
                     </div>
                     {{-- thumbnail: ảnh đại diện post --}}
                     <div class="col-lg-5 mj-brand-hero-visual">
@@ -713,6 +738,36 @@
             letter-spacing: -0.01em;
         }
 
+        .mj-hero-actions {
+            margin-top: 1.25rem;
+            gap: 10px;
+        }
+
+        .mj-btn-text {
+            background: transparent;
+            border-color: transparent;
+            color: var(--mj-cacao, #3e2723);
+            padding-left: 10px;
+            padding-right: 10px;
+            box-shadow: none;
+        }
+
+        .mj-btn-text:hover,
+        .mj-btn-text:focus-visible {
+            background: transparent;
+            border-color: transparent;
+            color: var(--mj-cacao-2, #5d4037);
+            transform: none;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        @media (max-width: 575.98px) {
+            .mj-hero-actions .mj-btn {
+                width: 100%;
+            }
+        }
+
         @media (max-width: 991.98px) {
             .mj-brand-hero .mj-page-title {
                 overflow: hidden;
@@ -1055,12 +1110,10 @@
                 z-index: 90;
                 margin: 0;
                 padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px));
-                background: linear-gradient(
-                    180deg,
-                    rgba(246, 239, 229, 0) 0%,
-                    rgba(246, 239, 229, 0.88) 35%,
-                    rgba(246, 239, 229, 0.98) 100%
-                );
+                background: linear-gradient(180deg,
+                        rgba(246, 239, 229, 0) 0%,
+                        rgba(246, 239, 229, 0.88) 35%,
+                        rgba(246, 239, 229, 0.98) 100%);
             }
 
             .mj-section-nav-inner {

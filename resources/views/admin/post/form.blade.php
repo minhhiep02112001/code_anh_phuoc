@@ -23,18 +23,10 @@
                             <label>Tiêu đề</label>
                             <input name="title" placeholder="Tiêu đề" class="form-control" type="text" />
                         </div>
-
                         <div class="form-group">
                             <label>Tóm tắt</label>
                             <textarea name="description" id="description" placeholder="Tóm tắt" class="form-control" rows="5"></textarea>
                         </div>
-                        {{-- <fieldset>
-                            <div class="form-group">
-                                <label>Content about:</label>
-                                <textarea name="content_about" id="content_about about" rows="10" class="form-control tinymce"
-                                    placeholder="Meta description"></textarea>
-                            </div>
-                        </fieldset> --}}
                         <fieldset class="mt-3">
                             <div class="form-group row">
                                 <label class="col-md-3 mb-0 col-12" style="color: #591313">Chạy content tự động:</label>
@@ -95,6 +87,17 @@
                                 <option value="1">Index</option>
                                 <option value="0">Không Index</option>
                             </select>
+                        </div>
+
+                         <div class="form-group">
+                            <label>Link order online</label>
+                            <input name="redirect_order" placeholder="Link order online" class="form-control"
+                                type="text" />
+                        </div>
+                        <div class="form-group">
+                            <label>Link reserve table</label>
+                            <input name="redirect_reserve_table" placeholder="Link reserve table" class="form-control"
+                                type="text" />
                         </div>
                     </div>
                 </div>
