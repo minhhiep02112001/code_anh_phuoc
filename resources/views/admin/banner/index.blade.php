@@ -39,6 +39,17 @@
                                     </div>
                                     <!-- Email Input -->
                                     <div class="form-group col-md-4">
+                                        <label>Thuộc:</label>
+                                        <select name="params[type]" class="form-control select2-option input-sm">
+                                            <option value=""></option>
+                                            @foreach (config('data.banner_type') ?? [] as $k => $v)
+                                                <option value="{{ $k }}">{{ $v }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+
+                                    <div class="form-group col-md-4">
                                         <label>Trạng thái:</label>
                                         <select name="params[is_status]" class="form-control select2-option input-sm">
                                             <option value=""></option>

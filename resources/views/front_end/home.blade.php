@@ -17,11 +17,7 @@
 @endphp
 @extends('front_end._index')
 @section('content')
-    {{-- ===== HERO =====
-         config_banner.hero (text)
-         data-type="banner_hero_chip" (search chips)
-         data-type="banner_hero_board" (board cards)
-    --}}
+
     <section class="mj-hero" data-type="hero" aria-labelledby="heroTitle">
         <div class="mj-hero-bg" aria-hidden="true">
             <div class="mj-hero-grain"></div>
@@ -100,21 +96,15 @@
                         <div class="mj-ring mj-ring-b"></div>
 
                         @if ($bannerHeroBoard->count())
-                            @foreach ($bannerHeroBoard->take(5) as $i => $card)
+                            @foreach ($bannerHeroBoard->take(5)->values() as $i => $card)
                                 @if ($i === 0)
                                     <article class="mj-board-card mj-board-main">
-                                        <div class="mj-board-main-art" aria-hidden="true">
-                                            @if (!empty($card->thumbnail))
-                                                <img src="{{ getImageThumb($card->thumbnail) }}"
-                                                    alt="{{ $card->title ?? '' }}"
-                                                    style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">
-                                            @else
-                                                <span class="mj-art-bun mj-art-bun-top"></span>
-                                                <span class="mj-art-lettuce"></span>
-                                                <span class="mj-art-tomato"></span>
-                                                <span class="mj-art-patty"></span>
-                                                <span class="mj-art-bun mj-art-bun-bottom"></span>
-                                            @endif
+                                        <div class="mj-board-main-art" {{ !empty($card->thumbnail) ? "style='background-image:url(" . getImageThumb($card->thumbnail) . ")'" : '' }} aria-hidden="true">
+                                            <span class="mj-art-bun mj-art-bun-top"></span>
+                                            <span class="mj-art-lettuce"></span>
+                                            <span class="mj-art-tomato"></span>
+                                            <span class="mj-art-patty"></span>
+                                            <span class="mj-art-bun mj-art-bun-bottom"></span>
                                         </div>
                                         <div class="mj-board-main-meta">
                                             <span class="mj-tag mj-tag-pick"><i class="bi bi-stars" aria-hidden="true"></i>

@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class BannerController extends BaseAdminController
-{ 
+{
     function __construct(BannerRepository $repository)
     {
         $this->_repository = $repository;
@@ -42,8 +42,8 @@ class BannerController extends BaseAdminController
             $row['checkID'] = $item->id;
             $row['id'] = $item->id;
             $row['title'] =  $item->title;
-            $row['thumbnail'] = getThumbnail($item, 100);
-            $row['thumbnail_mobile'] = getThumbnail($item, 100);
+            $row['thumbnail'] =!empty($item->thumbnail) ? getThumbnailImg($item->thumbnail, 100) : '';
+            $row['thumbnail_mobile'] =!empty($item->thumbnail_mobile) ? getThumbnailImg($item->thumbnail_mobile, 100) : '';
             $row['is_status']    = $item->is_status;
             $row['type']     = !empty(config('data.banner_type')[$item->type]) ? config('data.banner_type')[$item->type] :  $item->type;
             $row['key']     = $item->key;
