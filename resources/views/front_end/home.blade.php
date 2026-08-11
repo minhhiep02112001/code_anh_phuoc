@@ -99,7 +99,7 @@
                             @foreach ($bannerHeroBoard->take(5)->values() as $i => $card)
                                 @if ($i === 0)
                                     <article class="mj-board-card mj-board-main">
-                                        <div class="mj-board-main-art" {{ !empty($card->thumbnail) ? "style='background-image:url(" . getImageThumb($card->thumbnail) . ")'" : '' }} aria-hidden="true">
+                                        <div class="mj-board-main-art" {!! !empty($card->thumbnail) ? ' style="background-image:url(' . getImageThumb($card->thumbnail) . ');"' : '' !!} aria-hidden="true">
                                             <span class="mj-art-bun mj-art-bun-top"></span>
                                             <span class="mj-art-lettuce"></span>
                                             <span class="mj-art-tomato"></span>
@@ -107,15 +107,15 @@
                                             <span class="mj-art-bun mj-art-bun-bottom"></span>
                                         </div>
                                         <div class="mj-board-main-meta">
-                                            <span class="mj-tag mj-tag-pick"><i class="bi bi-stars" aria-hidden="true"></i>
-                                                Editor's Joy Pick</span>
                                             <h3 class="mj-board-title">{{ $card->title ?? '' }}</h3>
                                             <p class="mj-board-sub">{{ $card->description ?? '' }}</p>
                                         </div>
                                     </article>
                                 @else
                                     <article class="mj-board-card mj-board-float mj-board-float-{{ $i }}">
-                                        <div class="mj-float-icon" aria-hidden="true"><i class="bi bi-stars"></i></div>
+                                        <div class="mj-float-icon" aria-hidden="true">
+                                            <i class="bi bi-stars"></i>
+                                        </div>
                                         <div>
                                             <h4 class="mj-float-title">{{ $card->title ?? '' }}</h4>
                                             <p class="mj-float-sub">{{ $card->description ?? '' }}</p>
