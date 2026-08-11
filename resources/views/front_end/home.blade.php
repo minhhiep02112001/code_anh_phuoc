@@ -377,32 +377,32 @@
                 </p>
             </div>
             <div class="row g-4">
-                @forelse ($posts as $post)
+                @forelse ($posts as $item)
                     <div class="col-md-6 col-lg-4">
                         <article class="mj-menu-card">
                             <div class="mj-menu-cover mj-cover-bowl" aria-hidden="true">
-                                <a href="{{ route('post', ['slug' => $post->slug]) }}" title="{{ $post->title }}">
+                                <a href="{{ route('post', ['slug' => $item->slug]) }}" title="{{ $item->title }}">
                                     <img class="lazy" src="{{ asset('public/dot.jpg') }}"
-                                        data-src="{{ getImageThumb($post->thumbnail) }}" alt="{{ $post->title }}" />
+                                        data-src="{{ getImageThumb($item->thumbnail) }}" alt="{{ $item->title }}" />
                                 </a>
                             </div>
                             <div class="mj-menu-body">
                                 <div class="mj-menu-head">
                                     <h3 class="mj-menu-name">
-                                        <a href="{{ route('post', ['slug' => $post->slug]) }}"
-                                            title="{{ $post->title }}">{{ $post->title }}</a>
+                                        <a href="{{ route('post', ['slug' => $item->slug]) }}"
+                                            title="{{ $item->title }}">{{ $item->title }}</a>
                                     </h3>
                                 </div>
-                                @if (!empty($post->address))
+                                @if (!empty($item->address))
                                     <p class="mj-menu-loc"><i class="bi bi-geo-alt-fill" aria-hidden="true"></i>
-                                        {{ $post->address }}</p>
+                                        {{ $item->address }}</p>
                                 @endif
-                                @if (!empty($post->description))
+                                @if (!empty($item->description))
                                     <p class="mj-menu-pop">
-                                        {{ \Illuminate\Support\Str::limit(strip_tags($post->description), 120) }}
+                                        {{ \Illuminate\Support\Str::limit(strip_tags($item->description), 120) }}
                                     </p>
                                 @endif
-                                <a href="{{ route('post', ['slug' => $post->slug]) }}" title="View Menu"
+                                <a href="{{ route('post', ['slug' => $item->slug]) }}" title="View Menu"
                                     class="mj-menu-cta">
                                     View Menu <i class="bi bi-arrow-right" aria-hidden="true"></i>
                                 </a>

@@ -1,5 +1,5 @@
 @php
-    $ver = 126;
+    $ver = 127;
     $config_website = getValueSetting('config_website');
     $config_seo = getValueSetting('config_seo');
     $medias = $medias ?? collect();
@@ -66,9 +66,7 @@
         })
         ->values();
     $menuItems = $products->where('parent_id', '>', 0);
-    if (!$hasMenuGallery) {
-        $highlightCards = ($menuItems->isNotEmpty() ? $menuItems : $products)->take(6);
-    }
+
     $highlights = $highlightCards;
     $viewMenuUrl = $hasMenuGallery ? null : ($menuSections->isNotEmpty() ? '#menu' : $menuUrl);
     $comments = collect($comments ?? []);
@@ -160,6 +158,31 @@
                                 </div>
                             </nav>
                         @endif
+                        <div class="mj-page-actions mj-hero-actions">
+                            <a href="#menu" class="mj-btn mj-btn-primary" rel="noopener">
+                                <i class="bi bi-journal-richtext" aria-hidden="true"></i>
+                                <span>VIEW MENU</span>
+                            </a>
+
+                            @php
+                                $orderUrl = !empty($post->redirect_order) ? $post->redirect_order : '#';
+                                $reserveUrl = !empty($post->redirect_reserve_table)
+                                    ? $post->redirect_reserve_table
+                                    : '#';
+                            @endphp
+
+                            <a href="{{ $orderUrl }}" class="mj-btn mj-btn-outline"
+                                @if ($orderUrl !== '#') target="_blank" rel="noopener" @endif>
+                                <i class="bi bi-bag-check" aria-hidden="true"></i>
+                                <span>ORDER ONLINE</span>
+                            </a>
+
+                            <a href="{{ $reserveUrl }}" class="mj-btn mj-btn-outline"
+                                @if ($reserveUrl !== '#') target="_blank" rel="noopener" @endif>
+                                <i class="bi bi-calendar2-check" aria-hidden="true"></i>
+                                <span>RESERVE TABLE</span>
+                            </a>
+                        </div>
                     </div>
                     {{-- thumbnail: ảnh đại diện post --}}
                     <div class="col-lg-5 mj-brand-hero-visual">
@@ -202,8 +225,8 @@
                 <section class="mj-section mj-about" aria-labelledby="aboutTitle">
                     <div class="container-xxl">
                         <div class="mj-section-head">
-                            <h2 id="aboutTitle" class="mj-section-title" data-h-script="{{ $post->title }}.">
-                                {{ __('config_data.menus.about') }} {{ $post->title }}.
+                            <h2 id="aboutTitle" class="mj-section-title">
+                                {{ __('config_data.menus.about') }} <span class="mj-h-script">{{ $post->title }}.</span>
                             </h2>
                         </div>
                         <div class="row align-items-center g-5">
@@ -233,8 +256,8 @@
                     </nav>
                     <div class="container-xxl">
                         <div class="mj-section-head">
-                            <h2 id="highlightsTitle" class="mj-section-title" data-h-script="{{ $post->title }}.">
-                                Services of {{ $post->title }}.
+                            <h2 id="highlightsTitle" class="mj-section-title">
+                                Services of <span class="mj-h-script">{{ $post->title }}.</span>
                             </h2>
                         </div>
                         <div class="mj-about-panel-body" id="aboutPanelBody">
@@ -260,8 +283,9 @@
             <section class="mj-section mj-album" id="photo" aria-labelledby="albumTitle">
                 <div class="container-xxl">
                     <div class="mj-section-head">
-                        <h2 id="albumTitle" class="mj-section-title" data-h-script="{{ $post->title }}.">
-                            {{ __('config_data.menus.photo') }} {{ $post->title }}.</h2>
+                        <h2 id="albumTitle" class="mj-section-title">
+                            {{ __('config_data.menus.photo') }} <span class="mj-h-script">{{ $post->title }}.</span>
+                        </h2>
                     </div>
                     <div class="mj-album-grid" id="mjAlbum">
                         @foreach ($photoCards as $i => $photo)
@@ -292,8 +316,8 @@
             <section class="mj-section mj-highlights" id="highlights" aria-labelledby="highlightsTitle">
                 <div class="container-xxl">
                     <div class="mj-section-head">
-                        <h2 id="highlightsTitle" class="mj-section-title" data-h-script="{{ $post->title }}.">
-                            {{ __('config_data.menus.menu') }} {{ $post->title }}.
+                        <h2 id="highlightsTitle" class="mj-section-title">
+                            {{ __('config_data.menus.menu') }} <span class="mj-h-script">{{ $post->title }}.</span>
                         </h2>
                     </div>
                     <div class="row g-4 justify-content-center">
@@ -407,10 +431,11 @@
             <section class="mj-section mj-location" id="location" aria-labelledby="locationTitle">
                 <div class="container-xxl">
                     <div class="mj-section-head">
-                        <h2 id="locationTitle" class="mj-section-title"
-                            data-h-script="{{ !empty($timeSchedule) ? 'Opening Hours.' : __('config_data.menus.location') }}">
-                            {{ __('config_data.menus.location') }}
-                            {!! !empty($timeSchedule) ? ' &amp; Opening Hours.' : '' !!}</h2>
+                        <h2 id="highlightsTitle" class="mj-section-title">
+                            {{ __('config_data.menus.location') }} <span class="mj-h-script">
+                                {!! !empty($timeSchedule) ? ' &amp; Opening Hours.' : '' !!}
+                            </span>
+                        </h2>
                     </div>
                     <div class="row g-4">
                         <div class="{{ !empty($timeSchedule) ? 'col-lg-6' : 'col-lg-12' }}">
@@ -522,8 +547,9 @@
             <section class="mj-section mj-reviews" id="review" aria-labelledby="reviewsTitle">
                 <div class="container-xxl">
                     <div class="mj-section-head">
-                        <h2 id="reviewsTitle" class="mj-section-title" data-h-script="{{ $post->title }}.">
-                            {{ __('config_data.menus.review') }} {{ $post->title }}.</h2>
+                        <h2 id="reviewsTitle" class="mj-section-title">
+                            {{ __('config_data.menus.review') }} <span class="mj-h-script">{{ $post->title }}.</span>
+                        </h2>
                     </div>
 
                     @if ($reviews->count() > 0)
@@ -573,10 +599,9 @@
                 <div class="container-xxl">
                     <div class="mj-section-head mj-section-head-row">
                         <div>
-                            <span class="mj-eyebrow">Discover Nearby</span>
-                            <h2 id="similarTitle" class="mj-section-title" data-h-script="nearby.">Similar local food
-                                nearby.</h2>
-                            <p class="mj-section-text">Keep exploring with brands that match this craving.</p>
+                            <h2 id="similarTitle" class="mj-section-title">
+                                Similar local food <span class="mj-h-script">nearby.</span>
+                            </h2>
                         </div>
                     </div>
                     <div class="mj-brand-slider-wrap">
@@ -713,6 +738,86 @@
             font-weight: 600;
             color: var(--mj-cacao, #3e2723);
             letter-spacing: -0.01em;
+        }
+
+        .mj-hero-actions {
+            margin-top: 1.25rem;
+            gap: 10px;
+        }
+
+        .mj-btn-text {
+            background: transparent;
+            border-color: transparent;
+            color: var(--mj-cacao, #3e2723);
+            padding-left: 10px;
+            padding-right: 10px;
+            box-shadow: none;
+        }
+
+        .mj-btn-text:hover,
+        .mj-btn-text:focus-visible {
+            background: transparent;
+            border-color: transparent;
+            color: var(--mj-cacao-2, #5d4037);
+            transform: none;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        @media (max-width: 991.98px) {
+            .mj-hero-actions {
+                position: fixed;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                z-index: 90;
+                margin: 0;
+                padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px));
+                display: flex;
+                flex-wrap: nowrap;
+                gap: 8px;
+                background: linear-gradient(180deg,
+                        rgba(246, 239, 229, 0) 0%,
+                        rgba(246, 239, 229, 0.88) 35%,
+                        rgba(246, 239, 229, 0.98) 100%);
+            }
+
+            .mj-hero-actions .mj-btn {
+                flex: 1 1 0;
+                width: auto;
+                min-width: 0;
+                padding: 11px 8px;
+                font-size: 11px;
+                gap: 4px;
+                box-shadow: 0 8px 22px rgba(28, 14, 10, 0.12);
+            }
+
+            .mj-hero-actions .mj-btn span {
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .mj-brand-hero .mj-page-title {
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                max-width: 100%;
+            }
+
+            .mj-brand-hero .mj-info-chips {
+                width: 100%;
+            }
+
+            .mj-brand-hero .mj-info-chips li {
+                max-width: 100%;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+
+            main#main {
+                padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px));
+            }
         }
 
         .mj-brand-card-photo--logo {
@@ -986,60 +1091,75 @@
             display: inline-flex;
             flex-wrap: wrap;
             align-items: center;
-            gap: 0.35rem;
-            padding: 0.35rem;
-            border: 1px solid rgba(0, 0, 0, 0.08);
-            border-radius: 999px;
-            background: #fff;
-            box-shadow: 0 4px 18px rgba(28, 14, 10, 0.06);
+            gap: 10px;
+            padding: 0;
+            border: 0;
+            border-radius: 0;
+            background: transparent;
+            box-shadow: none;
         }
 
         .mj-section-nav-pill {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 0.55rem 1.15rem;
+            gap: 10px;
+            padding: 12px 22px;
             border-radius: 999px;
-            background: #f3f4f6;
-            color: #1f2937;
-            font-size: 0.9375rem;
+            border: 1px solid var(--mj-line-2, rgba(61, 35, 24, 0.22));
+            background: transparent;
+            color: var(--mj-cacao, #3e2723);
+            font-size: 15px;
             font-weight: 600;
             line-height: 1.2;
+            letter-spacing: -0.005em;
             text-decoration: none;
             white-space: nowrap;
-            transition: background-color .2s ease, color .2s ease, box-shadow .2s ease;
+            transition: transform .25s ease, box-shadow .25s ease, background .25s ease, color .25s ease, border-color .25s ease;
         }
 
         .mj-section-nav-pill:hover,
         .mj-section-nav-pill:focus-visible {
-            color: #111827;
-            background: #e5e7eb;
+            background: var(--mj-cacao, #3e2723);
+            border-color: var(--mj-cacao, #3e2723);
+            color: var(--mj-paper, #f6efe5);
+            transform: translateY(-2px);
         }
 
         .mj-section-nav-pill.is-active {
-            background: #22c55e;
-            color: #fff;
-            box-shadow: 0 2px 8px rgba(34, 197, 94, 0.35);
+            background: var(--mj-cacao, #3e2723);
+            border-color: var(--mj-cacao, #3e2723);
+            color: var(--mj-paper, #f6efe5);
+            box-shadow: 0 12px 26px rgba(61, 35, 24, 0.22);
         }
 
         .mj-section-nav-pill.is-active:hover,
         .mj-section-nav-pill.is-active:focus-visible {
-            color: #fff;
-            background: #16a34a;
+            background: var(--mj-cacao-2, #5d4037);
+            border-color: var(--mj-cacao-2, #5d4037);
+            color: var(--mj-paper, #f6efe5);
         }
 
-        @media (max-width: 575.98px) {
+        @media (max-width: 991.98px) {
             .mj-section-nav-inner {
+                display: flex;
                 width: 100%;
                 justify-content: flex-start;
                 overflow-x: auto;
                 flex-wrap: nowrap;
+                gap: 8px;
                 -webkit-overflow-scrolling: touch;
                 scrollbar-width: none;
             }
 
             .mj-section-nav-inner::-webkit-scrollbar {
                 display: none;
+            }
+
+            .mj-section-nav-pill {
+                padding: 11px 14px;
+                font-size: 11px;
+                gap: 4px;
             }
         }
 
