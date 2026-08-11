@@ -371,7 +371,7 @@ async function crawler_images(page, record) {
                     'div[role="img"] div[style*="background-image"]',
                 )?.style?.backgroundImage;
                 const m = bg && bg.match(/url\((['"]?)(.*?)\1\)/i);
-                return m?. [2] || null;
+                return m?.[2] || null;
             };
 
             const collect = () => {
@@ -428,7 +428,7 @@ async function crawler_images(page, record) {
 }
 
 async function getAllCrawlerDataBase(offset = 0) {
-    const query = `SELECT * FROM ${table.crawler} WHERE is_status=0 and language = 'au' ORDER BY id ASC LIMIT 20 offset ${offset}`;
+    const query = `SELECT * FROM ${table.crawler} WHERE is_status=0 and language = 'au' ORDER BY id ASC LIMIT 100 offset ${offset}`;
     // const query = `SELECT * FROM ${table.crawler} WHERE id=160938 and language = 'au' ORDER BY id DESC LIMIT 200 offset ${offset}`;
 
     // const query = `SELECT * FROM ${table.crawler} WHERE language = 'au'  ORDER BY id ASC LIMIT 200 offset ${offset}`;
@@ -436,7 +436,7 @@ async function getAllCrawlerDataBase(offset = 0) {
 }
 
 (async () => {
-    var list_data = await getAllCrawlerDataBase(6);
+    var list_data = await getAllCrawlerDataBase(60);
 
     const browser = await puppeteer.launch({
         headless: false,

@@ -212,10 +212,10 @@ async function crawlerGoogleIframe(browser, record) {
             }
             data.slug = record.slug = convertToSlug(record.key_word);
             await database.update_crawler_map(record.id, data, 1);
+            if (crawlerData.images) await crawler_images(page, record);
             if (crawlerData.comment) await crawler_comment(page, record);
             if (crawlerData.menu) await crawlerMenu(page, record);
             if (crawlerData.about) await crawler_about(page, record);
-            if (crawlerData.images) await crawler_images(page, record);
             return;
         } catch (e) {
             console.error(`Retry ${attempt} failed`, e);
@@ -859,41 +859,50 @@ async function crawler_comment(page, record) {
 }
 
 async function getAllCrawlerDataBase(offset = 0) {
-    const query = `SELECT * FROM ${table.crawler} WHERE is_status = 0 and language = 'au' ORDER BY id DESC LIMIT 200 offset ${offset}`;
+    const query = `SELECT * FROM ${table.crawler} WHERE is_status = 0 and language = 'au' ORDER BY id DESC LIMIT 20 offset ${offset}`;
     // const query = `SELECT * FROM ${table.crawler} WHERE language = 'au'  ORDER BY id ASC LIMIT 200 offset ${offset}`;
     return database.query(query);
 }
 
 (async () => {
-    var list_data = await getAllCrawlerDataBase(0);
+    console.log(`Country: au - Australia (en-AU)`);
 
     const browser = await puppeteer.launch({
         headless: false,
         args: ["--start-maximized", "--lang=en-AU", "--accept-lang=en-AU"],
         defaultViewport: null,
     });
-
-    const ctx = browser.defaultBrowserContext();
-    for (const origin of [
+    try {
+        const ctx = browser.defaultBrowserContext();
+        for (const origin of [
         "https://www.google.com",
         "https://maps.google.com",
     ]) {
         await ctx.overridePermissions(origin, ["geolocation"]);
     }
 
-    for (let element of list_data) {
-        try {
-            console.log("\n ===Start key: " + element.key_word);
-            await crawlerGoogleIframe(browser, element);
-            console.log("Crawler_success key: " + element.key_word);
-        } catch (e) {
-            console.error("Crawler_error: " + element.id + e);
-            await database.update_crawler_map(element.id, { is_error: 1 }, 3);
-        }
-    }
+        while (true) {
+            const list_data = await getAllCrawlerDataBase(0);
+            if (!list_data.length) {
+                console.log(`Hết data language = '${LANG.toLowerCase()}'`);
+                break;
+            }
 
-    await browser.close();
-    console.log("Done All");
+            for (let element of list_data) {
+                try {
+                    console.log("\n ===Start key: " + element.key_word);
+                    await crawlerGoogleIframe(browser, element);
+                    console.log("Crawler_success key: " + element.key_word);
+                } catch (e) {
+                    console.error("Crawler_error: " + element.id + e);
+                    await database.update_crawler_map(element.id, { is_error: 1 }, 3);
+                }
+            }
+        }
+    } finally {
+        await browser.close();
+        console.log("Done All");
+    }
 })();
 
 async function downloadFile(results = [], _type = "photo", record, max = 10) {
