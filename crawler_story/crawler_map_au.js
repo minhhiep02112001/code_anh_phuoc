@@ -353,7 +353,7 @@ async function extractMainInfo(page) {
         }
 
         return {
-            key_word: h1.textContent?.trim(),
+            // key_word: h1.textContent?.trim(),
             google_review: reviewText,
             phone: getAttr(
                 'button[data-tooltip="Copy phone number"]',
@@ -859,7 +859,7 @@ async function crawler_comment(page, record) {
 }
 
 async function getAllCrawlerDataBase(offset = 0) {
-    const query = `SELECT * FROM ${table.crawler} WHERE is_status = 0 and language = 'au' ORDER BY id DESC LIMIT 20 offset ${offset}`;
+    const query = `SELECT * FROM ${table.crawler} WHERE is_status = 0 and language = 'au' ORDER BY id ASC LIMIT 20 offset ${offset}`;
     // const query = `SELECT * FROM ${table.crawler} WHERE language = 'au'  ORDER BY id ASC LIMIT 200 offset ${offset}`;
     return database.query(query);
 }
@@ -884,7 +884,7 @@ async function getAllCrawlerDataBase(offset = 0) {
         while (true) {
             const list_data = await getAllCrawlerDataBase(0);
             if (!list_data.length) {
-                console.log(`Hết data language = '${LANG.toLowerCase()}'`);
+                console.log(`Hết data`);
                 break;
             }
 
