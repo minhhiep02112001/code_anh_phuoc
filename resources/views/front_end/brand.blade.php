@@ -1,430 +1,315 @@
 @php
-    $ver = 126;
-    $config_website = getValueSetting('config_website');
-    $config_seo = getValueSetting('config_seo');
     $medias = $post->media->all();
-    $photos = collect($medias)->where('type', 'photo')->all();
-    $menus = collect($medias)->where('type', 'menu')->all();
-    $indexImg = 0;
+    $photos = collect($medias)->where('type', 'photo')->values();
+    $menus = collect($medias)->where('type', 'menu')->values();
+    $photoPreview = $photos->take(6);
+    $menuPreview = $menus->take(6);
+    $aboutGroups = collect($abouts ?? [])->where('parent_id', 0);
+    $rating = $post->google_review ?? 5;
+    $timeSchedule = exportTimeOpen($post->time_open ?? '');
+    $todayName = \Carbon\Carbon::now()->format('l');
+    $todayHours = '';
+    foreach ($timeSchedule as $row) {
+        if (stripos($row['day'], substr($todayName, 0, 3)) !== false) {
+            $todayHours = $row['hours'];
+            break;
+        }
+    }
+    if (!$todayHours && !empty($timeSchedule[0]['hours'])) {
+        $todayHours = $timeSchedule[0]['hours'];
+    }
 @endphp
 
 @extends('front_end._index')
 
+@section('body_class', 'vn-page vn-brand')
+
 @section('content')
-    <style>
-        .mobile-header .logo a {
-            font-size: 20px;
-            color: #fff;
-            font-weight: 700;
-        }
-
-        .nav-outer .mobile-nav-toggler {
-            margin-left: 5px;
-        }
-
-        #reviews .comment {
-            position: relative;
-            margin-bottom: 30px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgb(241, 243, 247);
-        }
-
-        #reviews .user-name {
-            font-size: 20px;
-            color: rgb(27, 32, 50);
-            line-height: normal;
-            margin-bottom: 10px;
-            text-transform: capitalize;
-            font-weight: 600;
-        }
-
-        .listing-block-two {
-            margin-bottom: 10px;
-        }
-
-        .timing-list li {
-            justify-content: end;
-        }
-
-        #reviews .show {
-            display: block;
-        }
-
-        #reviews .hide {
-            display: none;
-        }
-
-        button.loadmoreReview {
-            padding: 10px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            background: bisque;
-            margin: 0 auto;
-            display: block;
-        }
-    </style>
-    <section class="listing-banner box-brand">
-        <div class="background-layer banner-brand" style="background-image: url('{{ getImageThumb($post->thumbnail) }}');">
-        </div>
-        <div class="auto-container info-brand">
-            <div class="content-box">
-                <div class="menu-item header-fixed">
-                    <ul>
-                        <li class="show"><a class="active" href="#overview" title="Overview">Overview</a></li>
-                        <li class="show"><a href="#photos" title="Photos">Photos</a></li>
-                        <li class="show"><a href="#menu" title="Menu">Menu</a></li>
-                        <li class="show"><a href="#reviews" title="Reviews">Reviews</a></li>
-                        <li class="show"><a href="#location" title="Location">Location</a></li>
-                    </ul>
-                </div>
-                <div class="brand-info">
-                    <h1>{{ $post->title }}</h1>
-                    <div class="listing-block-two">
-                        <div class="rating">
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="avg-vote">5</span>
-                            <span class="title">({{ $post->viewed }} reviews )</span>
-                        </div>
-                    </div>
-
-                    <div class="address">
-                        <span class="flaticon-pin"></span> <a href="#location" title="Location">{{ $post->address }}</a>
-                    </div>
-                    @if ($post->phone)
-                        <div class="phone"><span class="flaticon-phone-call"></span> {{ $post->phone }}</div>
-                    @endif
-                </div>
+    <section class="vn-brand-hero">
+        <div class="vn-brand-hero__bg" style="background-image:url('{{ getImageThumb($post->thumbnail) }}')"></div>
+        <div class="vn-container vn-brand-hero__content">
+            <h1>{{ $post->title }}</h1>
+            <div class="vn-brand-hero__chips">
+                @if ($rating)
+                    <span class="vn-chip">★ {{ $rating }}</span>
+                @endif
+                @if ($post->address)
+                    <a class="vn-chip" href="#location">{{ $post->address }}</a>
+                @endif
+                @if ($post->phone)
+                    <a class="vn-chip" href="tel:{{ preg_replace('/\s+/', '', $post->phone) }}">{{ $post->phone }}</a>
+                @endif
             </div>
+
+            <nav class="vn-nav" data-vn-section-nav aria-label="Page sections">
+                @if (!empty($post->content))
+                    <a class="vn-nav__pill is-active" href="#overview">Overview</a>
+                @endif
+                @if ($aboutGroups->count())
+                    <a class="vn-nav__pill" href="#about">About</a>
+                @endif
+                @if ($photos->count())
+                    <a class="vn-nav__pill" href="#photos">Photos</a>
+                @endif
+                @if ($menus->count() || !empty($products))
+                    <a class="vn-nav__pill" href="#menu">Menu</a>
+                @endif
+                @if (!empty($comments) && collect($comments)->count())
+                    <a class="vn-nav__pill" href="#reviews">Reviews</a>
+                @endif
+                <a class="vn-nav__pill" href="#location">Location</a>
+            </nav>
         </div>
     </section>
 
-    <div class="sidebar-page-container bg_alice">
-        <div class="auto-container">
-            <div class="row">
-                <div class="content-side col-lg-12 col-md-12 col-sm-12">
-                    <div class="listing-single">
-                        @if (!empty($post->content))
-                            <div class="description-widget ls-widget">
-                                <div class="widget-content" id="overview">
-                                    {!! $post->content !!}
+    <div class="vn-brand-body">
+        <div class="vn-container">
+            @if (!empty($post->content))
+                <section class="vn-panel" id="overview">
+                    <h2 class="vn-panel__title">Overview</h2>
+                    <div class="vn-prose">{!! $post->content !!}</div>
+                </section>
+            @endif
+
+            @if ($aboutGroups->count())
+                <section class="vn-panel" id="about">
+                    <h2 class="vn-panel__title">Amenities &amp; details</h2>
+                    <div class="vn-expandable" id="aboutExpand">
+                        @foreach ($aboutGroups as $group)
+                            @if (!empty($group->title))
+                                <div class="vn-about-group">
+                                    <h3>{{ $group->title }}</h3>
+                                    <ul class="vn-check-grid">
+                                        @foreach (collect($abouts)->where('parent_id', $group->id) as $child)
+                                            <li>{!! $child->title !!}</li>
+                                        @endforeach
+                                    </ul>
                                 </div>
-                            </div>
+                            @endif
+                        @endforeach
+                    </div>
+                    <button type="button" class="vn-btn vn-btn--outline" style="margin-top:1rem"
+                        data-vn-expand="#aboutExpand" data-vn-label-more="Show more" data-vn-label-less="Show less">Show
+                        more</button>
+                </section>
+            @endif
+
+            @if ($photos->count())
+                <section class="vn-panel" id="photos">
+                    <h2 class="vn-panel__title">Photos</h2>
+                    <ul class="vn-gallery">
+                        @foreach ($photoPreview as $k => $item)
+                            <li>
+                                <a href="{{ getImageThumb($item->thumbnail) }}" data-vn-lightbox="photos"
+                                    data-caption="Photo {{ $k + 1 }} – {{ $post->title }}">
+                                    <img src="{{ getImageThumb($item->thumbnail) }}"
+                                        alt="Photo {{ $post->title }} – {{ $k + 1 }}" loading="lazy">
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                    @if ($photos->count() > 6)
+                        <ul class="vn-gallery visually-hidden" aria-hidden="true">
+                            @foreach ($photos->slice(6) as $k => $item)
+                                <li>
+                                    <a href="{{ getImageThumb($item->thumbnail) }}" data-vn-lightbox="photos"
+                                        data-caption="Photo {{ $k + 7 }} – {{ $post->title }}"></a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @endif
+                </section>
+            @endif
+
+            @if ($menus->count() || !empty($products))
+                <section class="vn-panel" id="menu">
+                    <h2 class="vn-panel__title">Menu</h2>
+
+                    @if ($menus->count())
+                        <ul class="vn-gallery" style="margin-bottom:1.5rem">
+                            @foreach ($menuPreview as $k => $item)
+                                <li>
+                                    <a href="{{ getImageThumb($item->thumbnail) }}" data-vn-lightbox="menu"
+                                        data-caption="Menu {{ $k + 1 }} – {{ $post->title }}">
+                                        <img src="{{ getImageThumb($item->thumbnail) }}"
+                                            alt="Menu {{ $post->title }} – {{ $k + 1 }}" loading="lazy">
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                        @if ($menus->count() > 6)
+                            <ul class="vn-gallery visually-hidden" aria-hidden="true">
+                                @foreach ($menus->slice(6) as $k => $item)
+                                    <li>
+                                        <a href="{{ getImageThumb($item->thumbnail) }}" data-vn-lightbox="menu"
+                                            data-caption="Menu {{ $k + 7 }} – {{ $post->title }}"></a>
+                                    </li>
+                                @endforeach
+                            </ul>
                         @endif
-                        @if (!empty($abouts))
-                            <div class="features-widget ls-widget" id="business">
-                                <div class="widget-title">
-                                    <h2><span class="icon flaticon-list"></span> Amenities and More</h2>
-                                </div>
-                                <div class="widget-content">
-                                    <ul class="listing-features">
-                                        @foreach (collect($abouts)->where('parent_id', 0) as $about)
-                                            @if (!empty($about->title))
-                                                <li>
-                                                    <span class="title-amenites">{{ $about->title }}</span>
-                                                    <ul class="listing-child">
-                                                        @foreach (collect($abouts)->where('parent_id', $about->id) as $child)
-                                                            <li><span>{!! $child->title !!}</span></li>
-                                                        @endforeach
-                                                    </ul>
-                                                </li>
+                    @endif
+
+                    @if (!empty($products) && collect($products)->count())
+                        @foreach (collect($products)->where('parent_id', 0) as $product)
+                            @if (!empty($product->title))
+                                <div class="vn-menu-cat">
+                                    <h3>{{ $product->title }}</h3>
+                                    @foreach (collect($products)->where('parent_id', $product->id) as $child)
+                                        <div class="vn-menu-item">
+                                            <span>{!! trim($child->title) !!}</span>
+                                            @if (!empty($child->price))
+                                                <span class="vn-menu-item__price">{!! trim($child->price) !!}</span>
                                             @endif
-                                        @endforeach
-                                    </ul>
-                                </div>
-                                <button class="see-more-btn">See more</button>
-                            </div>
-                        @endif
-                        @if (!empty($menus) || !empty($products))
-                            <div class="gallery-widget   ls-widget" id="menus">
-                                <div class="widget-title">
-                                    <h2><span class="icon flaticon-gallery"></span> Menus</h2>
-                                </div>
-                                <div class="widget-content features-widget">
-                                    @if (!empty($menus))
-                                        <ul class="listing-gallery listing-gallery-photos">
-                                            @foreach ($menus as $k => $item)
-                                                <li class="gallery-item photo-item-{{ $indexImg++ }}">
-                                                    <div class="inner-box">
-                                                        <figure class="image"> <img class=""
-                                                                src="{{ getImageThumb($item->thumbnail) }}"
-                                                                alt="Menu {{ $post->title }} - {{ $k }}"
-                                                                data-src="{{ getImageThumb($item->thumbnail) }}"
-                                                                lazy="loading">
-                                                        </figure>
-                                                        <div class="overlay"> <a
-                                                                href="{{ getImageThumb($item->thumbnail) }}"
-                                                                class="lightbox-image" data-fancybox="ls-gallery-photos"
-                                                                title="Menu {{ $post->title }} - {{ $k }}"><span
-                                                                    class="icon flaticon-magnifying-glass"></span></a>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    @endif
-
-                                    @if (!empty($products) && collect($products)->count() > 0)
-                                        <div class="widget-content ls-widget">
-                                            <ul class="listing-features" style="margin-top: 20px;">
-                                                @foreach (collect($products)->where('parent_id', 0) as $product)
-                                                    @if (!empty($product->title))
-                                                        <li style="padding: 0 5px;">
-                                                            <span class="title-amenites">{{ $product->title }}</span>
-                                                            <ul class="listing-child">
-                                                                @foreach (collect($products)->where('parent_id', $product->id) as $child)
-                                                                    <li
-                                                                        style="display: flex;justify-content: space-between;align-items: baseline;">
-                                                                        <span>{!! trim($child->title) !!}</span>
-                                                                        @if (!empty($child->price))
-                                                                            <span>{!! trim($child->price) !!}</span>
-                                                                        @endif
-                                                                    </li>
-                                                                @endforeach
-                                                            </ul>
-                                                        </li>
-                                                    @endif
-                                                @endforeach
-                                            </ul>
-                                            <button class="see-more-btn">See more</button>
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
-                        @endif
-
-
-                        @if (!empty($photos))
-                            <div class="gallery-widget ls-widget" id="photos">
-                                <div class="widget-title">
-                                    <h2><span class="icon flaticon-gallery"></span> Photos</h2>
-                                </div>
-                                <div class="widget-content">
-                                    <ul class="listing-gallery listing-gallery-photos">
-                                        @foreach ($photos as $k => $item)
-                                            <li class="gallery-item photo-item-{{ $indexImg++ }}">
-                                                <div class="inner-box">
-                                                    <figure class="image"> <img class=""
-                                                            src="{{ getImageThumb($item->thumbnail) }}"
-                                                            alt="Photo {{ $post->title }} - {{ $k }}"
-                                                            data-src="{{ getImageThumb($item->thumbnail) }}"
-                                                            lazy="loading">
-                                                    </figure>
-                                                    <div class="overlay"> <a href="{{ getImageThumb($item->thumbnail) }}"
-                                                            class="lightbox-image" data-fancybox="ls-gallery-photos"
-                                                            title="Photo {{ $post->title }} - {{ $k }}"><span
-                                                                class="icon flaticon-magnifying-glass"></span></a> </div>
-                                                </div>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            </div>
-                        @endif
-
-                        @if (!empty($comments))
-                            <div class="comments-widget ls-widget" id="reviews">
-                                <div class="widget-title">
-                                    <h2><span class="icon flaticon-consulting-message"></span> Reviews {{ $post->title }}
-                                    </h2>
-                                </div>
-                                <div class="widget-content listReview">
-
-                                    @foreach (collect($comments)->values() as $k => $item)
-                                        <div class="comment {{ $k < 5 ? 'show' : 'hide' }}"
-                                            data-index="{{ $k }}">
-                                            <div class="user-name"> {{ $item->fullname }}</div>
-                                            <div class="comment-info listing-block-two">
-                                                <ul class="rating">
-                                                    <span class="fa fa-star"></span>
-                                                    <span class="fa fa-star"></span>
-                                                    <span class="fa fa-star"></span>
-                                                    <span class="fa fa-star"></span>
-                                                    <span class="fa fa-star"></span>
-                                                </ul>
-                                                <div class="comment-time">
-                                                    {{ format_date($item->created_at, 'd-m-Y') }}
-                                                </div>
-                                            </div>
-                                            <div class="text">
-                                                {!! $item->content ?? '' !!}
-                                            </div>
                                         </div>
                                     @endforeach
-
                                 </div>
-                                @if (collect($comments)->count() > 0)
-                                    <button class="loadmoreReview">See more reviews</button>
-                                @endif
-                            </div>
-                        @endif
+                            @endif
+                        @endforeach
+                    @endif
+                </section>
+            @endif
 
-
-                        <div class="comments-form-widget ls-widget">
-                            <div class="widget-title">
-                                <h4><span class="icon flaticon-consulting-message"></span> Add a Review</h4>
-                            </div>
-                            <div class="widget-content">
-                                <div class="sub-ratings-container">
-
-                                    <div class="add-sub-rating">
-                                        <div class="sub-rating-title">Space</div>
-                                        <div class="sub-rating-stars">
-                                            <div class="clearfix"></div>
-                                            <form class="leave-rating"> <input type="radio" name="rating"
-                                                    id="rating-31" value="1"> <label for="rating-31"
-                                                    class="fa fa-star"></label> <input type="radio" name="rating"
-                                                    id="rating-32" value="2"> <label for="rating-32"
-                                                    class="fa fa-star"></label> <input type="radio" name="rating"
-                                                    id="rating-33" value="3"> <label for="rating-33"
-                                                    class="fa fa-star"></label> <input type="radio" name="rating"
-                                                    id="rating-34" value="4"> <label for="rating-34"
-                                                    class="fa fa-star"></label> <input type="radio" name="rating"
-                                                    id="rating-35" value="5"> <label for="rating-35"
-                                                    class="fa fa-star"></label> </form>
-                                        </div>
-                                    </div>
-
-
-                                </div>
-                                <div class="comment-form default-form">
-                                    <form>
-                                        <div class="row clearfix">
-                                            <div class="col-lg-6 col-md-12 col-sm-12 form-group"> <input type="text"
-                                                    name="username" placeholder="Name" required=""> </div>
-                                            <div class="col-lg-6 col-md-12 col-sm-12 form-group"> <input type="email"
-                                                    name="email" placeholder="Email" required=""> </div>
-                                            <div class="col-lg-12 col-md-12 col-sm-12 form-group">
-                                                <textarea class="darma" name="message" placeholder="Write Comment"></textarea>
-                                            </div>
-                                            <div class="col-lg-12 col-md-12 col-sm-12 form-group"> <button
-                                                    class="theme-btn btn-style-two" type="submit" name="submit-form"
-                                                    disabled="">Submit Review</button> </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-
+            @if (!empty($comments) && collect($comments)->count())
+                <section class="vn-panel" id="reviews">
+                    <h2 class="vn-panel__title">Reviews</h2>
+                    <div data-vn-review-list>
+                        @foreach (collect($comments)->values() as $k => $item)
+                            <article class="vn-review {{ $k < 5 ? 'show' : 'hide' }}">
+                                <div class="vn-review__name">{{ $item->fullname }}</div>
+                                <div class="vn-review__date">{{ format_date($item->created_at, 'd-m-Y') }}</div>
+                                <div>{!! $item->content ?? '' !!}</div>
+                            </article>
+                        @endforeach
                     </div>
-                </div>
-                <div class="sidebar-side col-lg-6 col-md-12 col-sm-12">
-                    <aside class="sidebar">
-                        <div class="timing-widget ls-widget" id="hours">
-                            <div class="widget-title">
-                                <h2><span class="icon flaticon-menu"></span>Opening Hours</h2> <span
-                                    class="status"><strong class="time-status text-danger"
-                                        data-time="10:00 AM - 11:00 PM">Closed</strong></span>
-                            </div>
-                            <div class="widget-content">
-                                @if (!empty($post->time_open))
-                                    <div id="time_open" class="timing-list">
-                                        {!! $post->time_open !!}
-                                    </div>
-                                @endif
+                    @if (collect($comments)->count() > 5)
+                        <button type="button" class="vn-btn vn-btn--outline" style="margin-top:1rem"
+                            data-vn-load-more="[data-vn-review-list]" data-vn-step="5">Load more reviews</button>
+                    @endif
+                </section>
+            @endif
 
-                            </div>
-                        </div>
-                    </aside>
-                </div>
-                <div class="sidebar-side col-lg-6 col-md-12 col-sm-12">
-                    <div class="business-info-widget ls-widget" id="location">
-                        <div class="widget-title">
-                            <h2><span class="icon flaticon-menu"></span>Location</h2>
-                        </div>
-                        <div class="widget-content">
-                            <div class="map-box">
-                                {!! getIframeSrcFromString($post->iframe_map) !!}
-                            </div>
-                        </div>
+            <div class="vn-split" id="location">
+                <section class="vn-panel" id="hours">
+                    <h2 class="vn-panel__title">Opening hours</h2>
+                    @if (!empty($post->time_open))
+                        <p class="vn-hours-status" data-hours-range="{{ $todayHours }}">Checking…</p>
+                        <div class="vn-hours" id="time_open">{!! $post->time_open !!}</div>
+                    @else
+                        <p class="vn-lead">Hours not available.</p>
+                    @endif
+                </section>
+
+                <section class="vn-panel">
+                    <h2 class="vn-panel__title">Location</h2>
+                    @if ($post->address)
+                        <p class="vn-lead" style="margin-bottom:1rem">{{ $post->address }}</p>
+                    @endif
+                    <div class="vn-map">
+                        {!! getIframeSrcFromString($post->iframe_map) !!}
                     </div>
-                </div>
+                </section>
             </div>
         </div>
     </div>
-    @if (!empty($relates))
-        <section class="listing-section-two appreciated-others">
-            <div class="container-fluid">
-                <div class="sec-title text-center">
-                    <h2>MORE RESTAURANTS</h2>
-                </div>
-                <div class="carousel-outer">
-                    <div class="four-items-carousel owl-carousel owl-theme default-nav light no-dots owl-loaded owl-drag">
 
-                        @foreach ($relates as $item)
-                            <div class="listing-block-two">
-                                <div class="inner-box">
-                                    <div class="image-box">
-                                        <figure class="image">
-                                            <img src="{{ getImageThumb($item->thumbnail) }}" alt="{{ $item->title }}"
-                                                lazy="loading">
-                                        </figure>
-                                        <div class="content">
-                                            <div class="rating"> <span class="fa fa-star"></span> <span
-                                                    class="fa fa-star"></span> <span class="fa fa-star"></span>
-                                                <span class="fa fa-star"></span> <span class="fa fa-star"></span>
-                                                <span class="title">({{ $item->review }} review)</span>
-                                            </div>
-                                            <div class="title-brand"><a href="{{ route('post', $item->slug) }}"
-                                                    title="{{ $item->title }}">{{ $item->title }}</a></div>
-                                            <ul class="info mt-3">
-                                                <li><span class="flaticon-pin"></span>{{ $item->address }}</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    @if (!empty($item->phone))
-                                        <div class="bottom-box">
-                                            <div class="places">
-                                                <div class="place">{{ $item->title }} Restaurant</div>
-                                            </div>
-                                            <div class="status"><span class="flaticon-phone-call"></span>
-                                                {{ $item->phone }}
-                                            </div>
-                                        </div>
+    @if (!empty($relates))
+        <section class="vn-related">
+            <div class="vn-container">
+                <h2 class="vn-title">More restaurants</h2>
+                <div class="vn-carousel">
+                    @foreach ($relates as $item)
+                        <article class="vn-card">
+                            <a href="{{ route('post', $item->slug) }}" class="vn-card__link"
+                                title="{{ $item->title }}">
+                                <div class="vn-card__img">
+                                    <img src="{{ getImageThumb($item->thumbnail) }}" alt="{{ $item->title }}"
+                                        loading="lazy">
+                                </div>
+                                <div class="vn-card__body">
+                                    <h3 class="vn-card__name">{{ $item->title }}</h3>
+                                    @if (!empty($item->address))
+                                        <p class="vn-card__meta">{{ $item->address }}</p>
                                     @endif
                                 </div>
-                            </div>
-                        @endforeach
-
-                    </div>
+                            </a>
+                        </article>
+                    @endforeach
                 </div>
             </div>
         </section>
     @endif
 @endsection
+
 @push('scripts')
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const btn = document.querySelector(".loadmoreReview");
-            const comments = document.querySelectorAll(".listReview .comment");
-            const STEP = 5;
+    <style>
+        /* ==========================
+           FIX MOBILE HEADER ON TOP
+           ========================== */
 
-            if (!btn || comments.length === 0) return;
+        @media screen and (max-width: 768px) {
+            .mobile-nav-toggler.navbar-trigger {
+                color: #000 !important;
+            }
 
-            btn.addEventListener("click", function() {
-                let shown = 0;
-                for (let comment of comments) {
-                    if (comment.classList.contains("hide")) {
-                        comment.classList.remove("hide");
-                        comment.classList.add("show");
-                        shown++;
+            :root {
+                --mobile-header-height: 55px;
+            }
 
-                        if (shown === STEP) break;
-                    }
-                }
+            body.vn-page {
+                padding-top: var(--mobile-header-height) !important;
+            }
 
-                // ✅ Nếu đã show hết → ẩn nút
-                const stillHidden = document.querySelectorAll(
-                    ".listReview .comment.hide"
-                ).length;
+            .vn-page header.main-header {
+                position: fixed !important;
 
-                if (stillHidden === 0) {
-                    btn.style.display = "none";
-                }
-            });
-        });
-    </script>
+                top: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+
+                width: 100% !important;
+                height: var(--mobile-header-height);
+
+                margin: 0 !important;
+
+                z-index: 99999 !important;
+
+                background: #fff;
+            }
+
+            .vn-page header.main-header .main-box {
+                width: 100%;
+                max-width: 100%;
+                height: 100%;
+            }
+
+            .vn-page header.main-header .mobile-header {
+                width: 100%;
+                height: 100%;
+
+                display: flex;
+                align-items: center;
+            }
+
+            .vn-page .page-wrapper {
+                width: 100%;
+                overflow-x: hidden;
+            }
+
+            .vn-page #nav-mobile {
+                z-index: 100000;
+            }
+
+            .vn-page #nav-mobile .vn-mobile-panel {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 500px;
+                max-height: calc(100dvh - var(--mobile-header-height));
+                overflow-y: auto;
+
+                z-index: 99998;
+            }
+        }
+    </style>
 @endpush

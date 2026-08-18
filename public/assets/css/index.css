@@ -49675,10 +49675,12 @@ section hr {
         height: calc(100vh - 85px)
     }
 }
-
+.main-menu .navigation>li {
+    white-space: nowrap;
+}
 @media only screen and (max-width:1366px) {
     .main-menu .navigation>li {
-        margin-left: 40px;
+        margin-left: 20px;
         margin-right: 0
     }
 }

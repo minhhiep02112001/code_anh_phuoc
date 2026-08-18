@@ -72,7 +72,7 @@ module.exports = function (grunt) {
                 src: [
                     "public/assets/js/jquery.min.js",
                     "public/assets/js/slick.min.js",
-                    "public/assets/js/app.js",
+                    "public/assets/js/venue-core.js",
                 ],
                 dest: "public/assets/js/script_minified.js",
             },

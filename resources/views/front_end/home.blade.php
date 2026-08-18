@@ -1,265 +1,175 @@
 @php
     $config_home = getValueSetting('config_home');
     $config_seo = getValueSetting('config_seo');
+    $config_website = getValueSetting('config_website');
+    $siteName = $config_website->website ?? config('app.name');
 @endphp
 
 @extends('front_end._index')
+
+@section('body_class', 'vn-page vn-home')
+
 @section('content')
-    <style>
-        #banner_footer {
-            margin-top: 50px;
-            margin-bottom: 50px;
-        }
+    <h1 class="visually-hidden">{{ $config_seo->meta_title ?? $siteName }}</h1>
 
-        .listing-block-card .inner-box {
-            margin-bottom: 20px;
-        }
-
-        .listing-block-card .image img {
-            width: 100% !important;
-            height: 320px !important;
-            object-fit: cover;
-        }
-
-        #banner_footer .card {
-            background: #fff;
-            border: 1px solid #ddd;
-            border-radius: 22px;
-            padding: 24px 28px;
-            min-height: 180px !important;
-            height: auto !important;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-        }
-
-        #banner_footer .card h3 {
-            font-size: 20px;
-            font-weight: 700;
-            color: #111;
-            margin-bottom: 18px;
-            line-height: 1.2;
-        }
-    </style>
-
-    <h1 style="display: none;">{{ $config_seo->meta_title ?? '' }}</h1>
-    <section class="banner-section style-two">
-        <div class="background-layer" style="background-image: url({{ convertPathImage($banner->thumbnail) }});"></div>
-        <div class="auto-container">
-            <div class="content-box">
-                <div class="upper-heading">
-                    <h3> {{ $banner->title ?? '' }} </h3>
-                    <p>{{ $banner->description ?? '' }}</p>
-                </div>
-                <div class="listing-search-tabs tabs-box">
-
-                    <div class="listing-search-form">
-                        <form method="post" action="#">
-                            @csrf()
-                            <div class="row">
-                                <div class="form-group col-lg-10 col-md-6 col-sm-12"> <input type="text"
-                                        name="listing-search" placeholder="Discover Amazing Places For You?">
-                                </div>
-
-                                <div class="form-group col-lg-2 col-md-6 col-sm-12 text-right">
-                                    <button type="submit" onclick="return" class="theme-btn btn-style-two">Search</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-
+    @if (!empty($banner))
+        <section class="vn-hero">
+            <div class="vn-hero__bg" style="background-image:url('{{ convertPathImage($banner->thumbnail) }}')"></div>
+            <div class="vn-container">
+                <div class="vn-hero__inner">
+                    <h2 class="vn-hero__title">{{ $banner->title ?? 'Discover local dining' }}</h2>
+                    @if (!empty($banner->description))
+                        <p class="vn-hero__text">{{ $banner->description }}</p>
+                    @endif
+                    <form class="vn-search" action="{{ url('/') }}" method="get">
+                        <input type="search" name="key" placeholder="Search restaurants, cities, cuisines…"
+                            aria-label="Search restaurants">
+                        <button type="submit" class="vn-btn">Search</button>
+                    </form>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    @endif
 
     @if (!empty($bannerAbout) && $bannerAbout->count() > 0)
-        <section class="explore-section">
-            <div class="auto-container">
-                <div class="sec-title text-center">
-                    <h2>Helping you find the best restaurants.</h2>
-                    <div class="text">Looking for the best restaurants nearby? Visit Here-Restaurants.com, and we'll help
-                        you.
-                    </div>
+        <section class="vn-section vn-section--white">
+            <div class="vn-container">
+                <div class="vn-section__head">
+                    <span class="vn-eyebrow">Why us</span>
+                    <h2 class="vn-title">Find the right place, faster</h2>
+                    <p class="vn-lead">{{ $siteName }} helps you explore menus, photos, and reviews before you visit.</p>
                 </div>
-                <div class="row">
-                    @foreach ($bannerAbout as $banner)
-                        <div class="col-md-4 col-sm-12">
-                            <div class="promo-item">
-                                <div class="image-promo"> <img src="{{ getImageThumb($banner->thumbnail) }}" loading="lazy"
-                                        alt="{{ $banner->title ?? '' }}"> </div>
-                                <div class="listing-block">
-                                    <div class="title-promo lower-content mt-3">
-                                        <h3 class="title-brand">
-                                            {{ $banner->title ?? '' }}
-                                        </h3>
-                                    </div>
-                                </div>
+                <div class="vn-grid vn-grid--3">
+                    @foreach ($bannerAbout as $item)
+                        <article class="vn-card">
+                            <div class="vn-card__img">
+                                <img src="{{ getImageThumb($item->thumbnail) }}" alt="{{ $item->title ?? '' }}"
+                                    loading="lazy">
                             </div>
-                        </div>
+                            <div class="vn-card__body">
+                                <h3 class="vn-card__name">{{ $item->title ?? '' }}</h3>
+                            </div>
+                        </article>
                     @endforeach
-
                 </div>
             </div>
         </section>
     @endif
 
     @if (!empty($bannerCondi) && $bannerCondi->count() > 0)
-        <div id="banner_footer" class="auto-container">
-            <div class="sec-title text-center">
-                <h2> Why choose Here-Restaurant.com?</h2>
-            </div>
-            <div class="row">
-                @foreach ($bannerCondi as $banner)
-                    <div class="col-md-6 col-sm-12 mb-3">
-                        <div class="card listing-block listing-block-card">
-                            <div class="inner-box">
-                                <div class="image-box">
-                                    <figure class="image">
-                                        <img src="{{ getImageThumb($banner->thumbnail) }}" alt="{{ $banner->title }}"
-                                            width="100%" lazy="loading">
-                                    </figure>
-
-                                </div>
-                            </div>
-                            <h3>{{ $banner->title }}</h3>
-                            <p class="text line-clamp-5">
-                                {!! $banner->description !!}
-                            </p>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-        </div>
-    @endif
-    <section class="explore-section">
-        <div class="auto-container">
-            <div class="sec-title text-center">
-                <h2>Popular By City</h2> <span class="divider"></span>
-                <div class="text">Explore some of the best tips from around the city from our partners and
-                    friends.
+        <section class="vn-section">
+            <div class="vn-container">
+                <div class="vn-section__head">
+                    <span class="vn-eyebrow">Features</span>
+                    <h2 class="vn-title">Why choose {{ $siteName }}?</h2>
                 </div>
-            </div>
-            <div class="row">
-                @foreach ($categories as $category)
-                    <div class="explore-block col-lg-3 col-md-6 col-sm-12">
-                        <div class="inner-box">
-                            <figure class="image"><img src="{{ getImageThumb($category->thumbnail, 300, 400) }}"
-                                    alt=""></figure>
-                            <div class="overlay-box">
-                                <div class="content">
-                                    <h5>{{ $category->title }}</h5>
-                                    {{-- <span class="locations">{{ $category->total_location ?? 0 }} Locations</span> --}}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-
-            </div>
-        </div>
-    </section>
-    <section class="listing-section home-list-brands">
-        <div class="auto-container">
-            <div class="sec-title text-center">
-                <h2>Discover Amazing Places</h2> <span class="divider"></span>
-                <div class="text">Explore some of the best tips from around the city from our partners and
-                    friends.
-                </div>
-            </div>
-            <div class="row">
-                @foreach ($posts as $item)
-                    <div class="listing-block col-lg-4 col-md-6 col-sm-12">
-                        <a href="{{ route('post', $item->slug) }}" title="{{ $item->title }}">
-                            <div class="inner-box">
-                                <div class="image-box">
-                                    <figure class="image">
-                                        <img src="{{ getImageThumb($item->thumbnail) }}" alt="{{ $item->title }}"
-                                            lazy="loading">
-                                    </figure>
-                                    {{-- <div class="tags"><span>฿100–200</span> --}}
-                                </div>
-                            </div>
-                            <div class="lower-content">
-                                <div class="rating">
-                                    <span class="fa fa-star"></span>
-                                    <span class="fa fa-star"></span>
-                                    <span class="fa fa-star"></span>
-                                    <span class="fa fa-star"></span>
-                                    <span class="fa fa-star no-start"></span>
-                                    <span class="title">({{ $item->google_review }} review)</span>
-                                </div>
-                                <h3 class="title-brand">
-                                    <a href="{{ route('post', $item->slug) }}"
-                                        title="{{ $item->title }}">{{ $item->title }}</a>
-                                </h3>
-                                <div class="text">
-                                    {{ $item->address }}
-                                </div>
-                            </div>
-                            @if (!empty($item->phone))
-                                <div class="bottom-box">
-                                    <div class="places">
-                                        <div class="place">Restaurant</div>
-                                    </div>
-                                    <div class="status"><span class="flaticon-phone-call"></span>
-                                        {{ $item->phone }}</div>
+                <div class="vn-grid vn-grid--2">
+                    @foreach ($bannerCondi as $item)
+                        <article class="vn-feature">
+                            @if (!empty($item->thumbnail))
+                                <div class="vn-feature__img">
+                                    <img src="{{ getImageThumb($item->thumbnail) }}" alt="{{ $item->title }}"
+                                        loading="lazy">
                                 </div>
                             @endif
-                        </a>
-                    </div>
-                @endforeach
+                            <div>
+                                <h3 class="vn-feature__title">{{ $item->title }}</h3>
+                                <div class="vn-lead">{!! $item->description !!}</div>
+                            </div>
+                        </article>
+                    @endforeach
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    @endif
+
+    @if (!empty($categories) && count($categories) > 0)
+        <section class="vn-section vn-section--white">
+            <div class="vn-container">
+                <div class="vn-section__head">
+                    <span class="vn-eyebrow">Explore</span>
+                    <h2 class="vn-title">Popular by city</h2>
+                    <p class="vn-lead">Browse curated collections from different destinations.</p>
+                </div>
+                <div class="vn-grid vn-grid--4">
+                    @foreach ($categories as $category)
+                        <article class="vn-city">
+                            <img src="{{ getImageThumb($category->thumbnail, 300, 400) }}" alt="{{ $category->title }}"
+                                loading="lazy">
+                            <span class="vn-city__label">{{ $category->title }}</span>
+                        </article>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+    @endif
+
+    @if (!empty($posts) && count($posts) > 0)
+        <section class="vn-section">
+            <div class="vn-container">
+                <div class="vn-section__head">
+                    <span class="vn-eyebrow">Trending</span>
+                    <h2 class="vn-title">Featured restaurants</h2>
+                    <p class="vn-lead">Hand-picked spots worth a visit this week.</p>
+                </div>
+                <div class="vn-grid vn-grid--3">
+                    @foreach ($posts as $item)
+                        <article class="vn-card">
+                            <a href="{{ route('post', $item->slug) }}" class="vn-card__link" title="{{ $item->title }}">
+                                <div class="vn-card__img">
+                                    <img src="{{ getImageThumb($item->thumbnail) }}" alt="{{ $item->title }}"
+                                        loading="lazy">
+                                </div>
+                                <div class="vn-card__body">
+                                    @if (!empty($item->google_review))
+                                        <div class="vn-rating">★ {{ $item->google_review }}</div>
+                                    @endif
+                                    <h3 class="vn-card__name">{{ $item->title }}</h3>
+                                    @if (!empty($item->address))
+                                        <p class="vn-card__meta">{{ $item->address }}</p>
+                                    @endif
+                                    @if (!empty($item->phone))
+                                        <p class="vn-card__meta">{{ $item->phone }}</p>
+                                    @endif
+                                </div>
+                            </a>
+                        </article>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+    @endif
 
     @if (!empty($exploreMore))
-        <section class="call-to-action" style="background-image: url({{ convertPathImage($exploreMore->thumbnail) }});">
-            <div class="auto-container">
-                <div class="content">
-                    <h3>{{ $exploreMore->title }}</h3>
-                    <div class="text">{!! $exploreMore->description !!}</div>
-                    <div class="btn-box">
-                        <a href="{{ $exploreMore->link_redirect ?? '#' }}" class="theme-btn btn-style-three">Start
-                            Exploring <span class="flaticon-right"></span></a>
-                    </div>
-                </div>
-            </div>
-        </section>
-    @endif
-    @if (!empty($bannerReview) && $bannerReview->count() > 0)
-        <section class="testimonial-section">
-            <div class="auto-container">
-                <div class="sec-title text-center">
-                    <h2>What People Love About {{ $config_website->website ?? '' }}</h2> <span class="divider"></span>
-                    <div class="text">See how users explore and discover great local spots with
-                        {{ $config_website->website ?? '' }}.</div>
-                </div>
-                <div class="testimonial-outer">
-                    <div class="client-thumb-outer">
-                        <div class="client-thumbs-carousel owl-carousel owl-theme">
-                            @foreach ($bannerReview as $banner)
-                                <div class="thumb-item">
-                                    <figure class="thumb-box"><img
-                                            src="{{ getImageThumb($banner->thumbnail, 200, 200) }}" alt="">
-                                    </figure>
-                                    <div class="author-info">
-                                        <div class="author-name">{{ $banner->title }}</div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                    <div class="client-testimonial-carousel owl-carousel owl-theme">
-                        @foreach ($bannerReview as $banner)
-                            <div class="testimonial-block">
-                                <div class="inner-box">
-                                    <div class="text">{!! $banner->description !!}</div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
+        <section class="vn-section">
+            <div class="vn-cta" style="background-image:url('{{ convertPathImage($exploreMore->thumbnail) }}')">
+                <div class="vn-cta__inner">
+                    <h2 class="vn-title">{{ $exploreMore->title }}</h2>
+                    <div class="vn-lead">{!! $exploreMore->description !!}</div>
+                    @if (!empty($exploreMore->link_redirect))
+                        <a href="{{ $exploreMore->link_redirect }}" class="vn-btn">Start exploring</a>
+                    @endif
                 </div>
             </div>
         </section>
     @endif
 
+    @if (!empty($bannerReview) && $bannerReview->count() > 0)
+        <section class="vn-section vn-section--white">
+            <div class="vn-container">
+                <div class="vn-section__head">
+                    <span class="vn-eyebrow">Community</span>
+                    <h2 class="vn-title">What people say about {{ $siteName }}</h2>
+                </div>
+                <div class="vn-grid vn-grid--3">
+                    @foreach ($bannerReview as $item)
+                        <blockquote class="vn-quote">
+                            <p class="vn-quote__text">{!! $item->description !!}</p>
+                            <footer class="vn-quote__author">{{ $item->title }}</footer>
+                        </blockquote>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+    @endif
 @endsection
