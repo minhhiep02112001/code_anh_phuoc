@@ -10,9 +10,9 @@ puppeteer.use(StealthPlugin());
 const crawlerData = {
     menu: false,
     infor: true,
-    images: true,
-    about: false,
-    comment: false,
+    images: false,
+    about: true,
+    comment: true,
 };
 
 const table = {
@@ -163,6 +163,7 @@ async function crawlerGoogleIframe(browser, record) {
             let data = {};
             if (crawlerData.infor) data = await extractMainInfo(page);
             if(!record.slug) data.slug = record.slug = convertToSlug(record.key_word);
+            console.log(data);
             await database.update_crawler_map(record.id, data, 1);
             if (crawlerData.comment) await crawler_comment(page, record);
             if (crawlerData.menu) await crawlerMenu(page, record);
@@ -237,8 +238,7 @@ async function extractMainInfo(page) {
                 "aria-label",
             ),
             address: getAttr('button[data-item-id="address"]', "aria-label"),
-            thumbnail:
-                document.querySelector('button img[decoding="async"]')?.src ||
+            thumbnail: document.querySelector('button img[decoding="async"]')?.src ||
                 "",
             link_google_map: location.href,
             time_open,
@@ -756,13 +756,14 @@ async function getAllCrawlerDataBase(offset = 0) {
         try {
             console.log("\n ===Start key: " + element.key_word);
             await crawlerGoogleIframe(browser, element);
+            return;
             console.log("Crawler_success key: " + element.key_word);
         } catch (e) {
             console.error("Crawler_error: " + element.id + e);
             await database.update_crawler_map(element.id, { is_error: 1 }, 3);
         }
     }
-
+return;
     await browser.close();
     console.log("Done All");
 })();

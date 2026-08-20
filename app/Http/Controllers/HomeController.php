@@ -126,7 +126,20 @@ class HomeController extends Controller
             $data['abouts'] = $post->about()->get();
             $data['products'] = $post->product()->orderBy('id', 'asc')->get();
         }
-        $view = $post->type == 'top_list' ? 'front_end.topList' : 'front_end.brand';
+        if ($post->type == 'top_list') {
+            $view = 'front_end.topList';
+        } else {
+            $headerConfig = json_decode($post->content_header ?? '', true);
+            $brandTemplate = request('layout')
+                ?? (is_array($headerConfig) ? ($headerConfig['template'] ?? null) : null)
+                ?? 'brand';
+            $brandViews = [
+                'brand' => 'front_end.brand',
+                'brand_1' => 'front_end.brand_1',
+                'brand_2' => 'front_end.brand_2',
+            ];
+            $view = $brandViews[$brandTemplate] ?? 'front_end.brand';
+        }
         return view($view, $data);
     }
 
