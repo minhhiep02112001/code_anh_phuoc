@@ -88,8 +88,8 @@
                             @endif
                         @endforeach
                     </div>
-                    <button type="button" class="vn-btn vn-btn--outline" style="margin-top:1rem"
-                        data-vn-expand="#aboutExpand" data-vn-label-more="Show more" data-vn-label-less="Show less">Show
+                    <button type="button" class="vn-btn vn-btn--outline" style="margin-top:1rem" data-vn-expand="#aboutExpand"
+                        data-vn-label-more="Show more" data-vn-label-less="Show less">Show
                         more</button>
                 </section>
             @endif
@@ -102,8 +102,8 @@
                             <li>
                                 <a href="{{ getImageThumb($item->thumbnail) }}" data-vn-lightbox="photos"
                                     data-caption="Photo {{ $k + 1 }} – {{ $post->title }}">
-                                    <img src="{{ getImageThumb($item->thumbnail) }}"
-                                        alt="Photo {{ $post->title }} – {{ $k + 1 }}" loading="lazy">
+                                    <img src="{{ getImageThumb($item->thumbnail) }}" alt="Photo {{ $post->title }} – {{ $k + 1 }}"
+                                        loading="lazy">
                                 </a>
                             </li>
                         @endforeach
@@ -131,8 +131,8 @@
                                 <li>
                                     <a href="{{ getImageThumb($item->thumbnail) }}" data-vn-lightbox="menu"
                                         data-caption="Menu {{ $k + 1 }} – {{ $post->title }}">
-                                        <img src="{{ getImageThumb($item->thumbnail) }}"
-                                            alt="Menu {{ $post->title }} – {{ $k + 1 }}" loading="lazy">
+                                        <img src="{{ getImageThumb($item->thumbnail) }}" alt="Menu {{ $post->title }} – {{ $k + 1 }}"
+                                            loading="lazy">
                                     </a>
                                 </li>
                             @endforeach
@@ -219,11 +219,9 @@
                 <div class="vn-carousel">
                     @foreach ($relates as $item)
                         <article class="vn-card">
-                            <a href="{{ route('post', $item->slug) }}" class="vn-card__link"
-                                title="{{ $item->title }}">
+                            <a href="{{ route('post', $item->slug) }}" class="vn-card__link" title="{{ $item->title }}">
                                 <div class="vn-card__img">
-                                    <img src="{{ getImageThumb($item->thumbnail) }}" alt="{{ $item->title }}"
-                                        loading="lazy">
+                                    <img src="{{ getImageThumb($item->thumbnail) }}" alt="{{ $item->title }}" loading="lazy">
                                 </div>
                                 <div class="vn-card__body">
                                     <h3 class="vn-card__name">{{ $item->title }}</h3>
@@ -243,12 +241,27 @@
 @push('scripts')
     <style>
         /* ==========================
-           FIX MOBILE HEADER ON TOP
-           ========================== */
+                   FIX MOBILE HEADER ON TOP
+                   ========================== */
 
         @media screen and (max-width: 768px) {
+
             .mobile-nav-toggler.navbar-trigger {
                 color: #000 !important;
+            }
+            .vn-nav{
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .vn-nav.is-stuck {
+                width: 100% !important;
+                max-width: 100% !important;
+                border-radius: 10px;
+            }
+
+            .vn-nav__pill {
+                padding: 3px;
             }
 
             :root {
