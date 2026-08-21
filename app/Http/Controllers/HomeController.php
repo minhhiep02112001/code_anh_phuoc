@@ -111,7 +111,7 @@ class HomeController extends Controller
             ])->where(function ($q) use ($post) {
                 if (!empty($post->publish_at)) return $q->where('publish_at', '<', $post->publish_at ?? '');
                 return $q->where('created_at', '<', $post->created_at ?? '');
-            })->orderBy(!empty($post->publish_at) ? 'publish_at' : 'created_at', 'desc')->limit(5)->get();
+            })->orderBy(!empty($post->publish_at) ? 'publish_at' : 'created_at', 'desc')->limit(6)->get();
 
             $relates2 = Post::where([
                 'type' => 'brand',
@@ -119,7 +119,7 @@ class HomeController extends Controller
             ])->where(function ($q) use ($post) {
                 if (!empty($post->publish_at)) return $q->where('publish_at', '>', $post->publish_at ?? '');
                 return $q->where('created_at', '>', $post->created_at ?? '');
-            })->orderBy(!empty($post->publish_at) ? 'publish_at' : 'created_at', 'asc')->limit(5)->get();
+            })->orderBy(!empty($post->publish_at) ? 'publish_at' : 'created_at', 'asc')->limit(6)->get();
 
             $data['relates'] = collect($relates2)->merge($relates)->sortBy(!empty($post->publish_at) ? 'publish_at' : 'created_at')->values()->all();
             $data['comments'] = $post->comment()->where(['type' => 'post'])->orderBy('created_at', 'desc')->limit(9)->get();
@@ -130,9 +130,7 @@ class HomeController extends Controller
             $view = 'front_end.topList';
         } else {
             $headerConfig = json_decode($post->content_header ?? '', true);
-            $brandTemplate = request('layout')
-                ?? (is_array($headerConfig) ? ($headerConfig['template'] ?? null) : null)
-                ?? 'brand';
+            $brandTemplate = 'brand_2';
             $brandViews = [
                 'brand' => 'front_end.brand',
                 'brand_1' => 'front_end.brand_1',

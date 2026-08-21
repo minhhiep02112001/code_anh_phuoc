@@ -56,9 +56,9 @@ async function setupPage(page) {
     await page.setExtraHTTPHeaders({
         "Accept-Language": "en-US,en;q=0.9",
     });
-    await page.setUserAgent(
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120 Safari/537.36",
-    );
+    // await page.setUserAgent(
+    //     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120 Safari/537.36",
+    // );
 }
 
 async function gotoAndWaitForPageReady(page, url) {
@@ -227,8 +227,7 @@ async function extractMainInfo(page) {
 
         if (openHoursEl) {
             openHoursEl.closest("div")?.click();
-            time_open =
-                openHoursEl.parentNode?.querySelector("table")?.outerHTML || "";
+            time_open = openHoursEl.parentNode?.querySelector("table")?.outerHTML || "";
         }
 
         return {
