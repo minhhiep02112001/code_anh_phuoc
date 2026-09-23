@@ -2,8 +2,6 @@
     $medias = $post->media->all();
     $photos = collect($medias)->where('type', 'photo')->values();
     $menus = collect($medias)->where('type', 'menu')->values();
-    $photoPreview = $photos->take(6);
-    $menuPreview = $menus->take(6);
     $aboutGroups = collect($abouts ?? [])->where('parent_id', 0);
     $rating = $post->google_review ?? 5;
     $timeSchedule = exportTimeOpen($post->time_open ?? '');
@@ -98,7 +96,7 @@
                 <section class="vn-panel" id="photos">
                     <h2 class="vn-panel__title">Photos</h2>
                     <ul class="vn-gallery">
-                        @foreach ($photoPreview as $k => $item)
+                        @foreach ($photos as $k => $item)
                             <li>
                                 <a href="{{ getImageThumb($item->thumbnail) }}" data-vn-lightbox="photos"
                                     data-caption="Photo {{ $k + 1 }} – {{ $post->title }}">
@@ -108,16 +106,6 @@
                             </li>
                         @endforeach
                     </ul>
-                    @if ($photos->count() > 6)
-                        <ul class="vn-gallery visually-hidden" aria-hidden="true">
-                            @foreach ($photos->slice(6) as $k => $item)
-                                <li>
-                                    <a href="{{ getImageThumb($item->thumbnail) }}" data-vn-lightbox="photos"
-                                        data-caption="Photo {{ $k + 7 }} – {{ $post->title }}"></a>
-                                </li>
-                            @endforeach
-                        </ul>
-                    @endif
                 </section>
             @endif
 
@@ -127,7 +115,7 @@
 
                     @if ($menus->count())
                         <ul class="vn-gallery" style="margin-bottom:1.5rem">
-                            @foreach ($menuPreview as $k => $item)
+                            @foreach ($menus as $k => $item)
                                 <li>
                                     <a href="{{ getImageThumb($item->thumbnail) }}" data-vn-lightbox="menu"
                                         data-caption="Menu {{ $k + 1 }} – {{ $post->title }}">
@@ -137,16 +125,6 @@
                                 </li>
                             @endforeach
                         </ul>
-                        @if ($menus->count() > 6)
-                            <ul class="vn-gallery visually-hidden" aria-hidden="true">
-                                @foreach ($menus->slice(6) as $k => $item)
-                                    <li>
-                                        <a href="{{ getImageThumb($item->thumbnail) }}" data-vn-lightbox="menu"
-                                            data-caption="Menu {{ $k + 7 }} – {{ $post->title }}"></a>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        @endif
                     @endif
 
                     @if (!empty($products) && collect($products)->count())
