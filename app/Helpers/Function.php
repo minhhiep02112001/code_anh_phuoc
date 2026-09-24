@@ -537,27 +537,13 @@ function exportTimeOpen($html)
 function convertStrPromat($post)
 {
     return <<<PROMPT
-Chỉ tạo HTML hợp lệ (không dùng Markdown, không cần giải thích).
-
-Yêu cầu:
-- Bọc nội dung trong thẻ `<div class="ai-content">...</div>`
-- Chỉ sử dụng các thẻ sau: `<h2>`, `<p>`, `<ul>`, `<li>`, `<strong>`
-- Ngôn ngữ: Tiếng Anh
-- Độ dài: 800 - 1000 từ (KHÔNG dài hơn)
-- Viết tự nhiên, không nhồi nhét từ khóa, không phải văn bản SEO máy móc
-- Ngữ nghĩa, dễ đọc, thân thiện với NLP
-- KHÔNG bịa đặt các thông tin cụ thể (thực đơn, giá cả, giải thưởng, giờ mở cửa)
-- KHÔNG bao gồm các tập lệnh, kiểu dáng, iframe, hình ảnh
-
+"Viết 1 đoạn content giới thiệu về  "{$post->title}" có địa chỉ tại: "{$post->address}", chuẩn SEO, Unique, bằng ngôn ngữ theo Local brand đó, dài khoảng 500 từ"
 Nội dung:
-Viết phần giới thiệu về nhà hàng "{$post->title}" tại địa chỉ "{$post->address}".
-
-Bao gồm:
-1. Một đoạn giới thiệu ngắn
-2. Một danh sách 3-4 điểm nổi bật
-3. Một đoạn kết ngắn
-4. Đảm bảo thân thiện NLP, chuẩn Seo, tối ưu chuẩn Semantic content, unique 100%.
-
+Các tiêu chí sẽ tự động áp dụng từ nay về sau:
+1. Nội dung: Giới thiệu nhà hàng chuẩn SEO, hấp dẫn, Unique 100%.
+2. Ngôn ngữ: Tự động sử dụng ngôn ngữ địa phương theo địa chỉ nhà hàng (ví dụ: nhà hàng ở Mỹ dùng tiếng Anh, ở Việt Nam dùng tiếng Việt, ở Nhật dùng tiếng Nhật...).
+3. Độ dài: Khoảng 500 từ.
+4. Định dạng: Sử dụng Markdown tiêu chuẩn (## cho H2, ### cho H3), văn bản sạch sẽ, không dính mã HTML thô.
 Return HTML only.
 PROMPT;
 }
