@@ -17,7 +17,7 @@ return [
 
     ],
     'banner_type' => [
-        // Menujoys home sections (mỗi section = 1 key banner)
+        // MENUDY home sections (mỗi section = 1 key banner)
         'banner_hero_chip' => 'Home · Hero chips (search gợi ý)',
         'banner_hero_board' => 'Home · Hero board cards',
         'banner_value' => 'Home · Value cards',

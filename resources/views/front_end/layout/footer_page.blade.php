@@ -1,6 +1,14 @@
 @php
     $menus_footer = getMenuParent(0, 1);
-    $title = $SEO['title'] ?? ($config_website->website ?? '');
+    $brandName = 'MENUDY';
+    $title = preg_replace('/menujoys/i', $brandName, $SEO['title'] ?? ($config_website->website ?? $brandName));
+    $logoPath = $config_website->logo_header ?? '';
+    $useWordmark = empty($logoPath) || stripos(basename($logoPath), 'menujoys') !== false;
+    $logoUrl = $useWordmark ? '' : getImageThumb($config_website->logo_footer ? $config_website->logo_header : $logoPath);
+    if ($useWordmark && file_exists(public_path('assets/images/logo/menudy-logo-light.png'))) {
+        $logoUrl = asset('assets/images/logo/menudy-logo-light.png');
+        $useWordmark = false;
+    }
 @endphp
 
 <footer class="mj-footer" role="contentinfo">
@@ -15,10 +23,13 @@
                         </a>
                     @else
                         <a class="mj-brand mj-brand-light" href="{{ $SEO['url'] ?? '/' }}"
-                            aria-label="{{ $title }} home">
-                            <img class="mj-brand-img"
-                                src="{{ getImageThumb($config_website->logo_footer ? $config_website->logo_header : '') }}"
-                                alt="{{ $title }}" width="165" height="44" />
+                            aria-label="{{ $brandName }} home">
+                            @if ($useWordmark)
+                                <span class="mj-brand-wordmark mj-brand-wordmark--light">{{ $brandName }}</span>
+                            @else
+                                <img class="mj-brand-img" src="{{ $logoUrl }}"
+                                    alt="{{ $brandName }}" width="165" height="44" />
+                            @endif
                         </a>
                         <div class="mj-footer-blurb"> {!! $config_website->content_footer !!} </div>
                     @endif
@@ -61,7 +72,7 @@
         </div>
 
         <div class="mj-footer-bottom">
-            <p class="mj-footer-copy">© <span id="mjYear">2026</span> Menujoys. Menus That Spark Joy.</p>
+            <p class="mj-footer-copy">© <span id="mjYear">2026</span> MENUDY. Discover local menus.</p>
             <ul class="mj-footer-legal" aria-label="Legal">
                 <li><a href="privacy-policy.html" title="Privacy Policy">Privacy Policy</a></li>
                 <li><a href="terms-of-service.html" title="Terms of Service">Terms of Service</a></li>

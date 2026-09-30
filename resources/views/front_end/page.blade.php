@@ -3,7 +3,7 @@
     <nav class="mj-breadcrumb" aria-label="Breadcrumb">
         <div class="container-xxl">
             <ol class="mj-crumb-list">
-                <li class="mj-crumb"><a href="{{ url('/') }}" title="Menujoys">Menujoys</a></li>
+                <li class="mj-crumb"><a href="{{ url('/') }}" title="MENUDY">MENUDY</a></li>
                 <li class="mj-crumb mj-crumb-current" aria-current="page">{{ $page->title }}</li>
             </ol>
         </div>
