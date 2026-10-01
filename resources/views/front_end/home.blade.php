@@ -10,7 +10,7 @@
     $bannerTrust = $bannerTrust ?? collect();
     $bannerGuide = $bannerGuide ?? collect();
     $bannerCity = $bannerCity ?? collect();
-    $posts = collect($posts->get('data') ?? []);
+    $posts = collect($posts->items() ?? []);
 
     $trendingPosts = $posts->take(6);
     $recentPosts = $posts;
@@ -54,8 +54,7 @@
                     @if ($bannerHeroChips->count())
                         <div class="hp-tags" role="list" aria-label="Popular searches">
                             @foreach ($bannerHeroChips as $chip)
-                                <button type="button" class="hp-tag" data-hp-q="{{ $chip->title ?? '' }}"
-                                    role="listitem">
+                                <button type="button" class="hp-tag" data-hp-q="{{ $chip->title ?? '' }}" role="listitem">
                                     {{ $chip->title ?? '' }}{{ !empty($chip->description) ? ' · ' . $chip->description : '' }}
                                 </button>
                             @endforeach
@@ -74,7 +73,7 @@
         </section>
 
         {{-- Trending --}}
-        @if ($trendingPosts->count())
+        @if (!empty($categories->items()))
             <section class="hp-section" aria-labelledby="hpTrendingTitle">
                 <div class="hp-container">
                     <div class="hp-section__head">
@@ -83,27 +82,19 @@
                         </h2>
                     </div>
                     <div class="hp-grid-3">
-                        @foreach ($trendingPosts as $item)
+                        @foreach ($categories->items() as $item)
                             <article class="hp-trend-card">
-                                <a href="{{ route('post', ['slug' => $item->slug]) }}" class="hp-trend-card__img"
-                                    title="{{ $item->title }}">
+                                <div class="hp-trend-card__img" title="{{ $item->title }}">
                                     <img src="{{ getImageThumb($item->thumbnail) }}" alt="{{ $item->title }}"
                                         loading="lazy">
                                     <span class="hp-trend-card__badge">Restaurant</span>
-                                </a>
+                                </div>
                                 <div class="hp-trend-card__body">
                                     <h3 class="hp-trend-card__title">
-                                        <a href="{{ route('post', ['slug' => $item->slug]) }}"
-                                            title="{{ $item->title }}">{{ $item->title }}</a>
+                                        {{ $item->title }}
                                     </h3>
-                                    @if (!empty($item->address))
-                                        <p class="hp-trend-card__meta">
-                                            <i class="bi bi-geo-alt" aria-hidden="true"></i>
-                                            {{ $item->address }}
-                                        </p>
-                                    @endif
-                                    <a href="{{ route('post', ['slug' => $item->slug]) }}" class="hp-trend-card__more"
-                                        title="View {{ $item->title }}">View more</a>
+                                    <a href="#" class="hp-trend-card__more" title="View {{ $item->title }}">View
+                                        more</a>
                                 </div>
                             </article>
                         @endforeach
@@ -164,7 +155,8 @@
                 <div class="hp-container">
                     <div class="hp-section__head" style="justify-content:center;text-align:center;margin-bottom:2.5rem">
                         <h2 id="hpFeaturesTitle" class="hp-section__title">
-                            {!! data_get($cb, 'trust.title_html') ?: 'Menus made easier to <em style="font-style:normal;color:#6d28d9">trust</em>.' !!}
+                            {!! data_get($cb, 'trust.title_html') ?:
+                                'Menus made easier to <em style="font-style:normal;color:#6d28d9">trust</em>.' !!}
                         </h2>
                     </div>
                     <div class="hp-features">
@@ -202,8 +194,8 @@
                                 <a href="{{ $item->link_redirect ?: '#' }}" class="hp-story-card__img"
                                     title="{{ $item->title ?? '' }}">
                                     @if (!empty($item->thumbnail))
-                                        <img src="{{ getImageThumb($item->thumbnail) }}"
-                                            alt="{{ $item->title ?? '' }}" loading="lazy">
+                                        <img src="{{ getImageThumb($item->thumbnail) }}" alt="{{ $item->title ?? '' }}"
+                                            loading="lazy">
                                     @endif
                                 </a>
                                 <div class="hp-story-card__body">
@@ -240,8 +232,8 @@
                                 title="{{ $item->title ?? '' }}">
                                 <div class="hp-city-card__img">
                                     @if (!empty($item->thumbnail))
-                                        <img src="{{ getImageThumb($item->thumbnail) }}"
-                                            alt="{{ $item->title ?? '' }}" loading="lazy">
+                                        <img src="{{ getImageThumb($item->thumbnail) }}" alt="{{ $item->title ?? '' }}"
+                                            loading="lazy">
                                     @endif
                                 </div>
                                 <div class="hp-city-card__overlay"></div>

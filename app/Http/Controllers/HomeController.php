@@ -38,7 +38,7 @@ class HomeController extends Controller
         $data['posts'] = $this->postRepository->getAll($filterBrand, [
             'order_by' => ['publish_at', 'desc'],
             // 'with' => ['category'],
-            'limit' => 30,
+            'limit' => 20,
             'pagination' => $page,
             'select' => ['id', 'title', 'slug', 'thumbnail', 'category_id', 'address', 'email', 'phone', 'description', 'publish_at'],
         ]);
@@ -48,7 +48,7 @@ class HomeController extends Controller
             'type' => 'home'
         ], [
             'order_by' => ['id', 'asc'],
-            'limit' => 20,
+            'limit' => 6,
             'pagination' => $page,
             'select' => ['id', 'title', 'slug', 'thumbnail', 'description'],
         ]);
