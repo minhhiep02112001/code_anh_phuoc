@@ -580,7 +580,7 @@ function getContentGemini($prompt)
                 ],
             ],
         ]);
-    dd($response->body());
+
     if ($response->failed()) {
         return [
             'status' => 'error',

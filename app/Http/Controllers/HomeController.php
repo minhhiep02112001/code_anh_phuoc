@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Banner;
@@ -31,26 +30,26 @@ class HomeController extends Controller
     {
 
         // get sản phẩm bestseller config từ admin:
-        $data = [];
-        $page = $request->page ?? 1;
+        $data        = [];
+        $page        = $request->page ?? 1;
         $filterBrand = ['is_status' => $this->is_status, 'type' => 'brand'];
 
         $data['posts'] = $this->postRepository->getAll($filterBrand, [
-            'order_by' => ['publish_at', 'desc'],
+            'order_by'   => ['publish_at', 'desc'],
             // 'with' => ['category'],
-            'limit' => 20,
+            'limit'      => 20,
             'pagination' => $page,
-            'select' => ['id', 'title', 'slug', 'thumbnail', 'category_id', 'address', 'email', 'phone', 'description', 'publish_at'],
+            'select'     => ['id', 'title', 'slug', 'thumbnail', 'category_id', 'address', 'email', 'phone', 'description', 'publish_at'],
         ]);
 
         $data['categories'] = $this->categoryRepository->getAll([
-            'is_status' =>  $this->is_status,
-            'type' => 'home'
+            'is_status' => $this->is_status,
+            'type'      => 'home',
         ], [
-            'order_by' => ['id', 'asc'],
-            'limit' => 6,
+            'order_by'   => ['id', 'asc'],
+            'limit'      => 6,
             'pagination' => $page,
-            'select' => ['id', 'title', 'slug', 'thumbnail', 'description'],
+            'select'     => ['id', 'title', 'slug', 'thumbnail', 'description'],
         ]);
         $bannerTypes = [
             'banner_hero_chip',
@@ -64,17 +63,17 @@ class HomeController extends Controller
             'banner_guide',
             'banner_passport',
         ];
-        $banners = Banner::getTypeArr($bannerTypes);
+        $banners                 = Banner::getTypeArr($bannerTypes);
         $data['bannerHeroChips'] = $banners->where('type', 'banner_hero_chip');
         $data['bannerHeroBoard'] = $banners->where('type', 'banner_hero_board');
-        $data['bannerValue'] = $banners->where('type', 'banner_value');
-        $data['bannerMood'] = $banners->where('type', 'banner_mood');
-        $data['bannerCountry'] = $banners->where('type', 'banner_country');
-        $data['bannerCity'] = $banners->where('type', 'banner_city');
-        $data['bannerCuisine'] = $banners->where('type', 'banner_cuisine');
-        $data['bannerTrust'] = $banners->where('type', 'banner_trust');
-        $data['bannerGuide'] = $banners->where('type', 'banner_guide');
-        $data['bannerPassport'] = $banners->where('type', 'banner_passport');
+        $data['bannerValue']     = $banners->where('type', 'banner_value');
+        $data['bannerMood']      = $banners->where('type', 'banner_mood');
+        $data['bannerCountry']   = $banners->where('type', 'banner_country');
+        $data['bannerCity']      = $banners->where('type', 'banner_city');
+        $data['bannerCuisine']   = $banners->where('type', 'banner_cuisine');
+        $data['bannerTrust']     = $banners->where('type', 'banner_trust');
+        $data['bannerGuide']     = $banners->where('type', 'banner_guide');
+        $data['bannerPassport']  = $banners->where('type', 'banner_passport');
         return view('front_end.home', $data);
     }
 
@@ -82,48 +81,61 @@ class HomeController extends Controller
     {
 
         $post = $this->postRepository->findByField('slug', $slug)->first();
-        if (empty($post) || $post->is_status != $this->is_status) return abort(404);
+        if (empty($post) || $post->is_status != $this->is_status) {
+            return abort(404);
+        }
+
+        if (rand(1, 100) <= 30) {
+            $post->incrementEach(['viewed' => 1, 'review_google' => 1]);
+        }
+
         $medias = $post->media()->select(['position', 'type', 'thumbnail'])->get()->groupBy('type');
-        $SEO = [
-            'title' => $post->meta_title,
-            'meta_title' => $post->meta_title,
+        $SEO    = [
+            'title'            => $post->meta_title,
+            'meta_title'       => $post->meta_title,
             'meta_description' => $post->meta_description,
-            'meta_keyword' => $post->title ?? '',
-            'is_robot' => $post->is_robot ?? 0,
-            'image' => $post->thumbnail ?? '',
-            'url' => route('post', ['slug' => $post->slug]),
+            'meta_keyword'     => $post->title ?? '',
+            'is_robot'         => $post->is_robot ?? 0,
+            'image'            => $post->thumbnail ?? '',
+            'url'              => route('post', ['slug' => $post->slug]),
         ];
 
-        $breadcrumbs = [array('url' => '', 'title' => $post->title)];
+        $breadcrumbs = [['url' => '', 'title' => $post->title]];
 
         $data = [
             'breadcrumbs' => $breadcrumbs,
-            'post' => $post,
-            'SEO' => $SEO,
-            'medias' => $medias,
+            'post'        => $post,
+            'SEO'         => $SEO,
+            'medias'      => $medias,
         ];
 
         if ($post->type == 'brand') {
             $data['SEO']['favicon'] = getImageThumb($post->favicon ?? $post->thumbnail, 100, 100);
-            $relates = Post::where([
-                'type' => 'brand',
-                'is_status' => $this->is_status
+            $relates                = Post::where([
+                'type'      => 'brand',
+                'is_status' => $this->is_status,
             ])->where(function ($q) use ($post) {
-                if (!empty($post->publish_at)) return $q->where('publish_at', '<', $post->publish_at ?? '');
+                if (! empty($post->publish_at)) {
+                    return $q->where('publish_at', '<', $post->publish_at ?? '');
+                }
+
                 return $q->where('created_at', '<', $post->created_at ?? '');
-            })->orderBy(!empty($post->publish_at) ? 'publish_at' : 'created_at', 'desc')->limit(5)->get();
+            })->orderBy(! empty($post->publish_at) ? 'publish_at' : 'created_at', 'desc')->limit(5)->get();
 
             $relates2 = Post::where([
-                'type' => 'brand',
-                'is_status' =>  $this->is_status
+                'type'      => 'brand',
+                'is_status' => $this->is_status,
             ])->where(function ($q) use ($post) {
-                if (!empty($post->publish_at)) return $q->where('publish_at', '>', $post->publish_at ?? '');
-                return $q->where('created_at', '>', $post->created_at ?? '');
-            })->orderBy(!empty($post->publish_at) ? 'publish_at' : 'created_at', 'asc')->limit(5)->get();
+                if (! empty($post->publish_at)) {
+                    return $q->where('publish_at', '>', $post->publish_at ?? '');
+                }
 
-            $data['relates'] = collect($relates2)->merge($relates)->sortBy(!empty($post->publish_at) ? 'publish_at' : 'created_at')->values()->all();
+                return $q->where('created_at', '>', $post->created_at ?? '');
+            })->orderBy(! empty($post->publish_at) ? 'publish_at' : 'created_at', 'asc')->limit(5)->get();
+
+            $data['relates']  = collect($relates2)->merge($relates)->sortBy(! empty($post->publish_at) ? 'publish_at' : 'created_at')->values()->all();
             $data['comments'] = $post->comment()->where(['type' => 'post'])->orderBy('created_at', 'desc')->limit(9)->get();
-            $data['abouts'] = $post->about()->get();
+            $data['abouts']   = $post->about()->get();
             $data['products'] = $post->product()->orderBy('id', 'asc')->get();
         }
         $view = $post->type == 'top_list' ? 'front_end.topList' : 'front_end.brand';
@@ -134,101 +146,102 @@ class HomeController extends Controller
     {
         $post = $this->postRepository->findByField('slug', $slug)->first();
 
-        if (empty($post) || $post->is_status != 1)
+        if (empty($post) || $post->is_status != 1) {
             return abort(404);
+        }
 
         $promat = env('META_DES');
-        $SEO = [
-            'title' => __('config_data.pages.menus.menu') . ' - ' . $post->title,
-            'meta_title' => __('config_data.pages.menus.menu') . ' - ' . $post->title,
+        $SEO    = [
+            'title'            => __('config_data.pages.menus.menu') . ' - ' . $post->title,
+            'meta_title'       => __('config_data.pages.menus.menu') . ' - ' . $post->title,
             'meta_description' => str_replace('[text]', $post->meta_title, $promat),
-            'meta_keyword' => __('config_data.pages.menus.menu') . ' ' . $post->title ?? '',
-            'is_robot' => $post->is_robot ?? 0,
-            'image' => $post->thumbnail ?? '',
-            'url' => route('post', ['slug' => $post->slug]),
+            'meta_keyword'     => __('config_data.pages.menus.menu') . ' ' . $post->title ?? '',
+            'is_robot'         => $post->is_robot ?? 0,
+            'image'            => $post->thumbnail ?? '',
+            'url'              => route('post', ['slug' => $post->slug]),
         ];
 
-        $breadcrumbs = [array('url' => '', 'title' => $post->title)];
+        $breadcrumbs = [['url' => '', 'title' => $post->title]];
 
         $data = [
             'breadcrumbs' => $breadcrumbs,
-            'post' => $post,
-            'SEO' => $SEO,
+            'post'        => $post,
+            'SEO'         => $SEO,
 
         ];
 
         return view('theme_2.menu', $data);
     }
 
-
     public function sitemapBrand($slug)
     {
         $post = $this->postRepository->findByField('slug', $slug)->first();
 
-        if (empty($post) || $post->is_status != $this->is_status)
+        if (empty($post) || $post->is_status != $this->is_status) {
             return abort(404);
+        }
 
         $datas = [
             [
-                'url' => route('post', [$post->slug]),
-                'title' => $post->title,
+                'url'       => route('post', [$post->slug]),
+                'title'     => $post->title,
                 'public_at' => $post->publish_at ?? $post->updated_at,
             ],
         ];
         $data = [
-            'datas' => $datas
+            'datas' => $datas,
         ];
         return response()
             ->view('front_end.sitemap.sitemap_brand', $data)
             ->header('Content-Type', 'text/xml');
     }
 
-
     public function search(Request $request)
     {
         $search = $request->key ?? '';
-        if (empty($search))
+        if (empty($search)) {
             return redirect('/');
+        }
+
         $limit = 20;
         $posts = $this->postRepository->getAll([
             'is_status' => 1,
-            'title' => $search
+            'title'     => $search,
         ], [
             'pagination' => $request->page ?? 1,
-            'limit' => $limit,
-            'select' => ['id', 'title', 'slug', 'thumbnail', 'address', 'description', 'created_at'],
-            'order_by' => [$order_by ?? 'updated_at', $sort ?? 'desc']
+            'limit'      => $limit,
+            'select'     => ['id', 'title', 'slug', 'thumbnail', 'address', 'description', 'created_at'],
+            'order_by'   => [$order_by ?? 'updated_at', $sort ?? 'desc'],
         ]);
 
         $data = [
-            'rows' => $posts,
+            'rows'  => $posts,
             'value' => $search,
-            'limit' => $limit
+            'limit' => $limit,
         ];
         return view('front_end.search', $data);
     }
-
-
 
     public function page(Request $request, $slug)
     {
         $page = $this->pageRepository->findByField('slug', $slug)->first();
 
-        if (empty($page) || $page->is_status != $this->is_status)
+        if (empty($page) || $page->is_status != $this->is_status) {
             return abort(404);
+        }
 
         $SEO = [
-            'title' => $page->meta_title ?? '',
-            'meta_title' => $page->meta_title ?? '',
+            'title'            => $page->meta_title ?? '',
+            'meta_title'       => $page->meta_title ?? '',
             'meta_description' => $page->meta_description ?? '',
-            'meta_keyword' => $page->meta_title ?? '',
-            'is_robot' => $page->is_robot ?? 0,
-            'image' => $page->thumbnail ?? '',
-            'url' => route('page', ['slug' => $page->slug]),
+            'meta_keyword'     => $page->meta_title ?? '',
+            'is_robot'         => $page->is_robot ?? 0,
+            'image'            => $page->thumbnail ?? '',
+            'url'              => route('page', ['slug' => $page->slug]),
         ];
 
         $view = $page->layout ?? 'front_end.page';
-        return view($view, ['page' => $page, 'SEO' => $SEO ?? [],]);
+        return view($view, ['page' => $page, 'SEO' => $SEO ?? []]);
     }
 
     public function redirect(Request $request)
@@ -238,17 +251,17 @@ class HomeController extends Controller
 
     public function redirect301(Request $request, $slug)
     {
-        $url = $request->url();
-        $url = str_replace('http://', 'https://', $url);
+        $url  = $request->url();
+        $url  = str_replace('http://', 'https://', $url);
         $link = Redirect::where('url_old', $url)->where('is_status', 1)->first();
-        if (!empty($link)) {
+        if (! empty($link)) {
             return redirect($link->url_new, 301);
         }
-        return abort(404);;
+        return abort(404);
     }
     private function redirectUrl($link, $request)
     {
-        if (!empty($link->type)) {
+        if (! empty($link->type)) {
             switch ($link->type) {
                 // case 'category':
                 //     return $this->category($request, $link->slug, $link->key_id);

@@ -66,11 +66,12 @@
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
-        font-family: Georgia, "Times New Roman", serif;
+        font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
         font-size: 25px;
-        font-weight: 600;
-        color: #49362d;
+        font-weight: 700;
+        color: #1e1b4b;
         text-decoration: none;
+        letter-spacing: -0.02em;
     }
 
     @media (max-width: 991.98px) {
