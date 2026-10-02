@@ -165,7 +165,7 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @include('front_end.block.config_seo_header')
-    <link rel="stylesheet" crossorigin="" href="/assets/css/brand.css">
+    <link rel="stylesheet" crossorigin="" href="/assets/css/brand.css?v=1">
 </head>
 
 <body>
