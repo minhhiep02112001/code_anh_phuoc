@@ -876,7 +876,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="space-y-3 mt-5">
+                                        <div class="space-y-3 mt-5 md-brand-cta">
                                             <button type="button"
                                                 @if($orderUrl != '#') onclick="window.open('{{ $orderUrl }}','_blank')" @endif
                                                 class="w-full flex items-center justify-center gap-2 px-4 py-3 bg-purple-800 text-white text-sm font-semibold rounded-xl hover:bg-purple-900 transition-all shadow-md shadow-purple-200/40"><svg
