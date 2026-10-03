@@ -8,11 +8,11 @@ const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 puppeteer.use(StealthPlugin());
 
 const crawlerData = {
-    menu: true,
+    menu: false,
     infor: true,
     images: true,
-    about: true,
-    comment: true,
+    about: false,
+    comment: false,
 };
 
 const table = {
@@ -38,7 +38,7 @@ function convertToSlug(text) {
     return slugify(text, {
         lower: true,
         strict: true,
-        trim: true
+        trim: true,
     });
 }
 
@@ -53,7 +53,7 @@ async function waitForSelectorSafe(
     try {
         await page.waitForSelector(selector, {
             timeout,
-            ...options
+            ...options,
         });
         return true;
     } catch {
@@ -62,12 +62,12 @@ async function waitForSelectorSafe(
 }
 
 async function setupPage(page) {
-    await page.setExtraHTTPHeaders({
-        "Accept-Language": "en-US,en;q=0.9",
-    });
-    await page.setUserAgent(
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120 Safari/537.36",
-    );
+    // await page.setExtraHTTPHeaders({
+    //     "Accept-Language": "en-US,en;q=0.9",
+    // });
+    // await page.setUserAgent(
+    //     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120 Safari/537.36",
+    // );
 }
 
 async function gotoAndWaitForPageReady(page, url) {
@@ -92,9 +92,10 @@ async function gotoAndWaitForPageReady(page, url) {
             });
 
             return styleLinksLoaded;
-        }, {
+        },
+        {
             timeout: 15000,
-            polling: 250
+            polling: 250,
         },
     );
 }
@@ -104,7 +105,7 @@ async function safeClick(page, selector, timeout = 3000, retries = 3) {
         try {
             await page.waitForSelector(selector, {
                 timeout,
-                visible: true
+                visible: true,
             });
             await page.click(selector);
             await delay(1000);
@@ -135,12 +136,12 @@ async function clickArrayFindText(
                 return true;
             }
             const el = elements.find((e) =>
-                e.textContent ? .trim().toLowerCase().includes(targetText),
+                e.textContent?.trim().toLowerCase().includes(targetText),
             );
             if (el) {
                 el.scrollIntoView({
                     block: "center",
-                    behavior: "instant"
+                    behavior: "instant",
                 });
                 el.click();
                 return true;
@@ -179,7 +180,15 @@ async function crawlerGoogleIframe(browser, record) {
             await delay(2000);
             let data = {};
             if (crawlerData.infor) data = await extractMainInfo(page);
-            if (!record.slug) data.slug = record.slug = convertToSlug(record.key_word);
+            if (!record.slug)
+                data.slug = record.slug = convertToSlug(record.key_word);
+
+            // 1️⃣ Crawl iframe map TRƯỚC (NodeJS)
+            if (!record.iframe_map) {
+                const iframe_map = await crawlIframeMap(page);
+                console.log("IFRAME: ", iframe_map);
+                data.iframe_map = convertStr(iframe_map);
+            }
             await database.update_crawler_map(record.id, data, 1);
             if (crawlerData.comment) await crawler_comment(page, record);
             if (crawlerData.menu) await crawlerMenu(page, record);
@@ -198,13 +207,25 @@ async function crawlerGoogleIframe(browser, record) {
 async function crawlIframeMap(page) {
     const clicked = await safeClick(page, 'button[data-value="Share"]');
     if (!clicked) return "";
-    await waitForSelectorSafe(page, 'div[jsaction="focus:modal.focus.top"]', 5000);
-    await safeClick(
+    await waitForSelectorSafe(
         page,
-        'button[data-tooltip-only-on-overflow][data-tooltip="Embed a map"]',
-        2000,
+        'div[jsaction="focus:modal.focus.top"]',
+        5000,
+    );
+    const clicked2 = await safeClick(
+        page,
+        'div[role="button"][id="app-container-Embed a map"]',
+        1000,
         3,
     );
+    if (!clicked2) {
+        await safeClick(
+            page,
+            'button[data-tooltip-only-on-overflow][data-tooltip="Embed a map"]',
+            1000,
+            3,
+        );
+    }
 
     await waitForSelectorSafe(
         page,
@@ -215,12 +236,12 @@ async function crawlIframeMap(page) {
     let iframe = page.evaluate(() => {
         return (
             document
-            .querySelector('input[jsaction="pane.embedMap.clickInput"]') ?
-            .getAttribute("value") || ""
+                .querySelector('input[jsaction="pane.embedMap.clickInput"]')
+                ?.getAttribute("value") || ""
         );
     });
 
-    await safeClick(page, 'button[jsaction="modal.close"]');
+    await safeClick(page, 'button[id="header-close-button"]');
     return iframe;
 }
 
@@ -228,13 +249,13 @@ async function extractMainInfo(page) {
     // 2️⃣ Extract DOM info (Browser)
     const rawData = await page.evaluate(() => {
         const getAttr = (sel, attr) =>
-            document.querySelector(sel) ? .getAttribute(attr) || "";
+            document.querySelector(sel)?.getAttribute(attr) || "";
 
         var h1 = document.querySelector("h1");
         var reviewText =
-            h1 ? .parentNode ? .parentNode ? .textContent ? .match(
+            h1?.parentNode?.parentNode?.textContent?.match(
                 /\(([^)]+)\)/,
-            ) ? . [1] || "";
+            )?.[1] || "";
 
         let time_open = "";
         const openHoursEl = document.querySelector(
@@ -242,9 +263,9 @@ async function extractMainInfo(page) {
         );
 
         if (openHoursEl) {
-            openHoursEl.closest("div") ? .click();
+            openHoursEl.closest("div")?.click();
             time_open =
-                openHoursEl.parentNode ? .querySelector("table") ? .outerHTML || "";
+                openHoursEl.parentNode?.querySelector("table")?.outerHTML || "";
         }
 
         return {
@@ -254,27 +275,24 @@ async function extractMainInfo(page) {
                 "aria-label",
             ),
             address: getAttr('button[data-item-id="address"]', "aria-label"),
-            thumbnail: document.querySelector('button img[decoding="async"]') ? .src ||
+            thumbnail:
+                document.querySelector('button img[decoding="async"]')?.src ||
                 "",
             link_google_map: location.href,
             time_open,
         };
     });
 
-    // 1️⃣ Crawl iframe map TRƯỚC (NodeJS)
-    const iframe_map = await crawlIframeMap(page);
-    console.log("IFRAME: ", iframe_map);
-
-    // 3️⃣ Escape + normalize tại NodeJS
-    return {
+    var object = {
         ...rawData,
-        iframe_map: convertStr(iframe_map),
         google_review: convertStr(rawData.google_review),
         phone: convertStr(rawData.phone),
         address: convertStr(rawData.address),
         thumbnail: convertStr(rawData.thumbnail),
         time_open: convertStr(rawData.time_open),
     };
+    // 3️⃣ Escape + normalize tại NodeJS
+    return object;
 }
 
 async function crawlerMenu(page, record) {
@@ -308,11 +326,11 @@ async function crawlerMenu(page, record) {
             await btn.evaluate((el) =>
                 el.scrollIntoView({
                     block: "center",
-                    inline: "center"
+                    inline: "center",
                 }),
             );
             await btn.click({
-                delay: 10
+                delay: 10,
             });
             // Đợi menu load
             const menuLoaded = await waitForSelectorSafe(
@@ -332,22 +350,22 @@ async function crawlerMenu(page, record) {
                     .map((row) => {
                         const name =
                             row
-                            .querySelector("div.fontBodyMedium") ?
-                            .textContent ? .trim() || "";
+                                .querySelector("div.fontBodyMedium")
+                                ?.textContent?.trim() || "";
                         const price =
-                            row.querySelector("h2") ? .textContent ? .trim() || "";
+                            row.querySelector("h2")?.textContent?.trim() || "";
                         return {
                             name,
-                            price
+                            price,
                         };
                     })
                     .filter((item) => item.name);
             });
             if (items.length > 0) {
                 count += items.length;
-                let relate_id = record.relate_id ? ? 0;
+                let relate_id = record.relate_id ?? 0;
                 let parentSlug = slugify(title, {
-                    lower: true
+                    lower: true,
                 });
                 let insertParentSql = `INSERT INTO ${
                     table.product
@@ -362,7 +380,7 @@ async function crawlerMenu(page, record) {
                 for (let child of items) {
                     let childSlug = convertStr(
                         slugify(child.name, {
-                            lower: true
+                            lower: true,
                         }),
                     );
                     let insertChildSql = `INSERT INTO ${
@@ -411,12 +429,12 @@ async function crawler_about(page, record) {
                     targetElement.querySelectorAll("h2.fontTitleSmall");
 
                 elements.forEach((element) => {
-                    const parentText = element.textContent ? .trim();
+                    const parentText = element.textContent?.trim();
                     const liElements =
                         element.parentElement.querySelectorAll("ul li");
                     const childs = Array.from(liElements).map((li) => {
-                        li.querySelector('span[aria-hidden="true"]') ? .remove(); // Xóa span nếu có
-                        return li.textContent ? .trim(); // Trả về nội dung còn lại
+                        li.querySelector('span[aria-hidden="true"]')?.remove(); // Xóa span nếu có
+                        return li.textContent?.trim(); // Trả về nội dung còn lại
                     });
                     list.push({
                         parent: parentText,
@@ -430,14 +448,14 @@ async function crawler_about(page, record) {
         if (check) await safeClick(page, 'button[aria-label="Back"]');
 
         if (abouts.length > 0) {
-            const relate_id = record.relate_id ? ? 0;
+            const relate_id = record.relate_id ?? 0;
             await database.execute(
                 `Delete from ${table.about} where crawler_id = ${record.id}`,
             );
             for (const group of abouts) {
                 const parentTitle = group.parent;
                 const parentSlug = slugify(parentTitle, {
-                    lower: true
+                    lower: true,
                 });
                 // 👉 Insert parent
                 const insertParentSql = `
@@ -455,7 +473,7 @@ async function crawler_about(page, record) {
                 for (const childTitle of group.childs) {
                     const childSlug = convertStr(
                         slugify(childTitle, {
-                            lower: true
+                            lower: true,
                         }),
                     );
                     const insertChildSql = `
@@ -507,9 +525,9 @@ async function crawler_images(page, record) {
         const pickUrl = (a) => {
             const el = a.querySelector(
                 'div[role="img"] div[style*="background-image"]',
-            ) ? .style ? .backgroundImage;
+            )?.style?.backgroundImage;
             const m = el && el.match(/url\((['"]?)(.*?)\1\)/i);
-            return m ? . [2] || null;
+            return m?.[2] || null;
         };
 
         const collect = () => {
@@ -586,9 +604,9 @@ async function crawler_images(page, record) {
             const pickUrl = (a) => {
                 const bg = a.querySelector(
                     'div[role="img"] div[style*="background-image"]',
-                ) ? .style ? .backgroundImage;
+                )?.style?.backgroundImage;
                 const m = bg && bg.match(/url\((['"]?)(.*?)\1\)/i);
-                return m ? . [2] || null;
+                return m?.[2] || null;
             };
 
             const collect = () => {
@@ -664,10 +682,10 @@ async function crawler_comment(page, record) {
 
                 const normalize = (str = "") =>
                     str
-                    .toLowerCase()
-                    .replace(/\s+/g, " ")
-                    .replace(/[^\p{L}\p{N} ]/gu, "")
-                    .trim();
+                        .toLowerCase()
+                        .replace(/\s+/g, " ")
+                        .replace(/[^\p{L}\p{N} ]/gu, "")
+                        .trim();
 
                 const container = document.querySelector(
                     'div[role="main"] div[tabindex="-1"]',
@@ -704,13 +722,15 @@ async function crawler_comment(page, record) {
                             'div[tabindex="-1"][lang]',
                         );
 
-                        const fullname =
-                            nameBtn ?
-                            .getAttribute("aria-label") ?
-                            .replace("Photo of ", "") ?
-                            .trim() || "Unknown";
+                        const fullname = nameBtn
+                            ? nameBtn
+                                  .getAttribute("aria-label")
+                                  .replace("Photo of ", "")
+                            : "Unknown";
 
-                        const content = contentEl ? .innerText ? .trim() || "";
+                        const content = contentEl
+                            ? contentEl.innerText.trim()
+                            : "";
 
                         // 🔑 KEY CHỐNG TRÙNG (KHÔNG DÙNG review_id)
                         const _key = normalize(
@@ -723,7 +743,11 @@ async function crawler_comment(page, record) {
                         results.push({
                             _key,
                             fullname,
-                            src: nameBtn ? .querySelector("img") ? .src || null,
+                            src: nameBtn
+                                ? nameBtn.querySelector("img")
+                                    ? nameBtn.querySelector("img").src || null
+                                    : null
+                                : null,
                             content,
                         });
                     }
@@ -759,8 +783,8 @@ async function crawler_comment(page, record) {
         } else {
             console.log(
                 "✅ Success Reviews Exists: " +
-                _count[0]["count('id')"] +
-                " record",
+                    _count[0]["count('id')"] +
+                    " record",
             );
         }
         await safeClick(page, 'button[aria-label="Back"]');
@@ -771,12 +795,12 @@ async function crawler_comment(page, record) {
 
 async function getAllCrawlerDataBase(offset = 0) {
     // const query = `SELECT * FROM ${table.crawler} WHERE is_status = 0 ORDER BY id ASC LIMIT 500 offset ${offset}`;
-    const query = `SELECT * FROM ${table.crawler} WHERE is_status = 0 ORDER BY id ASC LIMIT 300 offset ${offset}`;
+    const query = `SELECT * FROM ${table.crawler} WHERE is_status = 0 ORDER BY id DESC LIMIT 300 offset ${offset}`;
     return database.query(query);
 }
 
 (async () => {
-    var list_data = await getAllCrawlerDataBase(600);
+    var list_data = await getAllCrawlerDataBase(0);
 
     const browser = await puppeteer.launch({
         headless: false, // Hiển thị trình duyệt
@@ -791,9 +815,13 @@ async function getAllCrawlerDataBase(offset = 0) {
             console.log("Crawler_success key: " + element.key_word);
         } catch (e) {
             console.error("Crawler_error: " + element.id + e);
-            await database.update_crawler_map(element.id, {
-                is_error: 1
-            }, 3);
+            await database.update_crawler_map(
+                element.id,
+                {
+                    is_error: 1,
+                },
+                3,
+            );
         }
     }
 
