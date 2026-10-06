@@ -4,7 +4,7 @@
     $_title = !empty($post)
         ? $post->title
         : preg_replace('/menujoys/i', $brandName, $config_website->website ?? $brandName);
-    $logoPath = $config_website->logo_header ?? '';
+    $logoPath = $config_website->logo_footer ?? $config_website->logo_header ?? '';
     $useWordmark = empty($logoPath) || stripos(basename($logoPath), 'menujoys') !== false;
     $logoUrl = $useWordmark
         ? ''
