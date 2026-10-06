@@ -145,6 +145,9 @@
     $visibleReviewLimit = 5;
     $hiddenReviewCount = max(0, $reviews->count() - $visibleReviewLimit);
     $amenityList = $amenities->isNotEmpty() ? $amenities : $aboutParents->pluck('title')->filter()->values();
+
+    $config_website = getValueSetting('config_website');
+    $config_social = getValueSetting('config_social');
 @endphp
 
 <html lang="en">
@@ -167,6 +170,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @include('front_end.block.config_seo_header')
     <link rel="stylesheet" crossorigin="" href="/assets/css/brand.css?v=1">
+    <link rel="stylesheet" href="{{ asset('/assets/css/menudy-all-css.min.css') }}?v=111371">
 </head>
 
 <body>
@@ -1037,7 +1041,7 @@
                     </section>
                 </div>
             </main>
-            @include('front_end.layout.footer_page', ['post' => $post])
+            @include('front_end.layout.footer', ['post' => $post])
         </div>
     </div>
 

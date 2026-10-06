@@ -25,6 +25,13 @@
                             aria-label="{{ $_title }}">
                             {{ $_title }}
                         </a>
+                        <style>
+                            .mj-brand {
+                                font-size: 28px;
+                                font-weight: 600;
+                                color: #fff;
+                            }
+                        </style>
                     @else
                         <a class="mj-brand mj-brand-light" href="{{ $SEO['url'] ?? '/' }}"
                             aria-label="{{ $brandName }} home">
@@ -35,11 +42,11 @@
                                     width="165" height="44" />
                             @endif
                         </a>
-                        <p class="text-sm text-slate-500 leading-relaxed max-w-xs"> {!! $config_website->content_footer ?? '' !!} </p>
                     @endif
 
+                    <p class="text-sm text-slate-500 leading-relaxed max-w-xs"> {!! $config_website->content_footer ?? '' !!} </p>
 
-                    <form class="mj-footer-news" onsubmit="return false;"
+                    <form class="mj-footer-news mt-2" onsubmit="return false;"
                         aria-label="Subscribe to {{ $_title }} updates">
                         <label for="footerEmail" class="visually-hidden">Email</label>
                         <input type="email" id="footerEmail" placeholder="Your email" required />
