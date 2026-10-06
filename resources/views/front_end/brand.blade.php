@@ -227,7 +227,7 @@
                 <div class="pt-16">
                     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4"><a
                             class="inline-flex items-center gap-1.5 text-sm font-medium text-slate-500 hover:text-purple-800 transition-colors"
-                            href="{{ url('/') }}" data-discover="true"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                            href="{{ env('APP_URL', '/') }}" data-discover="true"><svg xmlns="http://www.w3.org/2000/svg" width="24"
                                 height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                 stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left w-4 h-4">
                                 <path d="m12 19-7-7 7-7"></path>

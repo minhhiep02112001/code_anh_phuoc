@@ -21,7 +21,7 @@
             <div class="row g-5">
                 <div class="col-lg-4">
                     @if (!empty($post))
-                        <a class="mj-brand logo-text-header" href="{{ env('APP_URL', '/') }}"
+                        <a class="mj-brand logo-text-header" href="{{ url('/') }}"
                             aria-label="{{ $_title }}">
                             {{ $_title }}
                         </a>
