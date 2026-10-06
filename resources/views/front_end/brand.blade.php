@@ -1,4 +1,5 @@
 @php
+    $menus_header = getMenuParent(0, 0);
     $medias = $medias ?? collect();
     $photos = collect($medias['photo'] ?? $medias->get('photo', []));
     $menus = collect($medias['menu'] ?? $medias->get('menu', []));
@@ -173,8 +174,8 @@
         <div class="min-h-screen bg-[#FAF9FC] flex flex-col">
             <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-xl border-b border-purple-100">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="flex items-center justify-between h-16"><a class="flex items-center gap-2.5"
-                            href="/" data-discover="true">
+                    <div class="flex items-center justify-between h-16">
+                        <a class="flex items-center gap-2.5" href="/" data-discover="true">
                             <div
                                 class="w-9 h-9 rounded-xl bg-gradient-to-br from-purple-800 to-indigo-900 flex items-center justify-center shadow-lg shadow-purple-200">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -190,17 +191,12 @@
                             </div><span
                                 class="text-xl font-bold tracking-tight text-slate-900">{{ $post->title }}</span>
                         </a>
-                        <div class="hidden md:flex items-center gap-1"><a
-                                class="px-4 py-2 text-sm text-gray-600 hover:text-purple-800 font-medium rounded-lg hover:bg-purple-50 transition-colors duration-200"
-                                href="/about" data-discover="true">About Us</a><a
-                                class="px-4 py-2 text-sm text-gray-600 hover:text-purple-800 font-medium rounded-lg hover:bg-purple-50 transition-colors duration-200"
-                                href="/contact" data-discover="true">Contact Us</a><a
-                                class="px-4 py-2 text-sm text-gray-600 hover:text-purple-800 font-medium rounded-lg hover:bg-purple-50 transition-colors duration-200"
-                                href="/faq" data-discover="true">FAQ</a><a
-                                class="px-4 py-2 text-sm text-gray-600 hover:text-purple-800 font-medium rounded-lg hover:bg-purple-50 transition-colors duration-200"
-                                href="/terms" data-discover="true">Terms of Service</a><a
-                                class="px-4 py-2 text-sm text-gray-600 hover:text-purple-800 font-medium rounded-lg hover:bg-purple-50 transition-colors duration-200"
-                                href="/privacy" data-discover="true">Privacy Policy</a></div>
+                        <div class="hidden md:flex items-center gap-1">
+                            @foreach ($menus_header as $menu)
+                                <a class="px-4 py-2 text-sm text-gray-600 hover:text-purple-800 font-medium rounded-lg hover:bg-purple-50 transition-colors duration-200"
+                                    href="{{ $menu->link }}" data-discover="true">{{ $menu->title }}</a>
+                            @endforeach
+                        </div>
                         <div class="flex items-center gap-2"><button
                                 class="p-2.5 rounded-lg text-slate-600 hover:text-purple-800 hover:bg-purple-50 transition-colors duration-200"
                                 aria-label="Search"><svg xmlns="http://www.w3.org/2000/svg" width="24"
@@ -217,7 +213,9 @@
                                     <line x1="4" x2="20" y1="12" y2="12"></line>
                                     <line x1="4" x2="20" y1="6" y2="6"></line>
                                     <line x1="4" x2="20" y1="18" y2="18"></line>
-                                </svg></button></div>
+                                </svg>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </nav>
@@ -225,10 +223,9 @@
                 <div class="pt-16">
                     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4"><a
                             class="inline-flex items-center gap-1.5 text-sm font-medium text-slate-500 hover:text-purple-800 transition-colors"
-                            href="/" data-discover="true"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                            href="{{ url('/') }}" data-discover="true"><svg xmlns="http://www.w3.org/2000/svg" width="24"
                                 height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round"
-                                class="lucide lucide-arrow-left w-4 h-4">
+                                stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left w-4 h-4">
                                 <path d="m12 19-7-7 7-7"></path>
                                 <path d="M19 12H5"></path>
                             </svg>Back to Home</a></div>
@@ -878,7 +875,7 @@
                                         </div>
                                         <div class="space-y-3 mt-5 md-brand-cta">
                                             <button type="button"
-                                                @if($orderUrl != '#') onclick="window.open('{{ $orderUrl }}','_blank')" @endif
+                                                @if ($orderUrl != '#') onclick="window.open('{{ $orderUrl }}','_blank')" @endif
                                                 class="w-full flex items-center justify-center gap-2 px-4 py-3 bg-purple-800 text-white text-sm font-semibold rounded-xl hover:bg-purple-900 transition-all shadow-md shadow-purple-200/40"><svg
                                                     xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -888,7 +885,7 @@
                                                     <path d="M3 6h18"></path>
                                                     <path d="M16 10a4 4 0 0 1-8 0"></path>
                                                 </svg>Order Online</button><button type="button"
-                                                @if($reserveUrl != '#') onclick="window.open('{{ $reserveUrl }}','_blank')" @endif
+                                                @if ($reserveUrl != '#') onclick="window.open('{{ $reserveUrl }}','_blank')" @endif
                                                 class="w-full flex items-center justify-center gap-2 px-4 py-3 text-sm font-semibold text-purple-900 bg-purple-50 border border-purple-300 rounded-xl hover:bg-purple-100 transition-all"><svg
                                                     xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -1040,7 +1037,7 @@
                     </section>
                 </div>
             </main>
-            @include('front_end.layout.footer_page')
+            @include('front_end.layout.footer_page', ['post' => $post])
         </div>
     </div>
 

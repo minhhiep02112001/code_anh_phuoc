@@ -162,7 +162,8 @@ async function crawlerGoogleIframe(browser, record) {
             await delay(2000);
             let data = {};
             if (crawlerData.infor) data = await extractMainInfo(page);
-            if(!record.slug) data.slug = record.slug = convertToSlug(record.key_word);
+            if (!record.slug)
+                data.slug = record.slug = convertToSlug(record.key_word);
             await database.update_crawler_map(record.id, data, 1);
             if (crawlerData.comment) await crawler_comment(page, record);
             if (crawlerData.menu) await crawlerMenu(page, record);
@@ -179,9 +180,16 @@ async function crawlerGoogleIframe(browser, record) {
 }
 
 async function crawlIframeMap(page) {
-    const clicked = await safeClick(page, 'button[data-value="Share"]');
+    var clicked = await safeClick(page, '[id="app-container-Embed a map"]');
+    if (!clicked) {
+        clicked = await safeClick(page, 'button[data-value="Share"]');
+    }
     if (!clicked) return "";
-    await waitForSelectorSafe(page, 'div[jsaction="focus:modal.focus.top"]', 5000);
+    await waitForSelectorSafe(
+        page,
+        'div[jsaction="focus:modal.focus.top"]',
+        5000,
+    );
     await safeClick(
         page,
         'button[data-tooltip-only-on-overflow][data-tooltip="Embed a map"]',
@@ -739,7 +747,7 @@ async function crawler_comment(page, record) {
 
 async function getAllCrawlerDataBase(offset = 0) {
     // const query = `SELECT * FROM ${table.crawler} WHERE is_status = 0 ORDER BY id ASC LIMIT 500 offset ${offset}`;
-    const query = `SELECT * FROM ${table.crawler} WHERE is_status = 0 ORDER BY id DESC LIMIT 100 offset ${offset}`;
+    const query = `SELECT * FROM ${table.crawler} WHERE is_status = 0 ORDER BY id ASC LIMIT 100 offset ${offset}`;
     return database.query(query);
 }
 

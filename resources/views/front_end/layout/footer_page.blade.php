@@ -16,13 +16,9 @@
 <footer class="mt-16 border-t border-purple-100 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div class="md:col-span-1"><a class="flex items-center gap-2.5 mb-4" href="/" data-discover="true">
-                    @if (!empty($post))
-                        <span class="text-xl font-bold tracking-tight text-slate-900">{{ $post->title }}</span>
-                    @else
-                        <span
-                            class="text-xl font-bold tracking-tight text-slate-900">{{ $config_website->website ?? '' }}</span>
-                    @endif
+            <div class="md:col-span-1">
+                <a class="flex items-center gap-2.5 mb-4" href="/" data-discover="true">
+                    <span class="text-xl font-bold tracking-tight text-slate-900">{{ $post->title }}</span>
                 </a>
                 <p class="text-sm text-slate-500 leading-relaxed max-w-xs"> {!! $config_website->content_footer ?? '' !!} </p>
                 @if (!empty($config_social))

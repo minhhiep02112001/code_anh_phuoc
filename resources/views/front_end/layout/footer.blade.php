@@ -1,10 +1,14 @@
 @php
     $menus_footer = getMenuParent(0, 1);
     $brandName = 'MENUDY';
-    $_title = !empty($post) ? $post->title : preg_replace('/menujoys/i', $brandName, $config_website->website ?? $brandName);
+    $_title = !empty($post)
+        ? $post->title
+        : preg_replace('/menujoys/i', $brandName, $config_website->website ?? $brandName);
     $logoPath = $config_website->logo_header ?? '';
     $useWordmark = empty($logoPath) || stripos(basename($logoPath), 'menujoys') !== false;
-    $logoUrl = $useWordmark ? '' : getImageThumb($config_website->logo_footer ? $config_website->logo_header : $logoPath);
+    $logoUrl = $useWordmark
+        ? ''
+        : getImageThumb($config_website->logo_footer ? $config_website->logo_header : $logoPath);
     if ($useWordmark && file_exists(public_path('assets/images/logo/menudy-logo-light.png'))) {
         $logoUrl = asset('assets/images/logo/menudy-logo-light.png');
         $useWordmark = false;
@@ -19,7 +23,7 @@
                     @if (!empty($post))
                         <a class="mj-brand logo-text-header" href="{{ env('APP_URL', '/') }}"
                             aria-label="{{ $_title }}">
-                            {{ $_title     }}
+                            {{ $_title }}
                         </a>
                     @else
                         <a class="mj-brand mj-brand-light" href="{{ $SEO['url'] ?? '/' }}"
@@ -27,11 +31,11 @@
                             @if ($useWordmark)
                                 <span class="mj-brand-wordmark mj-brand-wordmark--light">{{ $brandName }}</span>
                             @else
-                                <img class="mj-brand-img" src="{{ $logoUrl }}"
-                                    alt="{{ $brandName }}" width="165" height="44" />
+                                <img class="mj-brand-img" src="{{ $logoUrl }}" alt="{{ $brandName }}"
+                                    width="165" height="44" />
                             @endif
                         </a>
-                        <div class="mj-footer-blurb">{{ $_title }}</div>
+                        <p class="text-sm text-slate-500 leading-relaxed max-w-xs"> {!! $config_website->content_footer ?? '' !!} </p>
                     @endif
 
 

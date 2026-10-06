@@ -2,13 +2,12 @@ const mysql = require("mysql2");
 
 const connection = mysql.createPool({
     connectionLimit: 100,
-    host: "209.126.2.245",
+    host: "212.56.45.0",
     user: "developer",
-    password: "Developer123@",
-    database: "menudyy.com",
+    password: "developer123@",
+    database: "db_restaurant",
     port: 3306,
     waitForConnections: true,
-    connectionLimit: 10,
     maxIdle: 10, // max idle connections, the default value is the same as `connectionLimit`
     idleTimeout: 30000, // idle connections timeout, in milliseconds, the default value 60000
     queueLimit: 0,
