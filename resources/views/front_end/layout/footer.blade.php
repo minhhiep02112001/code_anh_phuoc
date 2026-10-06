@@ -69,10 +69,10 @@
         <div class="mj-footer-bottom">
             <p class="mj-footer-copy">© <span id="mjYear">2026</span> MENUDY. Discover local menus.</p>
             <ul class="mj-footer-legal" aria-label="Legal">
-                <li><a href="https://menudyy.com/privacy-policy.html" title="Privacy Policy">Privacy Policy</a></li>
-                <li><a href="https://menudyy.com/terms-of-service.html" title="Terms of Service">Terms of Service</a>
+                <li><a href="https://menudyy.com/" title="Privacy Policy">Privacy Policy</a></li>
+                <li><a href="https://menudyy.com/" title="Terms of Service">Terms of Service</a>
                 </li>
-                <li><a href="https://menudyy.com/content-policy.html" title="Content Policy">Content Policy</a></li>
+                <li><a href="https://menudyy.com/" title="Content Policy">Content Policy</a></li>
             </ul>
             @if (!empty($config_social))
                 @include('front_end.block.share_social', [
