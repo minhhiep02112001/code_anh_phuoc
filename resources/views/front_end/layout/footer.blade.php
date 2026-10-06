@@ -4,7 +4,7 @@
     $_title = !empty($post)
         ? $post->title
         : preg_replace('/menujoys/i', $brandName, $config_website->website ?? $brandName);
-    $logoPath = $config_website->logo_footer ?? $config_website->logo_header ?? '';
+    $logoPath = getImageThumb($config_website->logo_footer ?? $config_website->logo_header ?? '');
     $useWordmark = empty($logoPath) || stripos(basename($logoPath), 'menujoys') !== false;
     $logoUrl = $useWordmark
         ? ''
@@ -23,7 +23,7 @@
 
                     <a class="mj-brand mj-brand-light" href="{{ $SEO['url'] ?? '/' }}"
                         aria-label="{{ $brandName }} home">
-                            <img class="mj-brand-img" src="{{ $logoUrl }}" alt="{{ $brandName }}" width="165"
+                            <img class="mj-brand-img" src="{{ $logoPath }}" alt="{{ $brandName }}" width="165"
                                 height="44" />
 
                     </a>
