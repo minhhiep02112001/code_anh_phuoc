@@ -20,29 +20,13 @@
         <div class="mj-footer-top">
             <div class="row g-5">
                 <div class="col-lg-4">
-                    @if (!empty($post))
-                        <a class="mj-brand logo-text-header" href="{{ url('/') }}"
-                            aria-label="{{ $_title }}">
-                            {{ $_title }}
-                        </a>
-                        <style>
-                            .mj-brand {
-                                font-size: 28px;
-                                font-weight: 600;
-                                color: #fff;
-                            }
-                        </style>
-                    @else
-                        <a class="mj-brand mj-brand-light" href="{{ $SEO['url'] ?? '/' }}"
-                            aria-label="{{ $brandName }} home">
-                            @if ($useWordmark)
-                                <span class="mj-brand-wordmark mj-brand-wordmark--light">{{ $brandName }}</span>
-                            @else
-                                <img class="mj-brand-img" src="{{ $logoUrl }}" alt="{{ $brandName }}"
-                                    width="165" height="44" />
-                            @endif
-                        </a>
-                    @endif
+
+                    <a class="mj-brand mj-brand-light" href="{{ $SEO['url'] ?? '/' }}"
+                        aria-label="{{ $brandName }} home">
+                            <img class="mj-brand-img" src="{{ $logoUrl }}" alt="{{ $brandName }}" width="165"
+                                height="44" />
+
+                    </a>
 
                     <p class="text-sm text-slate-500 leading-relaxed max-w-xs"> {!! $config_website->content_footer ?? '' !!} </p>
 
@@ -85,9 +69,10 @@
         <div class="mj-footer-bottom">
             <p class="mj-footer-copy">© <span id="mjYear">2026</span> MENUDY. Discover local menus.</p>
             <ul class="mj-footer-legal" aria-label="Legal">
-                <li><a href="/privacy-policy.html" title="Privacy Policy">Privacy Policy</a></li>
-                <li><a href="/terms-of-service.html" title="Terms of Service">Terms of Service</a></li>
-                <li><a href="/content-policy.html" title="Content Policy">Content Policy</a></li>
+                <li><a href="https://menudyy.com/privacy-policy.html" title="Privacy Policy">Privacy Policy</a></li>
+                <li><a href="https://menudyy.com/terms-of-service.html" title="Terms of Service">Terms of Service</a>
+                </li>
+                <li><a href="https://menudyy.com/content-policy.html" title="Content Policy">Content Policy</a></li>
             </ul>
             @if (!empty($config_social))
                 @include('front_end.block.share_social', [
