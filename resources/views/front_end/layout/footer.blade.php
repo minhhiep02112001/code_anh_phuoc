@@ -21,7 +21,7 @@
             <div class="row g-5">
                 <div class="col-lg-4">
 
-                    <a class="mj-brand mj-brand-light" href="{{ $SEO['url'] ?? '/' }}"
+                    <a class="mj-brand mj-brand-light" href="https://menudyy.com"
                         aria-label="{{ $brandName }} home">
                             <img class="mj-brand-img" src="{{ $logoPath }}" alt="{{ $brandName }}" width="165"
                                 height="44" />
