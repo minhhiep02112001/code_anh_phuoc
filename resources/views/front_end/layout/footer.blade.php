@@ -67,13 +67,7 @@
         </div>
 
         <div class="mj-footer-bottom">
-            <p class="mj-footer-copy">© <span id="mjYear">2026</span> MENUDY. Discover local menus.</p>
-            <ul class="mj-footer-legal" aria-label="Legal">
-                <li><a href="https://menudyy.com/" title="Privacy Policy">Privacy Policy</a></li>
-                <li><a href="https://menudyy.com/" title="Terms of Service">Terms of Service</a>
-                </li>
-                <li><a href="https://menudyy.com/" title="Content Policy">Content Policy</a></li>
-            </ul>
+            <p class="mj-footer-copy">© <span id="mjYear">2026</span> MENUDY | Discovery for Restaurants, Bars and Cafés.</p> 
             @if (!empty($config_social))
                 @include('front_end.block.share_social', [
                     'config_social' => !empty($config_social) ? $config_social : null,
