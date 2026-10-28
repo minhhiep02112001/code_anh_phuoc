@@ -86,7 +86,7 @@ class HomeController extends Controller
         }
 
         if (rand(1, 100) <= 30) {
-            $post->incrementEach(['viewed' => 1, 'review_google' => 1]);
+            $post->increment('viewed');
         }
 
         $medias = $post->media()->select(['position', 'type', 'thumbnail'])->get()->groupBy('type');

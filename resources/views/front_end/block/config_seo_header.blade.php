@@ -59,7 +59,13 @@
 {{-- <meta name="robots" content="noindex,nofollow" />
 <meta name="Googlebot-News" content="noindex,nofollow"> --}}
 
-<meta name="robots" content="{{ !empty($config_seo->index) ? 'index,follow' : 'noindex,nofollow' }}" />
-<meta name="Googlebot-News" content="{{ !empty($config_seo->index) ? 'index,follow' : 'noindex,nofollow' }}">
+@php
+    $allowSearchIndex = !empty($config_seo->index);
+    if (isset($SEO['is_robot'])) {
+        $allowSearchIndex = !empty($SEO['is_robot']);
+    }
+@endphp
+<meta name="robots" content="{{ $allowSearchIndex ? 'index,follow' : 'noindex,nofollow' }}" />
+<meta name="Googlebot-News" content="{{ $allowSearchIndex ? 'index,follow' : 'noindex,nofollow' }}">
 <link rel="canonical" href="{{ url()->current() }}" />
 {!! $config_website->config_header ?? '' !!}

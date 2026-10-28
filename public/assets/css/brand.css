@@ -2961,21 +2961,26 @@ body.md-lightbox-open {
         box-shadow: 0 -8px 24px rgba(15, 23, 42, 0.12);
     }
 
-    .md-brand-cta button {
+    .md-brand-cta__btn {
+        display: flex;
         flex: 1 1 0;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
         width: auto;
         min-width: 0;
-        gap: 0.2rem;
-        padding: 0.55rem 0.35rem;
-        font-size: 0.7rem;
-        line-height: 1.2;
-        white-space: normal;
-        text-align: center;
+        min-height: 2.75rem;
+        gap: 0.35rem;
+        padding: 0.5rem 0.4rem;
+        font-size: 0.6875rem;
+        font-weight: 600;
+        line-height: 1.15;
+        text-align: left;
         border-radius: 0.75rem;
-        margin: 0!important;
+        margin: 0 !important;
     }
 
-    .md-brand-cta button svg {
+    .md-brand-cta__btn svg {
         width: 1rem;
         height: 1rem;
         flex-shrink: 0;

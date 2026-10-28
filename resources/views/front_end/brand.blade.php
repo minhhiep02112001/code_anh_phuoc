@@ -86,8 +86,8 @@
         array_unique(array_merge($parseList($header['known_for'] ?? []), $parseList($header['good_for'] ?? []))),
     );
 
-    $rating = 5;
-    $reviewCount = $post->review_google ?? 0;
+    $rating = $post->google_review ?? ($post->review_google ?? ($post->avg_vote ?: 5));
+    $reviewCount = (int) ($post->review_google ?? 0) ?: $reviews->count();
     $orderUrl = !empty($post->redirect_order) ? $post->redirect_order : '#';
     $reserveUrl = !empty($post->redirect_reserve_table) ? $post->redirect_reserve_table : '#';
     $directionsUrl = $post->link_map ?: '#';
@@ -166,9 +166,11 @@
         }
     </style>
     <meta charset="UTF-8">
-    <link rel="icon" type="image/svg+xml" href="/vite.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @include('front_end.block.config_seo_header')
+    @if (!empty($SEO['favicon']))
+        <link rel="icon" href="{{ $SEO['favicon'] }}">
+    @endif
     <link rel="stylesheet" crossorigin="" href="/assets/css/brand.css?v=1">
     <link rel="stylesheet" href="{{ asset('/assets/css/menudy-all-css.min.css') }}?v=111371">
 </head>
@@ -880,7 +882,7 @@
                                         <div class="space-y-3 mt-5 md-brand-cta">
                                             <button type="button"
                                                 @if ($orderUrl != '#') onclick="window.open('{{ $orderUrl }}','_blank')" @endif
-                                                class="w-full flex items-center justify-center gap-2 px-4 py-3 bg-purple-800 text-white text-sm font-semibold rounded-xl hover:bg-purple-900 transition-all shadow-md shadow-purple-200/40"><svg
+                                                class="md-brand-cta__btn w-full flex items-center justify-center gap-2 px-4 py-3 bg-purple-800 text-white text-sm font-semibold rounded-xl hover:bg-purple-900 transition-all shadow-md shadow-purple-200/40"><svg
                                                     xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -890,7 +892,7 @@
                                                     <path d="M16 10a4 4 0 0 1-8 0"></path>
                                                 </svg>Order Online</button><button type="button"
                                                 @if ($reserveUrl != '#') onclick="window.open('{{ $reserveUrl }}','_blank')" @endif
-                                                class="w-full flex items-center justify-center gap-2 px-4 py-3 text-sm font-semibold text-purple-900 bg-purple-50 border border-purple-300 rounded-xl hover:bg-purple-100 transition-all"><svg
+                                                class="md-brand-cta__btn w-full flex items-center justify-center gap-2 px-4 py-3 text-sm font-semibold text-purple-900 bg-purple-50 border border-purple-300 rounded-xl hover:bg-purple-100 transition-all"><svg
                                                     xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -902,7 +904,7 @@
                                                     <path d="M3 10h18"></path>
                                                 </svg>Reserve a Table</button><button type="button"
                                                 onclick="document.getElementById('reviews')?.scrollIntoView({behavior:'smooth'})"
-                                                class="w-full flex items-center justify-center gap-2 px-4 py-3 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-xl hover:bg-gray-100 transition-all"><svg
+                                                class="md-brand-cta__btn w-full flex items-center justify-center gap-2 px-4 py-3 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-xl hover:bg-gray-100 transition-all"><svg
                                                     xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
